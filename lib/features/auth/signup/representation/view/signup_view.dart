@@ -6,8 +6,84 @@ import 'package:tabibak/core/theme/app_text_formfiled.dart';
 import 'package:tabibak/features/auth/signin/representation/view/widget/password_textfiled.dart';
 import 'package:tabibak/features/auth/signup/representation/view/widget/do_you_have_account.dart';
 
-class SignupView extends StatelessWidget {
+class SignupView extends StatefulWidget {
   const SignupView({super.key});
+
+  @override
+  State<SignupView> createState() => _SignupViewState();
+}
+
+late AnimationController nameAnimationController;
+late Animation<Offset> nameAnimation;
+late AnimationController emailAnimationController;
+late Animation<Offset> emailAnimation;
+
+late AnimationController passwordAnimationController;
+late Animation<Offset> passwordAnimation;
+
+late AnimationController signupAnimationController;
+late Animation<Offset> signupAnimation;
+
+class _SignupViewState extends State<SignupView> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    nameAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    nameAnimation = Tween<Offset>(
+      begin: const Offset(1, 0), // من اليمين
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+        parent: nameAnimationController, curve: Curves.easeOut));
+    emailAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    emailAnimation = Tween<Offset>(
+      begin: const Offset(1, 0), // من اليمين
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+        parent: emailAnimationController, curve: Curves.easeOut));
+
+    passwordAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    passwordAnimation = Tween<Offset>(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+        parent: passwordAnimationController, curve: Curves.easeOut));
+
+    signupAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    signupAnimation = Tween<Offset>(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+        parent: signupAnimationController, curve: Curves.easeOut));
+
+    nameAnimationController.forward();
+    nameAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        emailAnimationController.forward();
+      }
+    });
+    emailAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        passwordAnimationController.forward();
+      }
+    });
+    passwordAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        signupAnimationController.forward();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +93,25 @@ class SignupView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AppTextFormFiled(
-              hint: "الإسم",
-              prefixIcon: Icon(Icons.person_3_outlined, size: 24)),
+          SlideTransition(
+            position: nameAnimation,
+            child: AppTextFormFiled(
+                hint: "الإسم",
+                prefixIcon: Icon(Icons.person_3_outlined, size: 24)),
+          ),
           const SizedBox(height: 15),
-          AppTextFormFiled(
-              hint: "الايميل",
-              prefixIcon: Icon(Icons.email_outlined, size: 24)),
+          SlideTransition(
+            position: emailAnimation,
+            child: AppTextFormFiled(
+                hint: "الايميل",
+                prefixIcon: Icon(Icons.email_outlined, size: 24)),
+          ),
           const SizedBox(height: 15),
-          PasswordTextfiled(),
+          SlideTransition(
+              position: passwordAnimation, child: PasswordTextfiled()),
           const SizedBox(height: 60),
-          AppButton(title: "إنشاء حساب"),
+          SlideTransition(
+              position: signupAnimation, child: AppButton(title: "إنشاء حساب")),
           const SizedBox(height: 40),
           DoHaveAccount(
               title: "هل لديك حساب بالفعل؟",
