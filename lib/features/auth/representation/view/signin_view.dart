@@ -3,8 +3,8 @@ import 'package:tabibak/core/class/naviagtion.dart';
 import 'package:tabibak/core/class/routes.dart';
 import 'package:tabibak/core/theme/app_button.dart';
 import 'package:tabibak/core/theme/app_text_formfiled.dart';
-import 'package:tabibak/features/auth/signin/representation/view/widget/password_textfiled.dart';
-import 'package:tabibak/features/auth/signup/representation/view/widget/do_you_have_account.dart';
+import 'package:tabibak/features/auth/representation/view/widget/do_you_have_account.dart';
+import 'package:tabibak/features/auth/representation/view/widget/password_textfiled.dart';
 
 class SigninView extends StatefulWidget {
   const SigninView({super.key});
@@ -83,36 +83,40 @@ class _SigninViewState extends State<SigninView> with TickerProviderStateMixin {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SlideTransition(
-              position: emailAnimation,
-              child: AppTextFormFiled(
-                  hint: "الايميل",
-                  prefixIcon: Icon(Icons.email_outlined, size: 24))),
-          const SizedBox(height: 30),
-          SlideTransition(
-            position: passwordAnimation,
-            child: PasswordTextfiled(),
-          ),
-          const SizedBox(height: 30),
-          SlideTransition(
-            position: signinAnimation,
-            child: AppButton(title: "تسجيل الدخول"),
-          ),
-          const SizedBox(height: 60),
-          DoHaveAccount(
-            title: "هل ليس لديك حساب؟",
-            subtitle: "إنشاء حساب",
-            onTap: () {
-              context.pop();
-
-              context.pushNamed(Routes.singupView);
-            },
-          )
-        ],
-      ),
+      child: signinBody(context),
     ));
+  }
+
+  Column signinBody(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SlideTransition(
+            position: emailAnimation,
+            child: AppTextFormFiled(
+                hint: "الايميل",
+                prefixIcon: Icon(Icons.email_outlined, size: 24))),
+        const SizedBox(height: 30),
+        SlideTransition(
+          position: passwordAnimation,
+          child: PasswordTextfiled(),
+        ),
+        const SizedBox(height: 30),
+        SlideTransition(
+          position: signinAnimation,
+          child: AppButton(title: "تسجيل الدخول"),
+        ),
+        const SizedBox(height: 60),
+        DoHaveAccount(
+          title: "هل ليس لديك حساب؟",
+          subtitle: "إنشاء حساب",
+          onTap: () {
+            context.pop();
+
+            context.pushNamed(Routes.singupView);
+          },
+        )
+      ],
+    );
   }
 }
