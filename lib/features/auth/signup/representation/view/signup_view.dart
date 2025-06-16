@@ -6,8 +6,8 @@ import 'package:tabibak/core/theme/app_text_formfiled.dart';
 import 'package:tabibak/features/auth/signin/representation/view/widget/password_textfiled.dart';
 import 'package:tabibak/features/auth/signup/representation/view/widget/do_you_have_account.dart';
 
-class SigninView extends StatelessWidget {
-  const SigninView({super.key});
+class SignupView extends StatelessWidget {
+  const SignupView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +18,23 @@ class SigninView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AppTextFormFiled(
+              hint: "الإسم",
+              prefixIcon: Icon(Icons.person_3_outlined, size: 24)),
+          const SizedBox(height: 15),
+          AppTextFormFiled(
               hint: "الايميل",
               prefixIcon: Icon(Icons.email_outlined, size: 24)),
-          const SizedBox(height: 30),
+          const SizedBox(height: 15),
           PasswordTextfiled(),
           const SizedBox(height: 60),
-          AppButton(title: "تسجيل الدخول"),
-          const SizedBox(height: 30),
+          AppButton(title: "إنشاء حساب"),
+          const SizedBox(height: 40),
           DoHaveAccount(
-            title: "هل ليس لديك حساب؟",
-            subtitle: "إنشاء حساب",
-            onTap: () {
-              context.pushNamed(Routes.singupView);
-            },
-          )
+              title: "هل لديك حساب بالفعل؟",
+              subtitle: "تسجيل الدخول",
+              onTap: () {
+                context.pushNamed(Routes.singinView);
+              })
         ],
       ),
     ));
