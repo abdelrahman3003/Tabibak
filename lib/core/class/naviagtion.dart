@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/class/routes.dart';
-import 'package:tabibak/features/auth/signin/representation/view/signin_view.dart';
-import 'package:tabibak/features/auth/signup/representation/view/signup_view.dart';
+import 'package:tabibak/features/auth/presentation/view/signin_view.dart';
+import 'package:tabibak/features/auth/presentation/view/signup_view.dart';
 
 extension Navigagtion on BuildContext {
   Future<dynamic> pushNamed(String routeName, {Object? arguments}) {

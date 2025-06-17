@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/class/naviagtion.dart';
 import 'package:tabibak/core/class/routes.dart';
 import 'package:tabibak/core/theme/app_button.dart';
 import 'package:tabibak/core/theme/app_text_formfiled.dart';
-import 'package:tabibak/features/auth/representation/view/widget/do_you_have_account.dart';
-import 'package:tabibak/features/auth/representation/view/widget/password_textfiled.dart';
+import 'package:tabibak/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:tabibak/features/auth/presentation/controllers/auth_states.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/password_textfiled.dart';
 
-class SignupView extends StatefulWidget {
+class SignupView extends ConsumerStatefulWidget {
   const SignupView({super.key});
 
   @override
-  State<SignupView> createState() => _SignupViewState();
+  ConsumerState<SignupView> createState() => _SignupViewState();
 }
 
 late AnimationController nameAnimationController;
@@ -24,7 +27,8 @@ late Animation<Offset> passwordAnimation;
 late AnimationController signupAnimationController;
 late Animation<Offset> signupAnimation;
 
-class _SignupViewState extends State<SignupView> with TickerProviderStateMixin {
+class _SignupViewState extends ConsumerState<SignupView>
+    with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -101,6 +105,7 @@ class _SignupViewState extends State<SignupView> with TickerProviderStateMixin {
         SlideTransition(
           position: nameAnimation,
           child: AppTextFormFiled(
+              controller: ref.read(nameConrtollerprovider),
               hint: "الإسم",
               prefixIcon: Icon(Icons.person_3_outlined, size: 24)),
         ),
@@ -109,14 +114,17 @@ class _SignupViewState extends State<SignupView> with TickerProviderStateMixin {
           position: emailAnimation,
           child: AppTextFormFiled(
               hint: "الايميل",
+              controller: ref.read(emailConrtollerprovider),
               prefixIcon: Icon(Icons.email_outlined, size: 24)),
         ),
         const SizedBox(height: 15),
         SlideTransition(
-            position: passwordAnimation, child: PasswordTextfiled()),
+            position: passwordAnimation,
+            child: PasswordTextfiled(
+              controller: ref.read(passordConrtollerprovider),
+            )),
         const SizedBox(height: 60),
-        SlideTransition(
-            position: signupAnimation, child: AppButton(title: "إنشاء حساب")),
+        signupButtonStates(),
         const SizedBox(height: 40),
         DoHaveAccount(
             title: "هل لديك حساب بالفعل؟",
@@ -126,5 +134,21 @@ class _SignupViewState extends State<SignupView> with TickerProviderStateMixin {
             })
       ],
     );
+  }
+
+  SlideTransition signupButtonStates() {
+    final signupState = ref.watch(authControllerProvider);
+    bool isLoading = signupState is SignUpLoading;
+    return SlideTransition(
+        position: signupAnimation,
+        child: AppButton(
+          title: isLoading ? "جاري إنشاء الحساب..." : "إنشاء الحساب",
+          isLoading: isLoading,
+          onPressed: () {
+            if (!isLoading) {
+              ref.read(authControllerProvider.notifier).singUp(context);
+            }
+          },
+        ));
   }
 }
