@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/theme/app_text_formfiled.dart';
 
 class PasswordTextfiled extends StatefulWidget {
-  const PasswordTextfiled({super.key, this.controller});
+  const PasswordTextfiled({super.key, this.controller, this.validator});
   final TextEditingController? controller;
-
+  final String? Function(String?)? validator;
   @override
   State<PasswordTextfiled> createState() => _PasswordTextfiledState();
 }
@@ -21,6 +21,7 @@ class _PasswordTextfiledState extends State<PasswordTextfiled> {
       ),
       obscureText: isPassword,
       controller: widget.controller,
+      validator: widget.validator,
       suffixIcon: IconButton(
           onPressed: () {
             isPassword = !isPassword;

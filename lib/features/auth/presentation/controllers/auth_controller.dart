@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/class/naviagtion.dart';
@@ -11,8 +9,7 @@ import 'package:tabibak/features/auth/presentation/controllers/auth_states.dart'
 
 final authControllerProvider =
     StateNotifierProvider<AuthController, AuthStates>(
-  (ref) => AuthController(ref),
-);
+        (ref) => AuthController(ref));
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(AuthRemoteDatasource());
 });
@@ -30,19 +27,16 @@ class AuthController extends StateNotifier<AuthStates> {
 
   Future<void> singUp(BuildContext context) async {
     state = SignUpLoading();
-
     final result = await ref.read(authRepositoryProvider).signUp(
           name: ref.read(nameConrtollerprovider).text,
           email: ref.read(emailConrtollerprovider).text,
           password: ref.read(passordConrtollerprovider).text,
         );
-
     result.when(sucess: (_) {
       context.pop();
       context.pushNamed(Routes.singinView);
       state = SignUpSuccess();
     }, failure: (error) {
-      log("------------------ ${error.message}");
       state = SignUpSuccess();
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error.message.toString())));
@@ -51,12 +45,9 @@ class AuthController extends StateNotifier<AuthStates> {
 
   Future<void> login(BuildContext context) async {
     state = LoginLoading();
-
     final result = await ref.read(authRepositoryProvider).login(
-          email: ref.read(emailConrtollerprovider).text,
-          password: ref.read(passordConrtollerprovider).text,
-        );
-
+        email: ref.read(emailConrtollerprovider).text,
+        password: ref.read(passordConrtollerprovider).text);
     result.when(sucess: (_) {
       context.pop();
       context.pushNamed(Routes.singupView);

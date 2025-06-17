@@ -40,6 +40,14 @@ class AppTextFormFiled extends StatelessWidget {
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey.shade400, width: 1.0),
         ),
+        errorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+              color: AppColors.red, width: 1.0), // أحمر من درجات Material
+        ),
+        focusedErrorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+              color: AppColors.red, width: 1.0), // أحمر من درجات Material
+        ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: AppColors.primary, // لون البوردر عند التركيز

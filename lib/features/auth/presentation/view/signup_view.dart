@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/class/naviagtion.dart';
 import 'package:tabibak/core/class/routes.dart';
+import 'package:tabibak/core/class/validation.dart';
 import 'package:tabibak/core/theme/app_button.dart';
 import 'package:tabibak/core/theme/app_text_formfiled.dart';
 import 'package:tabibak/features/auth/presentation/controllers/auth_controller.dart';
@@ -26,6 +27,7 @@ late Animation<Offset> passwordAnimation;
 
 late AnimationController signupAnimationController;
 late Animation<Offset> signupAnimation;
+final signupformKey = GlobalKey<FormState>();
 
 class _SignupViewState extends ConsumerState<SignupView>
     with TickerProviderStateMixin {
@@ -90,6 +92,18 @@ class _SignupViewState extends ConsumerState<SignupView>
   }
 
   @override
+  void dispose() {
+    nameAnimationController.dispose();
+    emailAnimationController.dispose();
+    passwordAnimationController.dispose();
+    signupAnimationController.dispose();
+    ref.read(passordConrtollerprovider).dispose();
+    ref.read(nameConrtollerprovider).dispose();
+    ref.read(nameConrtollerprovider).dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
@@ -98,41 +112,53 @@ class _SignupViewState extends ConsumerState<SignupView>
     ));
   }
 
-  Column signupBody(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SlideTransition(
-          position: nameAnimation,
-          child: AppTextFormFiled(
-              controller: ref.read(nameConrtollerprovider),
-              hint: "الإسم",
-              prefixIcon: Icon(Icons.person_3_outlined, size: 24)),
-        ),
-        const SizedBox(height: 15),
-        SlideTransition(
-          position: emailAnimation,
-          child: AppTextFormFiled(
-              hint: "الايميل",
-              controller: ref.read(emailConrtollerprovider),
-              prefixIcon: Icon(Icons.email_outlined, size: 24)),
-        ),
-        const SizedBox(height: 15),
-        SlideTransition(
-            position: passwordAnimation,
-            child: PasswordTextfiled(
-              controller: ref.read(passordConrtollerprovider),
-            )),
-        const SizedBox(height: 60),
-        signupButtonStates(),
-        const SizedBox(height: 40),
-        DoHaveAccount(
-            title: "هل لديك حساب بالفعل؟",
-            subtitle: "تسجيل الدخول",
-            onTap: () {
-              context.pushNamed(Routes.singinView);
-            })
-      ],
+  signupBody(BuildContext context) {
+    return Form(
+      key: signupformKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SlideTransition(
+            position: nameAnimation,
+            child: AppTextFormFiled(
+                controller: ref.read(nameConrtollerprovider),
+                validator: (value) {
+                  return Validation.validateName(value);
+                },
+                hint: "الإسم",
+                prefixIcon: Icon(Icons.person_3_outlined, size: 24)),
+          ),
+          const SizedBox(height: 15),
+          SlideTransition(
+            position: emailAnimation,
+            child: AppTextFormFiled(
+                hint: "الايميل",
+                validator: (value) {
+                  return Validation.validateEmail(value);
+                },
+                controller: ref.read(emailConrtollerprovider),
+                prefixIcon: Icon(Icons.email_outlined, size: 24)),
+          ),
+          const SizedBox(height: 15),
+          SlideTransition(
+              position: passwordAnimation,
+              child: PasswordTextfiled(
+                controller: ref.read(passordConrtollerprovider),
+                validator: (value) {
+                  return Validation.validatePassord(value);
+                },
+              )),
+          const SizedBox(height: 60),
+          signupButtonStates(),
+          const SizedBox(height: 40),
+          DoHaveAccount(
+              title: "هل لديك حساب بالفعل؟",
+              subtitle: "تسجيل الدخول",
+              onTap: () {
+                context.pushNamed(Routes.singinView);
+              })
+        ],
+      ),
     );
   }
 
@@ -145,7 +171,7 @@ class _SignupViewState extends ConsumerState<SignupView>
           title: isLoading ? "جاري إنشاء الحساب..." : "إنشاء الحساب",
           isLoading: isLoading,
           onPressed: () {
-            if (!isLoading) {
+            if (!isLoading && signupformKey.currentState!.validate()) {
               ref.read(authControllerProvider.notifier).singUp(context);
             }
           },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/class/naviagtion.dart';
 import 'package:tabibak/core/class/routes.dart';
+import 'package:tabibak/core/class/validation.dart';
 import 'package:tabibak/core/theme/app_button.dart';
 import 'package:tabibak/core/theme/app_text_formfiled.dart';
 import 'package:tabibak/features/auth/presentation/controllers/auth_controller.dart';
@@ -24,6 +25,7 @@ late Animation<Offset> passwordAnimation;
 
 late AnimationController signinAnimationController;
 late Animation<Offset> signinAnimation;
+final signinKey = GlobalKey<FormState>();
 
 class _SigninViewState extends ConsumerState<SigninView>
     with TickerProviderStateMixin {
@@ -79,6 +81,8 @@ class _SigninViewState extends ConsumerState<SigninView>
     emailAnimationController.dispose();
     passwordAnimationController.dispose();
     signinAnimationController.dispose();
+    ref.read(emailConrtollerprovider).dispose();
+    ref.read(nameConrtollerprovider).dispose();
     super.dispose();
   }
 
@@ -91,56 +95,60 @@ class _SigninViewState extends ConsumerState<SigninView>
     ));
   }
 
-  Column signinBody(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SlideTransition(
-            position: emailAnimation,
-            child: AppTextFormFiled(
-                controller: ref.read(emailConrtollerprovider),
-                hint: "الايميل",
-                prefixIcon: Icon(Icons.email_outlined, size: 24))),
-        const SizedBox(height: 30),
-        SlideTransition(
-          position: passwordAnimation,
-          child: PasswordTextfiled(
-            controller: ref.read(passordConrtollerprovider),
+  signinBody(BuildContext context) {
+    return Form(
+      key: signinKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SlideTransition(
+              position: emailAnimation,
+              child: AppTextFormFiled(
+                  hint: "الإيميل",
+                  controller: ref.read(emailConrtollerprovider),
+                  validator: (value) {
+                    return Validation.validateEmail(value);
+                  },
+                  prefixIcon: Icon(Icons.email_outlined, size: 24))),
+          const SizedBox(height: 30),
+          SlideTransition(
+            position: passwordAnimation,
+            child: PasswordTextfiled(
+              validator: (value) {
+                return Validation.validatePassord(value);
+              },
+              controller: ref.read(passordConrtollerprovider),
+            ),
           ),
-        ),
-        const SizedBox(height: 30),
-        loginbuttonStates(),
-        const SizedBox(height: 60),
-        DoHaveAccount(
-          title: "هل ليس لديك حساب؟",
-          subtitle: "إنشاء حساب",
-          onTap: () {
-            context.pop();
-            context.pushNamed(Routes.singupView);
-          },
-        )
-      ],
+          const SizedBox(height: 30),
+          loginbuttonStates(),
+          const SizedBox(height: 60),
+          DoHaveAccount(
+            title: "هل ليس لديك حساب؟",
+            subtitle: "إنشاء حساب",
+            onTap: () {
+              context.pop();
+              context.pushNamed(Routes.singupView);
+            },
+          )
+        ],
+      ),
     );
   }
 
   SlideTransition loginbuttonStates() {
+    final loginState = ref.watch(authControllerProvider);
+    bool isLoading = loginState is LoginLoading;
     return SlideTransition(
-      position: signinAnimation,
-      child: Consumer(
-        builder: (context, ref, child) {
-          final loginState = ref.watch(authControllerProvider);
-          bool isLoading = loginState is LoginLoading;
-          return AppButton(
-            title: isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول",
-            isLoading: isLoading,
-            onPressed: () {
-              if (!isLoading) {
-                ref.read(authControllerProvider.notifier).login(context);
-              }
-            },
-          );
-        },
-      ),
-    );
+        position: signinAnimation,
+        child: AppButton(
+          title: isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول",
+          isLoading: isLoading,
+          onPressed: () {
+            if (!isLoading && signinKey.currentState!.validate()) {
+              ref.read(authControllerProvider.notifier).login(context);
+            }
+          },
+        ));
   }
 }
