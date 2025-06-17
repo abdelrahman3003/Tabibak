@@ -104,7 +104,7 @@ class _SigninViewState extends ConsumerState<SigninView>
           SlideTransition(
               position: emailAnimation,
               child: AppTextFormFiled(
-                  hint: "الإيميل",
+                  hint: "البريد الالكتروني",
                   controller: ref.read(emailConrtollerprovider),
                   validator: (value) {
                     return Validation.validateEmail(value);

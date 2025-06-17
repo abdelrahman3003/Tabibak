@@ -11,11 +11,13 @@ class AppTextFormFiled extends StatelessWidget {
       this.validator,
       this.suffixIcon,
       this.hintStyle,
-      this.obscureText = false});
+      this.obscureText = false,
+      this.errorText});
   final String? hint;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final TextStyle? hintStyle;
+  final String? errorText;
   final bool obscureText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -29,6 +31,7 @@ class AppTextFormFiled extends StatelessWidget {
       obscureText: obscureText,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
+        errorText: errorText,
         suffixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: suffixIcon,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/class/dialogs.dart';
 import 'package:tabibak/core/class/naviagtion.dart';
 import 'package:tabibak/core/class/routes.dart';
 import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';
@@ -54,8 +55,7 @@ class AuthController extends StateNotifier<AuthStates> {
       state = LoginSuccess();
     }, failure: (error) {
       state = LoginFailure();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+      Dialogs.authErrorDialog(context, error.message);
     });
   }
 }
