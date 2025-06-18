@@ -129,6 +129,7 @@ class _SigninViewState extends ConsumerState<SigninView>
             onTap: () {
               context.pop();
               context.pushNamed(Routes.singupView);
+              ref.read(authControllerProvider.notifier).cleartextformData();
             },
           )
         ],

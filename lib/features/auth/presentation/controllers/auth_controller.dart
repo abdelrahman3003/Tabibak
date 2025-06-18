@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/class/dialogs.dart';
 import 'package:tabibak/core/class/naviagtion.dart';
 import 'package:tabibak/core/class/routes.dart';
+import 'package:tabibak/core/networking/app_service.dart';
 import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';
 import 'package:tabibak/features/auth/domain/repo/auth_repo.dart';
 import 'package:tabibak/features/auth/domain/repo/auth_repo_implement.dart';
@@ -37,6 +38,7 @@ class AuthController extends StateNotifier<AuthStates> {
       context.pop();
       context.pushNamed(Routes.singinView);
       state = SignUpSuccess();
+      cleartextformData();
     }, failure: (error) {
       state = SignUpSuccess();
       ScaffoldMessenger.of(context)
@@ -44,14 +46,23 @@ class AuthController extends StateNotifier<AuthStates> {
     });
   }
 
+  void cleartextformData() {
+    ref.read(nameConrtollerprovider).clear();
+    ref.read(emailConrtollerprovider).clear();
+    ref.read(passordConrtollerprovider).clear();
+  }
+
   Future<void> login(BuildContext context) async {
     state = LoginLoading();
     final result = await ref.read(authRepositoryProvider).login(
         email: ref.read(emailConrtollerprovider).text,
         password: ref.read(passordConrtollerprovider).text);
-    result.when(sucess: (_) {
+    result.when(sucess: (_) async {
+      await AppService.sharedPreferences.setInt(ShardedPrefKey.step, 1);
+
       context.pop();
-      context.pushNamed(Routes.singupView);
+      context.pushNamed(Routes.homeView);
+      cleartextformData();
       state = LoginSuccess();
     }, failure: (error) {
       state = LoginFailure();

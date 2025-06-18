@@ -132,7 +132,7 @@ class _SignupViewState extends ConsumerState<SignupView>
           SlideTransition(
             position: emailAnimation,
             child: AppTextFormFiled(
-                hint: "الايميل",
+                hint: "البريد الإلكتروني",
                 validator: (value) {
                   return Validation.validateEmail(value);
                 },
@@ -155,6 +155,8 @@ class _SignupViewState extends ConsumerState<SignupView>
               title: "هل لديك حساب بالفعل؟",
               subtitle: "تسجيل الدخول",
               onTap: () {
+                ref.read(authControllerProvider.notifier).cleartextformData();
+                context.pop();
                 context.pushNamed(Routes.singinView);
               })
         ],

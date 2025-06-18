@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tabibak/core/class/routes.dart';
+import 'package:tabibak/core/networking/app_service.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class MyApp extends StatelessWidget {
@@ -25,7 +26,14 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       onGenerateRoute: Routes.generateRoute,
-      initialRoute: Routes.singinView,
+      initialRoute: initRout(),
     );
+  }
+
+  String initRout() {
+    if (AppService.sharedPreferences.getInt(ShardedPrefKey.step) == 1) {
+      return Routes.homeView;
+    }
+    return Routes.singinView;
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/features/auth/presentation/view/signin_view.dart';
 import 'package:tabibak/features/auth/presentation/view/signup_view.dart';
+import 'package:tabibak/features/home/presentation/views/home_view.dart';
 
 class Routes {
   static const String singinView = '/singinView';
   static const String singupView = '/singupView';
+  static const String homeView = '/homeView';
 
   static Route generateRoute(RouteSettings setting) {
     switch (setting.name) {
@@ -15,6 +17,10 @@ class Routes {
       case singupView:
         return MaterialPageRoute(
           builder: (context) => const SignupView(),
+        );
+      case homeView:
+        return MaterialPageRoute(
+          builder: (context) => const HomeView(),
         );
       default:
         return MaterialPageRoute(
