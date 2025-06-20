@@ -6,21 +6,17 @@ final indexScreenProvider = StateProvider<int>((ref) {
 });
 final categoryListNameProvider = StateProvider<List<String>>((ref) {
   return [
+    "عام",
+    "مسالك بولية",
     "مخ",
-    "انف واذن",
-    "سنان",
-    "عام",
-    "عام",
-    "عام",
+    "الأطفال",
   ];
 });
 final categoryListIconsProvider = StateProvider<List<String>>((ref) {
   return [
-    Assets.asssets.images.kidneys1.path,
     Assets.asssets.images.manDoctor.path,
+    Assets.asssets.images.kidneys1.path,
     Assets.asssets.images.brain1.path,
-    Assets.asssets.images.iamge.path,
-    Assets.asssets.images.iamge.path,
     Assets.asssets.images.iamge.path,
   ];
 });

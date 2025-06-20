@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,5 +16,7 @@ void main() async {
     url: baseUrl!,
     anonKey: apiKey!,
   );
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(ProviderScope(child: DevicePreview(builder: (context) {
+    return const MyApp();
+  })));
 }
