@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/features/home/presentation/views/home_screen/categories_list/categories_list.dart';
+import 'package:tabibak/features/home/presentation/views/home_screen/doctors_list/doctor_list.dart';
 import 'package:tabibak/features/home/presentation/views/home_screen/home_appbar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -16,7 +17,11 @@ class HomeScreen extends StatelessWidget {
         SizedBox(height: 20),
         Text("التخصص", style: Apptextstyles.font20BlackRegular),
         SizedBox(height: 15),
-        CategoriesList()
+        CategoriesList(),
+        SizedBox(height: 20),
+        Text("الدكتور", style: Apptextstyles.font20BlackRegular),
+        SizedBox(height: 20),
+        Expanded(child: DoctorList())
       ],
     );
   }

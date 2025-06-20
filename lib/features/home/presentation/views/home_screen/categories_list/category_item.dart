@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
@@ -11,7 +12,7 @@ class CategoryItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 70,
+          height: 70.h,
           padding: EdgeInsets.all(8),
           margin: EdgeInsets.symmetric(horizontal: 8),
           decoration:

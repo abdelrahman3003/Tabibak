@@ -31,7 +31,8 @@ class AppButton extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style: Apptextstyles.font16whitebold,
+              style:
+                  Apptextstyles.font16Blackebold.copyWith(color: Colors.white),
             ),
           ),
           !isLoading

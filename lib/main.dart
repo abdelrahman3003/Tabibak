@@ -12,10 +12,7 @@ void main() async {
   final baseUrl = dotenv.env['BASE_URL'];
   await AppService.initializeSharedPreferences();
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: baseUrl!,
-    anonKey: apiKey!,
-  );
+  await Supabase.initialize(url: baseUrl!, anonKey: apiKey!);
   runApp(ProviderScope(child: DevicePreview(builder: (context) {
     return const MyApp();
   })));
