@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/features/auth/presentation/view/signin_view.dart';
 import 'package:tabibak/features/auth/presentation/view/signup_view.dart';
-import 'package:tabibak/features/home/presentation/views/home_view.dart';
+import 'package:tabibak/features/layout/layout_screen.dart';
 
 class Routes {
   static const String singinView = '/singinView';
@@ -20,7 +20,7 @@ class Routes {
         );
       case homeView:
         return MaterialPageRoute(
-          builder: (context) => const HomeView(),
+          builder: (context) => const LayoutScreen(),
         );
       default:
         return MaterialPageRoute(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/class/naviagtion.dart';
-import 'package:tabibak/core/class/routes.dart';
-import 'package:tabibak/core/class/validation.dart';
+import 'package:tabibak/core/helper/naviagtion.dart';
+import 'package:tabibak/core/helper/routes.dart';
+import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/theme/app_button.dart';
 import 'package:tabibak/core/theme/app_text_formfiled.dart';
 import 'package:tabibak/features/auth/presentation/controllers/auth_controller.dart';

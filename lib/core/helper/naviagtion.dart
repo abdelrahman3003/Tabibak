@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/class/routes.dart';
+import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/features/auth/presentation/view/signin_view.dart';
 import 'package:tabibak/features/auth/presentation/view/signup_view.dart';
 

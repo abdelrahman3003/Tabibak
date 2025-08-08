@@ -1,28 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
-import 'package:tabibak/features/home/presentation/views/home_screen/categories_list/categories_list.dart';
-import 'package:tabibak/features/home/presentation/views/home_screen/doctors_list/doctor_list.dart';
-import 'package:tabibak/features/home/presentation/views/home_screen/home_appbar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 10),
-        HomeAppbar(),
-        SizedBox(height: 20),
-        Text("التخصص", style: Apptextstyles.font20BlackRegular),
-        SizedBox(height: 15),
-        CategoriesList(),
-        SizedBox(height: 20),
-        Text("الدكتور", style: Apptextstyles.font20BlackRegular),
-        SizedBox(height: 20),
-        Expanded(child: DoctorList())
-      ],
+    return SafeArea(
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text(
+                    "aaaaaaaaaaaaaaa",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // SliverToBoxAdapter(
+          //     child: Text("التخصص", style: Apptextstyles.font20BlackRegular)),
+          // SliverToBoxAdapter(child: SizedBox(height: 15)),
+          // SliverToBoxAdapter(child: CategoriesList()),
+          // SliverToBoxAdapter(child: SizedBox(height: 20)),
+          // SliverToBoxAdapter(
+          //     child: Text("الدكتور", style: Apptextstyles.font20BlackRegular)),
+          // SliverToBoxAdapter(child: SizedBox(height: 20)),
+          // DoctorList()
+        ],
+      ),
     );
   }
 }

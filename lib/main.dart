@@ -1,18 +1,13 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:tabibak/core/networking/app_service.dart';
 import 'package:tabibak/my_app.dart';
 
+import 'core/services/app_service.dart';
+
 void main() async {
-  await dotenv.load(fileName: ".env");
-  final apiKey = dotenv.env['API_KEY'];
-  final baseUrl = dotenv.env['BASE_URL'];
-  await AppService.initializeSharedPreferences();
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(url: baseUrl!, anonKey: apiKey!);
+  await AppService.init();
   runApp(ProviderScope(child: DevicePreview(builder: (context) {
     return const MyApp();
   })));

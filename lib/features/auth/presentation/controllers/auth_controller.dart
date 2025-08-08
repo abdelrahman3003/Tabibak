@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/class/dialogs.dart';
-import 'package:tabibak/core/class/naviagtion.dart';
-import 'package:tabibak/core/class/routes.dart';
-import 'package:tabibak/core/networking/app_service.dart';
+import 'package:tabibak/core/helper/dialogs.dart';
+import 'package:tabibak/core/helper/naviagtion.dart';
+import 'package:tabibak/core/helper/routes.dart';
+import 'package:tabibak/core/services/shared_pref_service.dart';
 import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';
 import 'package:tabibak/features/auth/domain/repo/auth_repo.dart';
 import 'package:tabibak/features/auth/domain/repo/auth_repo_implement.dart';
@@ -58,7 +58,7 @@ class AuthController extends StateNotifier<AuthStates> {
         email: ref.read(emailConrtollerprovider).text,
         password: ref.read(passordConrtollerprovider).text);
     result.when(sucess: (_) async {
-      await AppService.sharedPreferences.setInt(ShardedPrefKey.step, 1);
+      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
 
       context.pop();
       context.pushNamed(Routes.homeView);
