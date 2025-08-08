@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
+import 'package:tabibak/gen/assets.gen.dart';
 
 class DoctorItem extends StatelessWidget {
   const DoctorItem({super.key});
@@ -11,30 +12,30 @@ class DoctorItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
-          Expanded(
-            child: Container(
-              height: 150.h,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    image: AssetImage("asssets/images/doctor.png"),
-                    fit: BoxFit.cover,
-                  )),
-            ),
+          Container(
+            height: 110.h,
+            width: 100.w,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: AssetImage(Assets.images.doctor.path),
+                  fit: BoxFit.cover,
+                )),
           ),
-          SizedBox(width: 30),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "علي محمد احمد",
+                  "Dr. Randy Wigham",
                   style: Apptextstyles.font16Blackebold,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
                 SizedBox(height: 5),
                 Text(
-                  "عام  |  جامعه اسيوط",
+                  "General  |  RSUD Gatot Subroto",
                   style: Apptextstyles.font14BlackReqular,
                   overflow: TextOverflow.ellipsis,
                 ),

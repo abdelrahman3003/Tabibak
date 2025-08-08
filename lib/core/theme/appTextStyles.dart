@@ -19,4 +19,6 @@ class Apptextstyles {
       fontSize: 18.sp, color: AppColors.textLight, fontWeight: FontWeight.w400);
   static TextStyle font20BlackRegular = TextStyle(
       fontSize: 20.sp, color: AppColors.black, fontWeight: FontWeight.w400);
+  static TextStyle font20BlackBold = TextStyle(
+      fontSize: 20.sp, color: AppColors.black, fontWeight: FontWeight.bold);
 }

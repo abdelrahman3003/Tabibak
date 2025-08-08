@@ -1,3 +1,5 @@
+// dart format width=80
+
 /// GENERATED CODE - DO NOT MODIFY BY HAND
 /// *****************************************************
 ///  FlutterGen
@@ -5,96 +7,124 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
+// ignore_for_file: deprecated_member_use,directives_ordering,implicit_dynamic_list_literal,unnecessary_import
 
 import 'package:flutter/widgets.dart';
 
-class $AsssetsGen {
-  const $AsssetsGen();
+class $AssetsFontsGen {
+  const $AssetsFontsGen();
 
-  /// Directory path: asssets/fonts
-  $AsssetsFontsGen get fonts => const $AsssetsFontsGen();
+  /// File path: assets/fonts/Inter_24pt-Bold.ttf
+  String get inter24ptBold => 'assets/fonts/Inter_24pt-Bold.ttf';
 
-  /// Directory path: asssets/icons
-  $AsssetsIconsGen get icons => const $AsssetsIconsGen();
+  /// File path: assets/fonts/Inter_24pt-Medium.ttf
+  String get inter24ptMedium => 'assets/fonts/Inter_24pt-Medium.ttf';
 
-  /// Directory path: asssets/images
-  $AsssetsImagesGen get images => const $AsssetsImagesGen();
-}
+  /// File path: assets/fonts/Inter_24pt-Regular.ttf
+  String get inter24ptRegular => 'assets/fonts/Inter_24pt-Regular.ttf';
 
-class $AsssetsFontsGen {
-  const $AsssetsFontsGen();
+  /// File path: assets/fonts/Tajawal-Bold.ttf
+  String get tajawalBold => 'assets/fonts/Tajawal-Bold.ttf';
 
-  /// File path: asssets/fonts/Tajawal-Bold.ttf
-  String get tajawalBold => 'asssets/fonts/Tajawal-Bold.ttf';
+  /// File path: assets/fonts/Tajawal-Light.ttf
+  String get tajawalLight => 'assets/fonts/Tajawal-Light.ttf';
 
-  /// File path: asssets/fonts/Tajawal-Light.ttf
-  String get tajawalLight => 'asssets/fonts/Tajawal-Light.ttf';
-
-  /// File path: asssets/fonts/Tajawal-Regular.ttf
-  String get tajawalRegular => 'asssets/fonts/Tajawal-Regular.ttf';
+  /// File path: assets/fonts/Tajawal-Regular.ttf
+  String get tajawalRegular => 'assets/fonts/Tajawal-Regular.ttf';
 
   /// List of all assets
-  List<String> get values => [tajawalBold, tajawalLight, tajawalRegular];
+  List<String> get values => [
+        inter24ptBold,
+        inter24ptMedium,
+        inter24ptRegular,
+        tajawalBold,
+        tajawalLight,
+        tajawalRegular
+      ];
 }
 
-class $AsssetsIconsGen {
-  const $AsssetsIconsGen();
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
 
-  /// File path: asssets/icons/Alert.svg
-  String get alert => 'asssets/icons/Alert.svg';
+  /// File path: assets/icons/Alert.svg
+  String get alert => 'assets/icons/Alert.svg';
 
   /// List of all assets
   List<String> get values => [alert];
 }
 
-class $AsssetsImagesGen {
-  const $AsssetsImagesGen();
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
 
-  /// File path: asssets/images/Brain 1.png
-  AssetGenImage get brain1 => const AssetGenImage('asssets/images/Brain 1.png');
+  /// File path: assets/images/Brain 1.png
+  AssetGenImage get brain1 => const AssetGenImage('assets/images/Brain 1.png');
 
-  /// File path: asssets/images/Iamge.png
-  AssetGenImage get iamge => const AssetGenImage('asssets/images/Iamge.png');
+  /// File path: assets/images/Dentistry.png
+  AssetGenImage get dentistry =>
+      const AssetGenImage('assets/images/Dentistry.png');
 
-  /// File path: asssets/images/Kidneys 1.png
+  /// File path: assets/images/Iamge.png
+  AssetGenImage get iamge => const AssetGenImage('assets/images/Iamge.png');
+
+  /// File path: assets/images/Kidneys 1.png
   AssetGenImage get kidneys1 =>
-      const AssetGenImage('asssets/images/Kidneys 1.png');
+      const AssetGenImage('assets/images/Kidneys 1.png');
 
-  /// File path: asssets/images/Man Doctor.png
+  /// File path: assets/images/Man Doctor.png
   AssetGenImage get manDoctor =>
-      const AssetGenImage('asssets/images/Man Doctor.png');
+      const AssetGenImage('assets/images/Man Doctor.png');
 
-  /// File path: asssets/images/doctor.png
-  AssetGenImage get doctor => const AssetGenImage('asssets/images/doctor.png');
+  /// File path: assets/images/Optometry.png
+  AssetGenImage get optometry =>
+      const AssetGenImage('assets/images/Optometry.png');
+
+  /// File path: assets/images/doctor.png
+  AssetGenImage get doctor => const AssetGenImage('assets/images/doctor.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
-    brain1,
-    iamge,
-    kidneys1,
-    manDoctor,
-    doctor,
-  ];
+  List<AssetGenImage> get values =>
+      [brain1, dentistry, iamge, kidneys1, manDoctor, optometry, doctor];
+}
+
+class $AssetsLangsGen {
+  const $AssetsLangsGen();
+
+  /// File path: assets/langs/ar.json
+  String get ar => 'assets/langs/ar.json';
+
+  /// File path: assets/langs/en.json
+  String get en => 'assets/langs/en.json';
+
+  /// List of all assets
+  List<String> get values => [ar, en];
 }
 
 class Assets {
   const Assets._();
 
   static const String aEnv = '.env';
-  static const $AsssetsGen asssets = $AsssetsGen();
+  static const $AssetsFontsGen fonts = $AssetsFontsGen();
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLangsGen langs = $AssetsLangsGen();
 
   /// List of all assets
   static List<String> get values => [aEnv];
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+    this.animation,
+  });
 
   final String _assetName;
 
   final Size? size;
   final Set<String> flavors;
+  final AssetGenImageAnimation? animation;
 
   Image image({
     Key? key,
@@ -149,11 +179,30 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({AssetBundle? bundle, String? package}) {
-    return AssetImage(_assetName, bundle: bundle, package: package);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
   }
 
   String get path => _assetName;
 
   String get keyName => _assetName;
+}
+
+class AssetGenImageAnimation {
+  const AssetGenImageAnimation({
+    required this.isAnimation,
+    required this.duration,
+    required this.frames,
+  });
+
+  final bool isAnimation;
+  final Duration duration;
+  final int frames;
 }

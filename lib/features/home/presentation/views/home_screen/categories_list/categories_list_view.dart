@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/home_screen/categories_list/category_item.dart';
 
-class CategoriesList extends StatelessWidget {
-  const CategoriesList({super.key});
+class CategoriesListView extends StatelessWidget {
+  const CategoriesListView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class CategoriesList extends StatelessWidget {
         final categoryNames = ref.read(categoryListNameProvider);
         final categoryIcons = ref.read(categoryListIconsProvider);
         return SizedBox(
-          height: 100,
+          height: 90.h,
           child: ListView.builder(
               itemCount: categoryNames.length,
               shrinkWrap: true,

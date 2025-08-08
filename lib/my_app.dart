@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/core/services/shared_pref_service.dart';
@@ -19,17 +19,11 @@ class MyApp extends StatelessWidget {
             title: 'Tabibak',
             theme: ThemeData(
               scaffoldBackgroundColor: AppColors.scaffoldBG,
-              fontFamily: 'Tajawal',
+              fontFamily: 'Inter',
             ),
-            locale: const Locale('ar'),
-            supportedLocales: const [
-              Locale('ar'),
-            ],
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
             onGenerateRoute: Routes.generateRoute,
             initialRoute: initRout(),
           );

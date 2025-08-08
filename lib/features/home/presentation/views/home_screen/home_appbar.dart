@@ -6,28 +6,24 @@ class HomeAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Row(
-        children: [
-          Column(
-            children: [
-              Text(
-                "اهلا, Omar!",
-                style: Apptextstyles.font18blackRegular
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          Spacer(),
-          // Container(
-          //   decoration:
-          //       BoxDecoration(shape: BoxShape.circle, color: Color(0xffF5F5F5)),
-          //   child: IconButton(
-          //       onPressed: () {},
-          //       icon: SvgPicture.asset(Assets.asssets.icons.)),
-          // )
-        ],
-      ),
+    return Row(
+      children: [
+        Column(
+          children: [
+            Text(
+              "Abdelrahman !",
+              style: Apptextstyles.font18blackRegular
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        Spacer(),
+        Container(
+          decoration:
+              BoxDecoration(shape: BoxShape.circle, color: Color(0xffF5F5F5)),
+          child: IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
+        )
+      ],
     );
   }
 }

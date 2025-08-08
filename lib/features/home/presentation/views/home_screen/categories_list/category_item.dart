@@ -12,9 +12,9 @@ class CategoryItem extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 70.h,
+          height: 50.h,
           padding: EdgeInsets.all(8),
-          margin: EdgeInsets.symmetric(horizontal: 8),
+          margin: EdgeInsets.symmetric(horizontal: 14.w),
           decoration:
               BoxDecoration(shape: BoxShape.circle, color: AppColors.second),
           child: Image.asset(icon),
@@ -22,7 +22,7 @@ class CategoryItem extends StatelessWidget {
         SizedBox(height: 5),
         Text(
           name,
-          style: Apptextstyles.font16blackRegular,
+          style: Apptextstyles.font14BlackReqular,
         )
       ],
     );

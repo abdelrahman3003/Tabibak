@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/helper/naviagtion.dart';
+import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/theme/app_button.dart';

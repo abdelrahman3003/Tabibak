@@ -50,6 +50,8 @@ dependencies:
   flutter_svg: ^2.2.0
   flutter_screenutil: ^5.9.3
   device_preview: ^1.2.0
+  cached_network_image: ^3.4.1
+  easy_localization: ^3.0.7+1
 
 
 
@@ -84,9 +86,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
-    - asssets/fonts/
-    - asssets/icons/
-    - asssets/images/
+    - assets/fonts/
+    - assets/icons/
+    - assets/images/
+    - assets/langs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -102,11 +105,18 @@ flutter:
   fonts:
     - family: Tajawal
       fonts:
-        - asset: asssets/fonts/Tajawal-Regular.ttf
-        - asset: asssets/fonts/Tajawal-Bold.ttf
+        - asset: assets/fonts/Tajawal-Regular.ttf
+        - asset: assets/fonts/Tajawal-Bold.ttf
           weight: 700
-        - asset: asssets/fonts/Tajawal-Light.ttf
+        - asset: assets/fonts/Tajawal-Light.ttf
           weight: 300
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter_24pt-Regular.ttf
+        - asset: assets/fonts/Inter_24pt-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter_24pt-Bold.ttf
+          weight: 700      
         
 
 

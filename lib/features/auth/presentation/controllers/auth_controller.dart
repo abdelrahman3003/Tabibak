@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/dialogs.dart';
-import 'package:tabibak/core/helper/naviagtion.dart';
+import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/core/services/shared_pref_service.dart';
 import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';

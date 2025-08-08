@@ -1,0 +1,16 @@
+{
+    "welcome": "Welcome",
+    "find_best_doctor": "Find your best doctor and book an appointment easily.",
+    "doctor_speciality": "Doctor Speciality",
+    "general": "General",
+    "urology": "Urology",
+    "neurology": "Neurology",
+    "pediatrics": "Pediatrics",
+    "dentistry": "Dentistry",
+    "optometry": "Optometry",
+    "recommendation_doctor": "Recommendation Doctor",
+    "home": "Home",
+    "favorites": "Favorites",
+    "bookings": "Bookings",
+    "settings": "Settings"
+}

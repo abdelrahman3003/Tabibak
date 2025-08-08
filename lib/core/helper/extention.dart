@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/features/auth/presentation/view/signin_view.dart';
 import 'package:tabibak/features/auth/presentation/view/signup_view.dart';
@@ -53,4 +54,11 @@ Widget _getPageByRouteName(String routeName, Object? arguments) {
         body: Center(child: Text('No route defined for $routeName')),
       );
   }
+}
+
+extension DimensionsExt on num {
+  SizedBox get hBox => SizedBox(height: toDouble().h);
+  SizedBox get wBox => SizedBox(width: toDouble().w);
+  BorderRadius get radius => BorderRadius.circular(toDouble().r);
+  Radius get radiusCircular => Radius.circular(toDouble().r);
 }

@@ -1,0 +1,16 @@
+{
+    "welcome": "مرحباً",
+    "find_best_doctor": "ابحث عن أفضل طبيب واحجز موعدك بسهولة.",
+    "doctor_speciality": "تخصص الطبيب",
+    "general": "عام",
+    "urology": "مسالك بولية",
+    "neurology": "مخ وأعصاب",
+    "pediatrics": "الأطفال",
+    "dentistry": "الأسنان",
+    "optometry": "البصريات",
+    "recommendation_doctor": "طبيب موصى به",
+    "home": "الرئيسية",
+    "favorites": "المفضلة",
+    "bookings": "الحجوزات",
+    "settings": "الإعدادات"
+}
