@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/helper/extention.dart';
+import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_item.dart';
 
 class DoctorListView extends StatelessWidget {
@@ -11,7 +13,9 @@ class DoctorListView extends StatelessWidget {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: DoctorItem(
-          onTap: () {},
+          onTap: () {
+            context.pushNamed(Routes.doctorDetailsScreen);
+          },
         ),
       ),
     );

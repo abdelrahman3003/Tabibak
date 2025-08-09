@@ -7,6 +7,8 @@ class Apptextstyles {
       TextStyle(fontSize: 20.sp, color: AppColors.black);
   static TextStyle font18blackRegular =
       TextStyle(fontSize: 18.sp, color: AppColors.black);
+  static TextStyle font18blackBold = TextStyle(
+      fontSize: 18.sp, color: AppColors.black, fontWeight: FontWeight.bold);
   static TextStyle font16blackRegular =
       TextStyle(fontSize: 16.sp, color: AppColors.black);
   static TextStyle font16Blackebold = TextStyle(

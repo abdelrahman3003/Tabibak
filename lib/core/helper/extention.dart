@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/features/auth/presentation/view/signin_view.dart';
 import 'package:tabibak/features/auth/presentation/view/signup_view.dart';
+import 'package:tabibak/features/home/presentation/views/doctor_details_screen.dart';
 import 'package:tabibak/features/home/presentation/views/specialist_screen.dart';
 
 extension Navigagtion on BuildContext {
@@ -52,6 +53,8 @@ Widget _getPageByRouteName(String routeName, Object? arguments) {
       return SignupView();
     case Routes.specialistScreen:
       return SpecialistScreen();
+    case Routes.doctorDetailsScreen:
+      return DoctorDetailsScreen();
     default:
       return Scaffold(
         body: Center(child: Text('No route defined for $routeName')),

@@ -1,9 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
-import 'package:tabibak/gen/assets.gen.dart';
 
 class DoctorItem extends StatelessWidget {
   const DoctorItem({super.key, this.onTap});
@@ -23,7 +23,8 @@ class DoctorItem extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: AssetImage(Assets.images.doctor.path),
+                    image: CachedNetworkImageProvider(
+                        "https://www.bing.com/th/id/OIP.l96BdnBni68Vv9r_AgP7UgHaHa?w=224&h=211&c=8&rs=1&qlt=90&o=6&cb=thwsc4&pid=3.1&rm=2"),
                     fit: BoxFit.cover,
                   )),
             ),
