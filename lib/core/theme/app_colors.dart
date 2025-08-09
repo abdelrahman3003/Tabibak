@@ -10,4 +10,5 @@ class AppColors {
   static const Color scaffoldBG = Color(0xFFEDEDED);
   static const Color textDark = Color(0xFF222222);
   static const Color textLight = Color(0xFF666666);
+  static const Color borderLight = Color(0xFFE0E0E0);
 }

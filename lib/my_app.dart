@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
             title: 'Tabibak',
             theme: ThemeData(
               scaffoldBackgroundColor: AppColors.scaffoldBG,
-              fontFamily: 'Inter',
+              fontFamily: 'Tajawal',
             ),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,

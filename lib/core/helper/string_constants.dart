@@ -1,3 +1,9 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class Constants {
+  static double radius = 8.r;
+}
+
 class StringConstants {
   static const String welcome = 'welcome';
   static const String findBestDoctor = 'find_best_doctor';
