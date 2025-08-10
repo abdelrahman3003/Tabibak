@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/helper/extention.dart';
+import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
+import 'package:tabibak/core/theme/app_button.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_details_header.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_info_section.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/schedule_section.dart';
@@ -36,6 +38,13 @@ class DoctorDetailsScreen extends StatelessWidget {
             TitelText(title: 'مواعيد العمل'),
             20.hBox,
             ScheduleSection(),
+            20.hBox,
+            AppButton(
+              title: "استعلام عن الحجز",
+              onPressed: () {
+                context.pushNamed(Routes.bookingScreen);
+              },
+            )
           ],
         ),
       ),

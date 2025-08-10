@@ -61,7 +61,7 @@ class AuthController extends StateNotifier<AuthStates> {
       await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
 
       context.pop();
-      context.pushNamed(Routes.homeView);
+      context.pushNamed(Routes.layoutScreen);
       cleartextformData();
       state = LoginSuccess();
     }, failure: (error) {
