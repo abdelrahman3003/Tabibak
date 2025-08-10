@@ -5,12 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/features/booking/appointments_screen.dart';
 import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/favourite_view.dart';
 import 'package:tabibak/features/home/presentation/views/home_screen.dart';
-import 'package:tabibak/features/home/presentation/views/setting_view.dart';
-
-import '../home/presentation/views/appointments_view.dart';
+import 'package:tabibak/features/profile/profile_screen.dart';
 
 class LayoutScreen extends ConsumerWidget {
   const LayoutScreen({super.key});
@@ -20,9 +19,9 @@ class LayoutScreen extends ConsumerWidget {
     final selectedIndex = ref.watch(indexScreenProvider);
     final screens = [
       HomeScreen(),
+      AppointmentsScreen(),
       FavouriteView(),
-      AppointmentsView(),
-      SettingView()
+      ProfileScreen()
     ];
 
     return Scaffold(
@@ -47,9 +46,9 @@ class LayoutScreen extends ConsumerWidget {
               tabMargin: EdgeInsets.only(top: 8),
               tabs: [
                 GButton(icon: Icons.home, text: StringConstants.home.tr()),
-                GButton(
-                    icon: Icons.favorite, text: StringConstants.favorites.tr()),
                 GButton(icon: Icons.event, text: StringConstants.bookings.tr()),
+                GButton(
+                    icon: Icons.search, text: StringConstants.favorites.tr()),
                 GButton(
                     icon: Icons.settings, text: StringConstants.settings.tr()),
               ],

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/helper/dialogs.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/theme/app_button.dart';
-import 'package:tabibak/features/booking/widget/booking_date.dart';
-import 'package:tabibak/features/booking/widget/booking_header.dart';
-import 'package:tabibak/features/booking/widget/booking_time.dart';
+import 'package:tabibak/features/booking/widget/booking/booking_date.dart';
+import 'package:tabibak/features/booking/widget/booking/booking_header.dart';
+import 'package:tabibak/features/booking/widget/booking/booking_time.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
