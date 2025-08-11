@@ -133,10 +133,10 @@ class _SignupViewState extends ConsumerState<SignupView>
             position: emailAnimation,
             child: AppTextFormFiled(
                 hint: "البريد الإلكتروني",
+                controller: ref.read(emailConrtollerprovider),
                 validator: (value) {
                   return Validation.validateEmail(value);
                 },
-                controller: ref.read(emailConrtollerprovider),
                 prefixIcon: Icon(Icons.email_outlined, size: 24)),
           ),
           const SizedBox(height: 15),

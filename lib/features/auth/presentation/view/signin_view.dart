@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/core/helper/validation.dart';
+import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_button.dart';
+import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/theme/app_text_formfiled.dart';
 import 'package:tabibak/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/controllers/auth_states.dart';
@@ -118,6 +120,20 @@ class _SigninViewState extends ConsumerState<SigninView>
                 return Validation.validatePassord(value);
               },
               controller: ref.read(passordConrtollerprovider),
+            ),
+          ),
+          const SizedBox(height: 20),
+          InkWell(
+            onTap: () {
+              context.pushNamed(Routes.forgrtPasswordView);
+            },
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                "نسيت كلمه السر",
+                style: Apptextstyles.font16blackRegular
+                    .copyWith(color: AppColors.primary),
+              ),
             ),
           ),
           const SizedBox(height: 30),

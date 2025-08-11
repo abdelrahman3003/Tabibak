@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/helper/dialogs.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/core/services/shared_pref_service.dart';
@@ -12,7 +11,7 @@ import 'package:tabibak/features/auth/presentation/controllers/auth_states.dart'
 final authControllerProvider =
     StateNotifierProvider<AuthController, AuthStates>(
         (ref) => AuthController(ref));
-final authRepositoryProvider = Provider<AuthRepository>((ref) {
+final authRepositoryProvider = AutoDisposeProvider<AuthRepository>((ref) {
   return AuthRepositoryImpl(AuthRemoteDatasource());
 });
 final emailConrtollerprovider =
@@ -21,6 +20,15 @@ final passordConrtollerprovider =
     Provider<TextEditingController>((ref) => TextEditingController());
 final nameConrtollerprovider =
     Provider<TextEditingController>((ref) => TextEditingController());
+final otpController =
+    Provider<TextEditingController>((ref) => TextEditingController());
+final newPasswordConrtollerprovider =
+    Provider<TextEditingController>((ref) => TextEditingController());
+final confirmNewPasswordConrtollerprovider =
+    Provider<TextEditingController>((ref) => TextEditingController());
+final resetPasswordKeyForm = Provider<GlobalKey<FormState>>(
+  (ref) => GlobalKey<FormState>(),
+);
 
 class AuthController extends StateNotifier<AuthStates> {
   final Ref ref;
@@ -66,7 +74,61 @@ class AuthController extends StateNotifier<AuthStates> {
       state = LoginSuccess();
     }, failure: (error) {
       state = LoginFailure();
-      Dialogs.authErrorDialog(context, error.message);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+    });
+  }
+
+  Future<void> sendOtp(BuildContext context) async {
+    state = SendOtpLoading();
+    final result = await ref
+        .read(authRepositoryProvider)
+        .sendOpt(email: ref.read(emailConrtollerprovider).text);
+    result.when(sucess: (_) async {
+      final currentRoute = ModalRoute.of(context)?.settings.name;
+
+      if (currentRoute != Routes.oTPVerificationScreen) {
+        context.pushNamed(
+          Routes.oTPVerificationScreen,
+          arguments: ref.read(emailConrtollerprovider).text,
+        );
+      }
+      state = SendOtpSuccess();
+    }, failure: (error) {
+      state = SendOtpSuccess();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+    });
+  }
+
+  Future<void> verifyOtpCode(BuildContext context) async {
+    state = VerifyOtpLoading();
+    final result = await ref.read(authRepositoryProvider).verifyOtpCode(
+          email: ref.read(emailConrtollerprovider).text,
+          token: ref.read(otpController).text,
+        );
+    result.when(sucess: (_) async {
+      context.pushNamed(Routes.resetPasswordView);
+      state = VerifyOtpSuccess();
+    }, failure: (error) {
+      state = VerifyOtpFailure();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+    });
+  }
+
+  Future<void> resetPassword(BuildContext context) async {
+    state = ResetPassordLoading();
+    final result = await ref.read(authRepositoryProvider).resetPassword(
+          newPassword: ref.read(newPasswordConrtollerprovider).text,
+        );
+    result.when(sucess: (_) async {
+      context.pushNamed(Routes.resetPasswordSucessView);
+      state = ResetPassordSuccess();
+    }, failure: (error) {
+      state = ResetPassordFailure();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.message.toString())));
     });
   }
 }

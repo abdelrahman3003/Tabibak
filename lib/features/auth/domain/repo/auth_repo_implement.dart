@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
@@ -21,7 +19,6 @@ class AuthRepositoryImpl implements AuthRepository {
           name: name, email: email, password: password);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("-------------- error ${ErrorHandler.handle(error).message}");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -33,6 +30,38 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       final result = await remoteDatasource.login(email, password);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> sendOpt({required String email}) async {
+    try {
+      final result = await remoteDatasource.sendOtp(email);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<AuthResponse>> verifyOtpCode(
+      {required String email, required String token}) async {
+    try {
+      final result = await remoteDatasource.verifyOtpCode(email, token);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<UserResponse>> resetPassword(
+      {required String newPassword}) async {
+    try {
+      final result = await remoteDatasource.resetPassword(newPassword);
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

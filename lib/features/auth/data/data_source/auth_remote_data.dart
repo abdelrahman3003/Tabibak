@@ -16,4 +16,18 @@ class AuthRemoteDatasource {
     return await supabase.auth
         .signInWithPassword(email: email, password: password);
   }
+
+  Future<void> sendOtp(String email) async {
+    return await supabase.auth.signInWithOtp(email: email);
+  }
+
+  Future<AuthResponse> verifyOtpCode(String email, String token) async {
+    return await supabase.auth
+        .verifyOTP(email: email, token: token, type: OtpType.email);
+  }
+
+  Future<UserResponse> resetPassword(String newPassword) async {
+    return await supabase.auth
+        .updateUser(UserAttributes(password: newPassword));
+  }
 }

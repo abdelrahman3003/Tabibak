@@ -6,4 +6,8 @@ abstract class AuthRepository {
       {required String email, required String password});
   Future<ApiResult<AuthResponse>> signUp(
       {required String name, required String email, required String password});
+  Future<ApiResult<void>> sendOpt({required String email});
+  Future<ApiResult<void>> verifyOtpCode(
+      {required String email, required String token});
+  Future<ApiResult<UserResponse>> resetPassword({required String newPassword});
 }

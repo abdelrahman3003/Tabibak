@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/helper/routes.dart';
+import 'package:tabibak/features/auth/presentation/view/forgrt_password_view.dart';
+import 'package:tabibak/features/auth/presentation/view/otp_verification_view.dart';
+import 'package:tabibak/features/auth/presentation/view/reset_password_sucess_view.dart';
+import 'package:tabibak/features/auth/presentation/view/reset_password_view.dart';
 import 'package:tabibak/features/auth/presentation/view/signin_view.dart';
 import 'package:tabibak/features/auth/presentation/view/signup_view.dart';
 import 'package:tabibak/features/booking/booking_screen.dart';
@@ -52,6 +56,15 @@ Widget _getPageByRouteName(String routeName, Object? arguments) {
       return SigninView();
     case Routes.singupView:
       return SignupView();
+
+    case Routes.oTPVerificationScreen:
+      return OTPVerificationScreen();
+    case Routes.forgrtPasswordView:
+      return ForgrtPasswordView();
+    case Routes.resetPasswordView:
+      return ResetPasswordView();
+    case Routes.resetPasswordSucessView:
+      return ResetPasswordSucessView();
     case Routes.specialistScreen:
       return SpecialistScreen();
     case Routes.doctorDetailsScreen:
