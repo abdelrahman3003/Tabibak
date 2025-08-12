@@ -10,6 +10,7 @@ import 'package:tabibak/features/auth/presentation/view/signup_view.dart';
 import 'package:tabibak/features/booking/booking_screen.dart';
 import 'package:tabibak/features/home/presentation/views/doctor_details_screen.dart';
 import 'package:tabibak/features/home/presentation/views/specialist_screen.dart';
+import 'package:tabibak/features/layout/layout_screen.dart';
 
 extension Navigagtion on BuildContext {
   Future<dynamic> pushNamed(String routeName, {Object? arguments}) {
@@ -56,7 +57,8 @@ Widget _getPageByRouteName(String routeName, Object? arguments) {
       return SigninView();
     case Routes.singupView:
       return SignupView();
-
+    case Routes.layoutScreen:
+      return LayoutScreen();
     case Routes.oTPVerificationScreen:
       return OTPVerificationScreen();
     case Routes.forgrtPasswordView:

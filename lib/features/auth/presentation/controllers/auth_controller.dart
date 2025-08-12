@@ -76,9 +76,9 @@ class AuthController extends StateNotifier<AuthStates> {
     });
   }
 
-  Future<void> loginWithGoogle(BuildContext context) async {
+  Future<void> nativeGoogleSignIn(BuildContext context) async {
     state = LoginWithGoogleLoading();
-    final result = await ref.read(authRepositoryProvider).loginWithGoogle();
+    final result = await ref.read(authRepositoryProvider).nativeGoogleSignIn();
     result.when(sucess: (_) async {
       context.pop();
       context.pushNamed(Routes.layoutScreen);

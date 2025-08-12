@@ -54,6 +54,7 @@ dependencies:
   easy_localization: ^3.0.7+1
   image_picker: ^1.1.2
   pinput: ^5.0.1
+  google_sign_in: ^6.3.0
 
 
 

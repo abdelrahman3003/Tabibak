@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
+import 'package:tabibak/core/services/shared_pref_service.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/categories_list_view.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_list_view.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
@@ -24,7 +25,11 @@ class HomeScreen extends StatelessWidget {
         20.hBox,
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: WelcomPanner()),
+            child: InkWell(
+                onTap: () {
+                  SharedPrefsService.prefs.clear();
+                },
+                child: WelcomPanner())),
         40.hBox,
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),

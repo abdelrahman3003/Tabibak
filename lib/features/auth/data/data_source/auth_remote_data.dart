@@ -1,4 +1,6 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tabibak/core/services/env_service.dart';
 
 class AuthRemoteDatasource {
   AuthRemoteDatasource();
@@ -35,5 +37,28 @@ class AuthRemoteDatasource {
   Future<UserResponse> resetPassword(String newPassword) async {
     return await supabase.auth
         .updateUser(UserAttributes(password: newPassword));
+  }
+
+  Future<void> nativeGoogleSignIn() async {
+    final GoogleSignIn googleSignIn =
+        GoogleSignIn(serverClientId: EnvService.googleClientId);
+
+    final googleUser = await googleSignIn.signIn();
+
+    final googleAuth = await googleUser!.authentication;
+    final accessToken = googleAuth.accessToken;
+    final idToken = googleAuth.idToken;
+
+    if (accessToken == null) {
+      throw 'No Access Token found.';
+    }
+    if (idToken == null) {
+      throw 'No ID Token found.';
+    }
+    await supabase.auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
+      accessToken: accessToken,
+    );
   }
 }

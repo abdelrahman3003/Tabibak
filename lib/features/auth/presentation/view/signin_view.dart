@@ -177,7 +177,7 @@ class _SigninViewState extends ConsumerState<SigninView>
   InkWell signinWuthGoogleButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        ref.read(authControllerProvider.notifier).loginWithGoogle(context);
+        ref.read(authControllerProvider.notifier).nativeGoogleSignIn(context);
       },
       child: SlideTransition(
         position: signinWithGoogelAnimation,
