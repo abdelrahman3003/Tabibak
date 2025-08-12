@@ -21,7 +21,7 @@ class ResetPasswordView extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Form(
-          key: ref.read(resetPasswordKeyForm),
+          key: ref.read(authControllerProvider.notifier).resetPasswordKeyForm,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -31,16 +31,24 @@ class ResetPasswordView extends ConsumerWidget {
               ),
               20.hBox,
               PasswordTextfiled(
-                controller: ref.read(newPasswordConrtollerprovider),
+                controller: ref
+                    .read(authControllerProvider.notifier)
+                    .newPasswordController,
                 hint: "كلمة المرور الجديدة",
                 validator: (value) => Validation.validatePassord(value),
               ),
               20.hBox,
               PasswordTextfiled(
-                  controller: ref.read(confirmNewPasswordConrtollerprovider),
+                  controller: ref
+                      .read(authControllerProvider.notifier)
+                      .confirmNewPasswordController,
                   hint: "تأكيد كلمة المرور",
                   validator: (value) {
-                    if (value != ref.read(newPasswordConrtollerprovider).text) {
+                    if (value !=
+                        ref
+                            .read(authControllerProvider.notifier)
+                            .newPasswordController
+                            .text) {
                       return "كلمة المرور غير متطابقة";
                     }
                     Validation.validatePassord(value);
@@ -64,7 +72,11 @@ class ResetPasswordView extends ConsumerWidget {
         isLoading: isLoading,
         onPressed: () {
           if (!isLoading &&
-              ref.read(resetPasswordKeyForm).currentState!.validate()) {
+              ref
+                  .read(authControllerProvider.notifier)
+                  .resetPasswordKeyForm
+                  .currentState!
+                  .validate()) {
             ref.read(authControllerProvider.notifier).resetPassword(context);
           }
         },

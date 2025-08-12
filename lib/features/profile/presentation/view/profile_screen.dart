@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
-import 'package:tabibak/features/profile/widget/account_section.dart';
-import 'package:tabibak/features/profile/widget/profile_header.dart';
-import 'package:tabibak/features/profile/widget/setting_section.dart';
+import 'package:tabibak/features/profile/presentation/view/widget/account_section.dart';
+import 'package:tabibak/features/profile/presentation/view/widget/profile_header.dart';
+import 'package:tabibak/features/profile/presentation/view/widget/setting_section.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

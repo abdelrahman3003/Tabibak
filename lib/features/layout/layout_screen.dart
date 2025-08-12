@@ -9,7 +9,7 @@ import 'package:tabibak/features/booking/appointments_screen.dart';
 import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/favourite_view.dart';
 import 'package:tabibak/features/home/presentation/views/home_screen.dart';
-import 'package:tabibak/features/profile/profile_screen.dart';
+import 'package:tabibak/features/profile/presentation/view/profile_screen.dart';
 
 class LayoutScreen extends ConsumerWidget {
   const LayoutScreen({super.key});

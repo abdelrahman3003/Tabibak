@@ -41,7 +41,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
 
   @override
   void dispose() {
-    ref.read(otpController).dispose();
+    ref.read(authControllerProvider.notifier).otpController.dispose();
     _timer.cancel();
     super.dispose();
   }
@@ -60,7 +60,8 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
             titeTextStates(state, email),
             20.hBox,
             OtpWidget(
-                controller: ref.read(otpController),
+                controller:
+                    ref.read(authControllerProvider.notifier).otpController,
                 onCompleted: (pin) => ref
                     .read(authControllerProvider.notifier)
                     .verifyOtpCode(context)),

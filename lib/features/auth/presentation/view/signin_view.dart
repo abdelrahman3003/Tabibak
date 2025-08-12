@@ -126,7 +126,8 @@ class _SigninViewState extends ConsumerState<SigninView>
               position: emailAnimation,
               child: AppTextFormFiled(
                   hint: "البريد الالكتروني",
-                  controller: ref.read(emailConrtollerprovider),
+                  controller:
+                      ref.read(authControllerProvider.notifier).emailController,
                   validator: (value) {
                     return Validation.validateEmail(value);
                   },
@@ -138,7 +139,8 @@ class _SigninViewState extends ConsumerState<SigninView>
               validator: (value) {
                 return Validation.validatePassord(value);
               },
-              controller: ref.read(passordConrtollerprovider),
+              controller:
+                  ref.read(authControllerProvider.notifier).passwordController,
             ),
           ),
           const SizedBox(height: 20),

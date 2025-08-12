@@ -97,9 +97,7 @@ class _SignupViewState extends ConsumerState<SignupView>
     emailAnimationController.dispose();
     passwordAnimationController.dispose();
     signupAnimationController.dispose();
-    ref.read(passordConrtollerprovider).dispose();
-    ref.read(nameConrtollerprovider).dispose();
-    ref.read(nameConrtollerprovider).dispose();
+
     super.dispose();
   }
 
@@ -121,7 +119,8 @@ class _SignupViewState extends ConsumerState<SignupView>
           SlideTransition(
             position: nameAnimation,
             child: AppTextFormFiled(
-                controller: ref.read(nameConrtollerprovider),
+                controller:
+                    ref.read(authControllerProvider.notifier).nameController,
                 validator: (value) {
                   return Validation.validateName(value);
                 },
@@ -133,7 +132,8 @@ class _SignupViewState extends ConsumerState<SignupView>
             position: emailAnimation,
             child: AppTextFormFiled(
                 hint: "البريد الإلكتروني",
-                controller: ref.read(emailConrtollerprovider),
+                controller:
+                    ref.read(authControllerProvider.notifier).emailController,
                 validator: (value) {
                   return Validation.validateEmail(value);
                 },
@@ -143,7 +143,9 @@ class _SignupViewState extends ConsumerState<SignupView>
           SlideTransition(
               position: passwordAnimation,
               child: PasswordTextfiled(
-                controller: ref.read(passordConrtollerprovider),
+                controller: ref
+                    .read(authControllerProvider.notifier)
+                    .passwordController,
                 validator: (value) {
                   return Validation.validatePassord(value);
                 },

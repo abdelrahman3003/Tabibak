@@ -9,41 +9,31 @@ import 'package:tabibak/features/auth/domain/repo/auth_repo_implement.dart';
 import 'package:tabibak/features/auth/presentation/controllers/auth_states.dart';
 
 final authControllerProvider =
-    StateNotifierProvider<AuthController, AuthStates>(
+    StateNotifierProvider.autoDispose<AuthController, AuthStates>(
         (ref) => AuthController(ref));
 final authRepositoryProvider = AutoDisposeProvider<AuthRepository>((ref) {
   return AuthRepositoryImpl(AuthRemoteDatasource());
 });
-final emailConrtollerprovider =
-    Provider<TextEditingController>((ref) => TextEditingController());
-final passordConrtollerprovider =
-    Provider<TextEditingController>((ref) => TextEditingController());
-final nameConrtollerprovider =
-    Provider<TextEditingController>((ref) => TextEditingController());
-final otpController =
-    Provider<TextEditingController>((ref) => TextEditingController());
-final newPasswordConrtollerprovider =
-    Provider<TextEditingController>((ref) => TextEditingController());
-final confirmNewPasswordConrtollerprovider =
-    Provider<TextEditingController>((ref) => TextEditingController());
-final resetPasswordKeyForm = Provider<GlobalKey<FormState>>(
-  (ref) => GlobalKey<FormState>(),
-);
-final sendOtpKey = Provider<GlobalKey<FormState>>(
-  (ref) => GlobalKey<FormState>(),
-);
 
 class AuthController extends StateNotifier<AuthStates> {
   final Ref ref;
 
   AuthController(this.ref) : super(AuthInitial());
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final otpController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final confirmNewPasswordController = TextEditingController();
 
+  final resetPasswordKeyForm = GlobalKey<FormState>();
+  final sendOtpKey = GlobalKey<FormState>();
   Future<void> singUp(BuildContext context) async {
     state = SignUpLoading();
     final result = await ref.read(authRepositoryProvider).signUp(
-          name: ref.read(nameConrtollerprovider).text,
-          email: ref.read(emailConrtollerprovider).text,
-          password: ref.read(passordConrtollerprovider).text,
+          name: nameController.text,
+          email: emailController.text,
+          password: passwordController.text,
         );
     result.when(sucess: (_) {
       context.pop();
@@ -59,9 +49,9 @@ class AuthController extends StateNotifier<AuthStates> {
 
   Future<void> login(BuildContext context) async {
     state = LoginLoading();
-    final result = await ref.read(authRepositoryProvider).login(
-        email: ref.read(emailConrtollerprovider).text,
-        password: ref.read(passordConrtollerprovider).text);
+    final result = await ref
+        .read(authRepositoryProvider)
+        .login(email: emailController.text, password: passwordController.text);
     result.when(sucess: (_) async {
       context.pop();
       context.pushNamed(Routes.layoutScreen);
@@ -81,7 +71,8 @@ class AuthController extends StateNotifier<AuthStates> {
     final result = await ref.read(authRepositoryProvider).nativeGoogleSignIn();
     result.when(sucess: (_) async {
       context.pop();
-      context.pushNamed(Routes.layoutScreen);
+      context.pushNamedAndRemoveUntil(Routes.layoutScreen,
+          predicate: (route) => false);
       await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
 
       cleartextformData();
@@ -97,14 +88,14 @@ class AuthController extends StateNotifier<AuthStates> {
     state = SendOtpLoading();
     final result = await ref
         .read(authRepositoryProvider)
-        .sendOpt(email: ref.read(emailConrtollerprovider).text);
+        .sendOpt(email: emailController.text);
     result.when(sucess: (_) async {
       final currentRoute = ModalRoute.of(context)?.settings.name;
 
       if (currentRoute != Routes.oTPVerificationScreen) {
         context.pushNamed(
           Routes.oTPVerificationScreen,
-          arguments: ref.read(emailConrtollerprovider).text,
+          arguments: emailController.text,
         );
       }
       state = SendOtpSuccess();
@@ -118,8 +109,8 @@ class AuthController extends StateNotifier<AuthStates> {
   Future<void> verifyOtpCode(BuildContext context) async {
     state = VerifyOtpLoading();
     final result = await ref.read(authRepositoryProvider).verifyOtpCode(
-          email: ref.read(emailConrtollerprovider).text,
-          token: ref.read(otpController).text,
+          email: emailController.text,
+          token: otpController.text,
         );
     result.when(sucess: (_) async {
       context.pushNamed(Routes.resetPasswordView);
@@ -134,7 +125,7 @@ class AuthController extends StateNotifier<AuthStates> {
   Future<void> resetPassword(BuildContext context) async {
     state = ResetPassordLoading();
     final result = await ref.read(authRepositoryProvider).resetPassword(
-          newPassword: ref.read(newPasswordConrtollerprovider).text,
+          newPassword: newPasswordController.text,
         );
     result.when(sucess: (_) async {
       context.pushNamed(Routes.resetPasswordSucessView);
@@ -147,19 +138,22 @@ class AuthController extends StateNotifier<AuthStates> {
   }
 
   void cleartextformData() {
-    ref.read(nameConrtollerprovider).clear();
-    ref.read(emailConrtollerprovider).clear();
-    ref.read(passordConrtollerprovider).clear();
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    otpController.clear();
+    newPasswordController.clear();
+    confirmNewPasswordController.clear();
   }
 
   @override
   void dispose() {
-    ref.read(emailConrtollerprovider).dispose();
-    ref.read(passordConrtollerprovider).dispose();
-    ref.read(nameConrtollerprovider).dispose();
-    ref.read(otpController).dispose();
-    ref.read(newPasswordConrtollerprovider).dispose();
-    ref.read(confirmNewPasswordConrtollerprovider).dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    otpController.dispose();
+    newPasswordController.dispose();
+    confirmNewPasswordController.dispose();
     super.dispose();
   }
 }

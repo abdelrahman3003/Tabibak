@@ -14,8 +14,6 @@ class ForgrtPasswordView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final emailController = ref.read(emailConrtollerprovider);
-
     return Scaffold(
       appBar: AppBarWidget(
         title: "نسيت كلمة المرور",
@@ -23,7 +21,7 @@ class ForgrtPasswordView extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: ref.read(sendOtpKey),
+          key: ref.read(authControllerProvider.notifier).sendOtpKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -34,7 +32,8 @@ class ForgrtPasswordView extends ConsumerWidget {
               20.hBox,
               AppTextFormFiled(
                 hint: "البريد الالكتروني",
-                controller: emailController,
+                controller:
+                    ref.read(authControllerProvider.notifier).emailController,
                 validator: (value) => Validation.validateEmail(value),
                 prefixIcon: const Icon(Icons.email_outlined, size: 24),
               ),
@@ -57,7 +56,12 @@ class ForgrtPasswordView extends ConsumerWidget {
           title: isLoading ? "جاري ارسال الرمز..." : "ارسال الرمز",
           isLoading: isLoading,
           onPressed: () {
-            if (!isLoading && ref.read(sendOtpKey).currentState!.validate()) {
+            if (!isLoading &&
+                ref
+                    .read(authControllerProvider.notifier)
+                    .sendOtpKey
+                    .currentState!
+                    .validate()) {
               ref.read(authControllerProvider.notifier).sendOtp(context);
             }
           },
