@@ -24,12 +24,20 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<ApiResult<AuthResponse>> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<ApiResult<AuthResponse>> login(
+      {required String email, required String password}) async {
     try {
       final result = await remoteDatasource.login(email, password);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> loginWithGoogle() async {
+    try {
+      final result = await remoteDatasource.loginWithGoogle();
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

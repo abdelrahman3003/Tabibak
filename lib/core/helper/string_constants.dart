@@ -1,7 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Constants {
-  static double radius = 8.r;
+  static double radius = 5.r;
 }
 
 class StringConstants {

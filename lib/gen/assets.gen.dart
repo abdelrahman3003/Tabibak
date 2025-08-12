@@ -49,8 +49,11 @@ class $AssetsIconsGen {
   /// File path: assets/icons/Alert.svg
   String get alert => 'assets/icons/Alert.svg';
 
+  /// File path: assets/icons/google_icon.svg
+  String get googleIcon => 'assets/icons/google_icon.svg';
+
   /// List of all assets
-  List<String> get values => [alert];
+  List<String> get values => [alert, googleIcon];
 }
 
 class $AssetsImagesGen {

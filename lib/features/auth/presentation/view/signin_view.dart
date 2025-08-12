@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/routes.dart';
+import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_button.dart';
@@ -11,6 +14,7 @@ import 'package:tabibak/features/auth/presentation/controllers/auth_controller.d
 import 'package:tabibak/features/auth/presentation/controllers/auth_states.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/password_textfiled.dart';
+import 'package:tabibak/gen/assets.gen.dart';
 
 class SigninView extends ConsumerStatefulWidget {
   const SigninView({super.key});
@@ -27,6 +31,8 @@ late Animation<Offset> passwordAnimation;
 
 late AnimationController signinAnimationController;
 late Animation<Offset> signinAnimation;
+late AnimationController signinWithGoogelAnimationController;
+late Animation<Offset> signinWithGoogelAnimation;
 final signinKey = GlobalKey<FormState>();
 
 class _SigninViewState extends ConsumerState<SigninView>
@@ -65,6 +71,15 @@ class _SigninViewState extends ConsumerState<SigninView>
     ).animate(CurvedAnimation(
         parent: signinAnimationController, curve: Curves.easeOut));
 
+    signinWithGoogelAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    signinWithGoogelAnimation = Tween<Offset>(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+        parent: signinWithGoogelAnimationController, curve: Curves.easeOut));
     emailAnimationController.forward();
     emailAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -76,6 +91,11 @@ class _SigninViewState extends ConsumerState<SigninView>
         signinAnimationController.forward();
       }
     });
+    signinAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        signinWithGoogelAnimationController.forward();
+      }
+    });
   }
 
   @override
@@ -83,8 +103,7 @@ class _SigninViewState extends ConsumerState<SigninView>
     emailAnimationController.dispose();
     passwordAnimationController.dispose();
     signinAnimationController.dispose();
-    ref.read(emailConrtollerprovider).dispose();
-    ref.read(nameConrtollerprovider).dispose();
+    signinWithGoogelAnimationController.dispose();
     super.dispose();
   }
 
@@ -138,6 +157,8 @@ class _SigninViewState extends ConsumerState<SigninView>
           ),
           const SizedBox(height: 30),
           loginbuttonStates(),
+          20.hBox,
+          signinWuthGoogleButton(context),
           const SizedBox(height: 60),
           DoHaveAccount(
             title: "هل ليس لديك حساب؟",
@@ -149,6 +170,49 @@ class _SigninViewState extends ConsumerState<SigninView>
             },
           )
         ],
+      ),
+    );
+  }
+
+  InkWell signinWuthGoogleButton(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        ref.read(authControllerProvider.notifier).loginWithGoogle(context);
+      },
+      child: SlideTransition(
+        position: signinWithGoogelAnimation,
+        child: Consumer(builder: (context, ref, _) {
+          final state = ref.watch(authControllerProvider);
+          return Container(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: Constants.radius.radius,
+              border: Border.all(color: AppColors.textLight),
+            ),
+            child: state is LoginWithGoogleLoading
+                ? SizedBox(
+                    height: 30.h,
+                    width: 30.h,
+                    child: Center(
+                        child: CircularProgressIndicator(
+                      color: AppColors.primary,
+                    )),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(Assets.icons.googleIcon,
+                          width: 24.h, height: 24.w),
+                      10.wBox,
+                      Text(
+                        "تسجيل الدخول عبر جوجل",
+                        style: Apptextstyles.font16blackRegular,
+                      )
+                    ],
+                  ),
+          );
+        }),
       ),
     );
   }

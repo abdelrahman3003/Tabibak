@@ -29,6 +29,9 @@ final confirmNewPasswordConrtollerprovider =
 final resetPasswordKeyForm = Provider<GlobalKey<FormState>>(
   (ref) => GlobalKey<FormState>(),
 );
+final sendOtpKey = Provider<GlobalKey<FormState>>(
+  (ref) => GlobalKey<FormState>(),
+);
 
 class AuthController extends StateNotifier<AuthStates> {
   final Ref ref;
@@ -54,24 +57,35 @@ class AuthController extends StateNotifier<AuthStates> {
     });
   }
 
-  void cleartextformData() {
-    ref.read(nameConrtollerprovider).clear();
-    ref.read(emailConrtollerprovider).clear();
-    ref.read(passordConrtollerprovider).clear();
-  }
-
   Future<void> login(BuildContext context) async {
     state = LoginLoading();
     final result = await ref.read(authRepositoryProvider).login(
         email: ref.read(emailConrtollerprovider).text,
         password: ref.read(passordConrtollerprovider).text);
     result.when(sucess: (_) async {
-      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
-
       context.pop();
       context.pushNamed(Routes.layoutScreen);
+      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
+
       cleartextformData();
       state = LoginSuccess();
+    }, failure: (error) {
+      state = LoginFailure();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+    });
+  }
+
+  Future<void> loginWithGoogle(BuildContext context) async {
+    state = LoginWithGoogleLoading();
+    final result = await ref.read(authRepositoryProvider).loginWithGoogle();
+    result.when(sucess: (_) async {
+      context.pop();
+      context.pushNamed(Routes.layoutScreen);
+      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
+
+      cleartextformData();
+      state = LoginWithGoogleSuccess();
     }, failure: (error) {
       state = LoginFailure();
       ScaffoldMessenger.of(context)
@@ -130,5 +144,22 @@ class AuthController extends StateNotifier<AuthStates> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error.message.toString())));
     });
+  }
+
+  void cleartextformData() {
+    ref.read(nameConrtollerprovider).clear();
+    ref.read(emailConrtollerprovider).clear();
+    ref.read(passordConrtollerprovider).clear();
+  }
+
+  @override
+  void dispose() {
+    ref.read(emailConrtollerprovider).dispose();
+    ref.read(passordConrtollerprovider).dispose();
+    ref.read(nameConrtollerprovider).dispose();
+    ref.read(otpController).dispose();
+    ref.read(newPasswordConrtollerprovider).dispose();
+    ref.read(confirmNewPasswordConrtollerprovider).dispose();
+    super.dispose();
   }
 }

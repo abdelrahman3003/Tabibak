@@ -9,18 +9,13 @@ import 'package:tabibak/features/auth/presentation/controllers/auth_controller.d
 import 'package:tabibak/features/auth/presentation/controllers/auth_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
-class ForgrtPasswordView extends ConsumerStatefulWidget {
+class ForgrtPasswordView extends ConsumerWidget {
   const ForgrtPasswordView({super.key});
 
   @override
-  ConsumerState<ForgrtPasswordView> createState() => _ForgrtPasswordViewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final emailController = ref.read(emailConrtollerprovider);
 
-final sendOtpKey = GlobalKey<FormState>();
-
-class _ForgrtPasswordViewState extends ConsumerState<ForgrtPasswordView> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
         title: "نسيت كلمة المرور",
@@ -28,20 +23,23 @@ class _ForgrtPasswordViewState extends ConsumerState<ForgrtPasswordView> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: sendOtpKey,
+          key: ref.read(sendOtpKey),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("أدخل بريدك الإلكتروني لاستلام رمز التحقق",
-                  style: Apptextstyles.font20BlackRegular),
+              Text(
+                "أدخل بريدك الإلكتروني لاستلام رمز التحقق",
+                style: Apptextstyles.font20BlackRegular,
+              ),
               20.hBox,
               AppTextFormFiled(
-                  hint: "البريد الالكتروني",
-                  controller: ref.read(emailConrtollerprovider),
-                  validator: (value) => Validation.validateEmail(value),
-                  prefixIcon: Icon(Icons.email_outlined, size: 24)),
+                hint: "البريد الالكتروني",
+                controller: emailController,
+                validator: (value) => Validation.validateEmail(value),
+                prefixIcon: const Icon(Icons.email_outlined, size: 24),
+              ),
               20.hBox,
-              sendOtpbuttonStates()
+              sendOtpButtonStates()
             ],
           ),
         ),
@@ -49,16 +47,21 @@ class _ForgrtPasswordViewState extends ConsumerState<ForgrtPasswordView> {
     );
   }
 
-  sendOtpbuttonStates() {
-    final sendOtpState = ref.watch(authControllerProvider);
-    bool isLoading = sendOtpState is SendOtpLoading;
-    return AppButton(
-      title: isLoading ? "جاري ارسال الرمز..." : "ارسال الرمز",
-      isLoading: isLoading,
-      onPressed: () {
-        if (!isLoading && sendOtpKey.currentState!.validate()) {
-          ref.read(authControllerProvider.notifier).sendOtp(context);
-        }
+  Consumer sendOtpButtonStates() {
+    return Consumer(
+      builder: (context, ref, _) {
+        final sendOtpState = ref.watch(authControllerProvider);
+
+        bool isLoading = sendOtpState is SendOtpLoading;
+        return AppButton(
+          title: isLoading ? "جاري ارسال الرمز..." : "ارسال الرمز",
+          isLoading: isLoading,
+          onPressed: () {
+            if (!isLoading && ref.read(sendOtpKey).currentState!.validate()) {
+              ref.read(authControllerProvider.notifier).sendOtp(context);
+            }
+          },
+        );
       },
     );
   }

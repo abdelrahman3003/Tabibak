@@ -14,7 +14,6 @@ class ResetPasswordView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(authControllerProvider);
     return Scaffold(
       appBar: AppBarWidget(
         title: "تعيين كلمة مرور جديدة",
@@ -48,7 +47,7 @@ class ResetPasswordView extends ConsumerWidget {
                     return null;
                   }),
               30.hBox,
-              resetPassowrdButtonStates(context, ref),
+              resetPassowrdButtonStates(context),
             ],
           ),
         ),
@@ -56,18 +55,20 @@ class ResetPasswordView extends ConsumerWidget {
     );
   }
 
-  resetPassowrdButtonStates(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(authControllerProvider);
-    bool isLoading = state is ResetPassordLoading;
-    return AppButton(
-      title: isLoading ? "جاري التغير ..." : " حفظ كلمة المرور",
-      isLoading: isLoading,
-      onPressed: () {
-        if (!isLoading &&
-            ref.read(resetPasswordKeyForm).currentState!.validate()) {
-          ref.read(authControllerProvider.notifier).resetPassword(context);
-        }
-      },
-    );
+  resetPassowrdButtonStates(BuildContext context) {
+    return Consumer(builder: (context, ref, _) {
+      final state = ref.watch(authControllerProvider);
+      bool isLoading = state is ResetPassordLoading;
+      return AppButton(
+        title: isLoading ? "جاري التغير ..." : " حفظ كلمة المرور",
+        isLoading: isLoading,
+        onPressed: () {
+          if (!isLoading &&
+              ref.read(resetPasswordKeyForm).currentState!.validate()) {
+            ref.read(authControllerProvider.notifier).resetPassword(context);
+          }
+        },
+      );
+    });
   }
 }

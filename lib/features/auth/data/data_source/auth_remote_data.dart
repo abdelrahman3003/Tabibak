@@ -17,6 +17,12 @@ class AuthRemoteDatasource {
         .signInWithPassword(email: email, password: password);
   }
 
+  Future<void> loginWithGoogle() async {
+    final supabase = Supabase.instance.client;
+    await supabase.auth.signInWithOAuth(OAuthProvider.google,
+        redirectTo: 'com.example.tabibak://callback');
+  }
+
   Future<void> sendOtp(String email) async {
     return await supabase.auth.signInWithOtp(email: email);
   }

@@ -6,6 +6,10 @@ class LoginLoading extends AuthStates {}
 
 class LoginSuccess extends AuthStates {}
 
+class LoginWithGoogleLoading extends AuthStates {}
+
+class LoginWithGoogleSuccess extends AuthStates {}
+
 class LoginFailure extends AuthStates {}
 
 class SignUpLoading extends AuthStates {}
