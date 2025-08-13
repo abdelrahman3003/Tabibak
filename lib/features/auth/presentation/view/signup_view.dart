@@ -168,7 +168,8 @@ class _SignupViewState extends ConsumerState<SignupView>
 
   SlideTransition signupButtonStates() {
     final signupState = ref.watch(authControllerProvider);
-    bool isLoading = signupState is SignUpLoading;
+    bool isLoading =
+        signupState is SignUpLoading || signupState is AddUserDataLoading;
     return SlideTransition(
         position: signupAnimation,
         child: AppButton(

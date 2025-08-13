@@ -1,6 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/services/env_service.dart';
+import 'package:tabibak/features/auth/data/models/user_model.dart';
 
 class AuthRemoteDatasource {
   AuthRemoteDatasource();
@@ -60,5 +61,9 @@ class AuthRemoteDatasource {
       idToken: idToken,
       accessToken: accessToken,
     );
+  }
+
+  Future<void> addUserData(UserModel userModel) async {
+    await supabase.from('users').insert(userModel.toJson());
   }
 }

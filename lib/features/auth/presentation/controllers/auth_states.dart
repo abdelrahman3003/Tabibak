@@ -33,3 +33,9 @@ class ResetPassordFailure extends AuthStates {}
 class ResetPassordLoading extends AuthStates {}
 
 class ResetPassordSuccess extends AuthStates {}
+
+class AddUserDataLoading extends AuthStates {}
+
+class AddUserDataSuceess extends AuthStates {}
+
+class AddUserDataFailure extends AuthStates {}
