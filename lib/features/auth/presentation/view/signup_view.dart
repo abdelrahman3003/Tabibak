@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/class/naviagtion.dart';
-import 'package:tabibak/core/class/routes.dart';
-import 'package:tabibak/core/class/validation.dart';
+import 'package:tabibak/core/helper/extention.dart';
+import 'package:tabibak/core/helper/routes.dart';
+import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/theme/app_button.dart';
 import 'package:tabibak/core/theme/app_text_formfiled.dart';
 import 'package:tabibak/features/auth/presentation/controllers/auth_controller.dart';
@@ -97,9 +97,7 @@ class _SignupViewState extends ConsumerState<SignupView>
     emailAnimationController.dispose();
     passwordAnimationController.dispose();
     signupAnimationController.dispose();
-    ref.read(passordConrtollerprovider).dispose();
-    ref.read(nameConrtollerprovider).dispose();
-    ref.read(nameConrtollerprovider).dispose();
+
     super.dispose();
   }
 
@@ -121,7 +119,8 @@ class _SignupViewState extends ConsumerState<SignupView>
           SlideTransition(
             position: nameAnimation,
             child: AppTextFormFiled(
-                controller: ref.read(nameConrtollerprovider),
+                controller:
+                    ref.read(authControllerProvider.notifier).nameController,
                 validator: (value) {
                   return Validation.validateName(value);
                 },
@@ -132,18 +131,21 @@ class _SignupViewState extends ConsumerState<SignupView>
           SlideTransition(
             position: emailAnimation,
             child: AppTextFormFiled(
-                hint: "الايميل",
+                hint: "البريد الإلكتروني",
+                controller:
+                    ref.read(authControllerProvider.notifier).emailController,
                 validator: (value) {
                   return Validation.validateEmail(value);
                 },
-                controller: ref.read(emailConrtollerprovider),
                 prefixIcon: Icon(Icons.email_outlined, size: 24)),
           ),
           const SizedBox(height: 15),
           SlideTransition(
               position: passwordAnimation,
               child: PasswordTextfiled(
-                controller: ref.read(passordConrtollerprovider),
+                controller: ref
+                    .read(authControllerProvider.notifier)
+                    .passwordController,
                 validator: (value) {
                   return Validation.validatePassord(value);
                 },
@@ -155,6 +157,8 @@ class _SignupViewState extends ConsumerState<SignupView>
               title: "هل لديك حساب بالفعل؟",
               subtitle: "تسجيل الدخول",
               onTap: () {
+                ref.read(authControllerProvider.notifier).cleartextformData();
+                context.pop();
                 context.pushNamed(Routes.singinView);
               })
         ],
@@ -164,7 +168,8 @@ class _SignupViewState extends ConsumerState<SignupView>
 
   SlideTransition signupButtonStates() {
     final signupState = ref.watch(authControllerProvider);
-    bool isLoading = signupState is SignUpLoading;
+    bool isLoading =
+        signupState is SignUpLoading || signupState is AddUserDataLoading;
     return SlideTransition(
         position: signupAnimation,
         child: AppButton(

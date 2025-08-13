@@ -30,4 +30,12 @@ class Validation {
     }
     return null;
   }
+
+  static String? validateRequired(String? value,
+      {String fieldName = "هذا الحقل"}) {
+    if (value == null || value.trim().isEmpty) {
+      return "$fieldName مطلوب";
+    }
+    return null;
+  }
 }

@@ -9,11 +9,13 @@ class AppButton extends StatelessWidget {
       this.color,
       required this.title,
       this.onPressed,
-      this.isLoading = false});
+      this.isLoading = false,
+      this.padding});
   final Color? color;
   final String title;
   final bool isLoading;
   final void Function()? onPressed;
+  final EdgeInsetsGeometry? padding;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -21,9 +23,10 @@ class AppButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: padding ?? const EdgeInsets.symmetric(vertical: 16),
       ).copyWith(
         backgroundColor: WidgetStateProperty.all(color ?? AppColors.primary),
+        overlayColor: WidgetStateProperty.all(AppColors.textLight),
       ),
       onPressed: onPressed,
       child: Stack(
@@ -31,7 +34,8 @@ class AppButton extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style: Apptextstyles.font16whitebold,
+              style:
+                  Apptextstyles.font16Blackebold.copyWith(color: Colors.white),
             ),
           ),
           !isLoading

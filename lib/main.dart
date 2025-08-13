@@ -1,17 +1,27 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/my_app.dart';
 
+import 'core/services/app_service.dart';
+
 void main() async {
-  await dotenv.load(fileName: ".env");
-  final apiKey = dotenv.env['API_KEY'];
-  final baseUrl = dotenv.env['BASE_URL'];
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: baseUrl!,
-    anonKey: apiKey!,
+  await EasyLocalization.ensureInitialized();
+  await AppService.init();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+    ),
   );
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(ProviderScope(
+    child: EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      path: "assets/langs",
+      startLocale: const Locale('ar'),
+      child: const MyApp(),
+    ),
+  ));
 }

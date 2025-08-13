@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_error_model.dart';
@@ -35,21 +33,34 @@ class ErrorHandler {
     if (error is AuthException) {
       return _mapSupabaseError(error);
     }
-    return ApiErrorModel(message: "Unknown error eccured");
+    return ApiErrorModel(message: "خطا غير معروف");
   }
 
   static ApiErrorModel _mapSupabaseError(AuthException error) {
-    log("---------------- ${error.message}");
+    if (error.message.startsWith('Email address') &&
+        error.message.contains('is invalid')) {
+      return ApiErrorModel(message: "البريد الإلكتروني غير صالح");
+    }
     switch (error.message) {
       case "validation_failed":
-        return ApiErrorModel(message: "خطا ف التسجيل");
+        return ApiErrorModel(message: "خطأ في التسجيل");
       case "missing email or phone":
         return ApiErrorModel(message: "يجب إدخال البريد الإلكتروني");
       case "Invalid login credentials":
         return ApiErrorModel(message: "بيانات تسجيل الدخول غير صحيحة");
+      case "Signup requires a valid password":
+        return ApiErrorModel(message: "كلمة المرور غير صحيحة");
+      case "User already registered":
+        return ApiErrorModel(message: "المستخدم مسجل بالفعل");
+      case "Anonymous sign-ins are disabled":
+        return ApiErrorModel(message: "تسجيل الدخول المجهول غير مفعل");
+      case "Unable to validate email address: invalid format":
+        return ApiErrorModel(message: "صيغة البريد الإلكتروني غير صحيحة");
+      case "otp_expired":
+        return ApiErrorModel(message: "انتهت صلاحية رمز التحقق");
       default:
+        return ApiErrorModel(message: error.message);
     }
-    return ApiErrorModel(message: "هذا خطا غير معروف");
   }
 }
 
