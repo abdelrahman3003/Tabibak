@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
@@ -18,14 +19,16 @@ class CategoryItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 50.h,
-            width: 60.w,
-            padding: EdgeInsets.all(8),
-            margin: EdgeInsets.symmetric(horizontal: 14.w),
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: AppColors.second),
-            child: Image.asset(icon),
-          ),
+              height: 50.h,
+              width: 60.w,
+              padding: EdgeInsets.all(8),
+              margin: EdgeInsets.symmetric(horizontal: 14.w),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: AppColors.second),
+              child: CachedNetworkImage(
+                imageUrl: icon,
+                errorWidget: (context, url, error) => SizedBox(),
+              )),
           SizedBox(height: 5),
           Text(
             name,
