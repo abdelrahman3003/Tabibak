@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -40,13 +38,10 @@ class AuthController extends StateNotifier<AuthStates> {
         password: passwordController.text);
 
     result.when(sucess: (_) async {
-      await addUserData();
-      if (state is AddUserDataSuceess) {
-        context.pop();
-        context.pushNamed(Routes.singinView);
-        cleartextformData();
-        state = SignUpSuccess();
-      }
+      context.pop();
+      context.pushNamed(Routes.singinView);
+      cleartextformData();
+      state = SignUpSuccess();
     }, failure: (error) {
       state = SignUpSuccess();
       ScaffoldMessenger.of(context)
@@ -152,7 +147,6 @@ class AuthController extends StateNotifier<AuthStates> {
         name: nameController.text,
         email: emailController.text));
     result.when(sucess: (_) async {
-      log("-----------------success");
       state = AddUserDataSuceess();
     }, failure: (error) {
       state = AddUserDataFailure();

@@ -22,6 +22,7 @@ class AuthRepositoryImpl implements AuthRepository {
           name: name, email: email, password: password);
       return ApiResult.sucess(result);
     } catch (error) {
+      log("----------------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -85,7 +86,6 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await remoteDatasource.addUserData(userModel);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("0000000000000000 $error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
