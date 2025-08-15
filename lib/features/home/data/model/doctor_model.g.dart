@@ -12,9 +12,10 @@ DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
       specialty: json['specialty'] as String?,
       bio: json['bio'] as String?,
       rate: (json['rate'] as num?)?.toDouble(),
-      universityData: json['universityData'] == null
+      universityData: json['university_data'] == null
           ? null
-          : University.fromJson(json['universityData'] as Map<String, dynamic>),
+          : University.fromJson(
+              json['university_data'] as Map<String, dynamic>),
       clinicData: json['clinic_data'] == null
           ? null
           : Clinic.fromJson(json['clinic_data'] as Map<String, dynamic>),
@@ -27,55 +28,57 @@ Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
       'specialty': instance.specialty,
       'bio': instance.bio,
       'rate': instance.rate,
-      'universityData': instance.universityData,
+      'university_data': instance.universityData,
       'clinic_data': instance.clinicData,
     };
 
 University _$UniversityFromJson(Map<String, dynamic> json) => University(
       name: json['name'] as String?,
       faculty: json['faculty'] as String?,
-      graduationYear: (json['graduationYear'] as num?)?.toInt(),
+      graduationYear: (json['graduation_year'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$UniversityToJson(University instance) =>
     <String, dynamic>{
       'name': instance.name,
       'faculty': instance.faculty,
-      'graduationYear': instance.graduationYear,
+      'graduation_year': instance.graduationYear,
     };
 
 Clinic _$ClinicFromJson(Map<String, dynamic> json) => Clinic(
       address: json['address'] as String?,
-      clinicName: json['clinicName'] as String?,
-      phoneNumber: json['phoneNumber'] == null
-          ? null
-          : PhoneNumber.fromJson(json['phoneNumber'] as Map<String, dynamic>),
-      consultationFee: (json['consultationFee'] as num?)?.toInt(),
-      workingDay: json['workingDay'] == null
-          ? null
-          : WorkingDay.fromJson(json['workingDay'] as Map<String, dynamic>),
+      clinicName: json['clinic_name'] as String?,
+      phoneNumber: (json['phone_number'] as num?)?.toInt(),
+      consultationFee: (json['consultation_fee'] as num?)?.toInt(),
+      clinicWorkingDay: (json['clinic_working_day'] as List<dynamic>?)
+          ?.map((e) => ClinicWorkingDay.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ClinicToJson(Clinic instance) => <String, dynamic>{
       'address': instance.address,
-      'clinicName': instance.clinicName,
-      'phoneNumber': instance.phoneNumber,
-      'consultationFee': instance.consultationFee,
-      'workingDay': instance.workingDay,
+      'clinic_name': instance.clinicName,
+      'phone_number': instance.phoneNumber,
+      'consultation_fee': instance.consultationFee,
+      'clinic_working_day': instance.clinicWorkingDay,
     };
 
-PhoneNumber _$PhoneNumberFromJson(Map<String, dynamic> json) => PhoneNumber(
-      number: (json['number'] as num?)?.toInt(),
+ClinicWorkingDay _$ClinicWorkingDayFromJson(Map<String, dynamic> json) =>
+    ClinicWorkingDay(
+      workingDay: json['working_day'] == null
+          ? null
+          : WorkingDay.fromJson(json['working_day'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$PhoneNumberToJson(PhoneNumber instance) =>
+Map<String, dynamic> _$ClinicWorkingDayToJson(ClinicWorkingDay instance) =>
     <String, dynamic>{
-      'number': instance.number,
+      'working_day': instance.workingDay,
     };
 
 WorkingDay _$WorkingDayFromJson(Map<String, dynamic> json) => WorkingDay(
-      day: json['day'] as String?,
-      time: (json['time'] as num?)?.toInt(),
+      days: json['days'] == null
+          ? null
+          : Days.fromJson(json['days'] as Map<String, dynamic>),
       times: json['times'] == null
           ? null
           : TimeSlot.fromJson(json['times'] as Map<String, dynamic>),
@@ -83,8 +86,7 @@ WorkingDay _$WorkingDayFromJson(Map<String, dynamic> json) => WorkingDay(
 
 Map<String, dynamic> _$WorkingDayToJson(WorkingDay instance) =>
     <String, dynamic>{
-      'day': instance.day,
-      'time': instance.time,
+      'days': instance.days,
       'times': instance.times,
     };
 
@@ -96,4 +98,12 @@ TimeSlot _$TimeSlotFromJson(Map<String, dynamic> json) => TimeSlot(
 Map<String, dynamic> _$TimeSlotToJson(TimeSlot instance) => <String, dynamic>{
       'start': instance.start,
       'end': instance.end,
+    };
+
+Days _$DaysFromJson(Map<String, dynamic> json) => Days(
+      day: json['day'] as String?,
+    );
+
+Map<String, dynamic> _$DaysToJson(Days instance) => <String, dynamic>{
+      'day': instance.day,
     };

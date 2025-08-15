@@ -4,13 +4,15 @@ part 'doctor_summary.g.dart';
 
 @JsonSerializable()
 class DoctorSummary {
-  final String name;
+  final int id;
+  final String? name;
   final String? image;
-  final String specialty;
+  final String? specialty;
   @JsonKey(name: 'clinic_data')
-  final ClinicData clinicData;
+  final ClinicDataSummary? clinicData;
 
   DoctorSummary({
+    required this.id,
     required this.name,
     this.image,
     required this.specialty,
@@ -24,13 +26,13 @@ class DoctorSummary {
 }
 
 @JsonSerializable()
-class ClinicData {
-  final String address;
+class ClinicDataSummary {
+  final String? address;
 
-  ClinicData({required this.address});
+  ClinicDataSummary({required this.address});
 
-  factory ClinicData.fromJson(Map<String, dynamic> json) =>
-      _$ClinicDataFromJson(json);
+  factory ClinicDataSummary.fromJson(Map<String, dynamic> json) =>
+      _$ClinicDataSummaryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ClinicDataToJson(this);
+  Map<String, dynamic> toJson() => _$ClinicDataSummaryToJson(this);
 }

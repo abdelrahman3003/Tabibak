@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/helper/extention.dart';
-import 'package:tabibak/core/helper/routes.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
-import 'package:tabibak/core/theme/app_button.dart';
-import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_details_header.dart';
-import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_info_section.dart';
-import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/schedule_section.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
+import 'package:tabibak/features/home/presentation/controller/home_states.dart';
+import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_details_body.dart';
+import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_details_shimmer.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class DoctorDetailsScreen extends StatelessWidget {
@@ -15,39 +12,15 @@ class DoctorDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(
-        title: 'تفاصيل الطبيب',
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(alignment: Alignment.center, child: DoctorDetailsHeader()),
-            20.hBox,
-            TitelText(title: "'نبذة عن الطبيب'"),
-            8.hBox,
-            Text(
-              "د. أحمد محمد هو استشاري متخصص في جراحة العظام بخبرة تزيد عن 15 عامًا. قام بعلاج مئات الحالات وشارك في العديد من المؤتمرات الطبية الدولية.",
-              style: Apptextstyles.font16blackRegular.copyWith(height: 1.5),
-              textAlign: TextAlign.justify,
-            ),
-            20.hBox,
-            DoctorInfoSection(),
-            const SizedBox(height: 20),
-            TitelText(title: 'مواعيد العمل'),
-            20.hBox,
-            ScheduleSection(),
-            20.hBox,
-            AppButton(
-              title: "استعلام عن الحجز",
-              onPressed: () {
-                context.pushNamed(Routes.bookingScreen);
-              },
-            )
-          ],
+        appBar: AppBarWidget(
+          title: 'تفاصيل الطبيب',
         ),
-      ),
-    );
+        body: Consumer(builder: (context, ref, _) {
+          final state = ref.watch(homeControllerPrvider);
+
+          return state is HomeGetDoctorSuccess
+              ? DoctorDetailsBody(doctorModel: state.doctorModel)
+              : DoctorDetailsShimmer();
+        }));
   }
 }

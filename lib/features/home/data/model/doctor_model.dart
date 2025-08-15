@@ -9,6 +9,7 @@ class DoctorModel {
   final String? specialty;
   final String? bio;
   final double? rate;
+  @JsonKey(name: "university_data")
   final University? universityData;
   @JsonKey(name: "clinic_data")
   final Clinic? clinicData;
@@ -33,6 +34,7 @@ class DoctorModel {
 class University {
   final String? name;
   final String? faculty;
+  @JsonKey(name: "graduation_year")
   final int? graduationYear;
 
   University({
@@ -50,17 +52,21 @@ class University {
 @JsonSerializable()
 class Clinic {
   final String? address;
+  @JsonKey(name: "clinic_name")
   final String? clinicName;
-  final PhoneNumber? phoneNumber;
+  @JsonKey(name: "phone_number")
+  final int? phoneNumber;
+  @JsonKey(name: "consultation_fee")
   final int? consultationFee;
-  final WorkingDay? workingDay;
+  @JsonKey(name: "clinic_working_day")
+  final List<ClinicWorkingDay>? clinicWorkingDay;
 
   Clinic({
     required this.address,
     required this.clinicName,
     required this.phoneNumber,
     required this.consultationFee,
-    required this.workingDay,
+    required this.clinicWorkingDay,
   });
 
   factory Clinic.fromJson(Map<String, dynamic> json) => _$ClinicFromJson(json);
@@ -69,26 +75,27 @@ class Clinic {
 }
 
 @JsonSerializable()
-class PhoneNumber {
-  final int? number;
+class ClinicWorkingDay {
+  @JsonKey(name: "working_day")
+  final WorkingDay? workingDay;
 
-  PhoneNumber({required this.number});
+  ClinicWorkingDay({
+    required this.workingDay,
+  });
 
-  factory PhoneNumber.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberFromJson(json);
+  factory ClinicWorkingDay.fromJson(Map<String, dynamic> json) =>
+      _$ClinicWorkingDayFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PhoneNumberToJson(this);
+  Map<String, dynamic> toJson() => _$ClinicWorkingDayToJson(this);
 }
 
 @JsonSerializable()
 class WorkingDay {
-  final String? day;
-  final int? time;
+  final Days? days;
   final TimeSlot? times;
 
   WorkingDay({
-    required this.day,
-    required this.time,
+    required this.days,
     required this.times,
   });
 
@@ -112,4 +119,15 @@ class TimeSlot {
       _$TimeSlotFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimeSlotToJson(this);
+}
+
+@JsonSerializable()
+class Days {
+  final String? day;
+
+  Days({required this.day});
+
+  factory Days.fromJson(Map<String, dynamic> json) => _$DaysFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DaysToJson(this);
 }

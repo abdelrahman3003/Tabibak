@@ -4,6 +4,7 @@ import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 import 'package:tabibak/features/home/data/model/specialise_model.dart';
 import 'package:tabibak/features/home/domain/repo/home_repo.dart';
 import 'package:tabibak/features/home/domain/repo/home_repo_imp.dart';
@@ -47,13 +48,15 @@ class HomeController extends StateNotifier<HomeStates> {
   final Ref ref;
 
   void initData() async {
-    await fetchUserById();
+    await getUserById();
+    await getAllDoctorsSummary();
     await fetchSpecialties();
-    await fetchAllDoctors();
   }
 
   UserModel? userModel;
+  DoctorModel? doctorModel;
   List<DoctorModel>? doctorsList;
+  List<DoctorSummary>? doctorsSummaryList;
   List<SpecialiseModel>? specialiseModelList;
   Future<void> fetchSpecialties() async {
     state = HomeSpecialitesLoading();
@@ -69,7 +72,7 @@ class HomeController extends StateNotifier<HomeStates> {
     );
   }
 
-  Future<void> fetchUserById() async {
+  Future<void> getUserById() async {
     state = HomeSpecialitesLoading();
     final result = await ref.read(homrepoProvider).getUserData();
     result.when(
@@ -83,7 +86,7 @@ class HomeController extends StateNotifier<HomeStates> {
     );
   }
 
-  Future<void> fetchAllDoctors() async {
+  Future<void> getAllDoctors() async {
     state = HomeFechAllDoctorsLoading();
     final result = await ref.read(homrepoProvider).fetchAllDoctors();
     result.when(
@@ -93,6 +96,34 @@ class HomeController extends StateNotifier<HomeStates> {
       },
       failure: (apiErrorModel) {
         state = HomeFechAllDoctorsFailure();
+      },
+    );
+  }
+
+  Future<void> getAllDoctorsSummary() async {
+    state = HomeGetAllDoctorsSummaryLoading();
+    final result = await ref.read(homrepoProvider).getAllDoctorsSummary();
+    result.when(
+      sucess: (data) {
+        state = HomeGetAllDoctorsSummarySuccess();
+        doctorsSummaryList = data;
+      },
+      failure: (apiErrorModel) {
+        state = HomeGetAllDoctorsSummaryFailure();
+      },
+    );
+  }
+
+  Future<void> getDoctorById(int id) async {
+    state = HomeGetDoctorLoading();
+    final result = await ref.read(homrepoProvider).getDoctorId(id);
+    result.when(
+      sucess: (data) {
+        state = HomeGetDoctorSuccess(doctorModel: data);
+        doctorModel = data;
+      },
+      failure: (apiErrorModel) {
+        state = HomeGetDoctorFailure();
       },
     );
   }

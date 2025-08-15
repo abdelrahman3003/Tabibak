@@ -4,6 +4,7 @@ import 'package:tabibak/core/networking/api_service.dart';
 import 'package:tabibak/core/services/dio_factory.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 import 'package:tabibak/features/home/data/model/specialise_model.dart';
 
 class HomeRemoteData {
@@ -26,5 +27,16 @@ class HomeRemoteData {
 
   Future<List<DoctorModel>> fetchAllDoctors() async {
     return await apiService.getDoctors(ApiConstants.getAllDoctors);
+  }
+
+  Future<List<DoctorSummary>> getAllDoctorsSummary() async {
+    return await apiService
+        .getAllDoctorsSummary(ApiConstants.getAllDoctorsSummary);
+  }
+
+  Future<DoctorModel> getDoctorById(int id) async {
+    final res =
+        await apiService.getDoctorById(ApiConstants.getDoctorById, "eq.$id");
+    return res.first;
   }
 }

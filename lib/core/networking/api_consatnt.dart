@@ -4,7 +4,10 @@ class ApiConstants {
       'https://wzfdmzijnyaihssxwril.supabase.co/rest/v1';
   static const String getAllDoctors =
       "*,university_data(*),clinic_data(*,working_day(*,times(*)))";
-  // static const String singup = 'auth/register';
+  static const String getAllDoctorsSummary =
+      "id,name,image,specialty,clinic_data(address)";
+  static const String getDoctorById =
+      "*,university_data(*),clinic_data(*,clinic_working_day(working_day(days(day),times(start,end))))";
 }
 
 class ApiErrors {
