@@ -1,7 +1,10 @@
 class ApiConstants {
-  static const String apiBaseUrl = 'https://vcare.integration25.com/api/';
-  static const String singnin = 'auth/login';
-  static const String singup = 'auth/register';
+  static const String supabaseApi = 'https://wzfdmzijnyaihssxwril.supabase.co';
+  static const String apiBaseUrl =
+      'https://wzfdmzijnyaihssxwril.supabase.co/rest/v1';
+  static const String getAllDoctors =
+      "*,university_data(*),clinic_data(*,working_day(*,times(*)))";
+  // static const String singup = 'auth/register';
 }
 
 class ApiErrors {

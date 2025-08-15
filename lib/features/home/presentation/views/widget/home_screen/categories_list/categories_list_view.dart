@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/features/home/domain/entites/specialise_model.dart';
+import 'package:tabibak/features/home/data/model/specialise_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/category_item.dart';
 
 class CategoriesListView extends StatelessWidget {

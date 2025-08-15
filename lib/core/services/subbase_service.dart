@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tabibak/core/networking/api_consatnt.dart';
 
 import 'env_service.dart';
 
@@ -7,9 +8,9 @@ class SupabaseService {
 
   static Future<void> init() async {
     final apiKey = EnvService.apiKey;
-    final baseUrl = EnvService.baseUrl;
+    final baseUrl = ApiConstants.supabaseApi;
 
-    if (apiKey == null || baseUrl == null) {
+    if (apiKey == null) {
       throw Exception("API_KEY أو BASE_URL غير موجودين في ملف .env");
     }
 

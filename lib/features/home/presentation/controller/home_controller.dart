@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
-import 'package:tabibak/features/home/domain/entites/specialise_model.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/model/specialise_model.dart';
 import 'package:tabibak/features/home/domain/repo/home_repo.dart';
 import 'package:tabibak/features/home/domain/repo/home_repo_imp.dart';
 import 'package:tabibak/features/home/presentation/controller/home_states.dart';
@@ -48,16 +49,18 @@ class HomeController extends StateNotifier<HomeStates> {
   void initData() async {
     await fetchUserById();
     await fetchSpecialties();
+    await fetchAllDoctors();
   }
 
   UserModel? userModel;
+  List<DoctorModel>? doctorsList;
   List<SpecialiseModel>? specialiseModelList;
   Future<void> fetchSpecialties() async {
     state = HomeSpecialitesLoading();
     final result = await ref.read(homrepoProvider).fetchSpecialties();
     result.when(
       sucess: (data) {
-        specialiseModelList = data.specialitesList;
+        specialiseModelList = data;
         state = HomeSpecialitesSuccess();
       },
       failure: (apiErrorModel) {
@@ -76,6 +79,20 @@ class HomeController extends StateNotifier<HomeStates> {
       },
       failure: (apiErrorModel) {
         state = HomeSpecialitesFailure();
+      },
+    );
+  }
+
+  Future<void> fetchAllDoctors() async {
+    state = HomeFechAllDoctorsLoading();
+    final result = await ref.read(homrepoProvider).fetchAllDoctors();
+    result.when(
+      sucess: (data) {
+        doctorsList = data;
+        state = HomeFechAllDoctorsSuccess();
+      },
+      failure: (apiErrorModel) {
+        state = HomeFechAllDoctorsFailure();
       },
     );
   }

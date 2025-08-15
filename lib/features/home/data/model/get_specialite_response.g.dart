@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'get_specialite_response.dart';
+part of 'specialise_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:tabibak/core/helper/extention.dart';
+import 'package:tabibak/core/widgets/shimmer_widget.dart';
 
 class CategoriesListShimmer extends StatelessWidget {
   const CategoriesListShimmer({super.key});
@@ -18,37 +19,16 @@ class CategoriesListShimmer extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Shimmer(
-                duration: const Duration(milliseconds: 800),
-                interval: const Duration(milliseconds: 300),
-                color: Colors.grey,
-                colorOpacity: 0.3,
-                enabled: true,
-                child: Container(
-                  width: 60.w,
-                  height: 60.w,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                ),
+              ShimmerWidget(
+                width: 60.w,
+                height: 60.w,
+                radius: 90,
               ),
-              SizedBox(height: 8.h),
-              Shimmer(
-                duration: const Duration(milliseconds: 800),
-                interval: const Duration(milliseconds: 300),
-                color: Colors.grey,
-                colorOpacity: 0.3,
-                enabled: true,
-                child: Container(
-                  width: 50.w,
-                  height: 10.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4.r),
-                  ),
-                ),
-              ),
+              8.hBox,
+              ShimmerWidget(
+                width: 50.w,
+                height: 10.h,
+              )
             ],
           ),
         ),

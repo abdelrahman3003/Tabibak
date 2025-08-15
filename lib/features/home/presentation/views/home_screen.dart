@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/categories_list_states.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_list_view.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/welcom_panner.dart';
 
@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
         Expanded(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: DoctorListView(),
+          child: DoctorListStates(),
         ))
       ],
     );
