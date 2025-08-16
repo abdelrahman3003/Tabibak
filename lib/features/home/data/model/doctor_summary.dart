@@ -10,13 +10,15 @@ class DoctorSummary {
   final String? specialty;
   @JsonKey(name: 'clinic_data')
   final ClinicDataSummary? clinicData;
-
+  @JsonKey(name: "specialties")
+  final Specialties? specialties;
   DoctorSummary({
     required this.id,
     required this.name,
     this.image,
     required this.specialty,
     required this.clinicData,
+    this.specialties,
   });
 
   factory DoctorSummary.fromJson(Map<String, dynamic> json) =>
@@ -35,4 +37,16 @@ class ClinicDataSummary {
       _$ClinicDataSummaryFromJson(json);
 
   Map<String, dynamic> toJson() => _$ClinicDataSummaryToJson(this);
+}
+
+@JsonSerializable()
+class Specialties {
+  final String? name;
+
+  Specialties({this.name});
+
+  factory Specialties.fromJson(Map<String, dynamic> json) =>
+      _$SpecialtiesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SpecialtiesToJson(this);
 }

@@ -25,13 +25,13 @@ class DoctorDetailsBody extends StatelessWidget {
               child: DoctorDetailsHeader(
                   name: doctorModel.name,
                   image: doctorModel.image,
-                  specialty: doctorModel.specialty,
+                  specialty: doctorModel.specialties?.name,
                   university: doctorModel.universityData?.name)),
           20.hBox,
           TitelText(title: "'نبذة عن الطبيب'"),
           8.hBox,
           Text(
-            doctorModel.bio ?? "تخصص ${doctorModel.specialty}",
+            doctorModel.bio ?? "تخصص ${doctorModel.specialties?.name}",
             style: Apptextstyles.font16blackRegular.copyWith(height: 1.5),
             textAlign: TextAlign.justify,
           ),

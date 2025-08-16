@@ -6,22 +6,22 @@ part 'doctor_model.g.dart';
 class DoctorModel {
   final String? name;
   final String? image;
-  final String? specialty;
   final String? bio;
   final double? rate;
   @JsonKey(name: "university_data")
   final University? universityData;
   @JsonKey(name: "clinic_data")
   final Clinic? clinicData;
-
+  @JsonKey(name: "specialties")
+  final Specialties? specialties;
   DoctorModel({
     required this.name,
     this.image,
-    this.specialty,
     this.bio,
     required this.rate,
     required this.universityData,
     required this.clinicData,
+    this.specialties,
   });
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) =>
@@ -130,4 +130,16 @@ class Days {
   factory Days.fromJson(Map<String, dynamic> json) => _$DaysFromJson(json);
 
   Map<String, dynamic> toJson() => _$DaysToJson(this);
+}
+
+@JsonSerializable()
+class Specialties {
+  final String? name;
+
+  Specialties({this.name});
+
+  factory Specialties.fromJson(Map<String, dynamic> json) =>
+      _$SpecialtiesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SpecialtiesToJson(this);
 }

@@ -3,11 +3,9 @@ class ApiConstants {
   static const String apiBaseUrl =
       'https://wzfdmzijnyaihssxwril.supabase.co/rest/v1';
   static const String getAllDoctors =
-      "*,university_data(*),clinic_data(*,working_day(*,times(*)))";
+      "*,university_data(*),specialties(name),clinic_data(*,clinic_working_day(working_day(days(day),times(start,end))))";
   static const String getAllDoctorsSummary =
-      "id,name,image,specialty,clinic_data(address)";
-  static const String getDoctorById =
-      "*,university_data(*),clinic_data(*,clinic_working_day(working_day(days(day),times(start,end))))";
+      "id,name,image,specialties(name),clinic_data(address)";
 }
 
 class ApiErrors {

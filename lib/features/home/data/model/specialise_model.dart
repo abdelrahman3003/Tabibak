@@ -4,9 +4,11 @@ part 'specialise_model.g.dart';
 
 @JsonSerializable()
 class SpecialiseModel {
+  final int id;
   final String name;
   final String icon;
   SpecialiseModel({
+    required this.id,
     required this.name,
     required this.icon,
   });

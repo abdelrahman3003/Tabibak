@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
@@ -62,7 +60,17 @@ class HomeRepoImp extends HomeRepo {
       final result = await homeRemoteData.getDoctorById(id);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("-------------------- $error");
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<DoctorSummary>>> getAllDoctorsSpecialties(
+      int specialtyId) async {
+    try {
+      final result = await homeRemoteData.getDoctorSpecialist(specialtyId);
+      return ApiResult.sucess(result);
+    } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

@@ -9,7 +9,6 @@ part of 'doctor_model.dart';
 DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
       name: json['name'] as String?,
       image: json['image'] as String?,
-      specialty: json['specialty'] as String?,
       bio: json['bio'] as String?,
       rate: (json['rate'] as num?)?.toDouble(),
       universityData: json['university_data'] == null
@@ -19,17 +18,20 @@ DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
       clinicData: json['clinic_data'] == null
           ? null
           : Clinic.fromJson(json['clinic_data'] as Map<String, dynamic>),
+      specialties: json['specialties'] == null
+          ? null
+          : Specialties.fromJson(json['specialties'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'image': instance.image,
-      'specialty': instance.specialty,
       'bio': instance.bio,
       'rate': instance.rate,
       'university_data': instance.universityData,
       'clinic_data': instance.clinicData,
+      'specialties': instance.specialties,
     };
 
 University _$UniversityFromJson(Map<String, dynamic> json) => University(
@@ -106,4 +108,13 @@ Days _$DaysFromJson(Map<String, dynamic> json) => Days(
 
 Map<String, dynamic> _$DaysToJson(Days instance) => <String, dynamic>{
       'day': instance.day,
+    };
+
+Specialties _$SpecialtiesFromJson(Map<String, dynamic> json) => Specialties(
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$SpecialtiesToJson(Specialties instance) =>
+    <String, dynamic>{
+      'name': instance.name,
     };

@@ -36,7 +36,12 @@ class HomeRemoteData {
 
   Future<DoctorModel> getDoctorById(int id) async {
     final res =
-        await apiService.getDoctorById(ApiConstants.getDoctorById, "eq.$id");
+        await apiService.getDoctorById(ApiConstants.getAllDoctors, "eq.$id");
     return res.first;
+  }
+
+  Future<List<DoctorSummary>> getDoctorSpecialist(int specialtyId) async {
+    return await apiService.getDoctorSpecialties(
+        ApiConstants.getAllDoctorsSummary, "eq.$specialtyId");
   }
 }

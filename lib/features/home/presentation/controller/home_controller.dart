@@ -54,9 +54,9 @@ class HomeController extends StateNotifier<HomeStates> {
   }
 
   UserModel? userModel;
-  DoctorModel? doctorModel;
   List<DoctorModel>? doctorsList;
   List<DoctorSummary>? doctorsSummaryList;
+  List<DoctorSummary>? doctorsSpeicalityList;
   List<SpecialiseModel>? specialiseModelList;
   Future<void> fetchSpecialties() async {
     state = HomeSpecialitesLoading();
@@ -120,7 +120,22 @@ class HomeController extends StateNotifier<HomeStates> {
     result.when(
       sucess: (data) {
         state = HomeGetDoctorSuccess(doctorModel: data);
-        doctorModel = data;
+      },
+      failure: (apiErrorModel) {
+        state = HomeGetDoctorFailure();
+      },
+    );
+  }
+
+  Future<void> getAllDoctorsSpecialties(int specialtyId) async {
+    doctorsSpeicalityList = null;
+    state = HomeGetDoctorLoading();
+    final result =
+        await ref.read(homrepoProvider).getAllDoctorsSpecialties(specialtyId);
+    result.when(
+      sucess: (data) {
+        doctorsSpeicalityList = data;
+        state = HomeFechAllDoctorsSuccess();
       },
       failure: (apiErrorModel) {
         state = HomeGetDoctorFailure();

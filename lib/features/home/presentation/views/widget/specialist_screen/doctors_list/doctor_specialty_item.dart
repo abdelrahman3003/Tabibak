@@ -7,8 +7,9 @@ import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 
-class DoctorItem extends StatelessWidget {
-  const DoctorItem({super.key, this.onTap, required this.doctorSummary});
+class DoctorSpecialtyItem extends StatelessWidget {
+  const DoctorSpecialtyItem(
+      {super.key, this.onTap, required this.doctorSummary});
   final Function()? onTap;
   final DoctorSummary doctorSummary;
   @override

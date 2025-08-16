@@ -16,6 +16,9 @@ DoctorSummary _$DoctorSummaryFromJson(Map<String, dynamic> json) =>
           ? null
           : ClinicDataSummary.fromJson(
               json['clinic_data'] as Map<String, dynamic>),
+      specialties: json['specialties'] == null
+          ? null
+          : Specialties.fromJson(json['specialties'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DoctorSummaryToJson(DoctorSummary instance) =>
@@ -25,6 +28,7 @@ Map<String, dynamic> _$DoctorSummaryToJson(DoctorSummary instance) =>
       'image': instance.image,
       'specialty': instance.specialty,
       'clinic_data': instance.clinicData,
+      'specialties': instance.specialties,
     };
 
 ClinicDataSummary _$ClinicDataSummaryFromJson(Map<String, dynamic> json) =>
@@ -35,4 +39,13 @@ ClinicDataSummary _$ClinicDataSummaryFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ClinicDataSummaryToJson(ClinicDataSummary instance) =>
     <String, dynamic>{
       'address': instance.address,
+    };
+
+Specialties _$SpecialtiesFromJson(Map<String, dynamic> json) => Specialties(
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$SpecialtiesToJson(Specialties instance) =>
+    <String, dynamic>{
+      'name': instance.name,
     };

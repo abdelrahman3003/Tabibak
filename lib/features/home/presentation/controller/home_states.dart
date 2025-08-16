@@ -37,3 +37,9 @@ class HomeGetDoctorSuccess extends HomeStates {
 }
 
 class HomeGetDoctorFailure extends HomeStates {}
+
+class HomeGetDoctorSpecialtyLoading extends HomeStates {}
+
+class HomeGetDoctorSpecialtySuccess extends HomeStates {}
+
+class HomeGetDoctorSpecialtyFailure extends HomeStates {}
