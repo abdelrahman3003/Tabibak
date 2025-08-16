@@ -6,6 +6,7 @@ class ApiConstants {
       "*,university_data(*),specialties(name),clinic_data(*,clinic_working_day(working_day(days(day),times(start,end))))";
   static const String getAllDoctorsSummary =
       "id,name,image,specialties(name),clinic_data(address)";
+  static const String getComments = "comment,users(name),doctors(id,name)";
 }
 
 class ApiErrors {

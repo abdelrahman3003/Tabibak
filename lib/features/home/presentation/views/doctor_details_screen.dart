@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
-import 'package:tabibak/features/home/presentation/controller/home_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_details_body.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_details_shimmer.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
@@ -16,10 +15,12 @@ class DoctorDetailsScreen extends StatelessWidget {
           title: 'تفاصيل الطبيب',
         ),
         body: Consumer(builder: (context, ref, _) {
-          final state = ref.watch(homeControllerPrvider);
+          ref.watch(homeControllerPrvider);
+          final doctorModel =
+              ref.read(homeControllerPrvider.notifier).doctorModel;
 
-          return state is HomeGetDoctorSuccess
-              ? DoctorDetailsBody(doctorModel: state.doctorModel)
+          return doctorModel != null
+              ? DoctorDetailsBody(doctorModel: doctorModel)
               : DoctorDetailsShimmer();
         }));
   }

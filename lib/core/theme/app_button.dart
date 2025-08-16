@@ -10,8 +10,10 @@ class AppButton extends StatelessWidget {
       required this.title,
       this.onPressed,
       this.isLoading = false,
-      this.padding});
+      this.padding,
+      this.textColor});
   final Color? color;
+  final Color? textColor;
   final String title;
   final bool isLoading;
   final void Function()? onPressed;
@@ -34,13 +36,13 @@ class AppButton extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style:
-                  Apptextstyles.font16Blackebold.copyWith(color: Colors.white),
+              style: Apptextstyles.font16Blackebold
+                  .copyWith(color: textColor ?? Colors.white),
             ),
           ),
           !isLoading
               ? const SizedBox()
-              : const Positioned(
+              : Positioned(
                   right: 1,
                   child: Padding(
                     padding: EdgeInsets.only(right: 16),

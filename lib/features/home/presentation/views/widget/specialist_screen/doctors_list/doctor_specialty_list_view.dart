@@ -22,7 +22,7 @@ class DoctorSpecialtyListView extends StatelessWidget {
               context.pushNamed(Routes.doctorDetailsScreen);
               await ref
                   .read(homeControllerPrvider.notifier)
-                  .getDoctorById(doctorsSummaryList[index].id);
+                  .getDoctorData(doctorsSummaryList[index].id);
             },
           );
         }),

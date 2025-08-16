@@ -2,6 +2,7 @@ import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
+import 'package:tabibak/features/home/data/model/doctor_comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 import 'package:tabibak/features/home/data/model/specialise_model.dart';
@@ -69,6 +70,17 @@ class HomeRepoImp extends HomeRepo {
       int specialtyId) async {
     try {
       final result = await homeRemoteData.getDoctorSpecialist(specialtyId);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<DoctorCommentModel>>> getDoctorComments(
+      int doctorid) async {
+    try {
+      final result = await homeRemoteData.getDoctorComments(doctorid);
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

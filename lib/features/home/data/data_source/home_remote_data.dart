@@ -3,6 +3,7 @@ import 'package:tabibak/core/networking/api_consatnt.dart';
 import 'package:tabibak/core/networking/api_service.dart';
 import 'package:tabibak/core/services/dio_factory.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
+import 'package:tabibak/features/home/data/model/doctor_comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 import 'package:tabibak/features/home/data/model/specialise_model.dart';
@@ -43,5 +44,10 @@ class HomeRemoteData {
   Future<List<DoctorSummary>> getDoctorSpecialist(int specialtyId) async {
     return await apiService.getDoctorSpecialties(
         ApiConstants.getAllDoctorsSummary, "eq.$specialtyId");
+  }
+
+  Future<List<DoctorCommentModel>> getDoctorComments(int doctorid) async {
+    return await apiService.getDoctorComments(
+        ApiConstants.getComments, "eq.$doctorid");
   }
 }

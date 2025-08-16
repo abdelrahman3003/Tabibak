@@ -1,5 +1,3 @@
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
-
 class HomeStates {}
 
 class HomeIniail extends HomeStates {}
@@ -30,11 +28,7 @@ class HomeGetAllDoctorsSummaryFailure extends HomeStates {}
 
 class HomeGetDoctorLoading extends HomeStates {}
 
-class HomeGetDoctorSuccess extends HomeStates {
-  final DoctorModel doctorModel;
-
-  HomeGetDoctorSuccess({required this.doctorModel});
-}
+class HomeGetDoctorSuccess extends HomeStates {}
 
 class HomeGetDoctorFailure extends HomeStates {}
 
@@ -43,3 +37,9 @@ class HomeGetDoctorSpecialtyLoading extends HomeStates {}
 class HomeGetDoctorSpecialtySuccess extends HomeStates {}
 
 class HomeGetDoctorSpecialtyFailure extends HomeStates {}
+
+class HomeGetDoctorCommentsLoading extends HomeStates {}
+
+class HomeGetDoctorCommentsSuccess extends HomeStates {}
+
+class HomeGetDoctorCommentsFailure extends HomeStates {}

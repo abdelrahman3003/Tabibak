@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/ratings_row.dart';
+import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/show_rating_dialog.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
 class DoctorDetailsHeader extends StatelessWidget {
@@ -23,13 +25,35 @@ class DoctorDetailsHeader extends StatelessWidget {
         ImageCircle(urlImage: image, radius: 60.r),
         12.hBox,
         Text(name ?? "اسم غير موجود", style: Apptextstyles.font18blackBold),
-        Text(specialty ?? "تخصص غير متاح",
-            style: Apptextstyles.font16blackRegular),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(specialty ?? "تخصص غير متاح",
+                style: Apptextstyles.font16blackRegular),
+            4.wBox,
+            Text(
+              "-",
+              style: Apptextstyles.font14BlackReqular
+                  .copyWith(color: AppColors.textLight),
+            ),
+            4.wBox,
+            Text(
+              university ?? "",
+              style: Apptextstyles.font14BlackReqular
+                  .copyWith(color: AppColors.textLight),
+            ),
+          ],
+        ),
         4.hBox,
-        Text(
-          university ?? "",
-          style: Apptextstyles.font14BlackReqular
-              .copyWith(color: AppColors.textLight),
+        RatingsRow(rate: 2),
+        4.hBox,
+        TextButton.icon(
+          onPressed: () => showRatingDialog(context),
+          label: Text(
+            "قيم الدكتور",
+            style: Apptextstyles.font14BlackReqular
+                .copyWith(color: AppColors.primary),
+          ),
         ),
       ],
     );

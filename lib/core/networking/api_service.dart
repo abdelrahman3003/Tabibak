@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
+import 'package:tabibak/features/home/data/model/doctor_comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 
@@ -28,5 +29,10 @@ abstract class ApiService {
   Future<List<DoctorSummary>> getDoctorSpecialties(
     @Query("select") String selectFields,
     @Query("specialty") String filterId,
+  );
+  @GET("/comments")
+  Future<List<DoctorCommentModel>> getDoctorComments(
+    @Query("select") String selectFields,
+    @Query("doctor_id") String doctorid,
   );
 }
