@@ -4,6 +4,8 @@ import 'package:tabibak/features/home/presentation/controller/home_controller.da
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/comment_list/comment_list_shimmer.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/comment_list/comment_list_view.dart';
 
+import '../../home_screen/titel_text.dart';
+
 class CommentListStates extends StatelessWidget {
   const CommentListStates({super.key});
 
@@ -11,11 +13,18 @@ class CommentListStates extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        ref.watch(homeControllerPrvider);
-        final doctorCommentModelList =
-            ref.read(homeControllerPrvider.notifier).doctorCommentModelList;
+        final doctorCommentModelList = ref.watch(
+          homeControllerPrvider.select((state) => state.doctorCommentModelList),
+        );
         return doctorCommentModelList != null
-            ? CommentListView(doctorCommentModelList: doctorCommentModelList)
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TitelText(title: 'التعليقات'),
+                  CommentListView(
+                      doctorCommentModelList: doctorCommentModelList),
+                ],
+              )
             : CommentListShimmer();
       },
     );

@@ -18,8 +18,9 @@ class WelcomPanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Consumer(builder: (context, ref, _) {
-        ref.watch(homeControllerPrvider);
-        final userModel = ref.read(homeControllerPrvider.notifier).userModel;
+        final userModel = ref.watch(
+          homeControllerPrvider.select((state) => state.userModel),
+        );
 
         return Row(
           children: [

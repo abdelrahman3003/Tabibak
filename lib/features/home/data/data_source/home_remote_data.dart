@@ -48,6 +48,15 @@ class HomeRemoteData {
 
   Future<List<DoctorCommentModel>> getDoctorComments(int doctorid) async {
     return await apiService.getDoctorComments(
-        ApiConstants.getComments, "eq.$doctorid");
+        ApiConstants.getComments, "eq.$doctorid", 7);
+  }
+
+  Future<void> addComment(
+      {required String comment, required int doctorId}) async {
+    return await apiService.addComment({
+      "user_id": supabase.auth.currentUser!.id,
+      "doctor_id": doctorId,
+      "comment": comment,
+    });
   }
 }

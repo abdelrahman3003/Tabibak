@@ -86,4 +86,16 @@ class HomeRepoImp extends HomeRepo {
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
+
+  @override
+  Future<ApiResult<void>> addComment(
+      {required String comment, required int doctorId}) async {
+    try {
+      final result =
+          await homeRemoteData.addComment(comment: comment, doctorId: doctorId);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
 }

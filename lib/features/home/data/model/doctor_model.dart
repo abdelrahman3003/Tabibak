@@ -4,6 +4,7 @@ part 'doctor_model.g.dart';
 
 @JsonSerializable()
 class DoctorModel {
+  final int id;
   final String? name;
   final String? image;
   final String? bio;
@@ -15,6 +16,7 @@ class DoctorModel {
   @JsonKey(name: "specialties")
   final Specialties? specialties;
   DoctorModel({
+    required this.id,
     required this.name,
     this.image,
     this.bio,

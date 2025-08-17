@@ -10,9 +10,9 @@ class DoctorListStates extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      ref.watch(homeControllerPrvider);
-      final doctorsSummaryList =
-          ref.read(homeControllerPrvider.notifier).doctorsSummaryList;
+      final doctorsSummaryList = ref.watch(
+        homeControllerPrvider.select((state) => state.doctorsSummaryList),
+      );
       return doctorsSummaryList != null
           ? DoctorListView(doctorsSummaryList: doctorsSummaryList)
           : DoctorShimmerList();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 
 import 'app_colors.dart';
@@ -11,13 +12,15 @@ class AppButton extends StatelessWidget {
       this.onPressed,
       this.isLoading = false,
       this.padding,
-      this.textColor});
+      this.textColor,
+      this.isLoadingSide = false});
   final Color? color;
   final Color? textColor;
   final String title;
   final bool isLoading;
   final void Function()? onPressed;
   final EdgeInsetsGeometry? padding;
+  final bool isLoadingSide;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -31,33 +34,42 @@ class AppButton extends StatelessWidget {
         overlayColor: WidgetStateProperty.all(AppColors.textLight),
       ),
       onPressed: onPressed,
-      child: Stack(
-        children: [
-          Center(
-            child: Text(
-              title,
-              style: Apptextstyles.font16Blackebold
-                  .copyWith(color: textColor ?? Colors.white),
-            ),
-          ),
-          !isLoading
-              ? const SizedBox()
-              : Positioned(
-                  right: 1,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 16),
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                        color: Colors.white,
-                      ),
-                    ),
+      child: isLoadingSide && isLoading
+          ? Center(
+              child: SizedBox(
+              height: 15.h,
+              width: 14.w,
+              child: CircularProgressIndicator(
+                color: AppColors.white,
+              ),
+            ))
+          : Stack(
+              children: [
+                Center(
+                  child: Text(
+                    title,
+                    style: Apptextstyles.font16Blackebold
+                        .copyWith(color: textColor ?? Colors.white),
                   ),
                 ),
-        ],
-      ),
+                !isLoading
+                    ? const SizedBox()
+                    : Positioned(
+                        right: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 16),
+                          child: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+              ],
+            ),
     );
   }
 }

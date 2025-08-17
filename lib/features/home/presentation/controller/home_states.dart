@@ -1,45 +1,58 @@
-class HomeStates {}
+import 'package:tabibak/features/auth/data/models/user_model.dart';
+import 'package:tabibak/features/home/data/model/doctor_comment_model.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/model/doctor_summary.dart';
+import 'package:tabibak/features/home/data/model/specialise_model.dart';
 
-class HomeIniail extends HomeStates {}
+class HomeStates {
+  final bool isLoading;
+  final bool? isSendCommentLoading;
+  final UserModel? userModel;
+  final DoctorModel? doctorModel;
+  final List<DoctorSummary>? doctorsSummaryList;
+  final List<DoctorModel>? doctorsModelList;
+  final List<DoctorSummary>? doctorsSpecialityList;
+  final List<SpecialiseModel>? specialties;
+  final List<DoctorCommentModel>? doctorCommentModelList;
+  final String? errorMessage;
 
-class HomeSpecialitesLoading extends HomeStates {}
+  HomeStates(
+      {this.isLoading = false,
+      this.userModel,
+      this.isSendCommentLoading,
+      this.doctorsSummaryList,
+      this.doctorsSpecialityList,
+      this.specialties,
+      this.errorMessage,
+      this.doctorsModelList,
+      this.doctorModel,
+      this.doctorCommentModelList});
 
-class HomeSpecialitesSuccess extends HomeStates {}
-
-class HomeSpecialitesFailure extends HomeStates {}
-
-class HomeFechDataUserLoading extends HomeStates {}
-
-class HomeFechDataUserSuccess extends HomeStates {}
-
-class HomeFechDataUserFailure extends HomeStates {}
-
-class HomeFechAllDoctorsLoading extends HomeStates {}
-
-class HomeFechAllDoctorsSuccess extends HomeStates {}
-
-class HomeFechAllDoctorsFailure extends HomeStates {}
-
-class HomeGetAllDoctorsSummaryLoading extends HomeStates {}
-
-class HomeGetAllDoctorsSummarySuccess extends HomeStates {}
-
-class HomeGetAllDoctorsSummaryFailure extends HomeStates {}
-
-class HomeGetDoctorLoading extends HomeStates {}
-
-class HomeGetDoctorSuccess extends HomeStates {}
-
-class HomeGetDoctorFailure extends HomeStates {}
-
-class HomeGetDoctorSpecialtyLoading extends HomeStates {}
-
-class HomeGetDoctorSpecialtySuccess extends HomeStates {}
-
-class HomeGetDoctorSpecialtyFailure extends HomeStates {}
-
-class HomeGetDoctorCommentsLoading extends HomeStates {}
-
-class HomeGetDoctorCommentsSuccess extends HomeStates {}
-
-class HomeGetDoctorCommentsFailure extends HomeStates {}
+  HomeStates copyWith({
+    bool? isLoading,
+    bool? isSendCommentLoading,
+    UserModel? userModel,
+    DoctorModel? doctorModel,
+    List<DoctorSummary>? doctorsSummaryList,
+    List<DoctorSummary>? doctorsSpecialityList,
+    List<SpecialiseModel>? specialties,
+    List<DoctorModel>? doctorsModelList,
+    List<DoctorCommentModel>? doctorCommentModelList,
+    String? errorMessage,
+  }) {
+    return HomeStates(
+      isLoading: isLoading ?? false,
+      isSendCommentLoading: isSendCommentLoading ?? this.isSendCommentLoading,
+      userModel: userModel ?? this.userModel,
+      doctorModel: doctorModel ?? this.doctorModel,
+      doctorsModelList: doctorsModelList ?? this.doctorsModelList,
+      doctorsSummaryList: doctorsSummaryList ?? this.doctorsSummaryList,
+      doctorCommentModelList:
+          doctorCommentModelList ?? this.doctorCommentModelList,
+      doctorsSpecialityList:
+          doctorsSpecialityList ?? this.doctorsSpecialityList,
+      specialties: specialties ?? this.specialties,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
+}

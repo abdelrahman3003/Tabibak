@@ -14,4 +14,6 @@ abstract class HomeRepo {
   Future<ApiResult<List<DoctorSummary>>> getAllDoctorsSpecialties(
       int specialtyId);
   Future<ApiResult<List<DoctorCommentModel>>> getDoctorComments(int doctorid);
+  Future<ApiResult<void>> addComment(
+      {required String comment, required int doctorId});
 }

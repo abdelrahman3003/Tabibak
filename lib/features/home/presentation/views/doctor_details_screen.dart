@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/widgets/empty_widget.dart';
 import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_details_body.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_details_shimmer.dart';
@@ -11,17 +12,22 @@ class DoctorDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarWidget(
-          title: 'تفاصيل الطبيب',
-        ),
-        body: Consumer(builder: (context, ref, _) {
-          ref.watch(homeControllerPrvider);
-          final doctorModel =
-              ref.read(homeControllerPrvider.notifier).doctorModel;
-
-          return doctorModel != null
-              ? DoctorDetailsBody(doctorModel: doctorModel)
-              : DoctorDetailsShimmer();
-        }));
+      appBar: AppBarWidget(
+        title: 'تفاصيل الطبيب',
+      ),
+      body: Consumer(builder: (context, ref, _) {
+        final isLoading = ref.watch(
+          homeControllerPrvider.select((state) => state.isLoading),
+        );
+        final doctorModel = ref.watch(
+          homeControllerPrvider.select((state) => state.doctorModel),
+        );
+        return isLoading
+            ? DoctorDetailsShimmer()
+            : doctorModel != null
+                ? DoctorDetailsBody(doctorModel: doctorModel)
+                : EmptyWidget();
+      }),
+    );
   }
 }

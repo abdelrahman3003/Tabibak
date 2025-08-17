@@ -30,9 +30,15 @@ abstract class ApiService {
     @Query("select") String selectFields,
     @Query("specialty") String filterId,
   );
+
+  //comment
+
   @GET("/comments")
   Future<List<DoctorCommentModel>> getDoctorComments(
     @Query("select") String selectFields,
     @Query("doctor_id") String doctorid,
+    @Query("limit") int limt,
   );
+  @POST("/comments")
+  Future<void> addComment(@Body() Map<String, dynamic> body);
 }

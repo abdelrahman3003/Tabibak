@@ -1,12 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
-import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
-import 'package:tabibak/features/home/data/model/doctor_comment_model.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/data/model/doctor_summary.dart';
-import 'package:tabibak/features/home/data/model/specialise_model.dart';
 import 'package:tabibak/features/home/domain/repo/home_repo.dart';
 import 'package:tabibak/features/home/domain/repo/home_repo_imp.dart';
 import 'package:tabibak/features/home/presentation/controller/home_states.dart';
@@ -41,13 +37,14 @@ final homrepoProvider = StateProvider<HomeRepo>(
 final homeControllerPrvider =
     StateNotifierProvider.autoDispose<HomeController, HomeStates>(
         (ref) => HomeController(ref));
+final buttonLoadingProvider = StateProvider<bool>((ref) => false);
 
 class HomeController extends StateNotifier<HomeStates> {
-  HomeController(this.ref) : super(HomeIniail()) {
+  HomeController(this.ref) : super(HomeStates()) {
     initData();
   }
   final Ref ref;
-
+  late TextEditingController commentController;
   void initData() async {
     await getUserById();
     await getAllDoctorsSummary();
@@ -56,114 +53,126 @@ class HomeController extends StateNotifier<HomeStates> {
 
   Future<void> getDoctorData(int doctorId) async {
     await getDoctorById(doctorId);
-    await getDoctorComments(doctorId);
+    await getDoctorComments(doctorId, true);
+    commentController = TextEditingController();
   }
 
-  UserModel? userModel;
-  DoctorModel? doctorModel;
-  List<DoctorModel>? doctorsList;
-  List<DoctorSummary>? doctorsSummaryList;
-  List<DoctorSummary>? doctorsSpeicalityList;
-  List<SpecialiseModel>? specialiseModelList;
-  List<DoctorCommentModel>? doctorCommentModelList;
   Future<void> fetchSpecialties() async {
-    state = HomeSpecialitesLoading();
+    state = state.copyWith(isLoading: true);
     final result = await ref.read(homrepoProvider).fetchSpecialties();
     result.when(
       sucess: (data) {
-        specialiseModelList = data;
-        state = HomeSpecialitesSuccess();
+        state = state.copyWith(specialties: data);
       },
       failure: (apiErrorModel) {
-        state = HomeSpecialitesFailure();
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );
   }
 
   Future<void> getUserById() async {
-    state = HomeSpecialitesLoading();
+    state = state.copyWith(isLoading: true);
     final result = await ref.read(homrepoProvider).getUserData();
     result.when(
       sucess: (data) {
-        userModel = data;
-        state = HomeFechDataUserSuccess();
+        state = state.copyWith(userModel: data);
+        ();
       },
       failure: (apiErrorModel) {
-        state = HomeSpecialitesFailure();
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );
   }
 
   Future<void> getAllDoctors() async {
-    state = HomeFechAllDoctorsLoading();
+    state = state.copyWith(isLoading: true);
     final result = await ref.read(homrepoProvider).fetchAllDoctors();
     result.when(
       sucess: (data) {
-        doctorsList = data;
-        state = HomeFechAllDoctorsSuccess();
+        state = state.copyWith(doctorsModelList: data);
       },
       failure: (apiErrorModel) {
-        state = HomeFechAllDoctorsFailure();
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );
   }
 
   Future<void> getAllDoctorsSummary() async {
-    state = HomeGetAllDoctorsSummaryLoading();
+    state = state.copyWith(isLoading: true);
     final result = await ref.read(homrepoProvider).getAllDoctorsSummary();
     result.when(
       sucess: (data) {
-        state = HomeGetAllDoctorsSummarySuccess();
-        doctorsSummaryList = data;
+        state = state.copyWith(doctorsSummaryList: data);
       },
       failure: (apiErrorModel) {
-        state = HomeGetAllDoctorsSummaryFailure();
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );
   }
 
   Future<void> getDoctorById(int id) async {
-    doctorModel = null;
-    state = HomeGetDoctorLoading();
+    state = state.copyWith(isLoading: true);
     final result = await ref.read(homrepoProvider).getDoctorId(id);
     result.when(
       sucess: (data) {
-        state = HomeGetDoctorSuccess();
-        doctorModel = data;
+        state = state.copyWith(doctorModel: data);
       },
       failure: (apiErrorModel) {
-        state = HomeGetDoctorFailure();
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );
   }
 
   Future<void> getAllDoctorsSpecialties(int specialtyId) async {
-    doctorsSpeicalityList = null;
-    state = HomeGetDoctorSpecialtyLoading();
+    state = state.copyWith(isLoading: true);
     final result =
         await ref.read(homrepoProvider).getAllDoctorsSpecialties(specialtyId);
     result.when(
       sucess: (data) {
-        doctorsSpeicalityList = data;
-        state = HomeGetDoctorSpecialtySuccess();
+        state = state.copyWith(doctorsSpecialityList: data);
       },
       failure: (apiErrorModel) {
-        state = HomeGetDoctorSpecialtyFailure();
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );
   }
 
-  Future<void> getDoctorComments(int doctorid) async {
-    state = HomeGetDoctorCommentsLoading();
+  Future<void> getDoctorComments(int doctorid, bool isLoadin) async {
+    state = state.copyWith(isLoading: isLoadin);
     final result = await ref.read(homrepoProvider).getDoctorComments(doctorid);
     result.when(
       sucess: (data) {
-        doctorCommentModelList = data;
-        state = HomeGetDoctorCommentsSuccess();
+        state = state.copyWith(doctorCommentModelList: data);
       },
       failure: (apiErrorModel) {
-        state = HomeGetDoctorCommentsFailure();
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );
+  }
+
+  Future<void> addComment(int doctorId) async {
+    state = state.copyWith(isSendCommentLoading: true);
+    final result = await ref
+        .read(homrepoProvider)
+        .addComment(comment: commentController.text, doctorId: doctorId);
+
+    result.when(
+      sucess: (data) async {
+        getDoctorComments(doctorId, false);
+        state = state.copyWith(isSendCommentLoading: false);
+        commentController.clear();
+      },
+      failure: (apiErrorModel) {
+        state = state.copyWith(isSendCommentLoading: false);
+
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    commentController.dispose();
+    super.dispose();
   }
 }

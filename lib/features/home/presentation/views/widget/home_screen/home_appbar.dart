@@ -13,9 +13,10 @@ class HomeAppbar extends StatelessWidget {
         Column(
           children: [
             Consumer(builder: (context, ref, _) {
-              ref.watch(homeControllerPrvider);
-              final userModel =
-                  ref.read(homeControllerPrvider.notifier).userModel;
+              final userModel = ref.watch(
+                homeControllerPrvider.select((state) => state.userModel),
+              );
+
               return Text(
                 userModel != null ? userModel.name ?? "" : "",
                 style: Apptextstyles.font18blackRegular

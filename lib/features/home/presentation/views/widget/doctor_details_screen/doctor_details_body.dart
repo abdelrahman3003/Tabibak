@@ -30,18 +30,14 @@ class _DoctorDetailsBodyState extends State<DoctorDetailsBody> {
         children: [
           Align(
             alignment: Alignment.center,
-            child: Column(
-              children: [
-                DoctorDetailsHeader(
-                  name: doctorModel.name,
-                  image: doctorModel.image,
-                  specialty: doctorModel.specialties?.name,
-                  university: doctorModel.universityData?.name,
-                ),
-              ],
+            child: DoctorDetailsHeader(
+              name: doctorModel.name,
+              image: doctorModel.image,
+              specialty: doctorModel.specialties?.name,
+              university: doctorModel.universityData?.name,
             ),
           ),
-          const SizedBox(height: 20),
+          20.hBox,
           TitelText(title: "'نبذة عن الطبيب'"),
           const SizedBox(height: 8),
           Text(
@@ -49,16 +45,14 @@ class _DoctorDetailsBodyState extends State<DoctorDetailsBody> {
             style: Apptextstyles.font16blackRegular.copyWith(height: 1.5),
             textAlign: TextAlign.justify,
           ),
-          const SizedBox(height: 20),
+          20.hBox,
           ClinicInfoSection(clinic: doctorModel.clinicData),
-          const SizedBox(height: 20),
+          20.hBox,
           TitelText(title: 'مواعيد العمل'),
-          const SizedBox(height: 20),
+          20.hBox,
           ScheduleSection(
               workingDayList: doctorModel.clinicData?.clinicWorkingDay),
-          const SizedBox(height: 20),
-          TitelText(title: 'التعليقات'),
-          10.hBox,
+          20.hBox,
           DoctorReviewSection(),
           20.hBox,
           AppButton(
