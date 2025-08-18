@@ -9,9 +9,6 @@ import 'package:tabibak/features/home/domain/repo/home_repo_imp.dart';
 import 'package:tabibak/features/home/presentation/controller/home_states.dart';
 import 'package:tabibak/gen/assets.gen.dart';
 
-final indexScreenProvider = StateProvider<int>((ref) {
-  return 0;
-});
 final categoryListNameProvider = StateProvider<List<String>>((ref) {
   return [
     StringConstants.general.tr(),
@@ -188,7 +185,7 @@ class HomeController extends StateNotifier<HomeStates> {
         await ref.read(homrepoProvider).addRate(rate: rate, doctorId: 3);
 
     result.when(
-      sucess: (data) async {},
+      sucess: (_) async {},
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
       },

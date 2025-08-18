@@ -6,10 +6,13 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/booking/appointments_screen.dart';
-import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/favourite_view.dart';
 import 'package:tabibak/features/home/presentation/views/home_screen.dart';
 import 'package:tabibak/features/profile/presentation/view/profile_screen.dart';
+
+final indexScreenProvider = StateProvider.autoDispose<int>((ref) {
+  return 0;
+});
 
 class LayoutScreen extends ConsumerWidget {
   const LayoutScreen({super.key});

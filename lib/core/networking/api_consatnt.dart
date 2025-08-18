@@ -7,6 +7,7 @@ class ApiConstants {
   static const String getAllDoctorsSummary =
       "id,name,image,specialties(name),clinic_data(address)";
   static const String getComments = "comment,users(name),doctors(id,name)";
+  static const String getUser = "*";
 }
 
 class ApiErrors {

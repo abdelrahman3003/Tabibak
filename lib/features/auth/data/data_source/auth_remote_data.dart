@@ -57,10 +57,20 @@ class AuthRemoteDatasource {
       idToken: idToken,
       accessToken: accessToken,
     );
+    final existingUser = await supabase
+        .from('users')
+        .select()
+        .eq('user_id', supabase.auth.currentUser!.id)
+        .maybeSingle();
+
+    final imageUrl = existingUser != null && existingUser['image'] != null
+        ? existingUser['image']
+        : googleUser.photoUrl;
     await addUserData(UserModel(
         userId: supabase.auth.currentUser!.id,
         name: googleUser.displayName,
-        email: googleUser.email));
+        email: googleUser.email,
+        image: imageUrl));
   }
 
   Future<void> addUserData(UserModel userModel) async {
