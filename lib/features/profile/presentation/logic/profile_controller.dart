@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/core/services/shared_pref_service.dart';
-import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
+import 'package:tabibak/features/home/presentation/logic/home_controller.dart';
 import 'package:tabibak/features/profile/data/profile_remote_data_source.dart';
 import 'package:tabibak/features/profile/domain/repo/profile_repo.dart';
 import 'package:tabibak/features/profile/domain/repo/profile_repo_imp.dart';

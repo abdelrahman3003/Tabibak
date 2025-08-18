@@ -11,6 +11,7 @@ import 'package:tabibak/features/booking/booking_screen.dart';
 import 'package:tabibak/features/home/presentation/views/doctor_details_screen.dart';
 import 'package:tabibak/features/home/presentation/views/specialist_screen.dart';
 import 'package:tabibak/features/layout/layout_screen.dart';
+import 'package:tabibak/features/notification/notifcation_screen.dart';
 
 extension Navigagtion on BuildContext {
   Future<dynamic> pushNamed(String routeName, {Object? arguments}) {
@@ -73,6 +74,8 @@ Widget _getPageByRouteName(String routeName, Object? arguments) {
       return DoctorDetailsScreen();
     case Routes.bookingScreen:
       return BookingScreen();
+    case Routes.notifcationScreen:
+      return NotifcationScreen();
     default:
       return Scaffold(
         body: Center(child: Text('No route defined for $routeName')),

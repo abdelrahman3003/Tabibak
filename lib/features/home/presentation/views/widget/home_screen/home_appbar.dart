@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/helper/extention.dart';
+import 'package:tabibak/core/helper/routes.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
-import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
+import 'package:tabibak/features/home/presentation/logic/home_controller.dart';
 
 class HomeAppbar extends StatelessWidget {
   const HomeAppbar({super.key});
@@ -29,7 +31,11 @@ class HomeAppbar extends StatelessWidget {
         Container(
           decoration:
               BoxDecoration(shape: BoxShape.circle, color: Color(0xffF5F5F5)),
-          child: IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
+          child: IconButton(
+              onPressed: () {
+                context.pushNamed(Routes.notifcationScreen);
+              },
+              icon: Icon(Icons.notifications)),
         )
       ],
     );

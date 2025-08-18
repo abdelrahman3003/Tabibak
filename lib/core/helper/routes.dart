@@ -8,6 +8,7 @@ import 'package:tabibak/features/booking/booking_screen.dart';
 import 'package:tabibak/features/home/presentation/views/doctor_details_screen.dart';
 import 'package:tabibak/features/home/presentation/views/specialist_screen.dart';
 import 'package:tabibak/features/layout/layout_screen.dart';
+import 'package:tabibak/features/notification/notifcation_screen.dart';
 
 import '../../features/auth/presentation/view/otp_verification_view.dart';
 
@@ -22,6 +23,7 @@ class Routes {
   static const String doctorDetailsScreen = '/doctorDetailsScreen';
   static const String bookingScreen = '/bookingScreen';
   static const String resetPasswordSucessView = '/resetPasswordSucessView';
+  static const String notifcationScreen = '/notifcationScreen';
 
   static Route generateRoute(RouteSettings setting) {
     switch (setting.name) {
@@ -64,6 +66,10 @@ class Routes {
       case resetPasswordSucessView:
         return MaterialPageRoute(
           builder: (context) => const ResetPasswordSucessView(),
+        );
+      case notifcationScreen:
+        return MaterialPageRoute(
+          builder: (context) => const NotifcationScreen(),
         );
       default:
         return MaterialPageRoute(

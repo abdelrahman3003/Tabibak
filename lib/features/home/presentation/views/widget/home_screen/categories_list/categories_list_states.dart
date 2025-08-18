@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
+import 'package:tabibak/features/home/presentation/logic/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/categories_list_shimmer_item.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/categories_list_view.dart';
 
