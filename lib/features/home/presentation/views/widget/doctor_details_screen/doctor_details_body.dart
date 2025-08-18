@@ -10,19 +10,12 @@ import 'package:tabibak/features/home/presentation/views/widget/home_screen/tite
 import 'doctor_details_header.dart';
 import 'doctor_review_section.dart';
 
-class DoctorDetailsBody extends StatefulWidget {
+class DoctorDetailsBody extends StatelessWidget {
   const DoctorDetailsBody({super.key, required this.doctorModel});
   final DoctorModel doctorModel;
 
   @override
-  State<DoctorDetailsBody> createState() => _DoctorDetailsBodyState();
-}
-
-class _DoctorDetailsBodyState extends State<DoctorDetailsBody> {
-  @override
   Widget build(BuildContext context) {
-    final doctorModel = widget.doctorModel;
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -35,6 +28,7 @@ class _DoctorDetailsBodyState extends State<DoctorDetailsBody> {
               image: doctorModel.image,
               specialty: doctorModel.specialties?.name,
               university: doctorModel.universityData?.name,
+              rate: doctorModel.avgRate?.toDouble(),
             ),
           ),
           20.hBox,

@@ -13,11 +13,13 @@ class DoctorDetailsHeader extends StatelessWidget {
       required this.name,
       this.image,
       this.specialty,
-      this.university});
+      this.university,
+      this.rate});
   final String? image;
   final String? name;
   final String? specialty;
   final String? university;
+  final double? rate;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,7 +47,7 @@ class DoctorDetailsHeader extends StatelessWidget {
           ],
         ),
         4.hBox,
-        RatingsRow(rate: 2),
+        RatingsRow(rate: rate),
         4.hBox,
         TextButton.icon(
           onPressed: () => showRatingDialog(context),

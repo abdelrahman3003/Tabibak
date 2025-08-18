@@ -2,7 +2,6 @@ import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
-import 'package:tabibak/features/home/data/model/doctor_comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 import 'package:tabibak/features/home/data/model/specialise_model.dart';
@@ -77,8 +76,7 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<DoctorCommentModel>>> getDoctorComments(
-      int doctorid) async {
+  Future<ApiResult<List<Comment>>> getDoctorComments(int doctorid) async {
     try {
       final result = await homeRemoteData.getDoctorComments(doctorid);
       return ApiResult.sucess(result);
@@ -93,6 +91,18 @@ class HomeRepoImp extends HomeRepo {
     try {
       final result =
           await homeRemoteData.addComment(comment: comment, doctorId: doctorId);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> addRate(
+      {required double rate, required int doctorId}) async {
+    try {
+      final result =
+          await homeRemoteData.addRate(rate: rate, doctorId: doctorId);
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

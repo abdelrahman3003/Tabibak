@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/domain/repo/home_repo.dart';
 import 'package:tabibak/features/home/domain/repo/home_repo_imp.dart';
 import 'package:tabibak/features/home/presentation/controller/home_states.dart';
@@ -53,7 +54,7 @@ class HomeController extends StateNotifier<HomeStates> {
 
   Future<void> getDoctorData(int doctorId) async {
     await getDoctorById(doctorId);
-    await getDoctorComments(doctorId, true);
+
     commentController = TextEditingController();
   }
 
@@ -112,15 +113,27 @@ class HomeController extends StateNotifier<HomeStates> {
 
   Future<void> getDoctorById(int id) async {
     state = state.copyWith(isLoading: true);
+
     final result = await ref.read(homrepoProvider).getDoctorId(id);
     result.when(
       sucess: (data) {
-        state = state.copyWith(doctorModel: data);
+        final avgRate = _avgRating(data);
+
+        final doctorModel = data.copyWith(avgRate: avgRate);
+        state = state.copyWith(doctorModel: doctorModel);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );
+  }
+
+  num _avgRating(DoctorModel doctorModel) {
+    final ratings =
+        doctorModel.ratings?.map((e) => e.rate.toDouble()).toList() ?? [];
+    if (ratings.isEmpty) return 0;
+    final avgRate = ratings.reduce((a, b) => a + b) / ratings.length;
+    return avgRate;
   }
 
   Future<void> getAllDoctorsSpecialties(int specialtyId) async {
@@ -165,6 +178,18 @@ class HomeController extends StateNotifier<HomeStates> {
       failure: (apiErrorModel) {
         state = state.copyWith(isSendCommentLoading: false);
 
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
+      },
+    );
+  }
+
+  Future<void> addRate(double rate, int doctorId) async {
+    final result =
+        await ref.read(homrepoProvider).addRate(rate: rate, doctorId: 3);
+
+    result.when(
+      sucess: (data) async {},
+      failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );

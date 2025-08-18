@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
-import 'package:tabibak/features/home/data/model/doctor_comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 
@@ -34,11 +33,15 @@ abstract class ApiService {
   //comment
 
   @GET("/comments")
-  Future<List<DoctorCommentModel>> getDoctorComments(
+  Future<List<Comment>> getDoctorComments(
     @Query("select") String selectFields,
     @Query("doctor_id") String doctorid,
     @Query("limit") int limt,
   );
   @POST("/comments")
   Future<void> addComment(@Body() Map<String, dynamic> body);
+
+  //rating
+  @POST("/ratings")
+  Future<void> addRate(@Body() Map<String, dynamic> body);
 }

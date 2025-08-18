@@ -10,7 +10,7 @@ class ReviewSendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
-      final isLoading = ref.watch(
+      final isSendCommentLoading = ref.watch(
         homeControllerPrvider.select((state) => state.isSendCommentLoading),
       );
       final doctorModel = ref.read(
@@ -30,7 +30,7 @@ class ReviewSendButton extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           AppButton(
-            isLoading: isLoading ?? false,
+            isLoading: isSendCommentLoading ?? false,
             isLoadingSide: true,
             title: "إرسال",
             onPressed: () {

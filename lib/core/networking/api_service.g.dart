@@ -176,7 +176,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<DoctorCommentModel>> getDoctorComments(
+  Future<List<Comment>> getDoctorComments(
     String selectFields,
     String doctorid,
     int limt,
@@ -189,7 +189,7 @@ class _ApiService implements ApiService {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<DoctorCommentModel>>(Options(
+    final _options = _setStreamType<List<Comment>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -206,11 +206,10 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<DoctorCommentModel> _value;
+    late List<Comment> _value;
     try {
       _value = _result.data!
-          .map((dynamic i) =>
-              DoctorCommentModel.fromJson(i as Map<String, dynamic>))
+          .map((dynamic i) => Comment.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -234,6 +233,32 @@ class _ApiService implements ApiService {
         .compose(
           _dio.options,
           '/comments',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<void> addRate(Map<String, dynamic> body) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _options = _setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/ratings',
           queryParameters: queryParameters,
           data: _data,
         )

@@ -3,7 +3,6 @@ import 'package:tabibak/core/networking/api_consatnt.dart';
 import 'package:tabibak/core/networking/api_service.dart';
 import 'package:tabibak/core/services/dio_factory.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
-import 'package:tabibak/features/home/data/model/doctor_comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 import 'package:tabibak/features/home/data/model/specialise_model.dart';
@@ -46,7 +45,7 @@ class HomeRemoteData {
         ApiConstants.getAllDoctorsSummary, "eq.$specialtyId");
   }
 
-  Future<List<DoctorCommentModel>> getDoctorComments(int doctorid) async {
+  Future<List<Comment>> getDoctorComments(int doctorid) async {
     return await apiService.getDoctorComments(
         ApiConstants.getComments, "eq.$doctorid", 7);
   }
@@ -57,6 +56,14 @@ class HomeRemoteData {
       "user_id": supabase.auth.currentUser!.id,
       "doctor_id": doctorId,
       "comment": comment,
+    });
+  }
+
+  Future<void> addRate({required double rate, required int doctorId}) async {
+    return await apiService.addRate({
+      "user_id": supabase.auth.currentUser!.id,
+      "doctor_id": doctorId,
+      "rate": rate.toInt(),
     });
   }
 }

@@ -1,5 +1,4 @@
 import 'package:tabibak/features/auth/data/models/user_model.dart';
-import 'package:tabibak/features/home/data/model/doctor_comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 import 'package:tabibak/features/home/data/model/specialise_model.dart';
@@ -13,7 +12,7 @@ class HomeStates {
   final List<DoctorModel>? doctorsModelList;
   final List<DoctorSummary>? doctorsSpecialityList;
   final List<SpecialiseModel>? specialties;
-  final List<DoctorCommentModel>? doctorCommentModelList;
+  final List<Comment>? doctorCommentModelList;
   final String? errorMessage;
 
   HomeStates(
@@ -37,7 +36,7 @@ class HomeStates {
     List<DoctorSummary>? doctorsSpecialityList,
     List<SpecialiseModel>? specialties,
     List<DoctorModel>? doctorsModelList,
-    List<DoctorCommentModel>? doctorCommentModelList,
+    List<Comment>? doctorCommentModelList,
     String? errorMessage,
   }) {
     return HomeStates(

@@ -11,7 +11,7 @@ DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
       name: json['name'] as String?,
       image: json['image'] as String?,
       bio: json['bio'] as String?,
-      rate: (json['rate'] as num?)?.toDouble(),
+      avgRate: json['avgRate'] as num?,
       universityData: json['university_data'] == null
           ? null
           : University.fromJson(
@@ -22,6 +22,12 @@ DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
       specialties: json['specialties'] == null
           ? null
           : Specialties.fromJson(json['specialties'] as Map<String, dynamic>),
+      ratings: (json['ratings'] as List<dynamic>?)
+          ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      comments: (json['comments'] as List<dynamic>?)
+          ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
@@ -30,10 +36,12 @@ Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
       'name': instance.name,
       'image': instance.image,
       'bio': instance.bio,
-      'rate': instance.rate,
+      'avgRate': instance.avgRate,
       'university_data': instance.universityData,
       'clinic_data': instance.clinicData,
       'specialties': instance.specialties,
+      'ratings': instance.ratings,
+      'comments': instance.comments,
     };
 
 University _$UniversityFromJson(Map<String, dynamic> json) => University(
@@ -119,4 +127,32 @@ Specialties _$SpecialtiesFromJson(Map<String, dynamic> json) => Specialties(
 Map<String, dynamic> _$SpecialtiesToJson(Specialties instance) =>
     <String, dynamic>{
       'name': instance.name,
+    };
+
+Rating _$RatingFromJson(Map<String, dynamic> json) => Rating(
+      doctorId: (json['doctor_id'] as num).toInt(),
+      userId: json['user_id'] as String,
+      rate: (json['rate'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$RatingToJson(Rating instance) => <String, dynamic>{
+      'doctor_id': instance.doctorId,
+      'user_id': instance.userId,
+      'rate': instance.rate,
+    };
+
+Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
+      id: (json['id'] as num).toInt(),
+      comment: json['comment'] as String?,
+      userId: json['user_id'] as String?,
+      doctorId: (json['doctor_id'] as num).toInt(),
+      createdAt: json['created_at'] as String?,
+    );
+
+Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
+      'id': instance.id,
+      'comment': instance.comment,
+      'user_id': instance.userId,
+      'doctor_id': instance.doctorId,
+      'created_at': instance.createdAt,
     };

@@ -8,23 +8,44 @@ class DoctorModel {
   final String? name;
   final String? image;
   final String? bio;
-  final double? rate;
+  final num? avgRate;
   @JsonKey(name: "university_data")
   final University? universityData;
   @JsonKey(name: "clinic_data")
   final Clinic? clinicData;
   @JsonKey(name: "specialties")
   final Specialties? specialties;
+  final List<Rating>? ratings;
+  final List<Comment>? comments;
+
   DoctorModel({
     required this.id,
-    required this.name,
+    this.name,
     this.image,
     this.bio,
-    required this.rate,
-    required this.universityData,
-    required this.clinicData,
+    this.avgRate,
+    this.universityData,
+    this.clinicData,
     this.specialties,
+    this.ratings,
+    this.comments,
   });
+  DoctorModel copyWith({
+    num? avgRate,
+  }) {
+    return DoctorModel(
+      id: id,
+      name: name,
+      image: image,
+      bio: bio,
+      avgRate: avgRate ?? this.avgRate,
+      universityData: universityData,
+      clinicData: clinicData,
+      specialties: specialties,
+      ratings: ratings,
+      comments: comments,
+    );
+  }
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) =>
       _$DoctorModelFromJson(json);
@@ -81,9 +102,7 @@ class ClinicWorkingDay {
   @JsonKey(name: "working_day")
   final WorkingDay? workingDay;
 
-  ClinicWorkingDay({
-    required this.workingDay,
-  });
+  ClinicWorkingDay({required this.workingDay});
 
   factory ClinicWorkingDay.fromJson(Map<String, dynamic> json) =>
       _$ClinicWorkingDayFromJson(json);
@@ -96,10 +115,7 @@ class WorkingDay {
   final Days? days;
   final TimeSlot? times;
 
-  WorkingDay({
-    required this.days,
-    required this.times,
-  });
+  WorkingDay({required this.days, required this.times});
 
   factory WorkingDay.fromJson(Map<String, dynamic> json) =>
       _$WorkingDayFromJson(json);
@@ -112,10 +128,7 @@ class TimeSlot {
   final String? start;
   final String? end;
 
-  TimeSlot({
-    required this.start,
-    required this.end,
-  });
+  TimeSlot({required this.start, required this.end});
 
   factory TimeSlot.fromJson(Map<String, dynamic> json) =>
       _$TimeSlotFromJson(json);
@@ -144,4 +157,43 @@ class Specialties {
       _$SpecialtiesFromJson(json);
 
   Map<String, dynamic> toJson() => _$SpecialtiesToJson(this);
+}
+
+@JsonSerializable()
+class Rating {
+  @JsonKey(name: 'doctor_id')
+  final int doctorId;
+  @JsonKey(name: 'user_id')
+  final String userId;
+  final double rate;
+
+  Rating({required this.doctorId, required this.userId, required this.rate});
+
+  factory Rating.fromJson(Map<String, dynamic> json) => _$RatingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RatingToJson(this);
+}
+
+@JsonSerializable()
+class Comment {
+  final int id;
+  final String? comment;
+  @JsonKey(name: 'user_id')
+  final String? userId;
+  @JsonKey(name: 'doctor_id')
+  final int doctorId;
+  @JsonKey(name: 'created_at')
+  final String? createdAt;
+
+  Comment(
+      {required this.id,
+      this.comment,
+      this.userId,
+      required this.doctorId,
+      this.createdAt});
+
+  factory Comment.fromJson(Map<String, dynamic> json) =>
+      _$CommentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CommentToJson(this);
 }
