@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/profile/presentation/controller/proffile_states.dart';
-import 'package:tabibak/features/profile/presentation/controller/profile_controller.dart';
+import 'package:tabibak/features/profile/presentation/view/widget/log_out_button_states.dart';
 
 class AccountSection extends StatelessWidget {
   const AccountSection({super.key});
@@ -34,30 +30,7 @@ class AccountSection extends StatelessWidget {
                   onPressed: () => Navigator.pop(context),
                   child: const Text("إلغاء"),
                 ),
-                Consumer(builder: (context, ref, child) {
-                  final state = ref.watch(profileProviderController);
-                  return ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    onPressed: () {
-                      ref
-                          .read(profileProviderController.notifier)
-                          .logOut(context);
-                    },
-                    child: state is LogOutLoading
-                        ? SizedBox(
-                            height: 14.h,
-                            width: 14.w,
-                            child: CircularProgressIndicator(
-                              color: AppColors.white,
-                              strokeWidth: 2,
-                            ))
-                        : const Text(
-                            "خروج",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                  );
-                }),
+                LogOutButtonStates()
               ],
             ),
           );

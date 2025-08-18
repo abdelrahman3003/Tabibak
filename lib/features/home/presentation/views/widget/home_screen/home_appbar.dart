@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
+import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
 
 class HomeAppbar extends StatelessWidget {
   const HomeAppbar({super.key});
@@ -10,11 +12,17 @@ class HomeAppbar extends StatelessWidget {
       children: [
         Column(
           children: [
-            Text(
-              "Abdelrahman !",
-              style: Apptextstyles.font18blackRegular
-                  .copyWith(fontWeight: FontWeight.bold),
-            ),
+            Consumer(builder: (context, ref, _) {
+              final userModel = ref.watch(
+                homeControllerPrvider.select((state) => state.userModel),
+              );
+
+              return Text(
+                userModel != null ? userModel.name ?? "" : "",
+                style: Apptextstyles.font18blackRegular
+                    .copyWith(fontWeight: FontWeight.bold),
+              );
+            }),
           ],
         ),
         Spacer(),

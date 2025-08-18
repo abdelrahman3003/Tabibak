@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/features/home/presentation/controller/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
 class WelcomPanner extends StatelessWidget {
@@ -15,32 +17,36 @@ class WelcomPanner extends StatelessWidget {
         color: AppColors.primaryLight,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Row(
-        children: [
-          ImageCircle(
-              urlImage:
-                  "https://th.bing.com/th/id/OIP.IGNf7GuQaCqz_RPq5wCkPgHaLH?w=115&h=180&c=7&r=0&o=7&pid=1.7&rm=3"),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${StringConstants.welcome.tr()}, Abdelrahman 👋",
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  StringConstants.findBestDoctor.tr(),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
+      child: Consumer(builder: (context, ref, _) {
+        final userModel = ref.watch(
+          homeControllerPrvider.select((state) => state.userModel),
+        );
+
+        return Row(
+          children: [
+            ImageCircle(urlImage: userModel?.image),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${StringConstants.welcome.tr()}, ${userModel != null ? userModel.name : ""} 👋",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    StringConstants.findBestDoctor.tr(),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 }

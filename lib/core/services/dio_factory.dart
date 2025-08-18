@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:tabibak/core/services/env_service.dart';
 
 class DioFactory {
   static Dio? dio;
@@ -25,11 +26,7 @@ class DioFactory {
 
   static void addDioHEaders({bool isLogedin = true}) {
     dio?.options.headers = {
-      "Accept": "application/json",
-      "Authorization": ""
-      // "Bearer
-      // // ${AppService.sharedPreferences.getString(ShardedPrefKey.userToken)}
-      // "
+      "apikey": EnvService.apiKey,
     };
   }
 }

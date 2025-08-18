@@ -4,10 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/helper/extention.dart';
 import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
+import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 
 class DoctorItem extends StatelessWidget {
-  const DoctorItem({super.key, this.onTap});
+  const DoctorItem({super.key, this.onTap, required this.doctorSummary});
   final Function()? onTap;
+  final DoctorSummary doctorSummary;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -22,11 +25,14 @@ class DoctorItem extends StatelessWidget {
               width: 100.w,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(
-                        "https://www.bing.com/th/id/OIP.l96BdnBni68Vv9r_AgP7UgHaHa?w=224&h=211&c=8&rs=1&qlt=90&o=6&cb=thwsc4&pid=3.1&rm=2"),
-                    fit: BoxFit.cover,
-                  )),
+                  color: AppColors.second,
+                  image: doctorSummary.image == null
+                      ? null
+                      : DecorationImage(
+                          image:
+                              CachedNetworkImageProvider(doctorSummary.image!),
+                          fit: BoxFit.cover,
+                        )),
             ),
             SizedBox(width: 16),
             Expanded(
@@ -34,20 +40,20 @@ class DoctorItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "د. احمد علي",
+                    doctorSummary.name ?? "",
                     style: Apptextstyles.font16Blackebold,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                   5.hBox,
                   Text(
-                    "عام | مستشفي فاو العام",
+                    doctorSummary.specialties?.name ?? "",
                     style: Apptextstyles.font14BlackReqular,
                     overflow: TextOverflow.ellipsis,
                   ),
                   5.hBox,
                   Text(
-                    "نجع حمادي",
+                    doctorSummary.clinicData?.address ?? "مكان غير معروف",
                     style: Apptextstyles.font14BlackReqular
                         .copyWith(fontSize: 12.sp),
                     overflow: TextOverflow.ellipsis,

@@ -6,24 +6,23 @@ import 'package:tabibak/features/auth/data/models/user_model.dart';
 class AuthRemoteDatasource {
   AuthRemoteDatasource();
   final SupabaseClient supabase = Supabase.instance.client;
-
+  final GoogleSignIn googleSignIn =
+      GoogleSignIn(serverClientId: EnvService.googleClientId);
   Future<AuthResponse> signUp(
       {required String name,
       required String email,
       required String password}) async {
-    return await supabase.auth
+    final reslut = await supabase.auth
         .signUp(data: {"name": name}, email: email, password: password);
+    await addUserData(UserModel(
+        userId: supabase.auth.currentUser!.id, name: name, email: email));
+
+    return reslut;
   }
 
   Future<AuthResponse> login(String email, String password) async {
     return await supabase.auth
         .signInWithPassword(email: email, password: password);
-  }
-
-  Future<void> loginWithGoogle() async {
-    final supabase = Supabase.instance.client;
-    await supabase.auth.signInWithOAuth(OAuthProvider.google,
-        redirectTo: 'com.example.tabibak://callback');
   }
 
   Future<void> sendOtp(String email) async {
@@ -41,9 +40,6 @@ class AuthRemoteDatasource {
   }
 
   Future<void> nativeGoogleSignIn() async {
-    final GoogleSignIn googleSignIn =
-        GoogleSignIn(serverClientId: EnvService.googleClientId);
-
     final googleUser = await googleSignIn.signIn();
 
     final googleAuth = await googleUser!.authentication;
@@ -61,9 +57,25 @@ class AuthRemoteDatasource {
       idToken: idToken,
       accessToken: accessToken,
     );
+    final existingUser = await supabase
+        .from('users')
+        .select()
+        .eq('user_id', supabase.auth.currentUser!.id)
+        .maybeSingle();
+
+    final imageUrl = existingUser != null && existingUser['image'] != null
+        ? existingUser['image']
+        : googleUser.photoUrl;
+    await addUserData(UserModel(
+        userId: supabase.auth.currentUser!.id,
+        name: googleUser.displayName,
+        email: googleUser.email,
+        image: imageUrl));
   }
 
   Future<void> addUserData(UserModel userModel) async {
-    await supabase.from('users').insert(userModel.toJson());
+    await supabase
+        .from('users')
+        .upsert(userModel.toJson(), onConflict: 'user_id');
   }
 }
