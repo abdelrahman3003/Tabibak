@@ -67,10 +67,11 @@ class AuthRemoteDatasource {
         ? existingUser['image']
         : googleUser.photoUrl;
     await addUserData(UserModel(
-        userId: supabase.auth.currentUser!.id,
-        name: googleUser.displayName,
-        email: googleUser.email,
-        image: imageUrl));
+      userId: supabase.auth.currentUser!.id,
+      name: googleUser.displayName,
+      email: googleUser.email,
+      image: imageUrl,
+    ));
   }
 
   Future<void> addUserData(UserModel userModel) async {

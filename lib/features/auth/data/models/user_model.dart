@@ -9,12 +9,10 @@ class UserModel {
   final String? name;
   final String? email;
   final String? image;
-  UserModel({
-    required this.userId,
-    this.name,
-    this.email,
-    this.image,
-  });
+  @JsonKey(name: 'fcm_token')
+  final String? fcmToken;
+  UserModel(
+      {required this.userId, this.name, this.email, this.image, this.fcmToken});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

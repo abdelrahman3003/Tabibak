@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "773836528322",
+    "project_id": "delivery-638db",
+    "storage_bucket": "delivery-638db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773836528322:android:072e3b85ecd6906559795b",
+        "android_client_info": {
+          "package_name": "com.example.maps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXaBFlFjmbeBRUI9m3-SYRhsGeHLFeOaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773836528322:android:d2b97c0178606fd359795b",
+        "android_client_info": {
+          "package_name": "com.example.tabibak"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXaBFlFjmbeBRUI9m3-SYRhsGeHLFeOaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

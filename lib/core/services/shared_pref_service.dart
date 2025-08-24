@@ -8,6 +8,16 @@ class SharedPrefsService {
   static Future<void> init() async {
     prefs = await SharedPreferences.getInstance();
   }
+
+  static Future<void> saveFcmToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('fcm_token', token);
+  }
+
+  static Future<String?> getFcmToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('fcm_token');
+  }
 }
 
 class SharedPrefKeys {
