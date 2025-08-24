@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/helper/extention.dart';
-import 'package:tabibak/core/helper/routes.dart';
+import 'package:tabibak/core/utls/extention.dart';
+import 'package:tabibak/core/utls/routes.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
-import 'package:tabibak/features/home/presentation/logic/home_controller.dart';
+import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_item.dart';
 
 class DoctorListView extends StatelessWidget {

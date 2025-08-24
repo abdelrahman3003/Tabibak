@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/theme/app_text_formfiled.dart';
+import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 
 class PasswordTextfiled extends StatefulWidget {
   const PasswordTextfiled(

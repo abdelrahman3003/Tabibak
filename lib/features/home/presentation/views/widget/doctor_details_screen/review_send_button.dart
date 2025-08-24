@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/theme/app_button.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/home/presentation/logic/home_controller.dart';
+import 'package:tabibak/core/widgets/app_button.dart';
+import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
 
 class ReviewSendButton extends StatelessWidget {
   const ReviewSendButton({super.key});

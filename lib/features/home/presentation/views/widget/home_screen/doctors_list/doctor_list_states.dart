@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/features/home/presentation/logic/home_controller.dart';
+import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_list_view.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_shimmer_list.dart';
 

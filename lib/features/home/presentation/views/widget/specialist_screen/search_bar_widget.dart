@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/core/utls/string_constants.dart';
 
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({super.key});

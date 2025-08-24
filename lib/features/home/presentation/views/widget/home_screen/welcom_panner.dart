@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/home/presentation/logic/home_controller.dart';
+import 'package:tabibak/core/utls/string_constants.dart';
+import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
 class WelcomPanner extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/features/home/presentation/logic/home_controller.dart';
+import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/comment_list/comment_list_view.dart';
 
 import '../../home_screen/titel_text.dart';

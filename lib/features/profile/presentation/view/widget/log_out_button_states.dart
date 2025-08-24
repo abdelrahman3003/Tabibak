@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/profile/presentation/logic/profile_controller.dart';
+import 'package:tabibak/features/profile/presentation/manager/profile_controller.dart';
 
 class LogOutButtonStates extends ConsumerWidget {
   const LogOutButtonStates({super.key});
