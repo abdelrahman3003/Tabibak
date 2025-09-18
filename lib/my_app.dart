@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/services/shared_pref_service.dart';
+import 'package:tabibak/core/helper/shared_pref.dart';
+import 'package:tabibak/core/routing/router.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/core/utls/routes.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
-            onGenerateRoute: Routes.generateRoute,
+            onGenerateRoute: AppRouter.generateRoute,
             initialRoute: initRout(),
           );
         });

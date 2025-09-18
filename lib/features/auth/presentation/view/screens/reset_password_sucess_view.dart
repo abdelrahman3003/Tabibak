@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/utls/extention.dart';
-import 'package:tabibak/core/utls/routes.dart';
+import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 
 class ResetPasswordSucessView extends StatelessWidget {
@@ -36,7 +36,7 @@ class ResetPasswordSucessView extends StatelessWidget {
                 onPressed: () {
                   context.pushNamedAndRemoveUntil(
                     Routes.singinView,
-                    predicate: (route) => false,
+                    (route) => false,
                   );
                 },
               ),

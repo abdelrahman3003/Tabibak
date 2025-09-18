@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/services/shared_pref_service.dart';
-import 'package:tabibak/core/utls/extention.dart';
-import 'package:tabibak/core/utls/routes.dart';
+import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/helper/shared_pref.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';
 import 'package:tabibak/features/auth/data/repo/auth_repo.dart';
 import 'package:tabibak/features/auth/data/repo/auth_repo_implement.dart';
@@ -71,8 +71,10 @@ class AuthController extends StateNotifier<AuthStates> {
     final result = await ref.read(authRepositoryProvider).nativeGoogleSignIn();
     result.when(sucess: (_) async {
       context.pop();
-      context.pushNamedAndRemoveUntil(Routes.layoutScreen,
-          predicate: (route) => false);
+      context.pushNamedAndRemoveUntil(
+        Routes.layoutScreen,
+        (route) => false,
+      );
       await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
 
       cleartextformData();

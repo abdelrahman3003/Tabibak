@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
-import 'package:tabibak/core/utls/extention.dart';
-import 'package:tabibak/core/utls/validation.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';

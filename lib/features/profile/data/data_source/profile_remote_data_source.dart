@@ -2,7 +2,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/core/networking/api_service.dart';
-import 'package:tabibak/core/services/dio_factory.dart';
+import 'package:tabibak/core/networking/dio_factory.dart';
 
 class ProfileRemoteDataSource {
   final SupabaseClient supabase = Supabase.instance.client;

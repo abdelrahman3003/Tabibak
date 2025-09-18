@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/core/utls/extention.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/ratings_row.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/show_rating_dialog.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/helper/dialogs.dart';
-import 'package:tabibak/core/helper/extention.dart';
-import 'package:tabibak/core/theme/app_button.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/widgets/dialogs.dart';
+import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/booking/widget/booking/booking_date.dart';
 import 'package:tabibak/features/booking/widget/booking/booking_header.dart';
 import 'package:tabibak/features/booking/widget/booking/booking_time.dart';
@@ -39,8 +40,6 @@ class _BookingScreenState extends State<BookingScreen> {
             AppButton(
               title: "تأكيد الحجز",
               onPressed: () {
-                // Dialogs.errorDialog(
-                //     context, "يرجى اختيار التاريخ والساعة قبل المتابعة");
                 Dialogs.successDialog(
                     context, "تم الحجز", "تم حجز الكشف بنجاح!");
               },

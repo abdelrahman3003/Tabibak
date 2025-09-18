@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tabibak/core/services/shared_pref_service.dart';
-import 'package:tabibak/core/utls/extention.dart';
-import 'package:tabibak/core/utls/routes.dart';
+import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/helper/shared_pref.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
 import 'package:tabibak/features/profile/data/data_source/profile_remote_data_source.dart';
 import 'package:tabibak/features/profile/data/repo/profile_repo.dart';
@@ -30,8 +30,10 @@ class ProfileController extends StateNotifier<ProffileStates> {
     result.when(sucess: (_) {
       SharedPrefsService.prefs.clear();
       state = state.copyWith(isLogOutLoading: false);
-      context.pushNamedAndRemoveUntil(Routes.singinView,
-          predicate: (route) => false);
+      context.pushNamedAndRemoveUntil(
+        Routes.singinView,
+        (route) => false,
+      );
     }, failure: (error) {
       state = state.copyWith(isLogOutLoading: false);
     });

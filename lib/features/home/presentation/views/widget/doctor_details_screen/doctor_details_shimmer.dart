@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/utls/extention.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/widgets/shimmer_widget.dart';
 
 class DoctorDetailsShimmer extends StatelessWidget {
