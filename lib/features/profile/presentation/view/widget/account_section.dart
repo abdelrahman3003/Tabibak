@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/features/profile/presentation/view/widget/log_out_button_states.dart';
 
 class AccountSection extends StatelessWidget {
@@ -18,17 +20,17 @@ class AccountSection extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ListTile(
         leading: const Icon(Icons.logout, color: Colors.red),
-        title: const Text("تسجيل الخروج"),
+        title: Text(AppStrings.logout.tr()),
         onTap: () {
           showDialog(
             context: context,
             builder: (_) => AlertDialog(
-              title: const Text("تأكيد تسجيل الخروج"),
-              content: const Text("هل أنت متأكد أنك تريد تسجيل الخروج؟"),
+              title: Text(AppStrings.confirmSignOut.tr()),
+              content: Text(AppStrings.signOutMessage.tr()),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text("إلغاء"),
+                  child: Text(AppStrings.cancel.tr()),
                 ),
                 LogOutButtonStates()
               ],

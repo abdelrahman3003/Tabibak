@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:tabibak/core/helper/string_constants.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/booking/appointments_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/favourite_view.dart';
@@ -48,12 +48,10 @@ class LayoutScreen extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
               tabMargin: EdgeInsets.only(top: 8),
               tabs: [
-                GButton(icon: Icons.home, text: StringConstants.home.tr()),
-                GButton(icon: Icons.event, text: StringConstants.bookings.tr()),
-                GButton(
-                    icon: Icons.search, text: StringConstants.favorites.tr()),
-                GButton(
-                    icon: Icons.settings, text: StringConstants.settings.tr()),
+                GButton(icon: Icons.home, text: AppStrings.home.tr()),
+                GButton(icon: Icons.event, text: AppStrings.bookings.tr()),
+                GButton(icon: Icons.search, text: AppStrings.favorites.tr()),
+                GButton(icon: Icons.settings, text: AppStrings.settings.tr()),
               ],
             ),
           ],

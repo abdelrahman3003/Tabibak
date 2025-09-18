@@ -4,7 +4,7 @@ import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
-import 'package:tabibak/features/profile/presentation/manager/profile_controller.dart';
+import 'package:tabibak/features/profile/presentation/manager/profile_provider.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key, required this.userModel});

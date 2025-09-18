@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/categories_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
@@ -72,13 +72,13 @@ class _HomeScreenState extends State<HomeScreen> {
         40.hBox,
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TitelText(title: StringConstants.doctorSpeciality.tr())),
+            child: TitelText(title: AppStrings.doctorSpeciality.tr())),
         20.hBox,
         CategoriesListStates(),
         20.hBox,
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TitelText(title: StringConstants.recommendationDoctor.tr())),
+            child: TitelText(title: AppStrings.recommendationDoctor.tr())),
         20.hBox,
         Expanded(
             child: Padding(

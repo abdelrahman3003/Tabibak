@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/routing/routes.dart';
@@ -124,14 +125,14 @@ class _SignupViewState extends ConsumerState<SignupView>
                 validator: (value) {
                   return Validation.validateName(value);
                 },
-                hint: "الإسم",
+                hint: AppStrings.name,
                 prefixIcon: Icon(Icons.person_3_outlined, size: 24)),
           ),
           const SizedBox(height: 15),
           SlideTransition(
             position: emailAnimation,
             child: AppTextFormFiled(
-                hint: "البريد الإلكتروني",
+                hint: AppStrings.email,
                 controller:
                     ref.read(authControllerProvider.notifier).emailController,
                 validator: (value) {
@@ -154,8 +155,8 @@ class _SignupViewState extends ConsumerState<SignupView>
           signupButtonStates(),
           const SizedBox(height: 40),
           DoHaveAccount(
-              title: "هل لديك حساب بالفعل؟",
-              subtitle: "تسجيل الدخول",
+              title: AppStrings.alreadyHaveAccount,
+              subtitle: AppStrings.login,
               onTap: () {
                 ref.read(authControllerProvider.notifier).cleartextformData();
                 context.pop();
@@ -173,7 +174,9 @@ class _SignupViewState extends ConsumerState<SignupView>
     return SlideTransition(
         position: signupAnimation,
         child: AppButton(
-          title: isLoading ? "جاري إنشاء الحساب..." : "إنشاء الحساب",
+          title: isLoading
+              ? "${AppStrings.creatingAccount}..."
+              : AppStrings.signOut,
           isLoading: isLoading,
           onPressed: () {
             if (!isLoading && signupformKey.currentState!.validate()) {

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
@@ -15,7 +14,7 @@ class DoctorItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(Constants.radius),
+      borderRadius: 8.radius,
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(

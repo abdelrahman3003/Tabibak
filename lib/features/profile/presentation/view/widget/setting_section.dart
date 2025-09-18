@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 
 class SettingSection extends StatefulWidget {
   const SettingSection({super.key});
@@ -26,7 +28,7 @@ class _SettingSectionState extends State<SettingSection> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ListTile(
         leading: const Icon(Icons.language, color: Colors.blue),
-        title: const Text("اللغة"),
+        title: Text(AppStrings.language.tr()),
         trailing: DropdownButton<String>(
           value: _selectedLanguage,
           underline: const SizedBox(),
@@ -39,7 +41,6 @@ class _SettingSectionState extends State<SettingSection> {
           onChanged: (value) {
             setState(() {
               _selectedLanguage = value!;
-              // هنا ممكن تضيف تغيير لغة التطبيق بالكامل حسب اختيار المستخدم
             });
           },
         ),
@@ -52,12 +53,11 @@ class _SettingSectionState extends State<SettingSection> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: SwitchListTile(
         secondary: const Icon(Icons.brightness_6, color: Colors.orange),
-        title: const Text("الوضع الداكن"),
+        title: Text(AppStrings.darkMode.tr()),
         value: _isDarkTheme,
         onChanged: (value) {
           setState(() {
             _isDarkTheme = value;
-            // هنا ممكن تضيف تغيير ثيم التطبيق
           });
         },
       ),

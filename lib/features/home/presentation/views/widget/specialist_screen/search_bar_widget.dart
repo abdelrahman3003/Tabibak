@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/helper/string_constants.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class SearchBarWidget extends StatelessWidget {
@@ -16,11 +16,11 @@ class SearchBarWidget extends StatelessWidget {
         filled: true,
         fillColor: AppColors.white,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Constants.radius),
+          borderRadius: 8.radius,
           borderSide: BorderSide(color: AppColors.borderLight),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Constants.radius),
+          borderRadius: 8.radius,
           borderSide: BorderSide(color: AppColors.primary, width: 2),
         ),
       ),

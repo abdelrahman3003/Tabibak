@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
-import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 
 class DoctorSpecialtyItem extends StatelessWidget {
@@ -17,7 +15,7 @@ class DoctorSpecialtyItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(Constants.radius),
+      borderRadius: 8.radius,
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Row(

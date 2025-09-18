@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 
 class PasswordTextfiled extends StatefulWidget {
@@ -18,7 +19,7 @@ class _PasswordTextfiledState extends State<PasswordTextfiled> {
   @override
   Widget build(BuildContext context) {
     return AppTextFormFiled(
-      hint: widget.hint ?? "كلمة المرور",
+      hint: widget.hint ?? AppStrings.password,
       prefixIcon: Icon(
         Icons.password_rounded,
       ),

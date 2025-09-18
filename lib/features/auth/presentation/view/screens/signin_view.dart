@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/helper/string_constants.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
@@ -126,7 +126,7 @@ class _SigninViewState extends ConsumerState<SigninView>
           SlideTransition(
               position: emailAnimation,
               child: AppTextFormFiled(
-                  hint: "البريد الالكتروني",
+                  hint: AppStrings.email,
                   controller:
                       ref.read(authControllerProvider.notifier).emailController,
                   validator: (value) {
@@ -152,7 +152,7 @@ class _SigninViewState extends ConsumerState<SigninView>
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "نسيت كلمه السر",
+                AppStrings.forgotPassword,
                 style: Apptextstyles.font16blackRegular
                     .copyWith(color: AppColors.primary),
               ),
@@ -164,8 +164,8 @@ class _SigninViewState extends ConsumerState<SigninView>
           signinWuthGoogleButton(context),
           const SizedBox(height: 60),
           DoHaveAccount(
-            title: "هل ليس لديك حساب؟",
-            subtitle: "إنشاء حساب",
+            title: AppStrings.noAccount,
+            subtitle: AppStrings.createAccount,
             onTap: () {
               context.pop();
               context.pushNamed(Routes.singupView);
@@ -190,7 +190,7 @@ class _SigninViewState extends ConsumerState<SigninView>
             padding: EdgeInsets.symmetric(vertical: 16),
             width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: Constants.radius.radius,
+              borderRadius: 8.radius,
               border: Border.all(color: AppColors.textLight),
             ),
             child: state is LoginWithGoogleLoading
@@ -209,7 +209,7 @@ class _SigninViewState extends ConsumerState<SigninView>
                           width: 24.h, height: 24.w),
                       10.wBox,
                       Text(
-                        "تسجيل الدخول عبر جوجل",
+                        AppStrings.loginWithGoogle,
                         style: Apptextstyles.font16blackRegular,
                       )
                     ],
@@ -226,7 +226,7 @@ class _SigninViewState extends ConsumerState<SigninView>
     return SlideTransition(
         position: signinAnimation,
         child: AppButton(
-          title: isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول",
+          title: isLoading ? "${AppStrings.loggingIn}.." : AppStrings.login,
           isLoading: isLoading,
           onPressed: () {
             if (!isLoading && signinKey.currentState!.validate()) {

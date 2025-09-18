@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/helper/string_constants.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
@@ -31,14 +31,14 @@ class WelcomPanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${StringConstants.welcome.tr()}, ${userModel != null ? userModel.name : ""} 👋",
+                    "${AppStrings.welcome.tr()}, ${userModel != null ? userModel.name : ""} 👋",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    StringConstants.findBestDoctor.tr(),
+                    AppStrings.findBestDoctor.tr(),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],

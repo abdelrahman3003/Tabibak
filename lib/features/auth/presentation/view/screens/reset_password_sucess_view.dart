@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
@@ -19,20 +20,20 @@ class ResetPasswordSucessView extends StatelessWidget {
               const Icon(Icons.check_circle,
                   color: Colors.lightGreen, size: 120),
               const SizedBox(height: 20),
-              const Text(
-                "تم تغيير كلمة المرور بنجاح 🎉",
+              Text(
+                "${AppStrings.passwordChangedSuccess}🎉",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
-              const Text(
-                "يمكنك الآن تسجيل الدخول باستخدام كلمة المرور الجديدة.",
+              Text(
+                AppStrings.passwordChangedMessage,
                 style: TextStyle(fontSize: 16, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
               AppButton(
-                title: "الذهاب لتسجيل الدخول",
+                title: AppStrings.goToLogin,
                 onPressed: () {
                   context.pushNamedAndRemoveUntil(
                     Routes.singinView,

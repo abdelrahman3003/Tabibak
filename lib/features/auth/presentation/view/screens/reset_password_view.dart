@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
@@ -16,7 +17,7 @@ class ResetPasswordView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBarWidget(
-        title: "تعيين كلمة مرور جديدة",
+        title: AppStrings.setNewPassword,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -26,7 +27,7 @@ class ResetPasswordView extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "أدخل كلمة مرور جديدة وأكدها",
+                AppStrings.enterNewPassword,
                 style: Apptextstyles.font20BlackRegular,
               ),
               20.hBox,
@@ -34,7 +35,7 @@ class ResetPasswordView extends ConsumerWidget {
                 controller: ref
                     .read(authControllerProvider.notifier)
                     .newPasswordController,
-                hint: "كلمة المرور الجديدة",
+                hint: AppStrings.newPassword,
                 validator: (value) => Validation.validatePassord(value),
               ),
               20.hBox,
@@ -42,14 +43,14 @@ class ResetPasswordView extends ConsumerWidget {
                   controller: ref
                       .read(authControllerProvider.notifier)
                       .confirmNewPasswordController,
-                  hint: "تأكيد كلمة المرور",
+                  hint: AppStrings.confirmNewPassword,
                   validator: (value) {
                     if (value !=
                         ref
                             .read(authControllerProvider.notifier)
                             .newPasswordController
                             .text) {
-                      return "كلمة المرور غير متطابقة";
+                      return AppStrings.passwordsNotMatch;
                     }
                     Validation.validatePassord(value);
                     return null;
@@ -68,7 +69,8 @@ class ResetPasswordView extends ConsumerWidget {
       final state = ref.watch(authControllerProvider);
       bool isLoading = state is ResetPassordLoading;
       return AppButton(
-        title: isLoading ? "جاري التغير ..." : " حفظ كلمة المرور",
+        title:
+            isLoading ? "${AppStrings.changing}..." : AppStrings.savePassword,
         isLoading: isLoading,
         onPressed: () {
           if (!isLoading &&

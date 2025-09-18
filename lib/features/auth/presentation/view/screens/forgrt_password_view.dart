@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
@@ -16,7 +17,7 @@ class ForgrtPasswordView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBarWidget(
-        title: "نسيت كلمة المرور",
+        title: AppStrings.forgotPassword,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -26,12 +27,12 @@ class ForgrtPasswordView extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "أدخل بريدك الإلكتروني لاستلام رمز التحقق",
+                AppStrings.enterEmailForCode,
                 style: Apptextstyles.font20BlackRegular,
               ),
               20.hBox,
               AppTextFormFiled(
-                hint: "البريد الالكتروني",
+                hint: AppStrings.email,
                 controller:
                     ref.read(authControllerProvider.notifier).emailController,
                 validator: (value) => Validation.validateEmail(value),
@@ -53,7 +54,7 @@ class ForgrtPasswordView extends ConsumerWidget {
 
         bool isLoading = sendOtpState is SendOtpLoading;
         return AppButton(
-          title: isLoading ? "جاري ارسال الرمز..." : "ارسال الرمز",
+          title: isLoading ? "${AppStrings.sendCode}..." : AppStrings.sendCode,
           isLoading: isLoading,
           onPressed: () {
             if (!isLoading &&

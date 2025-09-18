@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
@@ -51,7 +52,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
     final state = ref.watch(authControllerProvider);
     String email = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
-      appBar: AppBarWidget(title: "تأكيد الرمز"),
+      appBar: AppBarWidget(title: AppStrings.confirmCode),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -78,8 +79,8 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
   Text titeTextStates(AuthStates state, String email) {
     return Text(
         state is SendOtpLoading
-            ? "جاري ارسال الرمز ..."
-            : "تم ارسال الرمز الي $email",
+            ? "${AppStrings.sendingCode}..."
+            : "${AppStrings.codeSentTo} $email",
         style: Apptextstyles.font16blackRegular);
   }
 
@@ -90,10 +91,10 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
       },
       child: Text(
           state is SendOtpLoading
-              ? "جاري ارسال الرمز"
+              ? AppStrings.sendingCode
               : _secondsRemaining > 0
-                  ? "إعادة الإرسال بعد $_secondsRemaining ثانية"
-                  : "إعادة إرسال الرمز",
+                  ? "${AppStrings.resendAfter} $_secondsRemaining ${AppStrings.seconds}"
+                  : AppStrings.resendCode,
           style: Apptextstyles.font16blackRegular),
     );
   }
@@ -101,7 +102,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
   verifyOtpButtonStates(String email, AuthStates state) {
     bool isLoading = state is VerifyOtpLoading;
     return AppButton(
-      title: isLoading ? "جاري ارسال الرمز..." : "تاكيد",
+      title: isLoading ? "${AppStrings.sendingCode}..." : AppStrings.confirm,
       isLoading: isLoading,
       onPressed: () {
         if (!isLoading) {
