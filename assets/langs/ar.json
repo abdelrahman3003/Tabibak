@@ -32,6 +32,7 @@
     "Welcome": "مرحباً",
     "Find Best Doctor": "ابحث عن أفضل طبيب واحجز موعدك بسهولة.",
     "Doctor Speciality": "تخصص الطبيب",
+    "Search": "بحث",
     "General": "عام",
     "Urology": "مسالك بولية",
     "Neurology": "مخ وأعصاب",
@@ -69,5 +70,7 @@
     "Phone Number": "رقم الهاتف",
     "Number Not Available": "الرقم غير متاح",
     "Write Comment Here": "اكتب تعليقك هنا...",
-    "Send": "إرسال"
+    "Comments": "التعليقات",
+    "App Language": "العربية",
+    "Code Language": "ar"
 }

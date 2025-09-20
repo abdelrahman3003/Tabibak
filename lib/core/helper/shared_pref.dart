@@ -23,4 +23,6 @@ class SharedPrefsService {
 class SharedPrefKeys {
   static const String userToken = 'userToken';
   static const String step = 'step';
+  static const String lang = "lang";
+  static const String isDark = "isDark";
 }

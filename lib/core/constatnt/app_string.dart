@@ -44,6 +44,7 @@ class AppStrings {
   static String home = "Home".tr();
   static String favorites = "Favorites".tr();
   static String bookings = "Bookings".tr();
+  static String search = "Search".tr();
   static String settings = "Settings".tr();
   static String account = "Account".tr();
   static String language = "Language".tr();
@@ -75,5 +76,7 @@ class AppStrings {
   static String get numberNotAvailable => "Number Not Available".tr();
   static String get writeCommentHere => "Write Comment Here".tr();
   static String get send => "Send".tr();
-  static String get comments => "التعليقات".tr();
+  static String get comments => "Comments".tr();
+  static String get appLang => "App Language".tr();
+  static String get codeLange => "Code Language".tr();
 }

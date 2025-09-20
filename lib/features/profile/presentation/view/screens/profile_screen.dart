@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/features/profile/presentation/view/widget/account_section.dart';
 import 'package:tabibak/features/profile/presentation/view/widget/profile_header_states.dart';
 import 'package:tabibak/features/profile/presentation/view/widget/setting_section.dart';
@@ -26,14 +25,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(AppStrings.settings.tr(),
-                style: Apptextstyles.font14Blackbold),
+                style: Theme.of(context).textTheme.titleLarge),
           ),
           SettingSection(),
           20.hBox,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(AppStrings.account.tr(),
-                style: Apptextstyles.font14Blackbold),
+                style: Theme.of(context).textTheme.titleLarge),
           ),
           AccountSection(),
         ],

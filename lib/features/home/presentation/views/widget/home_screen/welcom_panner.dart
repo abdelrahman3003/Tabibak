@@ -14,7 +14,7 @@ class WelcomPanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primaryLight,
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Consumer(builder: (context, ref, _) {

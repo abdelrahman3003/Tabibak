@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
@@ -20,6 +19,10 @@ class LayoutScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = ref.watch(indexScreenProvider);
+    final textStyle = Theme.of(context)
+        .textTheme
+        .bodyLarge
+        ?.copyWith(fontWeight: FontWeight.w500);
     final screens = [
       HomeScreen(),
       AppointmentsScreen(),
@@ -36,20 +39,32 @@ class LayoutScreen extends ConsumerWidget {
             ),
             GNav(
               gap: 12,
-              activeColor: AppColors.primary,
+              activeColor: Theme.of(context).colorScheme.primary,
               color: AppColors.primary,
-              tabBackgroundColor: AppColors.second,
+              tabBackgroundColor: Theme.of(context).colorScheme.secondary,
               selectedIndex: selectedIndex,
               onTabChange: (index) {
                 ref.read(indexScreenProvider.notifier).state = index;
               },
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
-              tabMargin: EdgeInsets.only(top: 8),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              tabMargin: EdgeInsets.only(top: 4),
               tabs: [
-                GButton(icon: Icons.home, text: AppStrings.home.tr()),
-                GButton(icon: Icons.event, text: AppStrings.bookings.tr()),
-                GButton(icon: Icons.search, text: AppStrings.favorites.tr()),
-                GButton(icon: Icons.settings, text: AppStrings.settings.tr()),
+                GButton(
+                    icon: Icons.home,
+                    text: AppStrings.home.tr(),
+                    textStyle: textStyle),
+                GButton(
+                    icon: Icons.event,
+                    text: AppStrings.bookings.tr(),
+                    textStyle: textStyle),
+                GButton(
+                    icon: Icons.search,
+                    text: AppStrings.search.tr(),
+                    textStyle: textStyle),
+                GButton(
+                    icon: Icons.settings,
+                    text: AppStrings.settings.tr(),
+                    textStyle: textStyle),
               ],
             ),
           ],

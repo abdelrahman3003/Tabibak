@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/theme/app_colors.dart';
 
 class CategoryItem extends StatelessWidget {
   const CategoryItem(
@@ -23,7 +22,8 @@ class CategoryItem extends StatelessWidget {
               padding: EdgeInsets.all(8),
               margin: EdgeInsets.symmetric(horizontal: 14.w),
               decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: AppColors.second),
+                  shape: BoxShape.circle,
+                  color: Theme.of(context).colorScheme.secondary),
               child: CachedNetworkImage(
                 imageUrl: icon,
                 errorWidget: (context, url, error) => SizedBox(),

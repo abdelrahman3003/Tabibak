@@ -1,68 +1,15 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/features/profile/presentation/view/widget/change_language.dart';
+import 'package:tabibak/features/profile/presentation/view/widget/theme_switch.dart';
 
-class SettingSection extends StatefulWidget {
+class SettingSection extends ConsumerWidget {
   const SettingSection({super.key});
 
   @override
-  State<SettingSection> createState() => _SettingSectionState();
-}
-
-String _selectedLanguage = "العربية";
-bool _isDarkTheme = false;
-
-class _SettingSectionState extends State<SettingSection> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
-      children: [
-        _buildLanguageTile(),
-        _buildThemeTile(),
-      ],
-    );
-  }
-
-  Widget _buildLanguageTile() {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: ListTile(
-        leading: const Icon(Icons.language, color: Colors.blue),
-        title: Text(AppStrings.language.tr()),
-        trailing: DropdownButton<String>(
-          value: _selectedLanguage,
-          underline: const SizedBox(),
-          items: ["العربية", "English"]
-              .map((lang) => DropdownMenuItem(
-                    value: lang,
-                    child: Text(lang),
-                  ))
-              .toList(),
-          onChanged: (value) {
-            setState(() {
-              _selectedLanguage = value!;
-              String code = value == "English" ? "en" : "ar";
-              context.setLocale(Locale(code));
-            });
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildThemeTile() {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: SwitchListTile(
-        secondary: const Icon(Icons.brightness_6, color: Colors.orange),
-        title: Text(AppStrings.darkMode.tr()),
-        value: _isDarkTheme,
-        onChanged: (value) {
-          setState(() {
-            _isDarkTheme = value;
-          });
-        },
-      ),
+      children: [ChangeLanguage(), ThemeSwitch()],
     );
   }
 }

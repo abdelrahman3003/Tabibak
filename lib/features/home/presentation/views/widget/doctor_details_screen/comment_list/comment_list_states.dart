@@ -25,7 +25,7 @@ class CommentListStates extends StatelessWidget {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TitelText(title: AppStrings.account),
+                  TitelText(title: AppStrings.comments),
                   CommentListView(doctorCommentModelList: recentComments),
                 ],
               );
@@ -34,12 +34,7 @@ class CommentListStates extends StatelessWidget {
   }
 
   List<Comment> _getRecentComments(List<Comment>? comments) {
-    List<Comment>? recentComments = [];
-    if (comments != null) {
-      for (var i = 0; i < 7; i++) {
-        recentComments.add(comments[i]);
-      }
-    }
-    return recentComments;
+    if (comments == null) return [];
+    return comments.take(7).toList();
   }
 }

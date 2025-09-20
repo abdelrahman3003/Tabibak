@@ -8,14 +8,6 @@ class AccountSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildLogoutTile(context),
-      ],
-    );
-  }
-
-  Widget _buildLogoutTile(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ListTile(
