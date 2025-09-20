@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
@@ -26,18 +27,19 @@ class DoctorDetailsHeader extends StatelessWidget {
       children: [
         ImageCircle(urlImage: image, radius: 60.r),
         12.hBox,
-        Text(name ?? "اسم غير موجود", style: Apptextstyles.font18blackBold),
+        Text(name ?? AppStrings.nameNotFound,
+            style: Theme.of(context).textTheme.titleLarge),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(specialty ?? "تخصص غير متاح",
-                style: Apptextstyles.font16blackRegular),
+            Text(specialty ?? AppStrings.specialtyNotAvailable,
+                style: Theme.of(context).textTheme.bodyLarge),
             4.wBox,
-            Text(
-              "-",
-              style: Apptextstyles.font14BlackReqular
-                  .copyWith(color: AppColors.textLight),
-            ),
+            Text("-",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(color: AppColors.textLight)),
             4.wBox,
             Text(
               university ?? "",
@@ -52,7 +54,7 @@ class DoctorDetailsHeader extends StatelessWidget {
         TextButton.icon(
           onPressed: () => showRatingDialog(context),
           label: Text(
-            "قيم الدكتور",
+            AppStrings.rateDoctor,
             style: Apptextstyles.font14BlackReqular
                 .copyWith(color: AppColors.primary),
           ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/widgets/dialogs.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
+import 'package:tabibak/core/widgets/dialogs.dart';
 import 'package:tabibak/features/booking/widget/booking/booking_date.dart';
 import 'package:tabibak/features/booking/widget/booking/booking_header.dart';
 import 'package:tabibak/features/booking/widget/booking/booking_time.dart';

@@ -28,7 +28,6 @@ class LayoutScreen extends ConsumerWidget {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -37,7 +36,6 @@ class LayoutScreen extends ConsumerWidget {
             ),
             GNav(
               gap: 12,
-              backgroundColor: Colors.white,
               activeColor: AppColors.primary,
               color: AppColors.primary,
               tabBackgroundColor: AppColors.second,

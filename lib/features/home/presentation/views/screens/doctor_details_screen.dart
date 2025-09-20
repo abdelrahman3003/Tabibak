@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/widgets/empty_widget.dart';
 import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/doctor_details_body.dart';
@@ -13,7 +14,7 @@ class DoctorDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget(
-        title: 'تفاصيل الطبيب',
+        title: AppStrings.doctorDetails,
       ),
       body: Consumer(builder: (context, ref, _) {
         final isLoading = ref.watch(

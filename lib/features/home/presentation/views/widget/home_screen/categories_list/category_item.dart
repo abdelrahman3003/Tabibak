@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -30,10 +29,7 @@ class CategoryItem extends StatelessWidget {
                 errorWidget: (context, url, error) => SizedBox(),
               )),
           SizedBox(height: 5),
-          Text(
-            name,
-            style: Apptextstyles.font14BlackReqular,
-          )
+          Text(name, style: Theme.of(context).textTheme.bodyLarge)
         ],
       ),
     );

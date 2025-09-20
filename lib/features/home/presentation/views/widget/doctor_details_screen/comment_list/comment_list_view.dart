@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/comment_list/comment_item.dart';
 
@@ -15,7 +16,7 @@ class CommentListView extends StatelessWidget {
       itemBuilder: (context, index) {
         return CommentItem(
             comment:
-                doctorCommentModelList[index].comment ?? "تعليق غير معروف");
+                doctorCommentModelList[index].comment ?? AppStrings.unknown);
       },
     );
   }

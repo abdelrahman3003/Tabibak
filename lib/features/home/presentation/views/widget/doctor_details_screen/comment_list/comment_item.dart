@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class CommentItem extends StatelessWidget {
@@ -11,7 +10,7 @@ class CommentItem extends StatelessWidget {
       leading: const Icon(Icons.comment, color: AppColors.primary),
       title: Text(
         comment,
-        style: Apptextstyles.font14BlackReqular,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
     );
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/widgets/shimmer_widget.dart';
 
 class HeaderProfileShimmer extends StatelessWidget {

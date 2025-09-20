@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
-import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 

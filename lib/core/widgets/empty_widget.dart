@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 
 class EmptyWidget extends StatelessWidget {
@@ -7,7 +8,7 @@ class EmptyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "لا يوجد بيانات",
+      AppStrings.noData,
       style: Apptextstyles.font18LightRegular,
     );
   }

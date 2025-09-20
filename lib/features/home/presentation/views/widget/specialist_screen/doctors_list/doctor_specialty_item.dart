@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 
@@ -41,21 +40,23 @@ class DoctorSpecialtyItem extends StatelessWidget {
                 children: [
                   Text(
                     doctorSummary.name ?? "",
-                    style: Apptextstyles.font16Blackebold,
+                    style: Theme.of(context).textTheme.titleLarge,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                   5.hBox,
                   Text(
                     doctorSummary.specialties?.name ?? "",
-                    style: Apptextstyles.font14BlackReqular,
+                    style: Theme.of(context).textTheme.bodyLarge,
                     overflow: TextOverflow.ellipsis,
                   ),
                   5.hBox,
                   Text(
                     doctorSummary.clinicData?.address ?? "مكان غير معروف",
-                    style: Apptextstyles.font14BlackReqular
-                        .copyWith(fontSize: 12.sp),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: AppColors.textLight),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],

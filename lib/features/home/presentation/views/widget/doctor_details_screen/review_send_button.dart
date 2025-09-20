@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
@@ -22,8 +23,8 @@ class ReviewSendButton extends StatelessWidget {
             child: TextField(
               controller:
                   ref.read(homeControllerPrvider.notifier).commentController,
-              decoration: const InputDecoration(
-                hintText: "اكتب تعليقك هنا...",
+              decoration: InputDecoration(
+                hintText: "${AppStrings.writeCommentHere}..",
                 border: OutlineInputBorder(),
               ),
             ),
@@ -32,7 +33,7 @@ class ReviewSendButton extends StatelessWidget {
           AppButton(
             isLoading: isSendCommentLoading ?? false,
             isLoadingSide: true,
-            title: "إرسال",
+            title: AppStrings.send,
             onPressed: () {
               ref
                   .read(homeControllerPrvider.notifier)

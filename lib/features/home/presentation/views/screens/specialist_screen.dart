@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/doctors_list/docotr_specialty_list_states.dart';
@@ -11,7 +12,7 @@ class SpecialistScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBarWidget(
-          title: "أطباء قسم عام",
+          title: AppStrings.aboutDoctor,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

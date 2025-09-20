@@ -33,13 +33,15 @@ class WelcomPanner extends StatelessWidget {
                   Text(
                     "${AppStrings.welcome.tr()}, ${userModel != null ? userModel.name : ""} 👋",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        fontWeight: FontWeight.bold, color: AppColors.black),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     AppStrings.findBestDoctor.tr(),
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(color: AppColors.black),
                   ),
                 ],
               ),

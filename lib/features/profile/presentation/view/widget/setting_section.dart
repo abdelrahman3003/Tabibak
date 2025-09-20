@@ -41,6 +41,8 @@ class _SettingSectionState extends State<SettingSection> {
           onChanged: (value) {
             setState(() {
               _selectedLanguage = value!;
+              String code = value == "English" ? "en" : "ar";
+              context.setLocale(Locale(code));
             });
           },
         ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
-import 'package:tabibak/core/theme/app_colors.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({
@@ -38,7 +36,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       elevation: 1,
       scrolledUnderElevation: 1,
       shadowColor: shadow,
-      backgroundColor: backgroundColor ?? AppColors.white,
       leading: isShowBack == false
           ? null
           : IconButton(
@@ -56,12 +53,12 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               icon: Icon(
                 Icons.arrow_back_ios,
                 size: 20.5.h,
-                color: iconColor ?? Colors.black,
               ),
             ),
       centerTitle: true,
       title: (title is String)
-          ? Text(title, style: titleStyle ?? Apptextstyles.font16Blackebold)
+          ? Text(title,
+              style: titleStyle ?? Theme.of(context).textTheme.titleLarge)
           : title,
       actions: actions ??
           [
