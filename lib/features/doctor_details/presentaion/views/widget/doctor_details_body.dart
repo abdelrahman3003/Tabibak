@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
+import 'package:tabibak/features/doctor_details/presentaion/views/widget/clinic_info_section.dart';
+import 'package:tabibak/features/doctor_details/presentaion/views/widget/schedule_section.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/clinic_info_section.dart';
-import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/schedule_section.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
 
 import 'doctor_details_header.dart';

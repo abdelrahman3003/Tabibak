@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/booking/appointments_screen.dart';
+import 'package:tabibak/features/appointment/appointments_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/favourite_view.dart';
 import 'package:tabibak/features/home/presentation/views/screens/home_screen.dart';
 import 'package:tabibak/features/profile/presentation/view/screens/profile_screen.dart';

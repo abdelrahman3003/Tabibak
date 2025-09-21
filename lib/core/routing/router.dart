@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/routing/routes.dart';
+import 'package:tabibak/features/appointment/booking_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/forgrt_password_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/otp_verification_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/reset_password_sucess_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/reset_password_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/signin_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/signup_view.dart';
-import 'package:tabibak/features/booking/booking_screen.dart';
-import 'package:tabibak/features/home/presentation/views/screens/doctor_details_screen.dart';
+import 'package:tabibak/features/doctor_details/presentaion/views/screens/doctor_details_screen.dart';
+import 'package:tabibak/features/home/presentation/views/screens/layout_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/specialist_screen.dart';
-import 'package:tabibak/features/layout/layout_screen.dart';
 import 'package:tabibak/features/notification/notifcation_screen.dart';
 
 class AppRouter {

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
+import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_details_provider.dart';
 
 class ReviewSendButton extends StatelessWidget {
   const ReviewSendButton({super.key});
@@ -11,18 +11,19 @@ class ReviewSendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
-      final isSendCommentLoading = ref.watch(
-        homeControllerPrvider.select((state) => state.isSendCommentLoading),
+      final isLoading = ref.watch(
+        doctorDetailsNotifierProvider.select((state) => state.isLoading),
       );
       final doctorModel = ref.read(
-        homeControllerPrvider.select((state) => state.doctorModel),
+        doctorDetailsNotifierProvider.select((state) => state.doctorModel),
       );
       return Row(
         children: [
           Expanded(
             child: TextField(
-              controller:
-                  ref.read(homeControllerPrvider.notifier).commentController,
+              controller: ref
+                  .read(doctorDetailsNotifierProvider.notifier)
+                  .commentTextController,
               decoration: InputDecoration(
                 hintText: "${AppStrings.writeCommentHere}..",
                 border: OutlineInputBorder(),
@@ -31,12 +32,12 @@ class ReviewSendButton extends StatelessWidget {
           ),
           const SizedBox(width: 10),
           AppButton(
-            isLoading: isSendCommentLoading ?? false,
+            isLoading: isLoading,
             isLoadingSide: true,
             title: AppStrings.send,
             onPressed: () {
               ref
-                  .read(homeControllerPrvider.notifier)
+                  .read(doctorDetailsNotifierProvider.notifier)
                   .addComment(doctorModel!.id);
             },
             color: AppColors.textLight,

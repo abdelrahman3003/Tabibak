@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_details_provider.dart';
+import 'package:tabibak/features/doctor_details/presentaion/views/widget/comment_list/comment_list_view.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
-import 'package:tabibak/features/home/presentation/views/widget/doctor_details_screen/comment_list/comment_list_view.dart';
 
-import '../../home_screen/titel_text.dart';
+import '../../../../../home/presentation/views/widget/home_screen/titel_text.dart';
 
 class CommentListStates extends StatelessWidget {
   const CommentListStates({super.key});
@@ -15,7 +15,7 @@ class CommentListStates extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final doctorModel = ref.read(
-          homeControllerPrvider.select((state) => state.doctorModel),
+          doctorDetailsNotifierProvider.select((state) => state.doctorModel),
         );
         List<Comment> recentComments =
             _getRecentComments(doctorModel!.comments);

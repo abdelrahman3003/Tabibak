@@ -7,9 +7,11 @@ class EmptyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      AppStrings.noData,
-      style: Apptextstyles.font18LightRegular,
+    return Center(
+      child: Text(
+        AppStrings.noData,
+        style: Apptextstyles.font18LightRegular,
+      ),
     );
   }
 }

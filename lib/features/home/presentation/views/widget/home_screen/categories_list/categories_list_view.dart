@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/home/data/model/specialise_model.dart';
-import 'package:tabibak/features/home/presentation/manager/home_controller.dart';
+import 'package:tabibak/features/home/presentation/manager/home_provider.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/category_item.dart';
 
 class CategoriesListView extends StatelessWidget {

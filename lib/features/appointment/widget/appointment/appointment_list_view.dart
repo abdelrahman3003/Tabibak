@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/features/booking/widget/appointment/appointment_card_item.dart';
+import 'package:tabibak/features/appointment/widget/appointment/appointment_card_item.dart';
 
 class AppointmentListView extends StatelessWidget {
   const AppointmentListView({super.key});
