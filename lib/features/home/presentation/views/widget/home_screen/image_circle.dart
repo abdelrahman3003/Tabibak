@@ -14,6 +14,7 @@ class ImageCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       radius: radius ?? 28.r,
       backgroundImage:
           urlImage == null ? null : CachedNetworkImageProvider(urlImage!),

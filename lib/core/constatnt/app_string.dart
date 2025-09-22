@@ -79,4 +79,6 @@ class AppStrings {
   static String get comments => "Comments".tr();
   static String get appLang => "App Language".tr();
   static String get codeLange => "Code Language".tr();
+  static String get recentSearches => "Recent searches".tr();
+  static String get searchResults => "Search Resultss".tr();
 }

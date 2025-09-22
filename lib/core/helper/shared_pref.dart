@@ -25,4 +25,5 @@ class SharedPrefKeys {
   static const String step = 'step';
   static const String lang = "lang";
   static const String isDark = "isDark";
+  static const String searchDoctors = "'searchDoctors'";
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/home/presentation/manager/home_provider.dart';
+import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
 class WelcomPanner extends StatelessWidget {

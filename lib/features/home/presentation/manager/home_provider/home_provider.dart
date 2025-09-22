@@ -6,7 +6,7 @@ import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_detai
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
 import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
-import 'package:tabibak/features/home/presentation/manager/home_states.dart';
+import 'package:tabibak/features/home/presentation/manager/home_provider/home_states.dart';
 import 'package:tabibak/gen/assets.gen.dart';
 
 final categoryListIconsProvider = StateProvider<List<String>>((ref) {

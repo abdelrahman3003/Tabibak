@@ -8,6 +8,8 @@ class ApiConstants {
       "id,name,image,specialties(name),clinic_data(address)";
   static const String getComments = "comment,users(name),doctors(id,name)";
   static const String getUser = "*";
+  static const String searchDoctor =
+      "id,name,image,specialties(name),clinic_data(address)";
 }
 
 class ApiErrors {

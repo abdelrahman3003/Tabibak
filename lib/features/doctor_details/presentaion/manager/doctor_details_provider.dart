@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_details_states.dart';
-import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/data/repo/home_repo.dart';
-import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
+import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 
-final homrepoProvider = StateProvider<HomeRepo>(
-  (ref) => HomeRepoImp(homeRemoteData: HomeRemoteData()),
-);
 final doctorDetailsNotifierProvider = StateNotifierProvider.autoDispose<
     DoctorDetailsController, DoctorDetailsStates>(
   (ref) => DoctorDetailsController(ref),

@@ -45,6 +45,16 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
+  Future<ApiResult<List<DoctorSummary>>> searchDoctor(search) async {
+    try {
+      final result = await homeRemoteData.searchDoctor(search);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
   Future<ApiResult<List<DoctorSummary>>> getAllDoctorsSummary() async {
     try {
       final result = await homeRemoteData.getAllDoctorsSummary();

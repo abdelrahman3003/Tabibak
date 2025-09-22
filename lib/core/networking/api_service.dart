@@ -16,6 +16,11 @@ abstract class ApiService {
     @Query("select") String selectFields,
   );
   @GET("/doctors")
+  Future<List<DoctorSummary>> searchDoctor(
+    @Query("select") String selectFields,
+    @Query("name") String search,
+  );
+  @GET("/doctors")
   Future<List<DoctorSummary>> getAllDoctorsSummary(
     @Query("select") String selectFields,
   );

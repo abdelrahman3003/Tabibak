@@ -29,6 +29,11 @@ class HomeRemoteData {
     return await apiService.getDoctors(ApiConstants.getAllDoctors);
   }
 
+  Future<List<DoctorSummary>> searchDoctor(String search) async {
+    return await apiService.searchDoctor(
+        ApiConstants.getAllDoctorsSummary, "ilike.*$search*");
+  }
+
   Future<List<DoctorSummary>> getAllDoctorsSummary() async {
     return await apiService
         .getAllDoctorsSummary(ApiConstants.getAllDoctorsSummary);

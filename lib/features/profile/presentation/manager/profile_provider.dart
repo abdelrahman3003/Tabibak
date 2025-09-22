@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/features/home/presentation/manager/home_provider.dart';
+import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/profile/data/data_source/profile_remote_data_source.dart';
 import 'package:tabibak/features/profile/data/repo/profile_repo.dart';
 import 'package:tabibak/features/profile/data/repo/profile_repo_imp.dart';

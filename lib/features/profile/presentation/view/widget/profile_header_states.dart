@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/features/home/presentation/manager/home_provider.dart';
+import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/profile/presentation/view/widget/header_profile_shimmer.dart';
 import 'package:tabibak/features/profile/presentation/view/widget/profile_header.dart';
 

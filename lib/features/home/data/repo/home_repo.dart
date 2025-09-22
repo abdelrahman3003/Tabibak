@@ -8,6 +8,7 @@ abstract class HomeRepo {
   Future<ApiResult<List<SpecialiseModel>>> fetchSpecialties();
   Future<ApiResult<UserModel>> getUserData();
   Future<ApiResult<List<DoctorModel>>> fetchAllDoctors();
+  Future<ApiResult<List<DoctorSummary>>> searchDoctor(String search);
   Future<ApiResult<List<DoctorSummary>>> getAllDoctorsSummary();
   Future<ApiResult<DoctorModel>> getDoctorId(int id);
   Future<ApiResult<List<DoctorSummary>>> getAllDoctorsSpecialties(
