@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/features/appointment/booking_screen.dart';
+import 'package:tabibak/features/appointment/presentaion/view/screens/booking_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/forgrt_password_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/otp_verification_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/reset_password_sucess_view.dart';

@@ -43,20 +43,14 @@ class SearchScreen extends ConsumerWidget {
   }
 
   Widget _buildContent(
-    BuildContext context,
-    SearchStates state,
-    SearchProvider controller,
-  ) {
+      BuildContext context, SearchStates state, SearchProvider controller) {
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-
     final doctors = state.searchDoctorsList ?? controller.cachedList;
-
     if (doctors == null || doctors.isEmpty) {
       return const EmptyWidget();
     }
-
     return SearchCardListView(
       searchDoctorList: doctors,
       onItemTap: (index) => controller.goToDoctorDetails(context, index),

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/appointment/appointments_screen.dart';
+import 'package:tabibak/features/appointment/presentaion/view/screens/appointments_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/home_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/search_screen.dart';
 import 'package:tabibak/features/profile/presentation/view/screens/profile_screen.dart';
@@ -22,7 +22,7 @@ class LayoutScreen extends ConsumerWidget {
     final textStyle = Theme.of(context)
         .textTheme
         .bodyLarge
-        ?.copyWith(fontWeight: FontWeight.w500);
+        ?.copyWith(fontWeight: FontWeight.w500, color: AppColors.primary);
     final screens = [
       HomeScreen(),
       AppointmentsScreen(),
@@ -39,9 +39,9 @@ class LayoutScreen extends ConsumerWidget {
             ),
             GNav(
               gap: 12,
-              activeColor: Theme.of(context).colorScheme.primary,
+              activeColor: AppColors.primary,
               color: AppColors.primary,
-              tabBackgroundColor: Theme.of(context).colorScheme.secondary,
+              tabBackgroundColor: AppColors.second,
               selectedIndex: selectedIndex,
               onTabChange: (index) {
                 ref.read(indexScreenProvider.notifier).state = index;

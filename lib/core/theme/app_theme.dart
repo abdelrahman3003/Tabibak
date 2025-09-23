@@ -50,8 +50,8 @@ class AppTheme {
     primaryColor: AppColors.primaryDark,
     colorScheme: ColorScheme.dark(
       surface: Colors.grey.shade900,
-      primary: AppColors.primaryDark,
-      secondary: Colors.grey.shade700,
+      primary: Colors.grey.shade700,
+      secondary: Colors.grey.shade500,
     ),
     fontFamily: "Tajawal",
     elevatedButtonTheme: ElevatedButtonThemeData(

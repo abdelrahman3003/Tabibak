@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
+import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 
@@ -49,4 +50,16 @@ abstract class ApiService {
   //rating
   @POST("/ratings")
   Future<void> addRate(@Body() Map<String, dynamic> body);
+
+  //appointments
+  @GET("/appointments")
+  Future<List<Appointment>> getAllAppointment(
+    @Query("select") String selectFields,
+    @Query("user_id") String userId,
+  );
+
+  @GET("/appointments_status")
+  Future<List<AppointmentStatus>> getAllAppointmentStatus(
+    @Query("select") String selectFields,
+  );
 }

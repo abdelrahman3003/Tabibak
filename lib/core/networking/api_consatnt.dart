@@ -10,6 +10,9 @@ class ApiConstants {
   static const String getUser = "*";
   static const String searchDoctor =
       "id,name,image,specialties(name),clinic_data(address)";
+  static const String getAllAppoinments =
+      "*,doctors(id,name,specialties(id,name)),appointments_status(status)";
+  static const String getAllAppoinmentsStatus = "status";
 }
 
 class ApiErrors {

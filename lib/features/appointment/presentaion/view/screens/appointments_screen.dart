@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/features/appointment/widget/appointment/appointment_list_view.dart';
+import 'package:tabibak/features/appointment/presentaion/view/widget/appointment/appointment_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
 
 class AppointmentsScreen extends StatelessWidget {
@@ -12,8 +13,8 @@ class AppointmentsScreen extends StatelessWidget {
       body: Column(
         children: [
           10.hBox,
-          TitelText(title: "الحجوزات"),
-          Expanded(child: AppointmentListView()),
+          TitelText(title: AppStrings.appointments),
+          Expanded(child: AppointmentListStates()),
         ],
       ),
     );
