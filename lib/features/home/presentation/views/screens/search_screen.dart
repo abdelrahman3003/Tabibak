@@ -30,7 +30,7 @@ class SearchScreen extends ConsumerWidget {
           if (!state.isLoading)
             Text(
               state.searchDoctorsList != null
-                  ? "نتائج البحث"
+                  ? AppStrings.searchResults
                   : AppStrings.recentSearches,
               style: Theme.of(context).textTheme.titleMedium,
             ),

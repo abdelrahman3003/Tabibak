@@ -3,7 +3,7 @@ class ApiConstants {
   static const String apiBaseUrl =
       'https://wzfdmzijnyaihssxwril.supabase.co/rest/v1';
   static const String getAllDoctors =
-      "*,university_data(*),specialties(id,name),clinic_data(*,clinic_working_day(working_day(days(day),times(start,end)))),ratings(*),comments(*)";
+      "*,university_data(*),specialties(id,name),clinic_data(*,clinic_working_day(working_day(days(day),shifts(morning(start,end),evening(start,end))))),ratings(*),comments(*)";
   static const String getAllDoctorsSummary =
       "id,name,image,specialties(name),clinic_data(address)";
   static const String getComments = "comment,users(name),doctors(id,name)";
@@ -13,6 +13,8 @@ class ApiConstants {
   static const String getAllAppoinments =
       "*,doctors(id,name,specialties(id,name)),appointments_status(status)";
   static const String getAllAppoinmentsStatus = "status";
+  static const String getTimeSlots =
+      "working_day!inner(days!inner(day),shifts(morning(start,end),evening(start,end)))";
 }
 
 class ApiErrors {

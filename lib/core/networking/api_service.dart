@@ -62,4 +62,10 @@ abstract class ApiService {
   Future<List<AppointmentStatus>> getAllAppointmentStatus(
     @Query("select") String selectFields,
   );
+  @GET("/clinic_working_day")
+  Future<List<ClinicWorkingDay>> getTimeSlots(
+    @Query("select") String selectFields,
+    @Query("working_day.days.day") String day,
+    @Query("clinic_id") String clinicId,
+  );
 }

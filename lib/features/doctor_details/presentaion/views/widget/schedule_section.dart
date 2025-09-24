@@ -16,19 +16,38 @@ class ScheduleSection extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TitelText(title: AppStrings.workingHours),
+              Row(
+                children: [
+                  TitelText(title: AppStrings.workingHours),
+                  Spacer(),
+                  _buildTextShift(context, AppStrings.morning),
+                  55.wBox,
+                  _buildTextShift(context, AppStrings.evening),
+                  20.wBox
+                ],
+              ),
               10.hBox,
               Column(
                 children: List.generate(
                   workingDayList!.length,
                   (index) => SheduleRowItem(
-                      day: workingDayList?[index].workingDay?.days?.day ?? "",
-                      start:
-                          workingDayList?[index].workingDay?.times?.start ?? "",
-                      end: workingDayList?[index].workingDay?.times?.end ?? ""),
+                    day: workingDayList?[index].workingDay?.days?.day ?? "",
+                    morning: workingDayList?[index].workingDay?.shifts?.morning,
+                    evening: workingDayList?[index].workingDay?.shifts?.evening,
+                  ),
                 ),
               ),
             ],
           );
+  }
+
+  Text _buildTextShift(BuildContext context, String shift) {
+    return Text(
+      shift,
+      style: Theme.of(context)
+          .textTheme
+          .titleMedium!
+          .copyWith(fontWeight: FontWeight.bold),
+    );
   }
 }

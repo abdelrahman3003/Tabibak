@@ -58,7 +58,9 @@ Map<String, dynamic> _$UniversityToJson(University instance) =>
     };
 
 Clinic _$ClinicFromJson(Map<String, dynamic> json) => Clinic(
+      id: (json['id'] as num).toInt(),
       address: json['address'] as String?,
+      isBooking: json['isBooking'] as bool?,
       clinicName: json['clinic_name'] as String?,
       phoneNumber: (json['phone_number'] as num?)?.toInt(),
       consultationFee: (json['consultation_fee'] as num?)?.toInt(),
@@ -68,6 +70,8 @@ Clinic _$ClinicFromJson(Map<String, dynamic> json) => Clinic(
     );
 
 Map<String, dynamic> _$ClinicToJson(Clinic instance) => <String, dynamic>{
+      'id': instance.id,
+      'isBooking': instance.isBooking,
       'address': instance.address,
       'clinic_name': instance.clinicName,
       'phone_number': instance.phoneNumber,
@@ -91,15 +95,15 @@ WorkingDay _$WorkingDayFromJson(Map<String, dynamic> json) => WorkingDay(
       days: json['days'] == null
           ? null
           : Days.fromJson(json['days'] as Map<String, dynamic>),
-      times: json['times'] == null
+      shifts: json['shifts'] == null
           ? null
-          : TimeSlot.fromJson(json['times'] as Map<String, dynamic>),
+          : Shifts.fromJson(json['shifts'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$WorkingDayToJson(WorkingDay instance) =>
     <String, dynamic>{
       'days': instance.days,
-      'times': instance.times,
+      'shifts': instance.shifts,
     };
 
 TimeSlot _$TimeSlotFromJson(Map<String, dynamic> json) => TimeSlot(
@@ -110,6 +114,20 @@ TimeSlot _$TimeSlotFromJson(Map<String, dynamic> json) => TimeSlot(
 Map<String, dynamic> _$TimeSlotToJson(TimeSlot instance) => <String, dynamic>{
       'start': instance.start,
       'end': instance.end,
+    };
+
+Shifts _$ShiftsFromJson(Map<String, dynamic> json) => Shifts(
+      morning: json['morning'] == null
+          ? null
+          : TimeSlot.fromJson(json['morning'] as Map<String, dynamic>),
+      evening: json['evening'] == null
+          ? null
+          : TimeSlot.fromJson(json['evening'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ShiftsToJson(Shifts instance) => <String, dynamic>{
+      'morning': instance.morning,
+      'evening': instance.evening,
     };
 
 Days _$DaysFromJson(Map<String, dynamic> json) => Days(

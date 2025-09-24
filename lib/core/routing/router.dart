@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/features/appointment/presentaion/view/screens/booking_screen.dart';
+import 'package:tabibak/features/appointment/presentaion/view/screens/appointment_booking_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/forgrt_password_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/otp_verification_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/reset_password_sucess_view.dart';
@@ -8,6 +8,7 @@ import 'package:tabibak/features/auth/presentation/view/screens/reset_password_v
 import 'package:tabibak/features/auth/presentation/view/screens/signin_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/signup_view.dart';
 import 'package:tabibak/features/doctor_details/presentaion/views/screens/doctor_details_screen.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/screens/layout_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/specialist_screen.dart';
 import 'package:tabibak/features/notification/notifcation_screen.dart';
@@ -32,8 +33,10 @@ class AppRouter {
         return _buildSlideRoute(const SpecialistScreen());
       case Routes.doctorDetailsScreen:
         return _buildSlideRoute(const DoctorDetailsScreen());
-      case Routes.bookingScreen:
-        return _buildSlideRoute(const BookingScreen());
+      case Routes.appointmentBookingScreen:
+        final doctorModel = setting.arguments as DoctorModel;
+        return _buildSlideRoute(
+            AppointmentBookingScreen(doctorModel: doctorModel));
       case Routes.resetPasswordSucessView:
         return _buildSlideRoute(const ResetPasswordSucessView());
       case Routes.notifcationScreen:

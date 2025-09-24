@@ -74,6 +74,8 @@ class University {
 
 @JsonSerializable()
 class Clinic {
+  final int id;
+  final bool? isBooking;
   final String? address;
   @JsonKey(name: "clinic_name")
   final String? clinicName;
@@ -85,7 +87,9 @@ class Clinic {
   final List<ClinicWorkingDay>? clinicWorkingDay;
 
   Clinic({
+    required this.id,
     required this.address,
+    required this.isBooking,
     required this.clinicName,
     required this.phoneNumber,
     required this.consultationFee,
@@ -113,9 +117,9 @@ class ClinicWorkingDay {
 @JsonSerializable()
 class WorkingDay {
   final Days? days;
-  final TimeSlot? times;
+  final Shifts? shifts;
 
-  WorkingDay({required this.days, required this.times});
+  WorkingDay({required this.days, required this.shifts});
 
   factory WorkingDay.fromJson(Map<String, dynamic> json) =>
       _$WorkingDayFromJson(json);
@@ -134,6 +138,18 @@ class TimeSlot {
       _$TimeSlotFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimeSlotToJson(this);
+}
+
+@JsonSerializable()
+class Shifts {
+  final TimeSlot? morning;
+  final TimeSlot? evening;
+
+  Shifts({required this.morning, required this.evening});
+
+  factory Shifts.fromJson(Map<String, dynamic> json) => _$ShiftsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ShiftsToJson(this);
 }
 
 @JsonSerializable()

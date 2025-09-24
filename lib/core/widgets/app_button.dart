@@ -5,15 +5,18 @@ import 'package:tabibak/core/theme/appTextStyles.dart';
 import '../theme/app_colors.dart';
 
 class AppButton extends StatelessWidget {
-  const AppButton(
-      {super.key,
-      this.color,
-      required this.title,
-      this.onPressed,
-      this.isLoading = false,
-      this.padding,
-      this.textColor,
-      this.isLoadingSide = false});
+  const AppButton({
+    super.key,
+    this.color,
+    required this.title,
+    this.onPressed,
+    this.isLoading = false,
+    this.padding,
+    this.textColor,
+    this.isLoadingSide = false,
+    this.isDisabled = false,
+  });
+
   final Color? color;
   final Color? textColor;
   final String title;
@@ -21,6 +24,8 @@ class AppButton extends StatelessWidget {
   final void Function()? onPressed;
   final EdgeInsetsGeometry? padding;
   final bool isLoadingSide;
+  final bool isDisabled;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -29,45 +34,46 @@ class AppButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         padding: padding ?? const EdgeInsets.symmetric(vertical: 16),
-      ).copyWith(
-        backgroundColor: WidgetStateProperty.all(color ?? AppColors.primary),
-        overlayColor: WidgetStateProperty.all(AppColors.textLight),
+        backgroundColor: isDisabled
+            ? Theme.of(context).colorScheme.secondary
+            : (color ?? AppColors.primary),
       ),
-      onPressed: onPressed,
+      onPressed: isDisabled ? null : onPressed,
       child: isLoadingSide && isLoading
           ? Center(
               child: SizedBox(
-              height: 15.h,
-              width: 14.w,
-              child: CircularProgressIndicator(
-                color: AppColors.white,
+                height: 15.h,
+                width: 14.w,
+                child: const CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               ),
-            ))
+            )
           : Stack(
               children: [
                 Center(
                   child: Text(
                     title,
-                    style: Apptextstyles.font16Blackebold
-                        .copyWith(color: textColor ?? Colors.white),
+                    style: Apptextstyles.font16Blackebold.copyWith(
+                      color: textColor ?? Colors.white,
+                    ),
                   ),
                 ),
-                !isLoading
-                    ? const SizedBox()
-                    : Positioned(
-                        right: 1,
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 16),
-                          child: SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3,
-                              color: Colors.white,
-                            ),
-                          ),
+                if (isLoading && !isLoadingSide)
+                  Positioned(
+                    right: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: const CircularProgressIndicator(
+                          strokeWidth: 3,
+                          color: Colors.white,
                         ),
                       ),
+                    ),
+                  ),
               ],
             ),
     );

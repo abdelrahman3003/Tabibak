@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class SheduleRowItem extends StatelessWidget {
   const SheduleRowItem(
-      {super.key, required this.day, required this.start, required this.end});
+      {super.key,
+      required this.day,
+      required this.morning,
+      required this.evening});
   final String day;
-  final String start;
-  final String end;
+  final TimeSlot? morning;
+  final TimeSlot? evening;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,28 +33,44 @@ class SheduleRowItem extends StatelessWidget {
                 Text(day, style: Theme.of(context).textTheme.bodyLarge),
               ],
             ),
-            Row(
+            Spacer(),
+            _buildTimeRow(context, morning),
+            20.wBox,
+            _buildTimeRow(context, evening),
+          ],
+        ));
+  }
+
+  _buildTimeRow(BuildContext context, TimeSlot? timteSlot) {
+    return Container(
+      color: Theme.of(context).colorScheme.secondary,
+      width: 80.w,
+      child: timteSlot == null
+          ? Text(
+              AppStrings.notAvailable,
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 50.w,
-                  child: Center(
-                    child: Text(
-                      start,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                Text(
+                  timteSlot.start ?? AppStrings.unknown,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    "-",
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
-                const SizedBox(width: 8),
-                SizedBox(
-                  width: 50.w,
-                  child: Center(
-                    child: Text(end,
-                        style: Theme.of(context).textTheme.bodyMedium),
-                  ),
+                Text(
+                  timteSlot.end ?? AppStrings.unknown,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),
-          ],
-        ));
+    );
   }
 }

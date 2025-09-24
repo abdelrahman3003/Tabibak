@@ -75,5 +75,22 @@
     "Code Language": "ar",
     "Recent searches": "عمليات البحث الأخيرة",
     "Search Results": "نتائج البحث",
-    "Appointments": "الحجوزات"
+    "Appointments": "الحجوزات",
+    "Recent Searches": "عمليات البحث الأخيرة",
+    "Select Date": "اختر التاريخ",
+    "Select Time": "اختر الساعة",
+    "Confirm Booking": "تأكيد الحجز",
+    "Appointment Booked Successfully": "تم حجز الكشف بنجاح!",
+    "Booking Confirmed": "تم الحجز",
+    "Consultation Price Not Available": "سعر الكشف غير متاح",
+    "EGP": "جنيه",
+    "Not Available": "غير متاح",
+    "Morning": "صباحي",
+    "Evening": "مسائي",
+    "The clinic is not available on this day": "العيادة غير متوفرة في هذا اليوم",
+    "Booking Success": "تم الحجز بنجاح",
+    "Booking Unavailable": "الحجز غير متاح في هذه العيادة",
+    "Booking Confirmed Message": "شكراً لك! تم تأكيد الحجز الخاص بك.",
+    "Choose Another Day Message": "يرجى اختيار يوم آخر أو عيادة مختلفة",
+    "OK": "حسنا"
 }

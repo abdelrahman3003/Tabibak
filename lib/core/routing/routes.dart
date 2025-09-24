@@ -8,6 +8,6 @@ class Routes {
   static const String layoutScreen = "/layout";
   static const String specialistScreen = "/specialist";
   static const String doctorDetailsScreen = "/doctor-details";
-  static const String bookingScreen = "/booking";
+  static const String appointmentBookingScreen = "/appointment-booking-screen";
   static const String notifcationScreen = "/notification";
 }

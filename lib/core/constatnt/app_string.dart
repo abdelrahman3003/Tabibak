@@ -81,6 +81,26 @@ class AppStrings {
   static String get codeLange => "Code Language".tr();
   static String get recentSearches => "Recent searches".tr();
   static String get searchResults => "Search Resultss".tr();
-  //
   static String get appointments => "Appointments".tr();
+  static String get codeLanguage => "Code Language".tr();
+  static String get selectDate => "Select Date".tr();
+  static String get selectTime => "Select Time".tr();
+  static String get confirmBooking => "Confirm Booking".tr();
+  static String get appointmentBookedSuccessfully =>
+      "Appointment Booked Successfully".tr();
+  static String get bookingConfirmed => "Booking Confirmed".tr();
+  static String get consultationPriceNotAvailable =>
+      "Consultation Price Not Available".tr();
+  static String get egp => "EGP".tr();
+  static String get notAvailable => "Not Available".tr();
+  static String get morning => "Morning".tr();
+  static String get evening => "Evening".tr();
+  static String get clinicIsnotAvailableOnthisDay =>
+      "The clinic is not available on this day".tr();
+  static String get bookingSuccess => "Booking Success".tr();
+  static String get bookingUnavailable => "Booking Unavailable".tr();
+  static String get bookingConfirmedMessage => "Booking Confirmed Message".tr();
+  static String get chooseAnotherDayMessage =>
+      "Choose Another Day Message".tr();
+  static String get ok => "OK".tr();
 }

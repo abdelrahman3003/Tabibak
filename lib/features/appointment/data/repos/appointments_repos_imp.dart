@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/data/remote_data/appointments_remote_data.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class AppointmentsReposImp implements AppointmentsRepos {
   final appointmentsRemoteData = AppointmentsRemoteData();
@@ -23,6 +26,22 @@ class AppointmentsReposImp implements AppointmentsRepos {
       final result = await appointmentsRemoteData.getAllAppoinmentsStatus();
       return ApiResult.sucess(result);
     } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<WorkingDay?>> getTimeSlots(
+      int doctorId, String workingDay) async {
+    try {
+      final result =
+          await appointmentsRemoteData.getTimeSlots(doctorId, workingDay);
+      if (result.isEmpty) {
+        return ApiResult.sucess(null);
+      }
+      return ApiResult.sucess(result.first.workingDay);
+    } catch (error) {
+      log("--------------------------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

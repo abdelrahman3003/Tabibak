@@ -23,7 +23,7 @@ class AppointmentShimmer extends StatelessWidget {
                 ),
                 10.hBox,
                 ShimmerWidget(height: 10.h, width: 120.w),
-                40.hBox,
+                20.hBox,
               ],
             ));
   }
