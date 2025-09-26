@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 
 class PasswordTextfiled extends StatefulWidget {
   const PasswordTextfiled(
@@ -18,26 +17,47 @@ bool isPassword = true;
 class _PasswordTextfiledState extends State<PasswordTextfiled> {
   @override
   Widget build(BuildContext context) {
-    return AppTextFormFiled(
-      hint: widget.hint ?? AppStrings.password,
-      prefixIcon: Icon(
-        Icons.password_rounded,
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: widget.hint ?? AppStrings.password,
+        prefixIcon: Icon(Icons.password_rounded),
+        errorText: widget.errorText,
+        suffixIcon: IconButton(
+            onPressed: () {
+              isPassword = !isPassword;
+              setState(() {});
+            },
+            icon: Icon(
+                isPassword
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                size: 24),
+            color: Colors.grey),
       ),
       obscureText: isPassword,
-      controller: widget.controller,
       validator: widget.validator,
-      errorText: widget.errorText,
-      suffixIcon: IconButton(
-          onPressed: () {
-            isPassword = !isPassword;
-            setState(() {});
-          },
-          icon: Icon(
-              isPassword
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-              size: 24),
-          color: Colors.grey),
     );
+
+    // AppTextFormFiled(
+    //   hint: widget.hint ?? AppStrings.password,
+    //   prefixIcon: Icon(
+    //     Icons.password_rounded,
+    //   ),
+    //   obscureText: isPassword,
+    //   controller: widget.controller,
+    //   validator: widget.validator,
+    //   errorText: widget.errorText,
+    //   suffixIcon: IconButton(
+    //       onPressed: () {
+    //         isPassword = !isPassword;
+    //         setState(() {});
+    //       },
+    //       icon: Icon(
+    //           isPassword
+    //               ? Icons.visibility_off_outlined
+    //               : Icons.visibility_outlined,
+    //           size: 24),
+    //       color: Colors.grey),
+    // );
   }
 }

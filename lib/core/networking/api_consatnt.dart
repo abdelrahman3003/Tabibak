@@ -11,10 +11,11 @@ class ApiConstants {
   static const String searchDoctor =
       "id,name,image,specialties(name),clinic_data(address)";
   static const String getAllAppoinments =
-      "*,doctors(id,name,specialties(id,name)),appointments_status(status)";
+      "*,doctors(id,name,clinic_data(id,consultation_fee),specialties(id,name)),appointments_status(status)";
   static const String getAllAppoinmentsStatus = "status";
   static const String getTimeSlots =
       "working_day!inner(days!inner(day),shifts(morning(start,end),evening(start,end)))";
+  static const String addAppointment = "status";
 }
 
 class ApiErrors {

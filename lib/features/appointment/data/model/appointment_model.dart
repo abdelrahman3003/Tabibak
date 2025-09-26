@@ -5,23 +5,25 @@ part 'appointment_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Appointment {
-  @JsonKey(name: 'user_id')
-  final String userId;
+  final int id;
+  @JsonKey(name: 'created_at')
+  final DateTime? createDate;
   @JsonKey(name: 'appointment_time')
-  final String appointmentTime;
+  final String? appointmentTime;
   @JsonKey(name: 'appointment_date')
-  final String appointmentDate;
+  final DateTime? appointmentDate;
   @JsonKey(name: 'doctors')
-  final DoctorModel doctor;
+  final DoctorModel? doctor;
   @JsonKey(name: 'appointments_status')
-  final AppointmentStatus appointmentStatus;
+  final AppointmentStatus? appointmentStatus;
 
   Appointment({
-    required this.userId,
+    required this.id,
     required this.appointmentTime,
     required this.appointmentDate,
     required this.doctor,
     required this.appointmentStatus,
+    required this.createDate,
   });
 
   factory Appointment.fromJson(Map<String, dynamic> json) =>

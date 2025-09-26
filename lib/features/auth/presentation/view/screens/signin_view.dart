@@ -10,7 +10,6 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
@@ -125,14 +124,17 @@ class _SigninViewState extends ConsumerState<SigninView>
         children: [
           SlideTransition(
               position: emailAnimation,
-              child: AppTextFormFiled(
-                  hint: AppStrings.email,
-                  controller:
-                      ref.read(authControllerProvider.notifier).emailController,
-                  validator: (value) {
-                    return Validation.validateEmail(value);
-                  },
-                  prefixIcon: Icon(Icons.email_outlined, size: 24))),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: AppStrings.email,
+                  prefixIcon: Icon(Icons.email_outlined),
+                ),
+                controller:
+                    ref.read(authControllerProvider.notifier).emailController,
+                validator: (value) {
+                  return Validation.validateEmail(value);
+                },
+              )),
           const SizedBox(height: 30),
           SlideTransition(
             position: passwordAnimation,
@@ -144,7 +146,7 @@ class _SigninViewState extends ConsumerState<SigninView>
                   ref.read(authControllerProvider.notifier).passwordController,
             ),
           ),
-          const SizedBox(height: 20),
+          20.hBox,
           InkWell(
             onTap: () {
               context.pushNamed(Routes.forgrtPasswordView);

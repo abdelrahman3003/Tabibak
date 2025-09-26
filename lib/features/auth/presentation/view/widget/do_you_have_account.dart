@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
@@ -17,8 +18,10 @@ class DoHaveAccount extends StatelessWidget {
         children: [
           TextSpan(
               text: subtitle,
-              style: Apptextstyles.font16blackRegular
-                  .copyWith(color: AppColors.primary),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontSize: 16.sp, color: AppColors.primary),
               recognizer: TapGestureRecognizer()..onTap = onTap),
         ],
       ),

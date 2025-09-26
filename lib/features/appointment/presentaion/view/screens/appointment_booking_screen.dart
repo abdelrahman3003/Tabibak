@@ -30,7 +30,9 @@ class AppointmentBookingScreen extends StatelessWidget {
             20.hBox,
             BookingTimeStates(),
             Spacer(),
-            BookingButtonStates()
+            BookingButtonStates(
+              doctorModel: doctorModel,
+            )
           ],
         ),
       ),

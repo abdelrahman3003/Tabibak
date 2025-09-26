@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
-import 'package:tabibak/core/theme/app_theme_controller.dart';
+import 'package:tabibak/features/profile/presentation/manager/profile_provider.dart';
 
 class ThemeSwitch extends ConsumerWidget {
   const ThemeSwitch({super.key});

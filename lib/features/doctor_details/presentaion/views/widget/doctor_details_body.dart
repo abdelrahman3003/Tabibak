@@ -4,7 +4,7 @@ import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/core/widgets/dialogs.dart';
+import 'package:tabibak/features/doctor_details/presentaion/views/widget/booking_dialog_injury.dart';
 import 'package:tabibak/features/doctor_details/presentaion/views/widget/clinic_info_section.dart';
 import 'package:tabibak/features/doctor_details/presentaion/views/widget/schedule_section.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
@@ -59,7 +59,12 @@ class DoctorDetailsBody extends StatelessWidget {
                 context.pushNamed(Routes.appointmentBookingScreen,
                     arguments: doctorModel);
               } else {
-                Dialogs.bookingDialog(context, isBooked!);
+                showDialog(
+                  context: context,
+                  builder: (context) => BookingDialogInjury(
+                    isBooked: isBooked!,
+                  ),
+                );
               }
             },
           )

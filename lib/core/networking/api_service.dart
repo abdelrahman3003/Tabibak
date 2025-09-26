@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
+import 'package:tabibak/features/appointment/data/model/appointment_body.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
@@ -56,6 +57,7 @@ abstract class ApiService {
   Future<List<Appointment>> getAllAppointment(
     @Query("select") String selectFields,
     @Query("user_id") String userId,
+    @Query("order") String order,
   );
 
   @GET("/appointments_status")
@@ -68,4 +70,8 @@ abstract class ApiService {
     @Query("working_day.days.day") String day,
     @Query("clinic_id") String clinicId,
   );
+  @POST("/appointments")
+  Future<void> addAppointment(@Body() AppointmentBody body);
+  @DELETE("/appointments")
+  Future<void> deleteAppointment(@Query("id") String id);
 }

@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 class AppStrings {
   static String email = "Email".tr();
-  static String forgotPassword = "Forget Password".tr();
+  static String forgotPassword = "Forgot Password".tr();
   static String createAccount = "Create Account".tr();
   static String noAccount = "No Account".tr();
   static String loginWithGoogle = "Login With Google".tr();
@@ -103,4 +103,23 @@ class AppStrings {
   static String get chooseAnotherDayMessage =>
       "Choose Another Day Message".tr();
   static String get ok => "OK".tr();
+  static String get clinicDetails => "Clinic Details".tr();
+  static String get clinicName => "Clinic Name".tr();
+  static String get book => "Book".tr();
+  static String get error => "Error".tr();
+  static String get unknownErrorOccurred => "Unknown Error Occurred".tr();
+  static String get close => "Close".tr();
+  static String get hour => "Hour".tr();
+  static String get date => "Date".tr();
+  static String get date2 => "Date2".tr();
+  static String get price => "Price".tr();
+  static String get consultation => "Consultation".tr();
+  static String get appointmentDetails => "Appointment Details";
+  static String get doctor => "Doctor".tr();
+  static String get time => "Time".tr();
+  static String get bookingTime => "Booking Time".tr();
+  static String get deleteBooking => "Delete Booking".tr();
+  static String get success => "Success".tr();
+  static String get bookingSuccessful => "Booking Successful".tr();
+  static String get deleting => "Deleting".tr();
 }

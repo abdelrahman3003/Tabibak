@@ -5,7 +5,6 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
@@ -31,12 +30,14 @@ class ForgrtPasswordView extends ConsumerWidget {
                 style: Apptextstyles.font20BlackRegular,
               ),
               20.hBox,
-              AppTextFormFiled(
-                hint: AppStrings.email,
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: AppStrings.email,
+                  prefixIcon: const Icon(Icons.email_outlined, size: 24),
+                ),
                 controller:
                     ref.read(authControllerProvider.notifier).emailController,
                 validator: (value) => Validation.validateEmail(value),
-                prefixIcon: const Icon(Icons.email_outlined, size: 24),
               ),
               20.hBox,
               sendOtpButtonStates()

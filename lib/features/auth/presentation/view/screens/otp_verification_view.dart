@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
@@ -81,7 +80,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
         state is SendOtpLoading
             ? "${AppStrings.sendingCode}..."
             : "${AppStrings.codeSentTo} $email",
-        style: Apptextstyles.font16blackRegular);
+        style: Theme.of(context).textTheme.bodyLarge);
   }
 
   InkWell timerTextStates(BuildContext context, AuthStates state) {
@@ -95,7 +94,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
               : _secondsRemaining > 0
                   ? "${AppStrings.resendAfter} $_secondsRemaining ${AppStrings.seconds}"
                   : AppStrings.resendCode,
-          style: Apptextstyles.font16blackRegular),
+          style: Theme.of(context).textTheme.bodyLarge),
     );
   }
 

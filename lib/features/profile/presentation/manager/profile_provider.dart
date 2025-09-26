@@ -10,6 +10,8 @@ import 'package:tabibak/features/profile/data/repo/profile_repo.dart';
 import 'package:tabibak/features/profile/data/repo/profile_repo_imp.dart';
 import 'package:tabibak/features/profile/presentation/manager/proffile_states.dart';
 
+final themeStateProvider = StateProvider<bool>(
+    (ref) => SharedPrefsService.prefs.getBool(SharedPrefKeys.isDark) ?? false);
 final profileProviderController =
     StateNotifierProvider.autoDispose<ProfileController, ProffileStates>(
         (ref) => ProfileController(ref));
@@ -27,13 +29,12 @@ class ProfileController extends StateNotifier<ProffileStates> {
   logOut(BuildContext context) async {
     state = state.copyWith(isLogOutLoading: true);
     final result = await ref.read(profileRepoProvider).signOut();
-    result.when(sucess: (_) {
-      SharedPrefsService.prefs.clear();
+    result.when(sucess: (_) async {
+      await SharedPrefsService.prefs.remove(SharedPrefKeys.step);
+      await SharedPrefsService.prefs.remove(SharedPrefKeys.isDark);
+      ref.read(themeStateProvider.notifier).state = false;
       state = state.copyWith(isLogOutLoading: false);
-      context.pushNamedAndRemoveUntil(
-        Routes.singinView,
-        (route) => false,
-      );
+      context.pushNamedAndRemoveUntil(Routes.singinView, (route) => false);
     }, failure: (error) {
       state = state.copyWith(isLogOutLoading: false);
     });

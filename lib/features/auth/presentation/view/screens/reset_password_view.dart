@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/validation.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
@@ -15,6 +15,7 @@ class ResetPasswordView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.read(authControllerProvider.notifier);
     return Scaffold(
       appBar: AppBarWidget(
         title: AppStrings.setNewPassword,
@@ -28,28 +29,23 @@ class ResetPasswordView extends ConsumerWidget {
             children: [
               Text(
                 AppStrings.enterNewPassword,
-                style: Apptextstyles.font20BlackRegular,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(fontSize: 20.sp),
               ),
               20.hBox,
               PasswordTextfiled(
-                controller: ref
-                    .read(authControllerProvider.notifier)
-                    .newPasswordController,
+                controller: provider.newPasswordController,
                 hint: AppStrings.newPassword,
                 validator: (value) => Validation.validatePassord(value),
               ),
               20.hBox,
               PasswordTextfiled(
-                  controller: ref
-                      .read(authControllerProvider.notifier)
-                      .confirmNewPasswordController,
+                  controller: provider.confirmNewPasswordController,
                   hint: AppStrings.confirmNewPassword,
                   validator: (value) {
-                    if (value !=
-                        ref
-                            .read(authControllerProvider.notifier)
-                            .newPasswordController
-                            .text) {
+                    if (value != provider.newPasswordController.text) {
                       return AppStrings.passwordsNotMatch;
                     }
                     Validation.validatePassord(value);

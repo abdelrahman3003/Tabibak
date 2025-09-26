@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/routing/routes.dart';
+import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/presentaion/view/screens/appointment_booking_screen.dart';
+import 'package:tabibak/features/appointment/presentaion/view/screens/appointment_details_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/forgrt_password_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/otp_verification_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/reset_password_sucess_view.dart';
@@ -37,6 +39,10 @@ class AppRouter {
         final doctorModel = setting.arguments as DoctorModel;
         return _buildSlideRoute(
             AppointmentBookingScreen(doctorModel: doctorModel));
+      case Routes.appointmentDetailsScreen:
+        final appointment = setting.arguments as Appointment;
+        return _buildSlideRoute(
+            AppointmentDetailsScreen(appointment: appointment));
       case Routes.resetPasswordSucessView:
         return _buildSlideRoute(const ResetPasswordSucessView());
       case Routes.notifcationScreen:

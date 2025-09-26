@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
@@ -33,18 +34,9 @@ class BookingTime extends StatelessWidget {
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            time.start ?? AppStrings.notAvailable,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Text(
-                            " - ",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Text(
-                            time.end ?? AppStrings.notAvailable,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
+                          _timeText(time.start, context, isSelected),
+                          _timeText(" - ", context, isSelected),
+                          _timeText(time.end, context, isSelected),
                         ],
                       ),
                       selected: isSelected,
@@ -63,5 +55,15 @@ class BookingTime extends StatelessWidget {
               ],
             );
     });
+  }
+
+  Text _timeText(String? text, BuildContext context, bool isSelected) {
+    return Text(
+      text ?? AppStrings.notAvailable,
+      style: Theme.of(context)
+          .textTheme
+          .bodyMedium
+          ?.copyWith(color: isSelected ? AppColors.white : AppColors.black),
+    );
   }
 }

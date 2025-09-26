@@ -6,7 +6,7 @@ import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/router.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_theme.dart';
-import 'package:tabibak/core/theme/app_theme_controller.dart';
+import 'package:tabibak/features/profile/presentation/manager/profile_provider.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});

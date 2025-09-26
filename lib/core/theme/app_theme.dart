@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class AppTheme {
@@ -23,25 +24,24 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+      hintStyle: TextStyle(fontSize: 16.sp, color: Colors.grey),
+      border: UnderlineInputBorder(
+        borderRadius: BorderRadius.circular(5.r),
         borderSide: const BorderSide(color: Colors.grey, width: 1),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      enabledBorder: UnderlineInputBorder(
+        borderRadius: BorderRadius.circular(5.r),
         borderSide: const BorderSide(color: Colors.grey, width: 1),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      focusedBorder: UnderlineInputBorder(
+        borderRadius: BorderRadius.circular(5.r),
         borderSide: BorderSide(color: AppColors.primary, width: 1.5),
       ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      errorBorder: UnderlineInputBorder(
+        borderRadius: BorderRadius.circular(5.r),
         borderSide: const BorderSide(color: Colors.red, width: 1.5),
       ),
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-      labelStyle: const TextStyle(color: Colors.black87, fontSize: 15),
     ),
   );
 
@@ -66,25 +66,24 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.grey[900],
-      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+      hintStyle: TextStyle(fontSize: 16.sp, color: Colors.grey),
+      border: UnderlineInputBorder(
+        borderRadius: BorderRadius.circular(5.r),
         borderSide: const BorderSide(color: Colors.grey, width: 1),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      enabledBorder: UnderlineInputBorder(
+        borderRadius: BorderRadius.circular(5.r),
         borderSide: const BorderSide(color: Colors.grey, width: 1),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      focusedBorder: UnderlineInputBorder(
+        borderRadius: BorderRadius.circular(5.r),
         borderSide: BorderSide(color: AppColors.primary, width: 1.5),
       ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+      errorBorder: UnderlineInputBorder(
+        borderRadius: BorderRadius.circular(5.r),
         borderSide: const BorderSide(color: Colors.red, width: 1.5),
       ),
-      hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-      labelStyle: const TextStyle(color: Colors.white, fontSize: 15),
     ),
   );
 }
