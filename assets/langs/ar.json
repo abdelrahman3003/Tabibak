@@ -103,6 +103,7 @@
     "Price": "سعر",
     "Consultation": "الكشف",
     "Appointment Details": "الساعة {time} يوم {dayName} الموافق {date}",
+    "Appointment Details Title": "تفاصيل الحجز",
     "Doctor": "الدكتور",
     "Date2": "التاريخ",
     "Time": "الوقت",
@@ -110,5 +111,9 @@
     "Delete Booking": "حذف الحجز",
     "Success": "نجاح!",
     "Booking Successful": "تم الحجز بنجاح",
-    "Deleting": "جاري الحذف ..."
+    "Deleting": "جاري الحذف ...",
+    "Delete Confirmation": "تأكيد الحذف",
+    "Delete Message": "هل أنت متأكد أنك تريد حذف هذا الحجز؟",
+    "Delete": "حذف",
+    "Booking Status": "حالة الحجز"
 }

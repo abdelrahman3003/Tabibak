@@ -65,8 +65,8 @@ class AppButton extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16),
                       child: SizedBox(
-                        height: 20,
-                        width: 20,
+                        height: 20.h,
+                        width: 20.w,
                         child: const CircularProgressIndicator(
                           strokeWidth: 3,
                           color: Colors.white,

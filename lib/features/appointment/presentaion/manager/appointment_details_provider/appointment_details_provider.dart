@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
@@ -14,6 +16,7 @@ class AppointmentDetailsProvider
   AppointmentDetailsProvider(this.ref) : super(AppointmentDetailsStates());
   final Ref ref;
   deleteAppointment(BuildContext context, int appointmentId) async {
+    log("--------------------");
     state = state.copyWith(isLoading: true);
     final result =
         await ref.read(appointmentsRepos).deleteAppointment(appointmentId);
@@ -21,6 +24,7 @@ class AppointmentDetailsProvider
       sucess: (data) async {
         state = state.copyWith(isLoading: false);
         ref.read(appointmentProviderNotifer.notifier).getAllAppoinments();
+        context.pop();
         context.pop();
       },
       failure: (apiErrorModel) {},

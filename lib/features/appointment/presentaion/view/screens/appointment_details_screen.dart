@@ -15,48 +15,62 @@ class AppointmentDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: "تفاصيل الحجز"),
+      appBar: AppBarWidget(title: AppStrings.appointmentDetailsTitle),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DetailsItem(
-                  title: AppStrings.doctor,
-                  value: appointment.doctor?.name ?? AppStrings.unknown),
-              10.hBox,
-              DetailsItem(
-                  title: AppStrings.specialty,
-                  value: appointment.doctor?.specialties?.name ??
-                      AppStrings.unknown),
-              10.hBox,
-              DetailsItem(
-                  title: AppStrings.date2,
-                  value: appointment.appointmentDate == null
-                      ? AppStrings.unknown
-                      : DateFormat("yyyy-MM-dd")
-                          .format(appointment.appointmentDate!)),
-              10.hBox,
-              DetailsItem(
-                  title: AppStrings.time,
-                  value: appointment.appointmentTime ?? AppStrings.unknown),
-              10.hBox,
-              DetailsItem(
-                  title: AppStrings.bookingTime,
-                  value:
-                      DateFormat("yyyy-MM-dd").format(appointment.createDate!)),
-              10.hBox,
-              DetailsItem(
-                  title: AppStrings.consultationPrice,
-                  value:
-                      "${appointment.doctor?.clinicData?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}"),
-              10.hBox,
-              const Spacer(),
-              DeleteButtonStates(appointmentId: appointment.id)
-            ],
-          ),
+        child: Column(
+          children: [
+            Card(
+              elevation: 2,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DetailsItem(
+                        title: AppStrings.doctor,
+                        value: appointment.doctor?.name ?? AppStrings.unknown),
+                    10.hBox,
+                    DetailsItem(
+                        title: AppStrings.specialty,
+                        value: appointment.doctor?.specialties?.name ??
+                            AppStrings.unknown),
+                    10.hBox,
+                    DetailsItem(
+                        title: AppStrings.bookingStatus,
+                        value: appointment.appointmentStatus?.status ??
+                            AppStrings.unknown),
+                    10.hBox,
+                    DetailsItem(
+                        title: AppStrings.date2,
+                        value: appointment.appointmentDate == null
+                            ? AppStrings.unknown
+                            : DateFormat("yyyy-MM-dd")
+                                .format(appointment.appointmentDate!)),
+                    10.hBox,
+                    DetailsItem(
+                        title: AppStrings.time,
+                        value:
+                            appointment.appointmentTime ?? AppStrings.unknown),
+                    10.hBox,
+                    DetailsItem(
+                        title: AppStrings.bookingTime,
+                        value: DateFormat("yyyy-MM-dd")
+                            .format(appointment.createDate!)),
+                    10.hBox,
+                    DetailsItem(
+                        title: AppStrings.consultationPrice,
+                        value:
+                            "${appointment.doctor?.clinicData?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}"),
+                    10.hBox,
+                  ],
+                ),
+              ),
+            ),
+            const Spacer(),
+            DeleteButtonStates(appointmentId: appointment.id)
+          ],
         ),
       ),
     );

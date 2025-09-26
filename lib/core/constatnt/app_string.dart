@@ -121,5 +121,10 @@ class AppStrings {
   static String get deleteBooking => "Delete Booking".tr();
   static String get success => "Success".tr();
   static String get bookingSuccessful => "Booking Successful".tr();
+  static String get appointmentDetailsTitle => "Appointment Details Title".tr();
   static String get deleting => "Deleting".tr();
+  static String get deleteConfirmation => "Delete Confirmation".tr();
+  static String get deleteMessage => "Delete Message".tr();
+  static String get delete => "Delete".tr();
+  static String get bookingStatus => "Booking Status".tr();
 }

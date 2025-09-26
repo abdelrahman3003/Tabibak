@@ -99,4 +99,53 @@ class Dialogs {
       },
     );
   }
+
+  static alertDialog(
+      {required BuildContext context,
+      required String title,
+      required String subtitle,
+      required String confirmString,
+      required Color? color,
+      required bool isLoading,
+      required void Function()? onPressed}) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Text(title, style: Theme.of(context).textTheme.titleLarge),
+          content: Text(title, style: Theme.of(context).textTheme.titleMedium),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(AppStrings.cancel),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: color,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+              ),
+              onPressed: onPressed,
+              child: SizedBox(
+                height: 25.h,
+                width: 25.w,
+                child: FittedBox(
+                    child: isLoading
+                        ? Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: CircularProgressIndicator(
+                              color: AppColors.white,
+                            ),
+                          )
+                        : Text(confirmString)),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
