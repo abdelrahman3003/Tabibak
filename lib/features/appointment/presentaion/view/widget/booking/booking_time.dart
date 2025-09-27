@@ -46,8 +46,6 @@ class BookingTime extends StatelessWidget {
                             .selectTime(time);
                       },
                       selectedColor: Theme.of(context).colorScheme.primary,
-                      labelStyle: TextStyle(
-                          color: isSelected ? Colors.white : Colors.black),
                       showCheckmark: false,
                     );
                   }).toList(),
@@ -60,10 +58,10 @@ class BookingTime extends StatelessWidget {
   Text _timeText(String? text, BuildContext context, bool isSelected) {
     return Text(
       text ?? AppStrings.notAvailable,
-      style: Theme.of(context)
-          .textTheme
-          .bodyMedium
-          ?.copyWith(color: isSelected ? AppColors.white : AppColors.black),
+      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: isSelected
+              ? AppColors.white
+              : Theme.of(context).colorScheme.onSecondary),
     );
   }
 }

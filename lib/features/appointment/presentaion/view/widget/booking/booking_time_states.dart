@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/booking_not_available.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/booking_time.dart';
-import 'package:tabibak/features/appointment/presentaion/view/widget/booking/booking_time_shimmer.dart';
 
 class BookingTimeStates extends StatelessWidget {
   const BookingTimeStates({super.key});
@@ -13,13 +12,11 @@ class BookingTimeStates extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final state = ref.watch(appointmentBookingNotiferProvider);
-        return state.selectedDate == null
+        return state.selectedDate == null || state.isLoading
             ? SizedBox()
-            : state.isLoading
-                ? BookingTimeShimmer()
-                : state.workingDay == null
-                    ? BookingNotAvailable()
-                    : BookingTime(shifts: state.workingDay!.shifts!);
+            : state.workingDay == null
+                ? BookingNotAvailable()
+                : BookingTime(shifts: state.workingDay!.shifts!);
       },
     );
   }

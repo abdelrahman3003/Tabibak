@@ -9,9 +9,11 @@ class AppTheme {
     primaryColor: AppColors.primary,
     scaffoldBackgroundColor: AppColors.scaffoldBG,
     colorScheme: ColorScheme.light(
-        surface: AppColors.scaffoldBG,
-        primary: AppColors.primary,
-        secondary: AppColors.primaryLight),
+      surface: AppColors.scaffoldBG,
+      primary: AppColors.primary,
+      secondary: AppColors.primaryLight,
+      onSecondary: AppColors.primary,
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.purple,
@@ -52,6 +54,7 @@ class AppTheme {
       surface: Colors.grey.shade900,
       primary: Colors.grey.shade700,
       secondary: Colors.grey.shade500,
+      onSecondary: AppColors.white,
     ),
     fontFamily: "Tajawal",
     elevatedButtonTheme: ElevatedButtonThemeData(
