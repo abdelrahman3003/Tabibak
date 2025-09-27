@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
@@ -44,6 +46,7 @@ class SearchScreen extends ConsumerWidget {
 
   Widget _buildContent(
       BuildContext context, SearchStates state, SearchProvider controller) {
+    log("------------------");
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
