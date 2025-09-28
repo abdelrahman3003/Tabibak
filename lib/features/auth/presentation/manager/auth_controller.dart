@@ -54,7 +54,7 @@ class AuthController extends StateNotifier<AuthStates> {
         .login(email: emailController.text, password: passwordController.text);
     result.when(sucess: (_) async {
       context.pop();
-      context.pushNamed(Routes.layoutScreen);
+      context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
       await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
 
       cleartextformData();

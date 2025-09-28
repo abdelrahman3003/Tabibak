@@ -45,9 +45,10 @@ class SheduleRowItem extends StatelessWidget {
     return Container(
       color: Theme.of(context).colorScheme.secondary,
       width: 80.w,
+      padding: EdgeInsets.symmetric(vertical: 2),
       child: timteSlot == null
           ? Text(
-              AppStrings.notAvailable,
+              "--",
               style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             )

@@ -21,7 +21,7 @@ class SearchProvider extends StateNotifier<SearchStates> {
 
   void initData() async {
     searchTextController = TextEditingController();
-//    SharedPrefsService.prefs.remove(SharedPrefKeys.searchDoctors);
+    //  removeCachedList();
     cachedList = getSavedDoctors();
   }
 
@@ -46,8 +46,12 @@ class SearchProvider extends StateNotifier<SearchStates> {
     );
   }
 
-  Future<void> _saveDoctorSearch(String key, List<DoctorSummary> data) async {
-    final jsonList = jsonEncode(data.map((e) => e.toJson()).toList());
+  Future<void> _saveDoctorSearch(String key, DoctorSummary doctor) async {
+    final alreadyExists = cachedList!.any((d) => d.id == doctor.id);
+    if (!alreadyExists) {
+      cachedList!.add(doctor);
+    }
+    final jsonList = jsonEncode(cachedList!.map((e) => e.toJson()).toList());
 
     await SharedPrefsService.prefs.setString(key, jsonList);
   }
@@ -62,13 +66,27 @@ class SearchProvider extends StateNotifier<SearchStates> {
   }
 
   void goToDoctorDetails(BuildContext context, int index) async {
-    int doctorId = state.searchDoctorsList![index].id;
-    cachedList!.add(state.searchDoctorsList![index]);
+    final doctorList = state.searchDoctorsList ?? cachedList;
+    int doctorId = doctorList![index].id;
     context.pushNamed(Routes.doctorDetailsScreen);
     await ref
         .watch(doctorDetailsNotifierProvider.notifier)
         .getDoctorById(doctorId);
-    _saveDoctorSearch(SharedPrefKeys.searchDoctors, cachedList!);
+
+    _saveDoctorSearch(SharedPrefKeys.searchDoctors, doctorList[index]);
+  }
+
+  removeCachedList() {
+    SharedPrefsService.prefs.remove(SharedPrefKeys.searchDoctors);
+  }
+
+  removeDoctorFromCache(int doctorId) async {
+    state = SearchStates(isDeleteLoading: true);
+    cachedList!.removeWhere((doctor) => doctor.id == doctorId);
+    state = SearchStates(isDeleteLoading: false);
+    final jsonList = jsonEncode(cachedList!.map((e) => e.toJson()).toList());
+    await SharedPrefsService.prefs
+        .setString(SharedPrefKeys.searchDoctors, jsonList);
   }
 
   @override

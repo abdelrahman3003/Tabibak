@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
@@ -18,35 +16,42 @@ class SearchScreen extends ConsumerWidget {
     final state = ref.watch(searchProviderNotifer);
     final controller = ref.read(searchProviderNotifer.notifier);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          10.hBox,
-          SearchBarWidget(
-            controller: controller.searchTextController,
-            onChanged: controller.search,
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              10.hBox,
+              SearchBarWidget(
+                controller: controller.searchTextController,
+                onChanged: controller.search,
+              ),
+              16.hBox,
+              if (!state.isLoading)
+                Text(
+                  state.searchDoctorsList != null
+                      ? AppStrings.searchResults
+                      : AppStrings.recentSearches,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              Expanded(
+                child: _buildContent(context, state, controller),
+              ),
+            ],
           ),
-          16.hBox,
-          if (!state.isLoading)
-            Text(
-              state.searchDoctorsList != null
-                  ? AppStrings.searchResults
-                  : AppStrings.recentSearches,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          Expanded(
-            child: _buildContent(context, state, controller),
+        ),
+        if (state.isDeleteLoading != null && state.isDeleteLoading!)
+          const Center(
+            child: CircularProgressIndicator(),
           ),
-        ],
-      ),
+      ],
     );
   }
 
   Widget _buildContent(
       BuildContext context, SearchStates state, SearchProvider controller) {
-    log("------------------");
     if (state.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }

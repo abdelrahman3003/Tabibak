@@ -10,17 +10,19 @@ class SearchCardListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-        shrinkWrap: true,
-        itemBuilder: (context, index) => SearchCard(
-              onTap: () {
-                onItemTap(index);
-              },
-              doctorSummary: searchDoctorList[index],
-            ),
-        separatorBuilder: (context, index) => Divider(
-              height: 4,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-        itemCount: searchDoctorList.length);
+      shrinkWrap: true,
+      itemBuilder: (context, index) => SearchCard(
+        onTap: () {
+          onItemTap(index);
+        },
+        doctorSummary: searchDoctorList[index],
+      ),
+      separatorBuilder: (context, index) => Divider(
+        height: 4,
+        color: Theme.of(context).colorScheme.secondary,
+      ),
+      itemCount: searchDoctorList.length,
+      padding: EdgeInsets.zero,
+    );
   }
 }
