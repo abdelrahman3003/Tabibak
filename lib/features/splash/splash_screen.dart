@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 fit: BoxFit.cover,
               ),
               Text(
-                "طبيبك",
+                " طبيبك",
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
                       fontWeight: FontWeight.w800,
                       fontFamily: "Inter",
