@@ -14,10 +14,13 @@ import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/screens/layout_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/specialist_screen.dart';
 import 'package:tabibak/features/notification/notifcation_screen.dart';
+import 'package:tabibak/features/splash/splash_screen.dart';
 
 class AppRouter {
   static Route generateRoute(RouteSettings setting) {
     switch (setting.name) {
+      case Routes.splashScreen:
+        return _buildSlideRoute(SplashScreen());
       case Routes.singinView:
         return _buildSlideRoute(SigninView());
       case Routes.singupView:

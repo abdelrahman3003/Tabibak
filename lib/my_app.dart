@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/router.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_theme.dart';
@@ -14,12 +13,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = ref.watch(themeStateProvider);
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   SystemUiOverlayStyle(
-    //     statusBarColor: Colors.black,
-    //     statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-    //   ),
-    // );
+
     return ScreenUtilInit(
         designSize: const Size(375, 812),
         minTextAdapt: true,
@@ -32,15 +26,8 @@ class MyApp extends ConsumerWidget {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             onGenerateRoute: AppRouter.generateRoute,
-            initialRoute: initRout(),
+            initialRoute: Routes.splashScreen,
           );
         });
-  }
-
-  String initRout() {
-    if (SharedPrefsService.prefs.getInt(SharedPrefKeys.step) == 1) {
-      return Routes.layoutScreen;
-    }
-    return Routes.singinView;
   }
 }
