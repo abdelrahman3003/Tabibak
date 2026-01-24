@@ -46,7 +46,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   flutter_riverpod: ^2.6.1
   google_nav_bar: ^5.0.7
-  flutter_gen: ^5.10.0
+  flutter_gen: ^5.9.0
   flutter_svg: ^2.2.0
   flutter_screenutil: ^5.9.3
   device_preview: ^1.2.0
@@ -57,6 +57,8 @@ dependencies:
   google_sign_in: ^6.3.0
   shimmer_animation: ^2.2.2
   logger: ^2.6.0
+  flutter_native_splash: ^2.4.7
+  
 
 
 
