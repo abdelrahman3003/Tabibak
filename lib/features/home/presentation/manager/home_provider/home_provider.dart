@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_details_provider.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
 import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
@@ -69,9 +68,9 @@ class HomeController extends StateNotifier<HomeStates> {
   goToDoctorDetails(BuildContext context, String doctorId) async {
     context.pushNamed(Routes.doctorDetailsScreen);
 
-    await ref
-        .watch(doctorDetailsNotifierProvider.notifier)
-        .getDoctorById(doctorId);
+    // await ref
+    //     .watch(homeRepoProvider.notifier)
+    //     .getDoctorById(doctorId);
   }
 
   Future<void> getUserById() async {

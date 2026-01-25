@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_details_provider.dart';
+import 'package:tabibak/features/doctor/presentaion/manager/doctor_provider.dart';
 
 class ReviewSendButton extends StatelessWidget {
   const ReviewSendButton({super.key});
@@ -12,17 +12,17 @@ class ReviewSendButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       final isLoading = ref.watch(
-        doctorDetailsNotifierProvider.select((state) => state.isLoading),
+        doctorNotifierProvider.select((state) => state.isLoading),
       );
       final doctorModel = ref.read(
-        doctorDetailsNotifierProvider.select((state) => state.doctorModel),
+        doctorNotifierProvider.select((state) => state.doctorModel),
       );
       return Row(
         children: [
           Expanded(
             child: TextField(
               controller: ref
-                  .read(doctorDetailsNotifierProvider.notifier)
+                  .read(doctorNotifierProvider.notifier)
                   .commentTextController,
               decoration: InputDecoration(
                 hintText: "${AppStrings.writeCommentHere}..",

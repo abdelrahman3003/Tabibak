@@ -9,7 +9,7 @@ import 'package:tabibak/features/auth/presentation/view/screens/reset_password_s
 import 'package:tabibak/features/auth/presentation/view/screens/reset_password_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/signin_view.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/signup_view.dart';
-import 'package:tabibak/features/doctor_details/presentaion/views/screens/doctor_details_screen.dart';
+import 'package:tabibak/features/doctor/presentaion/views/screens/doctor_details_screen.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/screens/layout_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/specialist_screen.dart';

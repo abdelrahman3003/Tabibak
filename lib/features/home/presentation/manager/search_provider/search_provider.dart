@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_details_provider.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/home/presentation/manager/search_provider/search_states.dart';
@@ -69,9 +68,9 @@ class SearchProvider extends StateNotifier<SearchStates> {
     final doctorList = state.searchDoctorsList ?? cachedList;
     String doctorId = doctorList![index].doctorId;
     context.pushNamed(Routes.doctorDetailsScreen);
-    await ref
-        .watch(doctorDetailsNotifierProvider.notifier)
-        .getDoctorById(doctorId);
+    // await ref
+    //     .watch(doctorDetailsNotifierProvider.notifier)
+    //     .getDoctorById(doctorId);
 
     _saveDoctorSearch(SharedPrefKeys.searchDoctors, doctorList[index]);
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/features/doctor_details/presentaion/views/widget/comment_list/comment_item.dart';
+import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_item.dart';
 import 'package:tabibak/features/home/data/model/comment_model.dart';
 
 class CommentListView extends StatelessWidget {

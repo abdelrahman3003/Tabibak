@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_details_states.dart';
+import 'package:tabibak/features/doctor/data/remote_data/doctor_remote_data.dart';
+import 'package:tabibak/features/doctor/data/repo/doctor_repo.dart';
+import 'package:tabibak/features/doctor/data/repo/doctor_repo_impl.dart';
+import 'package:tabibak/features/doctor/presentaion/manager/doctor_states.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 
-final doctorDetailsNotifierProvider = StateNotifierProvider.autoDispose<
-    DoctorDetailsController, DoctorDetailsStates>(
-  (ref) => DoctorDetailsController(ref),
+final doctorIdProvider = StateProvider<String?>((ref) => null);
+final doctorRepoProvider = StateProvider<DoctorRepo>(
+  (ref) => DoctorRepoImpl(doctorRemoteData: DoctorRemoteData()),
 );
 
-class DoctorDetailsController extends StateNotifier<DoctorDetailsStates> {
-  DoctorDetailsController(this.ref) : super(DoctorDetailsStates());
+final doctorNotifierProvider =
+    StateNotifierProvider.autoDispose<DoctorProvider, DoctorStates>(
+  (ref) => DoctorProvider(ref),
+);
+
+class DoctorProvider extends StateNotifier<DoctorStates> {
+  DoctorProvider(this.ref) : super(DoctorStates()) {
+    getDoctor(ref.read(doctorIdProvider.notifier).state!);
+  }
   final Ref ref;
   final commentTextController = TextEditingController();
-  Future<void> getDoctorById(String doctorId) async {
+  Future<void> getDoctor(String doctorId) async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homeRepoProvider).getDoctorId(doctorId);
-    state = state.copyWith(isLoading: false);
+    final result = await ref.read(doctorRepoProvider).getDoctor(doctorId);
 
     result.when(
-      sucess: (data) {
-        //   final avgRate = _avgRating(data);
-        // final doctorModel = data.copyWith(avgRate: avgRate);
-        //  state = state.copyWith(doctorModel: doctorModel, isLoading: false);
+      sucess: (doctor) {
+        state = state.copyWith(doctorModel: doctor);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(
