@@ -33,7 +33,7 @@ class HomeStates {
       isLoading: isLoading ?? false,
       isSendCommentLoading: isSendCommentLoading ?? this.isSendCommentLoading,
       userModel: userModel ?? this.userModel,
-      topDoctorsList: doctorsModelList ?? this.topDoctorsList,
+      topDoctorsList: topDoctorsList ?? this.topDoctorsList,
       specialties: specialties ?? this.specialties,
       errorMessage: errorMessage ?? this.errorMessage,
     );

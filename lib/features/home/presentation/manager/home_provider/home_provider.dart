@@ -36,16 +36,29 @@ class HomeController extends StateNotifier<HomeStates> {
   late TextEditingController commentController;
   void initData() async {
     await getUserById();
-    await fetchSpecialties();
+    await getSpecialties();
     await getTopDoctors();
   }
 
-  Future<void> fetchSpecialties() async {
+  Future<void> getSpecialties() async {
     state = state.copyWith(isLoading: true);
     final result = await ref.read(homeRepoProvider).getSpecialties();
     result.when(
       sucess: (data) {
         state = state.copyWith(specialties: data);
+      },
+      failure: (apiErrorModel) {
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
+      },
+    );
+  }
+
+  Future<void> getTopDoctors() async {
+    state = state.copyWith(isLoading: true);
+    final result = await ref.read(homeRepoProvider).geTopDoctors();
+    result.when(
+      sucess: (doctorsLList) {
+        state = state.copyWith(topDoctorsList: doctorsLList);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
@@ -81,19 +94,6 @@ class HomeController extends StateNotifier<HomeStates> {
     result.when(
       sucess: (data) {
         state = state.copyWith(doctorsModelList: data);
-      },
-      failure: (apiErrorModel) {
-        state = state.copyWith(errorMessage: apiErrorModel.errors);
-      },
-    );
-  }
-
-  Future<void> getTopDoctors() async {
-    state = state.copyWith(isLoading: true);
-    final result = await ref.read(homeRepoProvider).geTopDoctors();
-    result.when(
-      sucess: (doctorsLList) {
-        state = state.copyWith(topDoctorsList: doctorsLList);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
