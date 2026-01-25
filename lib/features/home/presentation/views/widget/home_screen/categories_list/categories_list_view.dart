@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
+import 'package:tabibak/features/home/presentation/manager/specialty_doctors_provider/doctors_specialty_provider.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/category_item.dart';
 
 class CategoriesListView extends StatelessWidget {
@@ -22,6 +23,9 @@ class CategoriesListView extends StatelessWidget {
             icon: specialtiesList[index].icon!,
             name: specialtiesList[index].nameAr ?? "",
             onTap: () {
+              ref
+                  .read(doctorsSpecialtyProvider.notifier)
+                  .getSpecialtiesDoctors(specialtiesList[index].id!);
               context.pushNamed(Routes.specialistScreen);
             },
           );

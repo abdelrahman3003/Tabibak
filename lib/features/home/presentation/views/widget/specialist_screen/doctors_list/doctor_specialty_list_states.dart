@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/widgets/empty_widget.dart';
-import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
+import 'package:tabibak/features/home/presentation/manager/specialty_doctors_provider/doctors_specialty_provider.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/doctors_list/doctor_specialties_list_shimmer.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/doctors_list/doctor_specialty_list_view.dart';
 
@@ -12,10 +12,10 @@ class DoctorSpecialtyListStates extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       final isLoading = ref.watch(
-        homeControllerProvider.select((state) => state.isLoading),
+        doctorsSpecialtyProvider.select((state) => state.isLoading),
       );
       final doctorsSpecialtyList = ref.watch(
-        homeControllerProvider.select((state) => state.topDoctorsList),
+        doctorsSpecialtyProvider.select((state) => state.specialtyDoctors),
       );
       return Expanded(
         child: isLoading || doctorsSpecialtyList == null
