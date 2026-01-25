@@ -5,8 +5,9 @@ part 'clinic_model.g.dart';
 @JsonSerializable()
 class ClinicModel {
   final int? id;
-  final String? doctorId;
   @JsonKey(name: 'doctor_id')
+  final String? doctorId;
+  @JsonKey(name: 'is_booking')
   final bool? isBooking;
   @JsonKey(name: 'clinic_name')
   final String? clinicName;

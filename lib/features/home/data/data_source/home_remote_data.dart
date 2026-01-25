@@ -10,7 +10,7 @@ import 'package:tabibak/features/home/data/model/specialty_model.dart';
 class HomeRemoteData {
   final SupabaseClient supabase = Supabase.instance.client;
   final ApiService apiService = ApiService(DioFactory.getDio());
-  Future<UserModel> fetchUserById() async {
+  Future<UserModel> getUserData() async {
     final response = await supabase
         .from('users')
         .select()
@@ -23,15 +23,6 @@ class HomeRemoteData {
   Future<List<SpecialtyModel>> getSpecialties() async {
     final response = await supabase.from('specialties').select();
     return response.map((e) => SpecialtyModel.fromJson(e)).toList();
-  }
-
-  Future<List<DoctorModel>> fetchAllDoctors() async {
-    return await apiService.getDoctors(ApiConstants.getAllDoctors);
-  }
-
-  Future<List<DoctorModel>> searchDoctor(String search) async {
-    return await apiService.searchDoctor(
-        ApiConstants.getAllDoctorsSummary, "ilike.*$search*");
   }
 
   Future<List<DoctorModel>> getTopDoctors() async {
@@ -53,6 +44,15 @@ class HomeRemoteData {
         .single();
 
     return DoctorModel.fromJson(response);
+  }
+
+  Future<List<DoctorModel>> fetchAllDoctors() async {
+    return await apiService.getDoctors(ApiConstants.getAllDoctors);
+  }
+
+  Future<List<DoctorModel>> searchDoctor(String search) async {
+    return await apiService.searchDoctor(
+        ApiConstants.getAllDoctorsSummary, "ilike.*$search*");
   }
 
   Future<List<DoctorModel>> getDoctorSpecialist(int specialtyId) async {

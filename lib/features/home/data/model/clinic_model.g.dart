@@ -8,8 +8,8 @@ part of 'clinic_model.dart';
 
 ClinicModel _$ClinicModelFromJson(Map<String, dynamic> json) => ClinicModel(
       id: (json['id'] as num?)?.toInt(),
-      doctorId: json['doctorId'] as String?,
-      isBooking: json['doctor_id'] as bool?,
+      doctorId: json['doctor_id'] as String?,
+      isBooking: json['is_booking'] as bool?,
       clinicName: json['clinic_name'] as String?,
       phoneNumber: json['phone_number'] as String?,
       consultationFee: (json['consultation_fee'] as num?)?.toInt(),
@@ -22,8 +22,8 @@ ClinicModel _$ClinicModelFromJson(Map<String, dynamic> json) => ClinicModel(
 Map<String, dynamic> _$ClinicModelToJson(ClinicModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'doctorId': instance.doctorId,
-      'doctor_id': instance.isBooking,
+      'doctor_id': instance.doctorId,
+      'is_booking': instance.isBooking,
       'clinic_name': instance.clinicName,
       'phone_number': instance.phoneNumber,
       'consultation_fee': instance.consultationFee,

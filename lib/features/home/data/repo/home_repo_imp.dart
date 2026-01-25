@@ -17,7 +17,7 @@ class HomeRepoImp extends HomeRepo {
   @override
   Future<ApiResult<UserModel>> getUserData() async {
     try {
-      final result = await homeRemoteData.fetchUserById();
+      final result = await homeRemoteData.getUserData();
 
       return ApiResult.sucess(result);
     } catch (error) {
@@ -26,12 +26,33 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<SpecialtyModel>>> fetchSpecialties() async {
+  Future<ApiResult<List<SpecialtyModel>>> getSpecialties() async {
     try {
       final result = await homeRemoteData.getSpecialties();
 
       return ApiResult.sucess(result);
     } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<DoctorModel>>> geTopDoctors() async {
+    try {
+      final result = await homeRemoteData.getTopDoctors();
+      return ApiResult.sucess(result);
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<ApiResult<DoctorModel>> getDoctorId(String id) async {
+    try {
+      final result = await homeRemoteData.getDoctorById(id);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      log("Error fetching doctor by ID: $id - $error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -52,27 +73,6 @@ class HomeRepoImp extends HomeRepo {
       final result = await homeRemoteData.searchDoctor(search);
       return ApiResult.sucess(result);
     } catch (error) {
-      return ApiResult.failure(ErrorHandler.handle(error));
-    }
-  }
-
-  @override
-  Future<ApiResult<List<DoctorModel>>> geTopDoctors() async {
-    try {
-      final result = await homeRemoteData.getTopDoctors();
-      return ApiResult.sucess(result);
-    } catch (error) {
-      return ApiResult.failure(ErrorHandler.handle(error));
-    }
-  }
-
-  @override
-  Future<ApiResult<DoctorModel>> getDoctorId(String id) async {
-    try {
-      final result = await homeRemoteData.getDoctorById(id);
-      return ApiResult.sucess(result);
-    } catch (error) {
-      log("Error fetching doctor by ID: $id - $error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

@@ -9,16 +9,14 @@ part of 'rating_model.dart';
 RatingModel _$RatingModelFromJson(Map<String, dynamic> json) => RatingModel(
       id: (json['id'] as num?)?.toInt(),
       rate: (json['rate'] as num?)?.toInt(),
-      user_id: json['user_id'] as String?,
-      doctor_id: json['doctor_id'] as String?,
-      createdAt: json['created_at'] as String?,
+      userId: json['user_id'] as String?,
+      doctorId: json['doctor_id'] as String?,
     );
 
 Map<String, dynamic> _$RatingModelToJson(RatingModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'rate': instance.rate,
-      'user_id': instance.user_id,
-      'doctor_id': instance.doctor_id,
-      'created_at': instance.createdAt,
+      'user_id': instance.userId,
+      'doctor_id': instance.doctorId,
     };

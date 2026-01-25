@@ -5,7 +5,7 @@ import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
 
 abstract class HomeRepo {
-  Future<ApiResult<List<SpecialtyModel>>> fetchSpecialties();
+  Future<ApiResult<List<SpecialtyModel>>> getSpecialties();
   Future<ApiResult<UserModel>> getUserData();
   Future<ApiResult<List<DoctorModel>>> fetchAllDoctors();
   Future<ApiResult<List<DoctorModel>>> geTopDoctors();

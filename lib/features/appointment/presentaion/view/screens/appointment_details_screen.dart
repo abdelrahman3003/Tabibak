@@ -34,7 +34,7 @@ class AppointmentDetailsScreen extends StatelessWidget {
                     10.hBox,
                     DetailsItem(
                         title: AppStrings.specialty,
-                        value: appointment.doctor?.specialty?.nameAr ??
+                        value: "appointment.doctor?.specialty?.nameAr" ??
                             AppStrings.unknown),
                     10.hBox,
                     DetailsItem(

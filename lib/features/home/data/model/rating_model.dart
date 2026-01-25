@@ -6,13 +6,17 @@ part 'rating_model.g.dart';
 class RatingModel {
   final int? id;
   final int? rate;
-  final String? user_id;
-  final String? doctor_id;
-  @JsonKey(name: 'created_at')
-  final String? createdAt;
+  @JsonKey(name: 'user_id')
+  final String? userId;
+  @JsonKey(name: 'doctor_id')
+  final String? doctorId;
 
-  RatingModel(
-      {this.id, this.rate, this.user_id, this.doctor_id, this.createdAt});
+  RatingModel({
+    this.id,
+    this.rate,
+    this.userId,
+    this.doctorId,
+  });
 
   factory RatingModel.fromJson(Map<String, dynamic> json) =>
       _$RatingModelFromJson(json);

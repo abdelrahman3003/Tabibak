@@ -46,7 +46,7 @@ class DoctorSpecialtyItem extends StatelessWidget {
                   ),
                   5.hBox,
                   Text(
-                    doctorSummary.specialty?.nameAr ?? "",
+                    "",
                     style: Theme.of(context).textTheme.bodyLarge,
                     overflow: TextOverflow.ellipsis,
                   ),

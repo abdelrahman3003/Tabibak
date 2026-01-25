@@ -42,7 +42,7 @@ class HomeController extends StateNotifier<HomeStates> {
 
   Future<void> fetchSpecialties() async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homeRepoProvider).fetchSpecialties();
+    final result = await ref.read(homeRepoProvider).getSpecialties();
     result.when(
       sucess: (data) {
         state = state.copyWith(specialties: data);
