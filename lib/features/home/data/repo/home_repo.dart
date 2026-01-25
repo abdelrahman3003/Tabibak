@@ -5,10 +5,12 @@ import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
 
 abstract class HomeRepo {
-  Future<ApiResult<List<SpecialtyModel>>> getSpecialties();
   Future<ApiResult<UserModel>> getUserData();
-  Future<ApiResult<List<DoctorModel>>> fetchAllDoctors();
+
+  Future<ApiResult<List<SpecialtyModel>>> getSpecialties();
   Future<ApiResult<List<DoctorModel>>> geTopDoctors();
+  Future<ApiResult<List<DoctorModel>>> getSpecialtiesDoctors(int specialtyId);
+  Future<ApiResult<List<DoctorModel>>> fetchAllDoctors();
   Future<ApiResult<DoctorModel>> getDoctorId(String id);
   Future<ApiResult<List<DoctorModel>>> searchDoctor(String search);
 

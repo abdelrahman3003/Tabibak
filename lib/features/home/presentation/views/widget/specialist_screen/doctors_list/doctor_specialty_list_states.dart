@@ -5,8 +5,8 @@ import 'package:tabibak/features/home/presentation/manager/home_provider/home_pr
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/doctors_list/doctor_specialties_list_shimmer.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/doctors_list/doctor_specialty_list_view.dart';
 
-class DocotrSpecialtyListStates extends StatelessWidget {
-  const DocotrSpecialtyListStates({super.key});
+class DoctorSpecialtyListStates extends StatelessWidget {
+  const DoctorSpecialtyListStates({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,9 @@ class DocotrSpecialtyListStates extends StatelessWidget {
         homeControllerProvider.select((state) => state.topDoctorsList),
       );
       return Expanded(
-        child: isLoading
+        child: isLoading || doctorsSpecialtyList == null
             ? DoctorSpecialtiesListShimmer()
-            : doctorsSpecialtyList != null && doctorsSpecialtyList.isNotEmpty
+            : doctorsSpecialtyList.isNotEmpty
                 ? DoctorSpecialtyListView(
                     doctorsSummaryList: doctorsSpecialtyList)
                 : Center(child: EmptyWidget()),

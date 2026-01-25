@@ -47,6 +47,17 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
+  Future<ApiResult<List<DoctorModel>>> getSpecialtiesDoctors(
+      int specialtyId) async {
+    try {
+      final result = await homeRemoteData.getSpecialtiesDoctors(specialtyId);
+      return ApiResult.sucess(result);
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handle(e));
+    }
+  }
+
+  @override
   Future<ApiResult<DoctorModel>> getDoctorId(String id) async {
     try {
       final result = await homeRemoteData.getDoctorById(id);
@@ -60,7 +71,7 @@ class HomeRepoImp extends HomeRepo {
   @override
   Future<ApiResult<List<DoctorModel>>> fetchAllDoctors() async {
     try {
-      final result = await homeRemoteData.fetchAllDoctors();
+      final result = await homeRemoteData.getTopDoctors();
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

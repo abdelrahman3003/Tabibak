@@ -26,11 +26,8 @@ class HomeRemoteData {
   }
 
   Future<List<DoctorModel>> getTopDoctors() async {
-    final response = await supabase
-        .from('doctors')
-        .select(
-            "*,specialties(*),education(*),clinic_data(*,clinic_address(*),working_day(*,shifts(*),days(*))),comments(*),ratings(*)")
-        .limit(5);
+    final response =
+        await supabase.from('doctors').select(ApiConstants.getDoctors).limit(5);
 
     return response.map((doctor) => DoctorModel.fromJson(doctor)).toList();
   }
@@ -38,16 +35,19 @@ class HomeRemoteData {
   Future<DoctorModel> getDoctorById(String doctorId) async {
     final response = await supabase
         .from('doctors')
-        .select(
-            "*,specialties(*),education(*),clinic_data(*,clinic_address(*),working_day(*,shifts(*),days(*))),comments(*),ratings(*)")
+        .select(ApiConstants.getDoctors)
         .eq('doctor_id', doctorId)
         .single();
 
     return DoctorModel.fromJson(response);
   }
 
-  Future<List<DoctorModel>> fetchAllDoctors() async {
-    return await apiService.getDoctors(ApiConstants.getAllDoctors);
+  Future<List<DoctorModel>> getSpecialtiesDoctors(int specialtyId) async {
+    final response = await supabase
+        .from('doctors')
+        .select(ApiConstants.getDoctors)
+        .eq("specialty", specialtyId);
+    return response.map((doctor) => DoctorModel.fromJson(doctor)).toList();
   }
 
   Future<List<DoctorModel>> searchDoctor(String search) async {
