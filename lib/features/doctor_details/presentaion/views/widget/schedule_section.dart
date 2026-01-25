@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/doctor_details/presentaion/views/widget/shedule_row_item.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 import '../../../../home/data/model/doctor_model.dart';
 
@@ -18,7 +18,7 @@ class ScheduleSection extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  TitelText(title: AppStrings.workingHours),
+                  TitleText(title: AppStrings.workingHours),
                   Spacer(),
                   _buildTextShift(context, AppStrings.morning),
                   55.wBox,

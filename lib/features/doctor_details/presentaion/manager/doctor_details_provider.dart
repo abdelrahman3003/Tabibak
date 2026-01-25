@@ -15,7 +15,7 @@ class DoctorDetailsController extends StateNotifier<DoctorDetailsStates> {
   final commentTextController = TextEditingController();
   Future<void> getDoctorById(int id) async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homrepoProvider).getDoctorId(id);
+    final result = await ref.read(homeRepoProvider).getDoctorId(id);
     state = state.copyWith(isLoading: false);
 
     result.when(
@@ -41,7 +41,7 @@ class DoctorDetailsController extends StateNotifier<DoctorDetailsStates> {
 
   Future<void> getDoctorComments(int doctorid, bool isLoadin) async {
     state = state.copyWith(isLoading: isLoadin);
-    final result = await ref.read(homrepoProvider).getDoctorComments(doctorid);
+    final result = await ref.read(homeRepoProvider).getDoctorComments(doctorid);
     result.when(
       sucess: (data) {
         state = state.copyWith(doctorCommentModelList: data);
@@ -55,7 +55,7 @@ class DoctorDetailsController extends StateNotifier<DoctorDetailsStates> {
   Future<void> addComment(int doctorId) async {
     state = state.copyWith(isLoading: true);
     final result = await ref
-        .read(homrepoProvider)
+        .read(homeRepoProvider)
         .addComment(comment: commentTextController.text, doctorId: doctorId);
 
     result.when(

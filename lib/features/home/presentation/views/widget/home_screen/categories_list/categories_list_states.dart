@@ -11,10 +11,10 @@ class CategoriesListStates extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final specialties = ref.watch(
-        homeControllerPrvider.select((state) => state.specialties),
+        homeControllerProvider.select((state) => state.specialties),
       );
       return specialties != null
-          ? CategoriesListView(specialitesList: specialties)
+          ? CategoriesListView(specialtiesList: specialties)
           : CategoriesListShimmer();
     });
   }

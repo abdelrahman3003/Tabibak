@@ -6,7 +6,7 @@ import 'package:tabibak/features/appointment/presentaion/view/widget/booking/boo
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/booking_header.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/booking_time_states.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class AppointmentBookingScreen extends StatelessWidget {
@@ -24,7 +24,7 @@ class AppointmentBookingScreen extends StatelessWidget {
             20.hBox,
             BookingHeader(doctorModel: doctorModel),
             20.hBox,
-            TitelText(title: AppStrings.selectDate),
+            TitleText(title: AppStrings.selectDate),
             8.hBox,
             BookingDate(clinicID: doctorModel.clinicData!.id),
             20.hBox,

@@ -3,7 +3,7 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 class ClinicInfoSection extends StatelessWidget {
   const ClinicInfoSection({super.key, required this.clinic});
@@ -14,7 +14,7 @@ class ClinicInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitelText(title: AppStrings.clinicDetails),
+        TitleText(title: AppStrings.clinicDetails),
         10.hBox,
         _buildInfoTile(Icons.monetization_on, AppStrings.clinicName,
             clinic?.clinicName ?? AppStrings.unknown),

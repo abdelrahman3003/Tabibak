@@ -19,13 +19,14 @@ final categoryListIconsProvider = StateProvider<List<String>>((ref) {
     Assets.images.optometry.path
   ];
 });
-final homrepoProvider = StateProvider<HomeRepo>(
+final homeRepoProvider = StateProvider<HomeRepo>(
   (ref) => HomeRepoImp(homeRemoteData: HomeRemoteData()),
 );
-final homeControllerPrvider =
+final buttonLoadingProvider = StateProvider<bool>((ref) => false);
+
+final homeControllerProvider =
     StateNotifierProvider.autoDispose<HomeController, HomeStates>(
         (ref) => HomeController(ref));
-final buttonLoadingProvider = StateProvider<bool>((ref) => false);
 
 class HomeController extends StateNotifier<HomeStates> {
   HomeController(this.ref) : super(HomeStates()) {
@@ -41,7 +42,7 @@ class HomeController extends StateNotifier<HomeStates> {
 
   Future<void> fetchSpecialties() async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homrepoProvider).fetchSpecialties();
+    final result = await ref.read(homeRepoProvider).fetchSpecialties();
     result.when(
       sucess: (data) {
         state = state.copyWith(specialties: data);
@@ -60,7 +61,7 @@ class HomeController extends StateNotifier<HomeStates> {
 
   Future<void> getUserById() async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homrepoProvider).getUserData();
+    final result = await ref.read(homeRepoProvider).getUserData();
     result.when(
       sucess: (data) {
         state = state.copyWith(userModel: data);
@@ -74,7 +75,7 @@ class HomeController extends StateNotifier<HomeStates> {
 
   Future<void> getAllDoctors() async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homrepoProvider).fetchAllDoctors();
+    final result = await ref.read(homeRepoProvider).fetchAllDoctors();
     result.when(
       sucess: (data) {
         state = state.copyWith(doctorsModelList: data);
@@ -87,7 +88,7 @@ class HomeController extends StateNotifier<HomeStates> {
 
   Future<void> getAllDoctorsSummary() async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homrepoProvider).getAllDoctorsSummary();
+    final result = await ref.read(homeRepoProvider).getAllDoctorsSummary();
     result.when(
       sucess: (data) {
         state = state.copyWith(doctorsSummaryList: data);
@@ -101,10 +102,10 @@ class HomeController extends StateNotifier<HomeStates> {
   Future<void> getAllDoctorsSpecialties(int specialtyId) async {
     state = state.copyWith(isLoading: true);
     final result =
-        await ref.read(homrepoProvider).getAllDoctorsSpecialties(specialtyId);
+        await ref.read(homeRepoProvider).getAllDoctorsSpecialties(specialtyId);
     result.when(
       sucess: (data) {
-        state = state.copyWith(doctorsSpecialityList: data);
+        state = state.copyWith(doctorsSpecialtyList: data);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
@@ -114,7 +115,7 @@ class HomeController extends StateNotifier<HomeStates> {
 
   Future<void> addRate(double rate, int doctorId) async {
     final result =
-        await ref.read(homrepoProvider).addRate(rate: rate, doctorId: 3);
+        await ref.read(homeRepoProvider).addRate(rate: rate, doctorId: 3);
 
     result.when(
       sucess: (_) async {},

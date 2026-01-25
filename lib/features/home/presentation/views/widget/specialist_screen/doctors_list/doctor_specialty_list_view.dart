@@ -18,7 +18,7 @@ class DoctorSpecialtyListView extends StatelessWidget {
             doctorSummary: doctorsSummaryList[index],
             onTap: () async {
               ref
-                  .read(homeControllerPrvider.notifier)
+                  .read(homeControllerProvider.notifier)
                   .goToDoctorDetails(context, doctorsSummaryList[index].id);
             },
           );

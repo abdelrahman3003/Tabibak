@@ -8,7 +8,7 @@ import 'package:tabibak/features/doctor_details/presentaion/views/widget/booking
 import 'package:tabibak/features/doctor_details/presentaion/views/widget/clinic_info_section.dart';
 import 'package:tabibak/features/doctor_details/presentaion/views/widget/schedule_section.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 import 'doctor_details_header.dart';
 import 'doctor_review_section.dart';
@@ -35,7 +35,7 @@ class DoctorDetailsBody extends StatelessWidget {
             ),
           ),
           20.hBox,
-          TitelText(title: AppStrings.aboutDoctor),
+          TitleText(title: AppStrings.aboutDoctor),
           const SizedBox(height: 8),
           Text(
             doctorModel.bio ??

@@ -5,7 +5,7 @@ import 'package:tabibak/core/networking/dio_factory.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
-import 'package:tabibak/features/home/data/model/specialise_model.dart';
+import 'package:tabibak/features/home/data/model/specialty_model.dart';
 
 class HomeRemoteData {
   final SupabaseClient supabase = Supabase.instance.client;
@@ -20,9 +20,9 @@ class HomeRemoteData {
     return UserModel.fromJson(response);
   }
 
-  Future<List<SpecialiseModel>> fetchSpecialties() async {
+  Future<List<SpecialtyModel>> fetchSpecialties() async {
     final response = await supabase.from('specialties').select();
-    return response.map((e) => SpecialiseModel.fromJson(e)).toList();
+    return response.map((e) => SpecialtyModel.fromJson(e)).toList();
   }
 
   Future<List<DoctorModel>> fetchAllDoctors() async {

@@ -11,7 +11,7 @@ class ProfileHeaderStates extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       final userModel = ref.watch(
-        homeControllerPrvider.select((state) => state.userModel),
+        homeControllerProvider.select((state) => state.userModel),
       );
 
       return userModel != null

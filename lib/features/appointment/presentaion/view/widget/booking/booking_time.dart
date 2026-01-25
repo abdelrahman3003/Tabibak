@@ -5,7 +5,7 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 class BookingTime extends StatelessWidget {
   const BookingTime({super.key, required this.shifts});
@@ -24,7 +24,7 @@ class BookingTime extends StatelessWidget {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitelText(title: AppStrings.selectTime),
+                TitleText(title: AppStrings.selectTime),
                 8.hBox,
                 Wrap(
                   spacing: 8,

@@ -6,10 +6,10 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/categories_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/sliver_app_delegete.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/titel_text.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/welcom_panner.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/welcome_panner.dart';
 
-import '../widget/home_screen/home_appbar.dart';
+import '../widget/home_screen/home_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,9 +25,9 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 10.hBox,
-                HomeAppbar(),
+                HomeAppBar(),
                 20.hBox,
-                WelcomPanner(),
+                WelcomePanner(),
               ],
             ),
           ),
@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       20.hBox,
-                      TitelText(title: AppStrings.doctorSpeciality.tr()),
+                      TitleText(title: AppStrings.doctorSpeciality.tr()),
                       10.hBox,
                       CategoriesListStates(),
                     ],
@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
-              child: TitelText(title: AppStrings.recommendationDoctor.tr()),
+              child: TitleText(title: AppStrings.recommendationDoctor.tr()),
             ),
           ),
         ],

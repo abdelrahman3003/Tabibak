@@ -36,7 +36,7 @@ void showRatingDialog(BuildContext context) {
             ),
             ElevatedButton(
               onPressed: () {
-                ref.read(homeControllerPrvider.notifier).addRate(rating,
+                ref.read(homeControllerProvider.notifier).addRate(rating,
                     ref.read(doctorDetailsNotifierProvider).doctorModel!.id);
                 Navigator.pop(context);
               },

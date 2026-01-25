@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/widgets/shimmer_widget.dart';
 
-class DoctorSpecailtyListShimmer extends StatelessWidget {
-  const DoctorSpecailtyListShimmer({super.key});
+class DoctorSpecialtiesListShimmer extends StatelessWidget {
+  const DoctorSpecialtiesListShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

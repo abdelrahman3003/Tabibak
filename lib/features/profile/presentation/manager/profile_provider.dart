@@ -55,7 +55,7 @@ class ProfileController extends StateNotifier<ProffileStates> {
       final updateResult =
           await ref.read(profileRepoProvider).updateProfileImage(imageUrl);
       updateResult.when(sucess: (data) {
-        ref.read(homeControllerPrvider.notifier).getUserById();
+        ref.read(homeControllerProvider.notifier).getUserById();
       }, failure: (err) {
         state = state.copyWith(isUploadLoading: false);
       });

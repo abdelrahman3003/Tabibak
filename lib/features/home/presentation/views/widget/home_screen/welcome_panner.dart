@@ -6,8 +6,8 @@ import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
-class WelcomPanner extends StatelessWidget {
-  const WelcomPanner({super.key});
+class WelcomePanner extends StatelessWidget {
+  const WelcomePanner({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class WelcomPanner extends StatelessWidget {
       ),
       child: Consumer(builder: (context, ref, _) {
         final userModel = ref.watch(
-          homeControllerPrvider.select((state) => state.userModel),
+          homeControllerProvider.select((state) => state.userModel),
         );
 
         return Row(

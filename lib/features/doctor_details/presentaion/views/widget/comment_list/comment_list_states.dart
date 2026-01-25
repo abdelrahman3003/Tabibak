@@ -5,7 +5,7 @@ import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_detai
 import 'package:tabibak/features/doctor_details/presentaion/views/widget/comment_list/comment_list_view.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
-import '../../../../../home/presentation/views/widget/home_screen/titel_text.dart';
+import '../../../../../home/presentation/views/widget/home_screen/title_text.dart';
 
 class CommentListStates extends StatelessWidget {
   const CommentListStates({super.key});
@@ -25,7 +25,7 @@ class CommentListStates extends StatelessWidget {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TitelText(title: AppStrings.comments),
+                  TitleText(title: AppStrings.comments),
                   CommentListView(doctorCommentModelList: recentComments),
                 ],
               );

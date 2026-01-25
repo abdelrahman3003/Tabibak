@@ -35,7 +35,7 @@ class SearchProvider extends StateNotifier<SearchStates> {
     }
     state = SearchStates(isLoading: true);
 
-    final result = await ref.read(homrepoProvider).searchDoctor(search);
+    final result = await ref.read(homeRepoProvider).searchDoctor(search);
     result.when(
       sucess: (data) async {
         state = SearchStates(searchDoctorsList: data);

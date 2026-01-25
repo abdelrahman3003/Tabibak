@@ -6,7 +6,7 @@ import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_summary.dart';
-import 'package:tabibak/features/home/data/model/specialise_model.dart';
+import 'package:tabibak/features/home/data/model/specialty_model.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
 
 class HomeRepoImp extends HomeRepo {
@@ -26,12 +26,13 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<SpecialiseModel>>> fetchSpecialties() async {
+  Future<ApiResult<List<SpecialtyModel>>> fetchSpecialties() async {
     try {
       final result = await homeRemoteData.fetchSpecialties();
 
       return ApiResult.sucess(result);
     } catch (error) {
+      log("-----$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
