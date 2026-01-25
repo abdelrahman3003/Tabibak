@@ -3,7 +3,7 @@ import 'package:tabibak/core/networking/api_service.dart';
 import 'package:tabibak/core/networking/dio_factory.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_body.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/model/working_day_model.dart';
 
 class AppointmentsRemoteData {
   final ApiService apiService = ApiService(DioFactory.getDio());
@@ -17,10 +17,8 @@ class AppointmentsRemoteData {
         .getAllAppointmentStatus(ApiConstants.getAllAppoinments);
   }
 
-  Future<List<ClinicWorkingDay>> getTimeSlots(
-      int clinicId, String workingDay) async {
-    return await apiService.getTimeSlots(
-        ApiConstants.getTimeSlots, "eq.$workingDay", "eq.$clinicId");
+  Future<List<WorkingDay>> getTimeSlots(int clinicId, String workingDay) async {
+    return [];
   }
 
   Future<void> addAppointment(AppointmentBody appointmentBody) async {

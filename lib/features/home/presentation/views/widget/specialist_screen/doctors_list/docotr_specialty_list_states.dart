@@ -15,7 +15,7 @@ class DocotrSpecialtyListStates extends StatelessWidget {
         homeControllerProvider.select((state) => state.isLoading),
       );
       final doctorsSpecialtyList = ref.watch(
-        homeControllerProvider.select((state) => state.doctorsSpecialtyList),
+        homeControllerProvider.select((state) => state.topDoctorsList),
       );
       return Expanded(
         child: isLoading

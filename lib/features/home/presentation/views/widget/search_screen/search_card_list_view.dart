@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/features/home/data/model/doctor_summary.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/search_screen/search_card.dart';
 
 class SearchCardListView extends StatelessWidget {
   const SearchCardListView(
       {super.key, required this.searchDoctorList, required this.onItemTap});
-  final List<DoctorSummary> searchDoctorList;
+  final List<DoctorModel> searchDoctorList;
   final void Function(int index) onItemTap;
   @override
   Widget build(BuildContext context) {

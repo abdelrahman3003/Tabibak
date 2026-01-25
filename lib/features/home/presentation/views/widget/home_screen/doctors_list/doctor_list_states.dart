@@ -11,7 +11,7 @@ class DoctorListStates extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final doctorsSummaryList = ref.watch(
-        homeControllerProvider.select((state) => state.doctorsSummaryList),
+        homeControllerProvider.select((state) => state.topDoctorsList),
       );
       return doctorsSummaryList != null
           ? DoctorListView(doctorsSummaryList: doctorsSummaryList)

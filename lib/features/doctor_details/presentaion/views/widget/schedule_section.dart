@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/doctor_details/presentaion/views/widget/shedule_row_item.dart';
+import 'package:tabibak/features/home/data/model/working_day_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
-
-import '../../../../home/data/model/doctor_model.dart';
 
 class ScheduleSection extends StatelessWidget {
   const ScheduleSection({super.key, this.workingDayList});
-  final List<ClinicWorkingDay>? workingDayList;
+  final List<WorkingDay>? workingDayList;
   @override
   Widget build(BuildContext context) {
     return workingDayList == null || workingDayList!.isEmpty
@@ -31,9 +30,9 @@ class ScheduleSection extends StatelessWidget {
                 children: List.generate(
                   workingDayList!.length,
                   (index) => SheduleRowItem(
-                    day: workingDayList?[index].workingDay?.days?.day ?? "",
-                    morning: workingDayList?[index].workingDay?.shifts?.morning,
-                    evening: workingDayList?[index].workingDay?.shifts?.evening,
+                    day: workingDayList?[index].day.dayEn ?? "",
+                    morning: workingDayList?[index].shifts?.morningStart ?? "",
+                    evening: workingDayList?[index].shifts?.morningStart ?? "",
                   ),
                 ),
               ),

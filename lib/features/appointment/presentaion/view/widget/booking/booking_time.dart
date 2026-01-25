@@ -4,20 +4,20 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/model/shift_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 class BookingTime extends StatelessWidget {
   const BookingTime({super.key, required this.shifts});
-  final Shifts shifts;
+  final ShiftModel shifts;
 
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final state = ref.watch(appointmentBookingNotiferProvider);
       final timeSlots = [
-        if (shifts.morning != null) shifts.morning!,
-        if (shifts.evening != null) shifts.evening!,
+        // if (shifts.morning != null) shifts.morning!,
+        // if (shifts.evening != null) shifts.evening!,
       ];
       return state.selectedDate == null
           ? const SizedBox()
@@ -34,16 +34,16 @@ class BookingTime extends StatelessWidget {
                       label: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          _timeText(time.start, context, isSelected),
+                          _timeText(time.toString(), context, isSelected),
                           _timeText(" - ", context, isSelected),
-                          _timeText(time.end, context, isSelected),
+                          _timeText(time.toString(), context, isSelected),
                         ],
                       ),
                       selected: isSelected,
                       onSelected: (_) {
-                        ref
-                            .watch(appointmentBookingNotiferProvider.notifier)
-                            .selectTime(time);
+                        // ref
+                        //     .watch(appointmentBookingNotiferProvider.notifier)
+                        //     .selectTime(time);
                       },
                       selectedColor: Theme.of(context).colorScheme.primary,
                       showCheckmark: false,

@@ -26,7 +26,7 @@ class AppointmentBookingScreen extends StatelessWidget {
             20.hBox,
             TitleText(title: AppStrings.selectDate),
             8.hBox,
-            BookingDate(clinicID: doctorModel.clinicData!.id),
+            BookingDate(clinicID: 1),
             20.hBox,
             BookingTimeStates(),
             Spacer(),

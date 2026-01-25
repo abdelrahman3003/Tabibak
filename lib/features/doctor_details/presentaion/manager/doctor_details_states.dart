@@ -1,9 +1,10 @@
+import 'package:tabibak/features/home/data/model/comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class DoctorDetailsStates {
   final bool isLoading;
 
-  final List<Comment>? doctorCommentModelList;
+  final List<CommentModel>? doctorCommentModelList;
   final DoctorModel? doctorModel;
   final String? errorMessage;
   DoctorDetailsStates({
@@ -13,7 +14,7 @@ class DoctorDetailsStates {
     this.isLoading = false,
   });
   DoctorDetailsStates copyWith({
-    final List<Comment>? doctorCommentModelList,
+    final List<CommentModel>? doctorCommentModelList,
     final DoctorModel? doctorModel,
     final String? errorMessage,
     final bool? isLoading,

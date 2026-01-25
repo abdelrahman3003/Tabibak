@@ -29,9 +29,9 @@ class DoctorDetailsBody extends StatelessWidget {
             child: DoctorDetailsHeader(
               name: doctorModel.name,
               image: doctorModel.image,
-              specialty: doctorModel.specialties?.name,
-              university: doctorModel.universityData?.name,
-              rate: doctorModel.avgRate?.toDouble(),
+              specialty: doctorModel.specialty?.nameAr,
+              university: doctorModel.education?.university,
+              rate: 1,
             ),
           ),
           20.hBox,
@@ -39,22 +39,21 @@ class DoctorDetailsBody extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             doctorModel.bio ??
-                "${AppStrings.specialty} ${doctorModel.specialties?.name}",
+                "${AppStrings.specialty} ${doctorModel.specialty?.nameAr}",
             style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.justify,
           ),
           20.hBox,
-          ClinicInfoSection(clinic: doctorModel.clinicData),
+          ClinicInfoSection(clinic: doctorModel.clinic),
           20.hBox,
-          ScheduleSection(
-              workingDayList: doctorModel.clinicData?.clinicWorkingDay),
+          ScheduleSection(workingDayList: []),
           20.hBox,
           DoctorReviewSection(),
           20.hBox,
           AppButton(
             title: AppStrings.bookingInquiry,
             onPressed: () {
-              final isBooked = doctorModel.clinicData!.isBooking;
+              final isBooked = doctorModel.clinic!.isBooking;
               if (isBooked != null && isBooked) {
                 context.pushNamed(Routes.appointmentBookingScreen,
                     arguments: doctorModel);

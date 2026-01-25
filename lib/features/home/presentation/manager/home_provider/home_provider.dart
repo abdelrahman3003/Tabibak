@@ -37,7 +37,7 @@ class HomeController extends StateNotifier<HomeStates> {
   void initData() async {
     await getUserById();
     await fetchSpecialties();
-    await getAllDoctorsSummary();
+    await getTopDoctors();
   }
 
   Future<void> fetchSpecialties() async {
@@ -53,10 +53,12 @@ class HomeController extends StateNotifier<HomeStates> {
     );
   }
 
-  goToDoctorDetails(BuildContext context, int id) async {
+  goToDoctorDetails(BuildContext context, String doctorId) async {
     context.pushNamed(Routes.doctorDetailsScreen);
 
-    await ref.watch(doctorDetailsNotifierProvider.notifier).getDoctorById(id);
+    await ref
+        .watch(doctorDetailsNotifierProvider.notifier)
+        .getDoctorById(doctorId);
   }
 
   Future<void> getUserById() async {
@@ -86,12 +88,12 @@ class HomeController extends StateNotifier<HomeStates> {
     );
   }
 
-  Future<void> getAllDoctorsSummary() async {
+  Future<void> getTopDoctors() async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homeRepoProvider).getAllDoctorsSummary();
+    final result = await ref.read(homeRepoProvider).geTopDoctors();
     result.when(
-      sucess: (data) {
-        state = state.copyWith(doctorsSummaryList: data);
+      sucess: (doctorsLList) {
+        state = state.copyWith(topDoctorsList: doctorsLList);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
@@ -99,10 +101,10 @@ class HomeController extends StateNotifier<HomeStates> {
     );
   }
 
-  Future<void> getAllDoctorsSpecialties(int specialtyId) async {
+  Future<void> getDoctorSpecialist(int specialtyId) async {
     state = state.copyWith(isLoading: true);
     final result =
-        await ref.read(homeRepoProvider).getAllDoctorsSpecialties(specialtyId);
+        await ref.read(homeRepoProvider).getDoctorSpecialist(specialtyId);
     result.when(
       sucess: (data) {
         state = state.copyWith(doctorsSpecialtyList: data);

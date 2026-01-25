@@ -19,15 +19,15 @@ class BookingHeader extends StatelessWidget {
               doctorModel.name ?? "",
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            Text(doctorModel.specialties?.name ?? "",
+            Text(doctorModel.specialty?.nameAr ?? "",
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Theme.of(context).colorScheme.secondary)),
             Text(
-                doctorModel.clinicData?.consultationFee == null
+                doctorModel.clinic?.consultationFee == null
                     ? AppStrings.consultationPriceNotAvailable
-                    : "${AppStrings.consultationPrice} : ${doctorModel.clinicData?.consultationFee} ${AppStrings.egp}",
+                    : "${AppStrings.consultationPrice} : ${doctorModel.clinic?.consultationFee} ${AppStrings.egp}",
                 style: TextStyle(color: Colors.blue)),
           ],
         )

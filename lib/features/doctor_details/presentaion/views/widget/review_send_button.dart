@@ -36,9 +36,9 @@ class ReviewSendButton extends StatelessWidget {
             isLoadingSide: true,
             title: AppStrings.send,
             onPressed: () {
-              ref
-                  .read(doctorDetailsNotifierProvider.notifier)
-                  .addComment(doctorModel!.id);
+              // ref
+              //     .read(doctorDetailsNotifierProvider.notifier)
+              //     .addComment(doctorModel!.doctorId);
             },
             color: AppColors.textLight,
             textColor: AppColors.white,

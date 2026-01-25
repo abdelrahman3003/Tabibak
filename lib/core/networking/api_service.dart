@@ -3,8 +3,8 @@ import 'package:retrofit/retrofit.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_body.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
+import 'package:tabibak/features/home/data/model/comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 
 part 'api_service.g.dart';
 
@@ -18,12 +18,12 @@ abstract class ApiService {
     @Query("select") String selectFields,
   );
   @GET("/doctors")
-  Future<List<DoctorSummary>> searchDoctor(
+  Future<List<DoctorModel>> searchDoctor(
     @Query("select") String selectFields,
     @Query("name") String search,
   );
   @GET("/doctors")
-  Future<List<DoctorSummary>> getAllDoctorsSummary(
+  Future<List<DoctorModel>> getAllDoctorsSummary(
     @Query("select") String selectFields,
   );
   @GET("/doctors")
@@ -32,7 +32,7 @@ abstract class ApiService {
     @Query("id") String filterId,
   );
   @GET("/doctors")
-  Future<List<DoctorSummary>> getDoctorSpecialties(
+  Future<List<CommentModel>> getDoctorSpecialties(
     @Query("select") String selectFields,
     @Query("specialty") String filterId,
   );
@@ -40,7 +40,7 @@ abstract class ApiService {
   //comment
 
   @GET("/comments")
-  Future<List<Comment>> getDoctorComments(
+  Future<List<CommentModel>> getDoctorComments(
     @Query("select") String selectFields,
     @Query("doctor_id") String doctorid,
     @Query("limit") int limt,
@@ -65,7 +65,7 @@ abstract class ApiService {
     @Query("select") String selectFields,
   );
   @GET("/clinic_working_day")
-  Future<List<ClinicWorkingDay>> getTimeSlots(
+  Future<List<CommentModel>> getTimeSlots(
     @Query("select") String selectFields,
     @Query("working_day.days.day") String day,
     @Query("clinic_id") String clinicId,

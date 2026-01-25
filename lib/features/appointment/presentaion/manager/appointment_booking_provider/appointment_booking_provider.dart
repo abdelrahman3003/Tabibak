@@ -8,7 +8,6 @@ import 'package:tabibak/core/widgets/dialogs.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_body.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_states.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_provider/appointment_provider.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 final appointmentBookingNotiferProvider = StateNotifierProvider.autoDispose<
     AppointmentBookingProvider, AppointmentBookingStates>(
@@ -37,7 +36,7 @@ class AppointmentBookingProvider
     }
   }
 
-  selectTime(TimeSlot time) {
+  selectTime(String time) {
     state = state.copyWith(selectedTime: time);
   }
 
@@ -47,7 +46,7 @@ class AppointmentBookingProvider
         await ref.read(appointmentsRepos).getTimeSlots(doctorId, workingDay);
     result.when(
       sucess: (data) {
-        state = state.copyWith(workingDay: data, isLoading: false);
+        state = state.copyWith(workingDay: "", isLoading: false);
       },
       failure: (apiErrorModel) {},
     );
@@ -78,9 +77,9 @@ class AppointmentBookingProvider
     );
   }
 
-  String _convertTimeSlot(TimeSlot? timeSlot) {
-    final start = timeSlot?.start ?? '';
-    final end = timeSlot?.end ?? '';
+  String _convertTimeSlot(String? timeSlot) {
+    final start = timeSlot ?? '';
+    final end = timeSlot ?? '';
     if (start.isEmpty && end.isEmpty) return '';
     return '$start - $end';
   }

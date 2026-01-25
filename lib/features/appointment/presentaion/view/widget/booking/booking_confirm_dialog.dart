@@ -34,11 +34,11 @@ class BookingConfirmDialog extends ConsumerWidget {
                   DateFormat.EEEE(Localizations.localeOf(context).toString())
                       .format(provider.selectedDate!),
               "date": DateFormat('yyyy-MM-dd').format(provider.selectedDate!),
-              "time": provider.selectedTime!.start!
+              "time": ""
             })),
             10.hBox,
             Text(
-              "${AppStrings.consultationPrice}: ${doctorModel.clinicData?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}",
+              "${AppStrings.consultationPrice}: ${doctorModel.clinic?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}",
               style: const TextStyle(fontSize: 14),
             ),
             5.hBox,
@@ -51,9 +51,9 @@ class BookingConfirmDialog extends ConsumerWidget {
               title: AppStrings.confirmBooking,
               isLoading: isLoading,
               onPressed: () async {
-                await ref
-                    .read(appointmentBookingNotiferProvider.notifier)
-                    .bookingAppointment(context, doctorModel.id);
+                // await ref
+                //     .read(appointmentBookingNotiferProvider.notifier)
+                //     .bookingAppointment(context, doctorModel.id);
               },
             )
           ],

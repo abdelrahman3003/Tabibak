@@ -59,7 +59,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<DoctorSummary>> searchDoctor(
+  Future<List<DoctorModel>> searchDoctor(
     String selectFields,
     String search,
   ) async {
@@ -70,7 +70,7 @@ class _ApiService implements ApiService {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<DoctorSummary>>(Options(
+    final _options = _setStreamType<List<DoctorModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -87,10 +87,10 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<DoctorSummary> _value;
+    late List<DoctorModel> _value;
     try {
       _value = _result.data!
-          .map((dynamic i) => DoctorSummary.fromJson(i as Map<String, dynamic>))
+          .map((dynamic i) => DoctorModel.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -100,12 +100,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<DoctorSummary>> getAllDoctorsSummary(String selectFields) async {
+  Future<List<DoctorModel>> getAllDoctorsSummary(String selectFields) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'select': selectFields};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<DoctorSummary>>(Options(
+    final _options = _setStreamType<List<DoctorModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -122,10 +122,10 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<DoctorSummary> _value;
+    late List<DoctorModel> _value;
     try {
       _value = _result.data!
-          .map((dynamic i) => DoctorSummary.fromJson(i as Map<String, dynamic>))
+          .map((dynamic i) => DoctorModel.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -176,7 +176,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<DoctorSummary>> getDoctorSpecialties(
+  Future<List<CommentModel>> getDoctorSpecialties(
     String selectFields,
     String filterId,
   ) async {
@@ -187,7 +187,7 @@ class _ApiService implements ApiService {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<DoctorSummary>>(Options(
+    final _options = _setStreamType<List<CommentModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -204,10 +204,10 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<DoctorSummary> _value;
+    late List<CommentModel> _value;
     try {
       _value = _result.data!
-          .map((dynamic i) => DoctorSummary.fromJson(i as Map<String, dynamic>))
+          .map((dynamic i) => CommentModel.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -217,7 +217,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<Comment>> getDoctorComments(
+  Future<List<CommentModel>> getDoctorComments(
     String selectFields,
     String doctorid,
     int limt,
@@ -230,7 +230,7 @@ class _ApiService implements ApiService {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<Comment>>(Options(
+    final _options = _setStreamType<List<CommentModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -247,10 +247,10 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<Comment> _value;
+    late List<CommentModel> _value;
     try {
       _value = _result.data!
-          .map((dynamic i) => Comment.fromJson(i as Map<String, dynamic>))
+          .map((dynamic i) => CommentModel.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -392,7 +392,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<ClinicWorkingDay>> getTimeSlots(
+  Future<List<CommentModel>> getTimeSlots(
     String selectFields,
     String day,
     String clinicId,
@@ -405,7 +405,7 @@ class _ApiService implements ApiService {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<ClinicWorkingDay>>(Options(
+    final _options = _setStreamType<List<CommentModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -422,11 +422,10 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<ClinicWorkingDay> _value;
+    late List<CommentModel> _value;
     try {
       _value = _result.data!
-          .map((dynamic i) =>
-              ClinicWorkingDay.fromJson(i as Map<String, dynamic>))
+          .map((dynamic i) => CommentModel.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);

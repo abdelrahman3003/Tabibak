@@ -6,7 +6,7 @@ import 'package:tabibak/features/appointment/data/model/appointment_body.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/data/remote_data/appointments_remote_data.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/model/working_day_model.dart';
 
 class AppointmentsReposImp implements AppointmentsRepos {
   final appointmentsRemoteData = AppointmentsRemoteData();
@@ -42,7 +42,7 @@ class AppointmentsReposImp implements AppointmentsRepos {
       if (result.isEmpty) {
         return ApiResult.sucess(null);
       }
-      return ApiResult.sucess(result.first.workingDay);
+      return ApiResult.sucess(result.first);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
     }

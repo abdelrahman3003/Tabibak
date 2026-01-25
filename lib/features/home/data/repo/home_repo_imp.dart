@@ -4,8 +4,8 @@ import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
+import 'package:tabibak/features/home/data/model/comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
 
@@ -28,7 +28,7 @@ class HomeRepoImp extends HomeRepo {
   @override
   Future<ApiResult<List<SpecialtyModel>>> fetchSpecialties() async {
     try {
-      final result = await homeRemoteData.fetchSpecialties();
+      final result = await homeRemoteData.getSpecialties();
 
       return ApiResult.sucess(result);
     } catch (error) {
@@ -47,7 +47,7 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<DoctorSummary>>> searchDoctor(search) async {
+  Future<ApiResult<List<DoctorModel>>> searchDoctor(search) async {
     try {
       final result = await homeRemoteData.searchDoctor(search);
       return ApiResult.sucess(result);
@@ -57,19 +57,17 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<DoctorSummary>>> getAllDoctorsSummary() async {
+  Future<ApiResult<List<DoctorModel>>> geTopDoctors() async {
     try {
-      final result = await homeRemoteData.getAllDoctorsSummary();
+      final result = await homeRemoteData.getTopDoctors();
       return ApiResult.sucess(result);
     } catch (error) {
-      log("-----$error");
-
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
 
   @override
-  Future<ApiResult<DoctorModel>> getDoctorId(int id) async {
+  Future<ApiResult<DoctorModel>> getDoctorId(String id) async {
     try {
       final result = await homeRemoteData.getDoctorById(id);
       return ApiResult.sucess(result);
@@ -80,7 +78,7 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<DoctorSummary>>> getAllDoctorsSpecialties(
+  Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist(
       int specialtyId) async {
     try {
       final result = await homeRemoteData.getDoctorSpecialist(specialtyId);
@@ -91,7 +89,7 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<Comment>>> getDoctorComments(int doctorid) async {
+  Future<ApiResult<List<CommentModel>>> getDoctorComments(int doctorid) async {
     try {
       final result = await homeRemoteData.getDoctorComments(doctorid);
       return ApiResult.sucess(result);

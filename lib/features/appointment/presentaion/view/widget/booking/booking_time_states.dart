@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/booking_not_available.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/booking_time.dart';
+import 'package:tabibak/features/home/data/model/shift_model.dart';
 
 class BookingTimeStates extends StatelessWidget {
   const BookingTimeStates({super.key});
@@ -16,7 +17,7 @@ class BookingTimeStates extends StatelessWidget {
             ? SizedBox()
             : state.workingDay == null
                 ? BookingNotAvailable()
-                : BookingTime(shifts: state.workingDay!.shifts!);
+                : BookingTime(shifts: ShiftModel(id: 1));
       },
     );
   }

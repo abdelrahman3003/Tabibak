@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 class ClinicInfoSection extends StatelessWidget {
   const ClinicInfoSection({super.key, required this.clinic});
 
-  final Clinic? clinic;
+  final ClinicModel? clinic;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,7 +21,7 @@ class ClinicInfoSection extends StatelessWidget {
         _buildInfoTile(Icons.monetization_on, AppStrings.consultationPrice,
             "${clinic?.consultationFee ?? ""} ${AppStrings.currency}"),
         _buildInfoTile(Icons.location_on, AppStrings.address,
-            clinic?.address ?? AppStrings.unknown),
+            clinic?.clinicAddressModel?.address ?? AppStrings.unknown),
         _buildInfoTile(Icons.phone, AppStrings.phoneNumber,
             clinic?.phoneNumber?.toString() ?? AppStrings.numberNotAvailable),
       ],

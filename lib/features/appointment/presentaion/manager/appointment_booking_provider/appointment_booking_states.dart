@@ -1,11 +1,9 @@
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
-
 class AppointmentBookingStates {
   final bool isLoading;
   final bool isDialogLoading;
   final DateTime? selectedDate;
-  final TimeSlot? selectedTime;
-  final WorkingDay? workingDay;
+  final String? selectedTime;
+  final String? workingDay;
   final bool isAdded;
 
   AppointmentBookingStates({
@@ -21,8 +19,8 @@ class AppointmentBookingStates {
       {bool? isLoading,
       bool? isDialogLoading,
       DateTime? selectedDate,
-      TimeSlot? selectedTime,
-      WorkingDay? workingDay,
+      String? selectedTime,
+      String? workingDay,
       bool? isAdded}) {
     return AppointmentBookingStates(
         isLoading: isLoading ?? this.isLoading,

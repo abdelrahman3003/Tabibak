@@ -34,7 +34,7 @@ class AppointmentDetailsScreen extends StatelessWidget {
                     10.hBox,
                     DetailsItem(
                         title: AppStrings.specialty,
-                        value: appointment.doctor?.specialties?.name ??
+                        value: appointment.doctor?.specialty?.nameAr ??
                             AppStrings.unknown),
                     10.hBox,
                     DetailsItem(
@@ -62,7 +62,7 @@ class AppointmentDetailsScreen extends StatelessWidget {
                     DetailsItem(
                         title: AppStrings.consultationPrice,
                         value:
-                            "${appointment.doctor?.clinicData?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}"),
+                            "${appointment.doctor?.clinic?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}"),
                     10.hBox,
                   ],
                 ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_details_provider.dart';
-import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 
 void showRatingDialog(BuildContext context) {
   final ratingProvider = StateProvider<double>((ref) => 0);
@@ -36,8 +34,8 @@ void showRatingDialog(BuildContext context) {
             ),
             ElevatedButton(
               onPressed: () {
-                ref.read(homeControllerProvider.notifier).addRate(rating,
-                    ref.read(doctorDetailsNotifierProvider).doctorModel!.id);
+                // ref.read(homeControllerProvider.notifier).addRate(rating,
+                //     ref.read(doctorDetailsNotifierProvider).doctorModel!.doctorId);
                 Navigator.pop(context);
               },
               child: const Text("إرسال"),

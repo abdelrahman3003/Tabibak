@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/home/data/model/doctor_summary.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class DoctorSpecialtyItem extends StatelessWidget {
   const DoctorSpecialtyItem(
       {super.key, this.onTap, required this.doctorSummary});
   final Function()? onTap;
-  final DoctorSummary doctorSummary;
+  final DoctorModel doctorSummary;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -52,7 +52,7 @@ class DoctorSpecialtyItem extends StatelessWidget {
                   ),
                   5.hBox,
                   Text(
-                    doctorSummary.clinicData?.clinicAddress?.address ??
+                    doctorSummary.clinic?.clinicAddressModel?.address ??
                         "مكان غير معروف",
                     style: Theme.of(context)
                         .textTheme

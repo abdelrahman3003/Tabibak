@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class SheduleRowItem extends StatelessWidget {
   const SheduleRowItem(
@@ -12,8 +11,8 @@ class SheduleRowItem extends StatelessWidget {
       required this.morning,
       required this.evening});
   final String day;
-  final TimeSlot? morning;
-  final TimeSlot? evening;
+  final String? morning;
+  final String? evening;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,7 +40,7 @@ class SheduleRowItem extends StatelessWidget {
         ));
   }
 
-  _buildTimeRow(BuildContext context, TimeSlot? timteSlot) {
+  _buildTimeRow(BuildContext context, String? timteSlot) {
     return Container(
       color: Theme.of(context).colorScheme.secondary,
       width: 80.w,
@@ -56,7 +55,7 @@ class SheduleRowItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  timteSlot.start ?? AppStrings.unknown,
+                  timteSlot ?? AppStrings.unknown,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Padding(
@@ -67,7 +66,7 @@ class SheduleRowItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  timteSlot.end ?? AppStrings.unknown,
+                  timteSlot ?? AppStrings.unknown,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],

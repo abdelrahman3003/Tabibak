@@ -1,9 +1,9 @@
-import 'package:tabibak/features/home/data/model/doctor_summary.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class SearchStates {
   final bool isLoading;
   final bool? isDeleteLoading;
-  List<DoctorSummary>? searchDoctorsList;
+  List<DoctorModel>? searchDoctorsList;
   String? errorMessage;
 
   SearchStates({
@@ -15,7 +15,7 @@ class SearchStates {
   SearchStates copyWith(
       {bool? isLoadin,
       String? errorMessage,
-      List<DoctorSummary>? searchDoctorsList,
+      List<DoctorModel>? searchDoctorsList,
       bool? isDeleteLoading}) {
     return SearchStates(
         isLoading: isLoading,

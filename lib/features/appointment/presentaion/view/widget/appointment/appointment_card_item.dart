@@ -23,7 +23,7 @@ class AppointmentCardItem extends StatelessWidget {
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
-        appointment.doctor?.specialties?.name ?? AppStrings.unknown,
+        appointment.doctor?.specialty?.nameAr ?? AppStrings.unknown,
         style: const TextStyle(fontSize: 13),
       ),
       trailing: Container(

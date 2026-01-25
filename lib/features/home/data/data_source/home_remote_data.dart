@@ -3,8 +3,8 @@ import 'package:tabibak/core/networking/api_consatnt.dart';
 import 'package:tabibak/core/networking/api_service.dart';
 import 'package:tabibak/core/networking/dio_factory.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
+import 'package:tabibak/features/home/data/model/comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/data/model/doctor_summary.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
 
 class HomeRemoteData {
@@ -20,7 +20,7 @@ class HomeRemoteData {
     return UserModel.fromJson(response);
   }
 
-  Future<List<SpecialtyModel>> fetchSpecialties() async {
+  Future<List<SpecialtyModel>> getSpecialties() async {
     final response = await supabase.from('specialties').select();
     return response.map((e) => SpecialtyModel.fromJson(e)).toList();
   }
@@ -29,32 +29,37 @@ class HomeRemoteData {
     return await apiService.getDoctors(ApiConstants.getAllDoctors);
   }
 
-  Future<List<DoctorSummary>> searchDoctor(String search) async {
+  Future<List<DoctorModel>> searchDoctor(String search) async {
     return await apiService.searchDoctor(
         ApiConstants.getAllDoctorsSummary, "ilike.*$search*");
   }
 
-  Future<List<DoctorSummary>> getAllDoctorsSummary() async {
+  Future<List<DoctorModel>> getTopDoctors() async {
     final response = await supabase
         .from('doctors')
         .select(
-            "id,name,image,specialties(*),clinic_data(clinic_address(address))")
+            "*,specialties(*),education(*),clinic_data(*,clinic_address(*),working_day(*,shifts(*),days(*))),comments(*),ratings(*)")
         .limit(5);
-    return response.map((e) => DoctorSummary.fromJson(e)).toList();
+
+    return response.map((doctor) => DoctorModel.fromJson(doctor)).toList();
   }
 
-  Future<DoctorModel> getDoctorById(int id) async {
-    final res =
-        await apiService.getDoctorById(ApiConstants.getAllDoctors, "eq.$id");
-    return res.first;
+  Future<DoctorModel> getDoctorById(String doctorId) async {
+    final response = await supabase
+        .from('doctors')
+        .select(
+            "*,specialties(*),education(*),clinic_data(*,clinic_address(*),working_day(*,shifts(*),days(*))),comments(*),ratings(*)")
+        .eq('doctor_id', doctorId)
+        .single();
+
+    return DoctorModel.fromJson(response);
   }
 
-  Future<List<DoctorSummary>> getDoctorSpecialist(int specialtyId) async {
-    return await apiService.getDoctorSpecialties(
-        ApiConstants.getAllDoctorsSummary, "eq.$specialtyId");
+  Future<List<DoctorModel>> getDoctorSpecialist(int specialtyId) async {
+    return [];
   }
 
-  Future<List<Comment>> getDoctorComments(int doctorid) async {
+  Future<List<CommentModel>> getDoctorComments(int doctorid) async {
     return await apiService.getDoctorComments(
         ApiConstants.getComments, "eq.$doctorid", 7);
   }

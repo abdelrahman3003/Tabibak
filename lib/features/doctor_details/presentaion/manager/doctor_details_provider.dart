@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/features/doctor_details/presentaion/manager/doctor_details_states.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 
 final doctorDetailsNotifierProvider = StateNotifierProvider.autoDispose<
@@ -13,16 +12,16 @@ class DoctorDetailsController extends StateNotifier<DoctorDetailsStates> {
   DoctorDetailsController(this.ref) : super(DoctorDetailsStates());
   final Ref ref;
   final commentTextController = TextEditingController();
-  Future<void> getDoctorById(int id) async {
+  Future<void> getDoctorById(String doctorId) async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homeRepoProvider).getDoctorId(id);
+    final result = await ref.read(homeRepoProvider).getDoctorId(doctorId);
     state = state.copyWith(isLoading: false);
 
     result.when(
       sucess: (data) {
-        final avgRate = _avgRating(data);
-        final doctorModel = data.copyWith(avgRate: avgRate);
-        state = state.copyWith(doctorModel: doctorModel, isLoading: false);
+        //   final avgRate = _avgRating(data);
+        // final doctorModel = data.copyWith(avgRate: avgRate);
+        //  state = state.copyWith(doctorModel: doctorModel, isLoading: false);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(
@@ -31,13 +30,13 @@ class DoctorDetailsController extends StateNotifier<DoctorDetailsStates> {
     );
   }
 
-  num _avgRating(DoctorModel doctorModel) {
-    final ratings =
-        doctorModel.ratings?.map((e) => e.rate.toDouble()).toList() ?? [];
-    if (ratings.isEmpty) return 0;
-    final avgRate = ratings.reduce((a, b) => a + b) / ratings.length;
-    return avgRate;
-  }
+  // num _avgRating(DoctorModel doctorModel) {
+  //   final ratings =
+  //       doctorModel.ratings?.map((e) => e.rate.toDouble()).toList() ?? [];
+  //   if (ratings.isEmpty) return 0;
+  //   final avgRate = ratings.reduce((a, b) => a + b) / ratings.length;
+  //   return avgRate;
+  // }
 
   Future<void> getDoctorComments(int doctorid, bool isLoadin) async {
     state = state.copyWith(isLoading: isLoadin);
