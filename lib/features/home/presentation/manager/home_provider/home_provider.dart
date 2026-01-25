@@ -36,8 +36,8 @@ class HomeController extends StateNotifier<HomeStates> {
   late TextEditingController commentController;
   void initData() async {
     await getUserById();
-    await getAllDoctorsSummary();
     await fetchSpecialties();
+    await getAllDoctorsSummary();
   }
 
   Future<void> fetchSpecialties() async {

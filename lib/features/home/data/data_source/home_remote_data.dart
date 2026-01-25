@@ -35,8 +35,12 @@ class HomeRemoteData {
   }
 
   Future<List<DoctorSummary>> getAllDoctorsSummary() async {
-    return await apiService
-        .getAllDoctorsSummary(ApiConstants.getAllDoctorsSummary);
+    final response = await supabase
+        .from('doctors')
+        .select(
+            "id,name,image,specialties(*),clinic_data(clinic_address(address))")
+        .limit(5);
+    return response.map((e) => DoctorSummary.fromJson(e)).toList();
   }
 
   Future<DoctorModel> getDoctorById(int id) async {

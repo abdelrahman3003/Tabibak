@@ -27,7 +27,7 @@ class SearchCard extends ConsumerWidget {
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         subtitle: Text(
-          doctorSummary.clinicData?.address ?? "",
+          doctorSummary.clinicData?.clinicAddress?.address ?? "",
           style: Theme.of(context).textTheme.bodySmall,
         ),
         trailing: IconButton(

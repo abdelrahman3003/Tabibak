@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tabibak/features/home/data/model/specialty_model.dart';
 
 part 'doctor_summary.g.dart';
 
@@ -7,18 +8,16 @@ class DoctorSummary {
   final int id;
   final String? name;
   final String? image;
-  final String? specialty;
   @JsonKey(name: 'clinic_data')
   final ClinicDataSummary? clinicData;
   @JsonKey(name: "specialties")
-  final Specialties? specialties;
+  final SpecialtyModel? specialty;
   DoctorSummary({
     required this.id,
     required this.name,
     this.image,
     required this.specialty,
     required this.clinicData,
-    this.specialties,
   });
 
   factory DoctorSummary.fromJson(Map<String, dynamic> json) =>
@@ -29,9 +28,10 @@ class DoctorSummary {
 
 @JsonSerializable()
 class ClinicDataSummary {
-  final String? address;
+  @JsonKey(name: 'clinic_address')
+  final ClinicAddressModel? clinicAddress;
 
-  ClinicDataSummary({required this.address});
+  ClinicDataSummary({required this.clinicAddress});
 
   factory ClinicDataSummary.fromJson(Map<String, dynamic> json) =>
       _$ClinicDataSummaryFromJson(json);
@@ -40,13 +40,13 @@ class ClinicDataSummary {
 }
 
 @JsonSerializable()
-class Specialties {
-  final String? name;
+class ClinicAddressModel {
+  final String? address;
 
-  Specialties({this.name});
+  ClinicAddressModel({this.address});
 
-  factory Specialties.fromJson(Map<String, dynamic> json) =>
-      _$SpecialtiesFromJson(json);
+  factory ClinicAddressModel.fromJson(Map<String, dynamic> json) =>
+      _$ClinicAddressModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SpecialtiesToJson(this);
+  Map<String, dynamic> toJson() => _$ClinicAddressModelToJson(this);
 }

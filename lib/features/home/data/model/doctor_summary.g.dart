@@ -11,14 +11,14 @@ DoctorSummary _$DoctorSummaryFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       name: json['name'] as String?,
       image: json['image'] as String?,
-      specialty: json['specialty'] as String?,
+      specialty: json['specialties'] == null
+          ? null
+          : SpecialtyModel.fromJson(
+              json['specialties'] as Map<String, dynamic>),
       clinicData: json['clinic_data'] == null
           ? null
           : ClinicDataSummary.fromJson(
               json['clinic_data'] as Map<String, dynamic>),
-      specialties: json['specialties'] == null
-          ? null
-          : Specialties.fromJson(json['specialties'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DoctorSummaryToJson(DoctorSummary instance) =>
@@ -26,26 +26,29 @@ Map<String, dynamic> _$DoctorSummaryToJson(DoctorSummary instance) =>
       'id': instance.id,
       'name': instance.name,
       'image': instance.image,
-      'specialty': instance.specialty,
       'clinic_data': instance.clinicData,
-      'specialties': instance.specialties,
+      'specialties': instance.specialty,
     };
 
 ClinicDataSummary _$ClinicDataSummaryFromJson(Map<String, dynamic> json) =>
     ClinicDataSummary(
-      address: json['address'] as String?,
+      clinicAddress: json['clinic_address'] == null
+          ? null
+          : ClinicAddressModel.fromJson(
+              json['clinic_address'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ClinicDataSummaryToJson(ClinicDataSummary instance) =>
     <String, dynamic>{
-      'address': instance.address,
+      'clinic_address': instance.clinicAddress,
     };
 
-Specialties _$SpecialtiesFromJson(Map<String, dynamic> json) => Specialties(
-      name: json['name'] as String?,
+ClinicAddressModel _$ClinicAddressModelFromJson(Map<String, dynamic> json) =>
+    ClinicAddressModel(
+      address: json['address'] as String?,
     );
 
-Map<String, dynamic> _$SpecialtiesToJson(Specialties instance) =>
+Map<String, dynamic> _$ClinicAddressModelToJson(ClinicAddressModel instance) =>
     <String, dynamic>{
-      'name': instance.name,
+      'address': instance.address,
     };

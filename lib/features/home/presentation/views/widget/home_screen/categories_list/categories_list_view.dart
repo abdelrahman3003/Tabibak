@@ -21,7 +21,7 @@ class CategoriesListView extends StatelessWidget {
         itemBuilder: (context, index) => Consumer(builder: (context, ref, _) {
           return CategoryItem(
             icon: specialtiesList[index].icon!,
-            name: specialtiesList[index].name!,
+            name: specialtiesList[index].nameAr ?? "",
             onTap: () {
               context.pushNamed(Routes.specialistScreen);
               ref

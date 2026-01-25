@@ -10,7 +10,7 @@ class DoctorListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 5,
+      itemCount: doctorsSummaryList.length,
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Consumer(builder: (context, ref, _) {

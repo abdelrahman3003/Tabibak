@@ -5,11 +5,15 @@ part 'specialty_model.g.dart';
 @JsonSerializable()
 class SpecialtyModel {
   final int? id;
-  final String? name;
+  @JsonKey(name: "name_ar")
+  final String? nameAr;
+  @JsonKey(name: "name_en")
+  final String? nameEn;
   final String? icon;
   SpecialtyModel({
     required this.id,
-    required this.name,
+    required this.nameAr,
+    required this.nameEn,
     required this.icon,
   });
 
