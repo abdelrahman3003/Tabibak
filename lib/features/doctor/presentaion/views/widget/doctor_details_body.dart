@@ -48,7 +48,7 @@ class DoctorDetailsBody extends StatelessWidget {
           20.hBox,
           ScheduleSection(workingDayList: []),
           20.hBox,
-          DoctorReviewSection(),
+          DoctorReviewSection(doctorModel: doctorModel),
           20.hBox,
           AppButton(
             title: AppStrings.bookingInquiry,

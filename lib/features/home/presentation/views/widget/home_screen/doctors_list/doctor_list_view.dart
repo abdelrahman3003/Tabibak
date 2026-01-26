@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/features/doctor/presentaion/manager/doctor_provider.dart';
+import 'package:tabibak/features/doctor/presentaion/manager/doctor/doctor_provider.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_item.dart';
 

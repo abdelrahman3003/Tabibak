@@ -4,12 +4,10 @@ import 'package:tabibak/features/home/data/model/doctor_model.dart';
 class DoctorStates {
   final bool isLoading;
 
-  final List<CommentModel>? doctorCommentModelList;
   final DoctorModel? doctorModel;
   final String? errorMessage;
   DoctorStates({
     this.doctorModel,
-    this.doctorCommentModelList,
     this.errorMessage,
     this.isLoading = false,
   });
@@ -21,8 +19,6 @@ class DoctorStates {
   }) {
     return DoctorStates(
       isLoading: isLoading ?? false,
-      doctorCommentModelList:
-          doctorCommentModelList ?? this.doctorCommentModelList,
       doctorModel: doctorModel ?? this.doctorModel,
       errorMessage: errorMessage ?? this.errorMessage,
     );
