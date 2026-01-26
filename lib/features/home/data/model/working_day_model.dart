@@ -11,11 +11,13 @@ class WorkingDay {
   final DayModel day;
   @JsonKey(name: 'day_id')
   final int? dayId;
-  final ShiftModel? shifts;
   @JsonKey(name: 'shifts')
-  final int? shiftId;
+  final ShiftModel? shifts;
   @JsonKey(name: 'clinic_id')
   final int? clinicId;
+  @JsonKey(name: 'shift_id')
+  final int? shiftId;
+
   @JsonKey(name: 'is_selected')
   final bool? isSelected;
 

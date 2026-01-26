@@ -15,6 +15,7 @@ CommentModel _$CommentModelFromJson(Map<String, dynamic> json) => CommentModel(
 
 Map<String, dynamic> _$CommentModelToJson(CommentModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'comment': instance.comment,
       'user_id': instance.userId,
       'doctor_id': instance.doctorId,

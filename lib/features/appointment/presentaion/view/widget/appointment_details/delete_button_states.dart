@@ -31,9 +31,9 @@ class DeleteButtonStates extends StatelessWidget {
                       confirmColor: AppColors.red,
                       isLoading: state.isLoading,
                       onPressed: () {
-                        ref
-                            .read(appointmentdetailsNotifer.notifier)
-                            .deleteAppointment(context, appointmentId);
+                        // ref
+                        //     .read(appointmentdetailsNotifer.notifier)
+                        //     .deleteAppointment(context, appointmentId);
                       },
                     );
                   },

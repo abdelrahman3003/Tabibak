@@ -43,7 +43,7 @@ class AppRouter {
         return _buildSlideRoute(
             AppointmentBookingScreen(doctorModel: doctorModel));
       case Routes.appointmentDetailsScreen:
-        final appointment = setting.arguments as Appointment;
+        final appointment = setting.arguments as AppointmentModel;
         return _buildSlideRoute(
             AppointmentDetailsScreen(appointment: appointment));
       case Routes.resetPasswordSucessView:

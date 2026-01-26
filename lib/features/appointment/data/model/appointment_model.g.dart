@@ -6,40 +6,31 @@ part of 'appointment_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Appointment _$AppointmentFromJson(Map<String, dynamic> json) => Appointment(
+AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
+    AppointmentModel(
       id: (json['id'] as num).toInt(),
-      appointmentTime: json['appointment_time'] as String?,
-      appointmentDate: json['appointment_date'] == null
-          ? null
-          : DateTime.parse(json['appointment_date'] as String),
-      doctor: json['doctors'] == null
-          ? null
-          : DoctorModel.fromJson(json['doctors'] as Map<String, dynamic>),
-      appointmentStatus: json['appointments_status'] == null
-          ? null
-          : AppointmentStatus.fromJson(
-              json['appointments_status'] as Map<String, dynamic>),
-      createDate: json['created_at'] == null
-          ? null
-          : DateTime.parse(json['created_at'] as String),
+      createdAt: json['created_at'] as String,
+      appointmentDate: json['appointment_date'] as String,
+      appointmentShift: (json['appointment_shift'] as num).toInt(),
+      phone: json['phone'] as String,
+      name: json['name'] as String,
+      description: json['description'] as String,
+      users: UserModel.fromJson(json['users'] as Map<String, dynamic>),
+      appointmentsStatus: AppointmentStatusModel.fromJson(
+          json['appointments_status'] as Map<String, dynamic>),
+      doctor: DoctorModel.fromJson(json['doctors'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$AppointmentToJson(Appointment instance) =>
+Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createDate?.toIso8601String(),
-      'appointment_time': instance.appointmentTime,
-      'appointment_date': instance.appointmentDate?.toIso8601String(),
-      'doctors': instance.doctor?.toJson(),
-      'appointments_status': instance.appointmentStatus?.toJson(),
-    };
-
-AppointmentStatus _$AppointmentStatusFromJson(Map<String, dynamic> json) =>
-    AppointmentStatus(
-      status: json['status'] as String,
-    );
-
-Map<String, dynamic> _$AppointmentStatusToJson(AppointmentStatus instance) =>
-    <String, dynamic>{
-      'status': instance.status,
+      'created_at': instance.createdAt,
+      'appointment_date': instance.appointmentDate,
+      'doctors': instance.doctor.toJson(),
+      'appointment_shift': instance.appointmentShift,
+      'phone': instance.phone,
+      'name': instance.name,
+      'description': instance.description,
+      'users': instance.users.toJson(),
+      'appointments_status': instance.appointmentsStatus.toJson(),
     };

@@ -11,9 +11,9 @@ class BookingButtonStates extends ConsumerWidget {
   final DoctorModel doctorModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(appointmentBookingNotiferProvider);
+    final state = ref.watch(appointmentBookingNotifierProvider);
     return AppButton(
-      isDisabled: state.selectedTime == null,
+      isDisabled: false,
       title: AppStrings.book,
       onPressed: () {
         showDialog(

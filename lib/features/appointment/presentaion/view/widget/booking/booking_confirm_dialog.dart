@@ -13,10 +13,10 @@ class BookingConfirmDialog extends ConsumerWidget {
   final DoctorModel doctorModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(appointmentBookingNotiferProvider.select(
-      (state) => state.isDialogLoading,
+    final isLoading = ref.watch(appointmentBookingNotifierProvider.select(
+      (state) => true,
     ));
-    final provider = ref.read(appointmentBookingNotiferProvider);
+    final provider = ref.read(appointmentBookingNotifierProvider);
 
     return AlertDialog(
       shape: RoundedRectangleBorder(
@@ -29,13 +29,8 @@ class BookingConfirmDialog extends ConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(AppStrings.appointmentDetails.tr(namedArgs: {
-              "dayName":
-                  DateFormat.EEEE(Localizations.localeOf(context).toString())
-                      .format(provider.selectedDate!),
-              "date": DateFormat('yyyy-MM-dd').format(provider.selectedDate!),
-              "time": ""
-            })),
+            Text(AppStrings.appointmentDetails
+                .tr(namedArgs: {"dayName": "", "date": "", "time": ""})),
             10.hBox,
             Text(
               "${AppStrings.consultationPrice}: ${doctorModel.clinic?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}",

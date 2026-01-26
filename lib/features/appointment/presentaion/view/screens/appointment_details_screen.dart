@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
@@ -8,7 +7,7 @@ import 'package:tabibak/features/appointment/presentaion/view/widget/appointment
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class AppointmentDetailsScreen extends StatelessWidget {
-  final Appointment appointment;
+  final AppointmentModel appointment;
 
   const AppointmentDetailsScreen({super.key, required this.appointment});
 
@@ -30,7 +29,7 @@ class AppointmentDetailsScreen extends StatelessWidget {
                   children: [
                     DetailsItem(
                         title: AppStrings.doctor,
-                        value: appointment.doctor?.name ?? AppStrings.unknown),
+                        value: appointment.doctor.name ?? AppStrings.unknown),
                     10.hBox,
                     DetailsItem(
                         title: AppStrings.specialty,
@@ -39,30 +38,20 @@ class AppointmentDetailsScreen extends StatelessWidget {
                     10.hBox,
                     DetailsItem(
                         title: AppStrings.bookingStatus,
-                        value: appointment.appointmentStatus?.status ??
-                            AppStrings.unknown),
+                        value: appointment.appointmentsStatus.status),
                     10.hBox,
-                    DetailsItem(
-                        title: AppStrings.date2,
-                        value: appointment.appointmentDate == null
-                            ? AppStrings.unknown
-                            : DateFormat("yyyy-MM-dd")
-                                .format(appointment.appointmentDate!)),
+                    DetailsItem(title: AppStrings.date2, value: ""),
                     10.hBox,
                     DetailsItem(
                         title: AppStrings.time,
-                        value:
-                            appointment.appointmentTime ?? AppStrings.unknown),
+                        value: "" ?? AppStrings.unknown),
                     10.hBox,
-                    DetailsItem(
-                        title: AppStrings.bookingTime,
-                        value: DateFormat("yyyy-MM-dd")
-                            .format(appointment.createDate!)),
+                    DetailsItem(title: AppStrings.bookingTime, value: ""),
                     10.hBox,
                     DetailsItem(
                         title: AppStrings.consultationPrice,
                         value:
-                            "${appointment.doctor?.clinic?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}"),
+                            "${appointment.doctor.clinic?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}"),
                     10.hBox,
                   ],
                 ),

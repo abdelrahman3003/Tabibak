@@ -6,12 +6,12 @@ import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 
 class AppointmentCardItem extends StatelessWidget {
   const AppointmentCardItem({super.key, required this.appointment, this.onTap});
-  final Appointment appointment;
+  final AppointmentModel appointment;
   final Function()? onTap;
   @override
   Widget build(BuildContext context) {
     final status =
-        AppointmentStatusX.fromString(appointment.appointmentStatus?.status);
+        AppointmentStatusX.fromString(appointment.appointmentsStatus.status);
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
@@ -19,11 +19,11 @@ class AppointmentCardItem extends StatelessWidget {
         child: const Icon(Icons.calendar_today, color: Colors.white),
       ),
       title: Text(
-        appointment.doctor?.name ?? AppStrings.unknown,
+        appointment.doctor.name ?? AppStrings.unknown,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(
-        appointment.doctor?.specialty?.nameAr ?? AppStrings.unknown,
+        appointment.doctor.specialty?.nameAr ?? AppStrings.unknown,
         style: const TextStyle(fontSize: 13),
       ),
       trailing: Container(

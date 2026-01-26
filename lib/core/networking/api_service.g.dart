@@ -312,7 +312,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<Appointment>> getAllAppointment(
+  Future<List<AppointmentModel>> getAllAppointment(
     String selectFields,
     String userId,
     String order,
@@ -325,7 +325,7 @@ class _ApiService implements ApiService {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<Appointment>>(Options(
+    final _options = _setStreamType<List<AppointmentModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -342,10 +342,11 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<Appointment> _value;
+    late List<AppointmentModel> _value;
     try {
       _value = _result.data!
-          .map((dynamic i) => Appointment.fromJson(i as Map<String, dynamic>))
+          .map((dynamic i) =>
+              AppointmentModel.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -355,13 +356,13 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<AppointmentStatus>> getAllAppointmentStatus(
+  Future<List<AppointmentModel>> getAllAppointmentStatus(
       String selectFields) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'select': selectFields};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<AppointmentStatus>>(Options(
+    final _options = _setStreamType<List<AppointmentModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -378,11 +379,11 @@ class _ApiService implements ApiService {
           baseUrl,
         )));
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<AppointmentStatus> _value;
+    late List<AppointmentModel> _value;
     try {
       _value = _result.data!
           .map((dynamic i) =>
-              AppointmentStatus.fromJson(i as Map<String, dynamic>))
+              AppointmentModel.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -435,7 +436,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<void> addAppointment(AppointmentBody body) async {
+  Future<void> addAppointment(AppointmentModel body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

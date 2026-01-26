@@ -24,7 +24,7 @@ Map<String, dynamic> _$WorkingDayToJson(WorkingDay instance) =>
       'days': instance.day.toJson(),
       'day_id': instance.dayId,
       'shifts': instance.shifts?.toJson(),
-      'shift_id': instance.shiftId,
       'clinic_id': instance.clinicId,
+      'shift_id': instance.shiftId,
       'is_selected': instance.isSelected,
     };

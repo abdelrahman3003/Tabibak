@@ -7,61 +7,64 @@ import 'package:tabibak/features/appointment/presentaion/manager/appointment_boo
 import 'package:tabibak/features/home/data/model/shift_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
-class BookingTime extends StatelessWidget {
+class BookingTime extends ConsumerStatefulWidget {
   const BookingTime({super.key, required this.shifts});
   final ShiftModel shifts;
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, child) {
-      final state = ref.watch(appointmentBookingNotiferProvider);
-      final timeSlots = [
-        // if (shifts.morning != null) shifts.morning!,
-        // if (shifts.evening != null) shifts.evening!,
-      ];
-      return state.selectedDate == null
-          ? const SizedBox()
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TitleText(title: AppStrings.selectTime),
-                8.hBox,
-                Wrap(
-                  spacing: 8,
-                  children: timeSlots.map((time) {
-                    bool isSelected = state.selectedTime == time;
-                    return ChoiceChip(
-                      label: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          _timeText(time.toString(), context, isSelected),
-                          _timeText(" - ", context, isSelected),
-                          _timeText(time.toString(), context, isSelected),
-                        ],
-                      ),
-                      selected: isSelected,
-                      onSelected: (_) {
-                        // ref
-                        //     .watch(appointmentBookingNotiferProvider.notifier)
-                        //     .selectTime(time);
-                      },
-                      selectedColor: Theme.of(context).colorScheme.primary,
-                      showCheckmark: false,
-                    );
-                  }).toList(),
-                ),
-              ],
-            );
-    });
-  }
+  ConsumerState<BookingTime> createState() => _BookingTimeState();
+}
 
-  Text _timeText(String? text, BuildContext context, bool isSelected) {
-    return Text(
-      text ?? AppStrings.notAvailable,
-      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: isSelected
-              ? AppColors.white
-              : Theme.of(context).colorScheme.onSecondary),
-    );
+class _BookingTimeState extends ConsumerState<BookingTime> {
+  String? selectedTime;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(appointmentBookingNotifierProvider);
+
+    final times = <String>[];
+    if (widget.shifts.morningStart != null &&
+        widget.shifts.morningEnd != null) {
+      times.add("${widget.shifts.morningStart} - ${widget.shifts.morningEnd}");
+    }
+    if (widget.shifts.eveningStart != null &&
+        widget.shifts.eveningEnd != null) {
+      times.add("${widget.shifts.eveningStart} - ${widget.shifts.eveningEnd}");
+    }
+
+    return state.isShiftLoading
+        ? const SizedBox()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TitleText(title: AppStrings.selectTime),
+              8.hBox,
+              Wrap(
+                spacing: 10,
+                runSpacing: 8,
+                children: times.map((time) {
+                  final isSelected = selectedTime == time;
+                  return ChoiceChip(
+                    label: Text(time),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      setState(() {
+                        selectedTime = selected ? time : null;
+                      });
+
+                      // // ممكن تنادي على البروڤايدر هنا لتحديث الحالة
+                      // ref.read(appointmentBookingNotifierProvider.notifier)
+                      //     .setSelectedTime(selectedTime);
+                    },
+                    selectedColor: AppColors.primary,
+                    backgroundColor: Colors.grey[200],
+                    labelStyle: TextStyle(
+                      color: isSelected ? Colors.white : Colors.black,
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          );
   }
 }

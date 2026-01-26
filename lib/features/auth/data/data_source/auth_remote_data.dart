@@ -14,8 +14,13 @@ class AuthRemoteDatasource {
       required String password}) async {
     final reslut = await supabase.auth
         .signUp(data: {"name": name}, email: email, password: password);
-    await addUserData(UserModel(
-        userId: supabase.auth.currentUser!.id, name: name, email: email));
+    // await addUserData(
+    //   UserModel(
+    //     userId: supabase.auth.currentUser!.id,
+    //     name: name,
+    //     email: email,
+    //   ),
+    // );
 
     return reslut;
   }
@@ -66,12 +71,12 @@ class AuthRemoteDatasource {
     final imageUrl = existingUser != null && existingUser['image'] != null
         ? existingUser['image']
         : googleUser.photoUrl;
-    await addUserData(UserModel(
-      userId: supabase.auth.currentUser!.id,
-      name: googleUser.displayName,
-      email: googleUser.email,
-      image: imageUrl,
-    ));
+    // await addUserData(UserModel(
+    //   userId: supabase.auth.currentUser!.id,
+    //   name: googleUser.displayName,
+    //   email: googleUser.email,
+    //   image: imageUrl,
+    // ));
   }
 
   Future<void> addUserData(UserModel userModel) async {

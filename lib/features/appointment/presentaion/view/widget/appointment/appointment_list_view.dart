@@ -6,7 +6,7 @@ import 'package:tabibak/features/appointment/presentaion/view/widget/appointment
 
 class AppointmentListView extends StatelessWidget {
   const AppointmentListView({super.key, required this.appointmentList});
-  final List<Appointment> appointmentList;
+  final List<AppointmentModel> appointmentList;
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

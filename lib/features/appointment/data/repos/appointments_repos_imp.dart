@@ -2,31 +2,19 @@ import 'dart:developer';
 
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
-import 'package:tabibak/features/appointment/data/model/appointment_body.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/data/remote_data/appointments_remote_data.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos.dart';
-import 'package:tabibak/features/home/data/model/working_day_model.dart';
+import 'package:tabibak/features/home/data/model/shift_model.dart';
 
 class AppointmentsReposImp implements AppointmentsRepos {
-  final appointmentsRemoteData = AppointmentsRemoteData();
-  @override
-  Future<ApiResult<List<Appointment>>> getAllAppoinments(String userId) async {
-    try {
-      final result =
-          await appointmentsRemoteData.getAllAppoinments("eq.$userId");
-      return ApiResult.sucess(result);
-    } catch (error) {
-      log("Error adding appointment: $error");
+  final AppointmentsRemoteData appointmentsRemoteData;
 
-      return ApiResult.failure(ErrorHandler.handle(error));
-    }
-  }
-
+  AppointmentsReposImp({required this.appointmentsRemoteData});
   @override
-  Future<ApiResult<List<AppointmentStatus>>> getAllAppoinmentsStatus() async {
+  Future<ApiResult<void>> addAppointment(AppointmentModel appointment) async {
     try {
-      final result = await appointmentsRemoteData.getAllAppoinmentsStatus();
+      final result = await appointmentsRemoteData.addAppointment(appointment);
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
@@ -34,40 +22,14 @@ class AppointmentsReposImp implements AppointmentsRepos {
   }
 
   @override
-  Future<ApiResult<WorkingDay?>> getTimeSlots(
-      int doctorId, String workingDay) async {
+  Future<ApiResult<ShiftModel?>> getShift(
+      {required String dayEn, required int clinicId}) async {
     try {
-      final result =
-          await appointmentsRemoteData.getTimeSlots(doctorId, workingDay);
-      if (result.isEmpty) {
-        return ApiResult.sucess(null);
-      }
-      return ApiResult.sucess(result.first);
-    } catch (error) {
-      return ApiResult.failure(ErrorHandler.handle(error));
-    }
-  }
-
-  @override
-  Future<ApiResult<void>> addAppointment(
-      AppointmentBody appointmentBody) async {
-    try {
-      final result =
-          await appointmentsRemoteData.addAppointment(appointmentBody);
+      final result = await appointmentsRemoteData.getShift(
+          dayEn: dayEn, clinicId: clinicId);
       return ApiResult.sucess(result);
     } catch (error) {
-      return ApiResult.failure(ErrorHandler.handle(error));
-    }
-  }
-
-  @override
-  Future<ApiResult<void>> deleteAppointment(int id) async {
-    try {
-      final result = await appointmentsRemoteData.deleteAppointment(id);
-      return ApiResult.sucess(result);
-    } catch (error) {
-      log("=============== err $error");
-
+      log("-------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
