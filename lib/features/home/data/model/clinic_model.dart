@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tabibak/features/home/data/model/working_day_model.dart';
 
 part 'clinic_model.g.dart';
 
@@ -17,7 +18,8 @@ class ClinicModel {
   final int? consultationFee;
   @JsonKey(name: 'clinic_address')
   final ClinicAddressModel? clinicAddressModel;
-
+  @JsonKey(name: 'working_day')
+  final List<WorkingDay>? workingDays;
   ClinicModel({
     this.id,
     this.doctorId,
@@ -26,6 +28,7 @@ class ClinicModel {
     this.phoneNumber,
     this.consultationFee,
     this.clinicAddressModel,
+    this.workingDays,
   });
 
   factory ClinicModel.fromJson(Map<String, dynamic> json) =>

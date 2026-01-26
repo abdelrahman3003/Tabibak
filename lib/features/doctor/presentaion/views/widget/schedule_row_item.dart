@@ -4,8 +4,8 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
-class SheduleRowItem extends StatelessWidget {
-  const SheduleRowItem(
+class ScheduleRowItem extends StatelessWidget {
+  const ScheduleRowItem(
       {super.key,
       required this.day,
       required this.morning,
@@ -16,7 +16,7 @@ class SheduleRowItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -32,10 +32,9 @@ class SheduleRowItem extends StatelessWidget {
                 Text(day, style: Theme.of(context).textTheme.bodyLarge),
               ],
             ),
-            Spacer(),
-            _buildTimeRow(context, morning),
+            Expanded(child: _buildTimeRow(context, morning?.substring(0, 5))),
             20.wBox,
-            _buildTimeRow(context, evening),
+            Expanded(child: _buildTimeRow(context, evening?.substring(0, 5)))
           ],
         ));
   }

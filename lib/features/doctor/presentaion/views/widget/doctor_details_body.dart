@@ -46,7 +46,9 @@ class DoctorDetailsBody extends StatelessWidget {
           20.hBox,
           ClinicInfoSection(clinic: doctorModel.clinic),
           20.hBox,
-          ScheduleSection(workingDayList: []),
+          ScheduleSection(
+            workingDayList: doctorModel.clinic?.workingDays,
+          ),
           20.hBox,
           DoctorReviewSection(doctorModel: doctorModel),
           20.hBox,

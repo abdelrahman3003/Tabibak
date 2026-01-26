@@ -12,7 +12,7 @@ class WorkingDay {
   @JsonKey(name: 'day_id')
   final int? dayId;
   final ShiftModel? shifts;
-  @JsonKey(name: 'shift_id')
+  @JsonKey(name: 'shifts')
   final int? shiftId;
   @JsonKey(name: 'clinic_id')
   final int? clinicId;

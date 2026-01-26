@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/shedule_row_item.dart';
+import 'package:tabibak/features/doctor/presentaion/views/widget/schedule_row_item.dart';
 import 'package:tabibak/features/home/data/model/working_day_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
@@ -10,7 +10,8 @@ class ScheduleSection extends StatelessWidget {
   final List<WorkingDay>? workingDayList;
   @override
   Widget build(BuildContext context) {
-    return workingDayList == null || workingDayList!.isEmpty
+    final workingDays = _getCleanList(workingDayList);
+    return workingDays.isEmpty
         ? SizedBox()
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,11 +29,11 @@ class ScheduleSection extends StatelessWidget {
               10.hBox,
               Column(
                 children: List.generate(
-                  workingDayList!.length,
-                  (index) => SheduleRowItem(
-                    day: workingDayList?[index].day.dayEn ?? "",
-                    morning: workingDayList?[index].shifts?.morningStart ?? "",
-                    evening: workingDayList?[index].shifts?.morningStart ?? "",
+                  _getCleanList(workingDayList!).length,
+                  (index) => ScheduleRowItem(
+                    day: workingDays[index].day.dayEn ?? "",
+                    morning: workingDays[index].shifts?.morningStart ?? "",
+                    evening: workingDays[index].shifts?.morningStart ?? "",
                   ),
                 ),
               ),
@@ -49,4 +50,15 @@ class ScheduleSection extends StatelessWidget {
           .copyWith(fontWeight: FontWeight.bold),
     );
   }
+}
+
+List<WorkingDay> _getCleanList(List<WorkingDay>? workingDayList) {
+  List<WorkingDay> list = [];
+  if (workingDayList == null) return [];
+  for (var workday in workingDayList) {
+    if (workday.isSelected!) {
+      list.add(workday);
+    }
+  }
+  return list;
 }
