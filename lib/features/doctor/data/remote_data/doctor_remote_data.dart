@@ -13,4 +13,9 @@ class DoctorRemoteData {
         .single();
     return DoctorModel.fromJson(response);
   }
+
+  Future<void> addComment(
+      {required String comment, required int doctorId}) async {}
+
+  Future<void> addRate({required double rate, required int doctorId}) async {}
 }

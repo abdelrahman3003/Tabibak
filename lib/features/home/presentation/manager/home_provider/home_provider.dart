@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
-import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
 import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
@@ -65,14 +63,6 @@ class HomeController extends StateNotifier<HomeStates> {
     );
   }
 
-  goToDoctorDetails(BuildContext context, String doctorId) async {
-    context.pushNamed(Routes.doctorDetailsScreen);
-
-    // await ref
-    //     .watch(homeRepoProvider.notifier)
-    //     .getDoctorById(doctorId);
-  }
-
   Future<void> getUserById() async {
     state = state.copyWith(isLoading: true);
     final result = await ref.read(homeRepoProvider).getUserData();
@@ -80,19 +70,6 @@ class HomeController extends StateNotifier<HomeStates> {
       sucess: (data) {
         state = state.copyWith(userModel: data);
         ();
-      },
-      failure: (apiErrorModel) {
-        state = state.copyWith(errorMessage: apiErrorModel.errors);
-      },
-    );
-  }
-
-  Future<void> getAllDoctors() async {
-    state = state.copyWith(isLoading: true);
-    final result = await ref.read(homeRepoProvider).fetchAllDoctors();
-    result.when(
-      sucess: (data) {
-        state = state.copyWith(doctorsModelList: data);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
@@ -108,18 +85,6 @@ class HomeController extends StateNotifier<HomeStates> {
       sucess: (data) {
         state = state.copyWith(doctorsSpecialtyList: data);
       },
-      failure: (apiErrorModel) {
-        state = state.copyWith(errorMessage: apiErrorModel.errors);
-      },
-    );
-  }
-
-  Future<void> addRate(double rate, int doctorId) async {
-    final result =
-        await ref.read(homeRepoProvider).addRate(rate: rate, doctorId: 3);
-
-    result.when(
-      sucess: (_) async {},
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
