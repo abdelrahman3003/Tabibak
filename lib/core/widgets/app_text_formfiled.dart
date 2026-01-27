@@ -12,7 +12,9 @@ class AppTextFormFiled extends StatelessWidget {
       this.suffixIcon,
       this.hintStyle,
       this.obscureText = false,
-      this.errorText});
+      this.errorText,
+      this.onTap,
+      this.readOnly = false});
   final String? hint;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -21,12 +23,16 @@ class AppTextFormFiled extends StatelessWidget {
   final bool obscureText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final bool readOnly;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      onTap: onTap,
       validator: validator,
+      readOnly: readOnly,
       style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18.sp),
       obscureText: obscureText,
       decoration: InputDecoration(
