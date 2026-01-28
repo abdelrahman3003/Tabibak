@@ -28,10 +28,14 @@ class AppointmentBookingProvider
         await appointmentsRepos.getDayShift(dayEn: dayEn, clinicId: clinicId);
     result.when(
       sucess: (dayShiftsModel) {
-        state = state.copyWith(dayShiftsModel: dayShiftsModel);
+        state = state.copyWith(
+          dayShiftsModel: dayShiftsModel,
+        );
       },
       failure: (apiErrorModel) {
-        state = state.copyWith(errorMessage: apiErrorModel.errors);
+        state = state.copyWith(
+          errorMessage: apiErrorModel.errors,
+        );
       },
     );
   }

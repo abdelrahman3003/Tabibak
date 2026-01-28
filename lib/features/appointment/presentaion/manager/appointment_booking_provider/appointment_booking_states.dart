@@ -5,6 +5,7 @@ class AppointmentBookingStates {
   final bool isShiftLoading;
   final String? errorMessage;
   final DayShiftsModel? dayShiftsModel;
+
   AppointmentBookingStates({
     this.isLoading = false,
     this.errorMessage,

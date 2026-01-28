@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 
 class BookingDate extends ConsumerStatefulWidget {
-  const BookingDate(
-      {super.key, required this.clinicID, required this.dateController});
+  const BookingDate({
+    super.key,
+    required this.clinicID,
+    required this.dateController,
+  });
   final int clinicID;
   final TextEditingController dateController;
-
   @override
   ConsumerState<BookingDate> createState() => _BookingDateState();
 }
@@ -19,6 +22,7 @@ class _BookingDateState extends ConsumerState<BookingDate> {
     return AppTextFormFiled(
       hint: "Date",
       controller: widget.dateController,
+      validator: (value) => Validation.validateRequired(value),
       readOnly: true,
       onTap: () async {
         await _datePicker(context);
