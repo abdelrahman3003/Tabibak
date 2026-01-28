@@ -46,7 +46,7 @@ class AppointmentBookingProvider
 
     result.when(
       sucess: (commentList) {
-        state = state.copyWith();
+        state = state.copyWith(isSuccess: true);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);

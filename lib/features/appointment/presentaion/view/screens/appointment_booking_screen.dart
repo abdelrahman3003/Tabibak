@@ -27,7 +27,6 @@ class _AppointmentBookingScreenState
     extends ConsumerState<AppointmentBookingScreen> {
   final patientNameController = TextEditingController();
   final phonePhoneController = TextEditingController();
-  final dateController = TextEditingController();
   final descriptionController = TextEditingController();
   int? selectedShiftMorningId;
   int? selectedShiftEveningId;
@@ -36,7 +35,6 @@ class _AppointmentBookingScreenState
   void dispose() {
     patientNameController.dispose();
     phonePhoneController.dispose();
-    dateController.dispose();
     descriptionController.dispose();
     super.dispose();
   }
@@ -71,7 +69,7 @@ class _AppointmentBookingScreenState
               10.hBox,
               BookingDate(
                 clinicID: widget.doctorModel.clinic!.id!,
-                dateController: ref.read(dateStateController.notifier).state,
+                dateController: ref.read(dateStateController),
               ),
               10.hBox,
               DropDownShiftsStates(
@@ -94,7 +92,7 @@ class _AppointmentBookingScreenState
                         name: patientNameController.text,
                         phone: phonePhoneController.text,
                         description: descriptionController.text,
-                        appointmentDate: dateController.text,
+                        appointmentDate: ref.read(dateStateController).text,
                         shiftMorningId: selectedShiftMorningId,
                         shiftEveningId: selectedShiftEveningId,
                         status: 1,

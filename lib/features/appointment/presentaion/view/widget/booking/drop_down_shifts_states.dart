@@ -17,9 +17,11 @@ class DropDownShiftsStates extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(appointmentBookingNotifierProvider);
+    final dayShiftsModel = ref.watch(
+      appointmentBookingNotifierProvider
+          .select((state) => state.dayShiftsModel),
+    );
     final dateController = ref.watch(dateStateController.notifier).state;
-    final dayShiftsModel = state.dayShiftsModel;
 
     final shiftMap = _buildShiftMap(dayShiftsModel);
     final selectedShiftKey = _resolveSelectedKey(shiftMap, dayShiftsModel);
