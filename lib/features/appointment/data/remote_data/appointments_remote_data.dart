@@ -8,7 +8,9 @@ class AppointmentsRemoteData {
   AppointmentsRemoteData({required this.supabase});
 
   Future<void> addAppointment(AppointmentModel appointment) async {
-    await supabase.client.from('doctors').insert(appointment.toJson());
+    await supabase.client
+        .from('appointments')
+        .insert(appointment.toJsonForInsert());
   }
 
   Future<DayShiftsModel?> getDayShift(

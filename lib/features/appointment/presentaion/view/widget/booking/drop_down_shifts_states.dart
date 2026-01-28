@@ -5,44 +5,69 @@ import 'package:tabibak/core/widgets/app_drop_dowm.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/home/data/model/day_shift_model.dart';
 
-class DropDownShiftsStates extends StatelessWidget {
-  const DropDownShiftsStates({super.key});
+class DropDownShiftsStates extends ConsumerWidget {
+  final Function({int? shiftMorningId, int? shiftEveningId})? onSelected;
+
+  const DropDownShiftsStates({super.key, this.onSelected});
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final state = ref.watch(appointmentBookingNotifierProvider);
-        String? selectedShift;
-        return AppDropdown<String>(
-          hint: "Select Doctor",
-          items: state.dayShiftsModel == null
-              ? []
-              : _getShiftMap(state.dayShiftsModel!)!.keys.toList(),
-          value: selectedShift,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(appointmentBookingNotifierProvider);
+    final dayShiftsModel = state.dayShiftsModel;
+    final shiftMap = _getShiftMap(dayShiftsModel)!;
+
+    String? selectedShiftKey;
+    if (dayShiftsModel?.morning?.id != null) {
+      selectedShiftKey = shiftMap.entries
+          .firstWhere((e) => e.value == dayShiftsModel!.morning!.id,
+              orElse: () => const MapEntry('', 0))
+          .key;
+    } else if (dayShiftsModel?.evening?.id != null) {
+      selectedShiftKey = shiftMap.entries
+          .firstWhere((e) => e.value == dayShiftsModel!.evening!.id,
+              orElse: () => const MapEntry('', 0))
+          .key;
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppDropdown<String>(
+          hint: "Select Shift",
+          items: shiftMap.keys.toList(),
+          value: selectedShiftKey != '' ? selectedShiftKey : null,
           labelBuilder: (item) => item,
-          validator: (item) => item == null ? "Please select a shift" : null,
+          validator: (item) =>
+              item == null || item.isEmpty ? "Please select a shift" : null,
           onChanged: (value) {
-            selectedShift = value;
+            final id = shiftMap[value];
+            if (id != null) {
+              final isMorning = value!.startsWith('Morning');
+              onSelected?.call(
+                shiftMorningId: isMorning ? id : null,
+                shiftEveningId: isMorning ? null : id,
+              );
+              debugPrint('Selected Shift ID: $id, isMorning: $isMorning');
+            }
           },
-        );
-      },
+        ),
+      ],
     );
   }
 }
 
-Map<String, int>? _getShiftMap(DayShiftsModel dayShiftsModel) {
+Map<String, int>? _getShiftMap(DayShiftsModel? dayShiftsModel) {
   final map = <String, int>{};
 
-  if (dayShiftsModel.morning?.start != null &&
-      dayShiftsModel.morning?.end != null) {
-    map['Morning ${formatTime(dayShiftsModel.morning!.start!)} - ${formatTime(dayShiftsModel.morning!.end!)}'] =
+  if (dayShiftsModel?.morning?.start != null &&
+      dayShiftsModel?.morning?.end != null) {
+    map['Morning ${formatTime(dayShiftsModel!.morning!.start!)} - ${formatTime(dayShiftsModel.morning!.end!)}'] =
         dayShiftsModel.morning!.id;
   }
 
-  if (dayShiftsModel.evening?.start != null &&
-      dayShiftsModel.evening?.end != null) {
-    map['Evening ${formatTime(dayShiftsModel.evening!.start!)} - ${formatTime(dayShiftsModel.evening!.end!)}'] =
+  if (dayShiftsModel?.evening?.start != null &&
+      dayShiftsModel?.evening?.end != null) {
+    map['Evening ${formatTime(dayShiftsModel!.evening!.start!)} - ${formatTime(dayShiftsModel.evening!.end!)}'] =
         dayShiftsModel.evening!.id;
   }
 

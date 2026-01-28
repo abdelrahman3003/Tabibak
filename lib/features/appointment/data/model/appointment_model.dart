@@ -15,12 +15,14 @@ class AppointmentModel {
   @JsonKey(name: 'doctors')
   final DoctorModel? doctor;
   @JsonKey(name: 'doctor_id')
-  final DoctorModel? doctorId;
+  final String? doctorId;
   @JsonKey(name: 'user_id')
   final String? userId;
   final int? status;
-  @JsonKey(name: 'appointment_shift')
-  final int? appointmentShift;
+  @JsonKey(name: 'shift_morning_id')
+  final int? shiftMorningId;
+  @JsonKey(name: 'shift_evening_id')
+  final int? shiftEveningId;
   final String? phone;
   final String? name;
   final String? description;
@@ -34,7 +36,8 @@ class AppointmentModel {
     this.id,
     this.createdAt,
     this.appointmentDate,
-    this.appointmentShift,
+    this.shiftMorningId,
+    this.shiftEveningId,
     this.doctorId,
     this.userId,
     this.status,
@@ -50,4 +53,9 @@ class AppointmentModel {
       _$AppointmentModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$AppointmentModelToJson(this);
+  Map<String, dynamic> toJsonForInsert() {
+    final json = _$AppointmentModelToJson(this);
+    json.removeWhere((key, value) => value == null);
+    return json;
+  }
 }

@@ -4,21 +4,21 @@ import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 
 class BookingDate extends ConsumerStatefulWidget {
-  const BookingDate({super.key, required this.clinicID});
+  const BookingDate(
+      {super.key, required this.clinicID, required this.dateController});
   final int clinicID;
+  final TextEditingController dateController;
 
   @override
   ConsumerState<BookingDate> createState() => _BookingDateState();
 }
-
-TextEditingController dateController = TextEditingController();
 
 class _BookingDateState extends ConsumerState<BookingDate> {
   @override
   Widget build(BuildContext context) {
     return AppTextFormFiled(
       hint: "Date",
-      controller: dateController,
+      controller: widget.dateController,
       readOnly: true,
       onTap: () async {
         await _datePicker(context);
@@ -35,7 +35,7 @@ class _BookingDateState extends ConsumerState<BookingDate> {
     );
 
     if (pickedDate != null) {
-      dateController.text =
+      widget.dateController.text =
           "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
 
       final dayEn = pickedDate.weekdayToEnglish();
