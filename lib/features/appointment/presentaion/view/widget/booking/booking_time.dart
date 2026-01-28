@@ -4,12 +4,12 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
-import 'package:tabibak/features/home/data/model/shift_model.dart';
+import 'package:tabibak/features/home/data/model/day_shift_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 class BookingTime extends ConsumerStatefulWidget {
-  const BookingTime({super.key, required this.shifts});
-  final ShiftModel shifts;
+  const BookingTime({super.key, required this.dayShiftsModel});
+  final DayShiftsModel dayShiftsModel;
 
   @override
   ConsumerState<BookingTime> createState() => _BookingTimeState();
@@ -21,15 +21,16 @@ class _BookingTimeState extends ConsumerState<BookingTime> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(appointmentBookingNotifierProvider);
-
     final times = <String>[];
-    if (widget.shifts.morningStart != null &&
-        widget.shifts.morningEnd != null) {
-      times.add("${widget.shifts.morningStart} - ${widget.shifts.morningEnd}");
+    if (widget.dayShiftsModel.morning?.start != null &&
+        widget.dayShiftsModel.morning?.end != null) {
+      times.add(
+          "${widget.dayShiftsModel.morning?.start} - ${widget.dayShiftsModel.morning!.end}");
     }
-    if (widget.shifts.eveningStart != null &&
-        widget.shifts.eveningEnd != null) {
-      times.add("${widget.shifts.eveningStart} - ${widget.shifts.eveningEnd}");
+    if (widget.dayShiftsModel.evening?.start != null &&
+        widget.dayShiftsModel.evening?.end != null) {
+      times.add(
+          "${widget.dayShiftsModel.evening!.start} - ${widget.dayShiftsModel.evening?.end}");
     }
 
     return state.isShiftLoading

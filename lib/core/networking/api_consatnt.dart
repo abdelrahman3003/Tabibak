@@ -17,7 +17,7 @@ class ApiConstants {
       "working_day!inner(days!inner(day),shifts(morning(start,end),evening(start,end)))";
   static const String addAppointment = "status";
   static const String getDoctors =
-      "*,specialties(*),education(*),clinic_data(*,clinic_address(*),working_day(*,shifts(*),days(*))),comments(*),ratings(*)";
+      "*,specialties(*),education(*),clinic_data(*,clinic_address(*),working_day(*,shifts_morning(*),shift_evening(*),days(*))),comments(*),ratings(*)";
 }
 
 class ApiErrors {

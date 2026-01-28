@@ -1,27 +1,27 @@
-import 'package:tabibak/features/home/data/model/shift_model.dart';
+import 'package:tabibak/features/home/data/model/day_shift_model.dart';
 
 class AppointmentBookingStates {
   final bool isLoading;
   final bool isShiftLoading;
   final String? errorMessage;
-  final ShiftModel? shiftModel;
+  final DayShiftsModel? dayShiftsModel;
   AppointmentBookingStates({
     this.isLoading = false,
     this.errorMessage,
     this.isShiftLoading = false,
-    this.shiftModel,
+    this.dayShiftsModel,
   });
 
   AppointmentBookingStates copyWith({
     bool? isLoading,
     bool? isShiftLoading,
     String? errorMessage,
-    ShiftModel? shiftModel,
+    DayShiftsModel? dayShiftsModel,
   }) {
     return AppointmentBookingStates(
       isLoading: isLoading ?? false,
       isShiftLoading: isShiftLoading ?? false,
-      shiftModel: shiftModel,
+      dayShiftsModel: dayShiftsModel,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }

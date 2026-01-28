@@ -11,8 +11,10 @@ class WorkingDay {
   final DayModel day;
   @JsonKey(name: 'day_id')
   final int? dayId;
-  @JsonKey(name: 'shifts')
-  final ShiftModel? shifts;
+  @JsonKey(name: 'shifts_morning')
+  final ShiftModel? shiftMorning;
+  @JsonKey(name: 'shift_evening')
+  final ShiftModel? shiftEvening;
   @JsonKey(name: 'clinic_id')
   final int? clinicId;
   @JsonKey(name: 'shift_id')
@@ -25,7 +27,8 @@ class WorkingDay {
     required this.id,
     required this.day,
     this.dayId,
-    this.shifts,
+    this.shiftMorning,
+    this.shiftEvening,
     this.shiftId,
     this.clinicId,
     this.isSelected,

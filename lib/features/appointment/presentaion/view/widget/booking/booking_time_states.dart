@@ -15,9 +15,9 @@ class BookingTimeStates extends StatelessWidget {
 
         return state.isShiftLoading
             ? SizedBox()
-            : state.shiftModel == null
+            : state.dayShiftsModel == null
                 ? BookingNotAvailable()
-                : BookingTime(shifts: state.shiftModel!);
+                : BookingTime(dayShiftsModel: state.dayShiftsModel!);
       },
     );
   }

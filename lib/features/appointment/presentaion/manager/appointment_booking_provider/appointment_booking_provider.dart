@@ -25,10 +25,10 @@ class AppointmentBookingProvider
   Future<void> getSHift({required String dayEn, required int clinicId}) async {
     state = state.copyWith(isShiftLoading: true);
     final result =
-        await appointmentsRepos.getShift(dayEn: dayEn, clinicId: clinicId);
+        await appointmentsRepos.getDayShift(dayEn: dayEn, clinicId: clinicId);
     result.when(
-      sucess: (shift) {
-        state = state.copyWith(shiftModel: shift);
+      sucess: (dayShiftsModel) {
+        state = state.copyWith(dayShiftsModel: dayShiftsModel);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);

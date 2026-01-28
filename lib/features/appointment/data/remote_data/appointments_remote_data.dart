@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
-import 'package:tabibak/features/home/data/model/shift_model.dart';
+import 'package:tabibak/features/home/data/model/day_shift_model.dart';
 
 class AppointmentsRemoteData {
   final Supabase supabase;
@@ -11,7 +11,7 @@ class AppointmentsRemoteData {
     await supabase.client.from('doctors').insert(appointment.toJson());
   }
 
-  Future<ShiftModel?> getShift(
+  Future<DayShiftsModel?> getDayShift(
       {required String dayEn, required int clinicId}) async {
     final response =
         await Supabase.instance.client.rpc('get_shift_by_day', params: {
@@ -19,6 +19,6 @@ class AppointmentsRemoteData {
       'p_clinic_id': clinicId,
     });
     if (response == null) return null;
-    return ShiftModel.fromJson(response);
+    return DayShiftsModel.fromJson(response);
   }
 }

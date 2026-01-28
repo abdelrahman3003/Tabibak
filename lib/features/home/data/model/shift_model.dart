@@ -5,21 +5,15 @@ part 'shift_model.g.dart';
 @JsonSerializable()
 class ShiftModel {
   final int id;
-  @JsonKey(name: 'morning_start')
-  final String? morningStart;
-  @JsonKey(name: 'morning_end')
-  final String? morningEnd;
-  @JsonKey(name: 'evening_start')
-  final String? eveningStart;
-  @JsonKey(name: 'evening_end')
-  final String? eveningEnd;
+  @JsonKey(name: 'start')
+  final String? start;
+  @JsonKey(name: 'end')
+  final String? end;
 
   ShiftModel({
     required this.id,
-    this.morningStart,
-    this.morningEnd,
-    this.eveningStart,
-    this.eveningEnd,
+    this.start,
+    this.end,
   });
 
   factory ShiftModel.fromJson(Map<String, dynamic> json) =>

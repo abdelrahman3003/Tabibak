@@ -32,8 +32,8 @@ class ScheduleSection extends StatelessWidget {
                   _getCleanList(workingDayList!).length,
                   (index) => ScheduleRowItem(
                     day: workingDays[index].day.dayEn ?? "",
-                    morning: workingDays[index].shifts?.morningStart ?? "",
-                    evening: workingDays[index].shifts?.morningStart ?? "",
+                    morning: workingDays[index].shiftMorning?.start ?? "",
+                    evening: workingDays[index].shiftEvening?.end ?? "",
                   ),
                 ),
               ),
