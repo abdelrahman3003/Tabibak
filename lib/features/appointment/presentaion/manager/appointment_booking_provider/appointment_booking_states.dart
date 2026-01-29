@@ -4,10 +4,12 @@ class AppointmentBookingStates {
   final bool isLoading;
   final String? errorMessage;
   final DayShiftsModel? dayShiftsModel;
+  final String? emptyShift;
   final bool isSuccess;
   AppointmentBookingStates({
     this.isLoading = false,
     this.errorMessage,
+    this.emptyShift,
     this.dayShiftsModel,
     this.isSuccess = false,
   });
@@ -16,13 +18,15 @@ class AppointmentBookingStates {
     bool? isLoading,
     bool? isShiftLoading,
     String? errorMessage,
+    String? emptyShift,
     DayShiftsModel? dayShiftsModel,
     bool? isSuccess,
   }) {
     return AppointmentBookingStates(
       isLoading: isLoading ?? false,
       dayShiftsModel: dayShiftsModel,
-      errorMessage: errorMessage ?? this.errorMessage,
+      emptyShift: emptyShift,
+      errorMessage: errorMessage,
       isSuccess: isSuccess ?? false,
     );
   }

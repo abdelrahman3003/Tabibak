@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/core/widgets/dialogs.dart';
+import 'package:tabibak/core/widgets/dialogs.dart' show Dialogs;
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
-import 'package:tabibak/features/home/presentation/views/screens/layout_screen.dart';
 
 class BookingButtonStates extends ConsumerWidget {
   const BookingButtonStates({
@@ -17,12 +18,7 @@ class BookingButtonStates extends ConsumerWidget {
     final state = ref.watch(appointmentBookingNotifierProvider);
     if (state.isSuccess) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LayoutScreen(),
-            ),
-            (route) => true);
+        context.pushReplacementNamed(Routes.bookingSuccessScreen);
       });
     }
     if (state.errorMessage != null) {

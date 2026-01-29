@@ -28,9 +28,14 @@ class AppointmentBookingProvider
         await appointmentsRepos.getDayShift(dayEn: dayEn, clinicId: clinicId);
     result.when(
       sucess: (dayShiftsModel) {
-        state = state.copyWith(
-          dayShiftsModel: dayShiftsModel,
-        );
+        if (dayShiftsModel?.evening == null &&
+            dayShiftsModel?.morning == null) {
+          state =
+              state.copyWith(emptyShift: "Not available time for this date");
+        } else {
+          state =
+              state.copyWith(dayShiftsModel: dayShiftsModel, emptyShift: null);
+        }
       },
       failure: (apiErrorModel) {
         state = state.copyWith(

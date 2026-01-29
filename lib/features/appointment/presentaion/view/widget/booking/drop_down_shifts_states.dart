@@ -7,8 +7,8 @@ import 'package:tabibak/features/appointment/presentaion/manager/appointment_boo
 import 'package:tabibak/features/home/data/model/day_shift_model.dart';
 import 'package:tabibak/features/home/data/model/shift_model.dart';
 
-final dateStateController =
-    StateProvider<TextEditingController>((ref) => TextEditingController());
+final dateStateController = StateProvider.autoDispose<TextEditingController>(
+    (ref) => TextEditingController());
 
 class DropDownShiftsStates extends ConsumerWidget {
   final Function({int? shiftMorningId, int? shiftEveningId})? onSelected;
@@ -17,14 +17,12 @@ class DropDownShiftsStates extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dayShiftsModel = ref.watch(
-      appointmentBookingNotifierProvider
-          .select((state) => state.dayShiftsModel),
-    );
-    final dateController = ref.watch(dateStateController.notifier).state;
+    final state = ref.watch(appointmentBookingNotifierProvider);
+    ref.watch(dateStateController.notifier).state;
 
-    final shiftMap = _buildShiftMap(dayShiftsModel);
-    final selectedShiftKey = _resolveSelectedKey(shiftMap, dayShiftsModel);
+    final shiftMap = _buildShiftMap(state.dayShiftsModel);
+    final selectedShiftKey =
+        _resolveSelectedKey(shiftMap, state.dayShiftsModel);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,10 +48,8 @@ class DropDownShiftsStates extends ConsumerWidget {
           },
         ),
         10.hBox,
-        if (dateController.text.isNotEmpty &&
-            dayShiftsModel?.morning == null &&
-            dayShiftsModel?.morning == null)
-          Text("Note: Available shifts depend on the selected date",
+        if (state.emptyShift != null)
+          Text(state.emptyShift!,
               style: Theme.of(context)
                   .textTheme
                   .titleLarge
