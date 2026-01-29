@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
@@ -30,7 +29,6 @@ class HomeController extends StateNotifier<HomeStates> {
     initData();
   }
   final Ref ref;
-  late TextEditingController commentController;
   void initData() async {
     await getUserById();
     await getSpecialties();
@@ -89,11 +87,5 @@ class HomeController extends StateNotifier<HomeStates> {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
       },
     );
-  }
-
-  @override
-  void dispose() {
-    commentController.dispose();
-    super.dispose();
   }
 }

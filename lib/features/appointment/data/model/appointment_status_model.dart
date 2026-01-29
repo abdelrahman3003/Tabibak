@@ -5,14 +5,17 @@ part 'appointment_status_model.g.dart';
 @JsonSerializable()
 class AppointmentStatusModel {
   final int id;
-  final String status;
-
+  @JsonKey(name: 'status_ar')
+  final String? statusAr;
+  @JsonKey(name: 'status_en')
+  final String? statusEn;
   @JsonKey(name: 'created_at')
   final String createdAt;
 
   AppointmentStatusModel({
     required this.id,
-    required this.status,
+    required this.statusAr,
+    required this.statusEn,
     required this.createdAt,
   });
 

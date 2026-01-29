@@ -17,8 +17,6 @@ class AppointmentsReposImp implements AppointmentsRepos {
       final result = await appointmentsRemoteData.addAppointment(appointment);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("-------$error");
-
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -31,6 +29,17 @@ class AppointmentsReposImp implements AppointmentsRepos {
           dayEn: dayEn, clinicId: clinicId);
       return ApiResult.sucess(result);
     } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<AppointmentModel>>> getAppointments() async {
+    try {
+      final result = await appointmentsRemoteData.getAppointments();
+      return ApiResult.sucess(result);
+    } catch (error) {
+      log("-------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

@@ -6,4 +6,5 @@ abstract class AppointmentsRepos {
   Future<ApiResult<void>> addAppointment(AppointmentModel appointment);
   Future<ApiResult<DayShiftsModel?>> getDayShift(
       {required String dayEn, required int clinicId});
+  Future<ApiResult<List<AppointmentModel>>> getAppointments();
 }

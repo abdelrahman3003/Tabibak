@@ -10,7 +10,8 @@ AppointmentStatusModel _$AppointmentStatusModelFromJson(
         Map<String, dynamic> json) =>
     AppointmentStatusModel(
       id: (json['id'] as num).toInt(),
-      status: json['status'] as String,
+      statusAr: json['status_ar'] as String?,
+      statusEn: json['status_en'] as String?,
       createdAt: json['created_at'] as String,
     );
 
@@ -18,6 +19,7 @@ Map<String, dynamic> _$AppointmentStatusModelToJson(
         AppointmentStatusModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'status': instance.status,
+      'status_ar': instance.statusAr,
+      'status_en': instance.statusEn,
       'created_at': instance.createdAt,
     };

@@ -23,4 +23,13 @@ class AppointmentsRemoteData {
     if (response == null) return null;
     return DayShiftsModel.fromJson(response);
   }
+
+  Future<List<AppointmentModel>> getAppointments() async {
+    final response = await supabase.client
+        .from('appointments')
+        .select(
+            "*,users(*),appointments_status(*),doctors(*,clinic_data(*),specialties(*)),shift_evening(*),shifts_morning(*)")
+        .eq("user_id", supabase.client.auth.currentUser!.id);
+    return response.map((e) => AppointmentModel.fromJson(e)).toList();
+  }
 }

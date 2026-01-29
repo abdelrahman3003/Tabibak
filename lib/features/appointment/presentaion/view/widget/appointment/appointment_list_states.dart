@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/widgets/empty_widget.dart';
+import 'package:tabibak/features/appointment/presentaion/manager/appointment_provider/appointment_provider.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/appointment/appointment_list_view.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/appointment/appointment_shimmer.dart';
-import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 
 class AppointmentListStates extends ConsumerWidget {
   const AppointmentListStates({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(homeControllerProvider);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: state.isLoading
-          ? AppointmentShimmer()
-          : false
-              ? EmptyWidget()
-              : AppointmentListView(appointmentList: []),
-    );
+    final state = ref.watch(appointsProviderNotifier);
+    if (state.isLoading) {
+      return const AppointmentShimmer();
+    }
+
+    if (state.errorMessage != null) {
+      return Center(child: Text(state.errorMessage!));
+    }
+
+    if (state.appointments!.isEmpty) {
+      return const EmptyWidget();
+    }
+
+    return AppointmentListView(appointmentList: state.appointments!);
   }
 }
