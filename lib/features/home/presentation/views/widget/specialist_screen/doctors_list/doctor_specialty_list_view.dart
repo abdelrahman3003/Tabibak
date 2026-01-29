@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
-import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/doctors_list/doctor_specialty_item.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_item.dart';
 
 class DoctorSpecialtyListView extends StatelessWidget {
   const DoctorSpecialtyListView({super.key, required this.doctorsSummaryList});
@@ -13,7 +13,7 @@ class DoctorSpecialtyListView extends StatelessWidget {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Consumer(builder: (context, ref, _) {
-          return DoctorSpecialtyItem(
+          return DoctorItem(
             doctorSummary: doctorsSummaryList[index],
             onTap: () async {
               // ref
