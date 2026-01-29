@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
               )),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: TitleText(
                 title: AppStrings.recommendationDoctor.tr(),
                 subtitle: "المزيد",

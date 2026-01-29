@@ -15,6 +15,7 @@ class AppButton extends StatelessWidget {
     this.textColor,
     this.isLoadingSide = false,
     this.isDisabled = false,
+    this.fontSize,
   });
 
   final Color? color;
@@ -25,7 +26,7 @@ class AppButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final bool isLoadingSide;
   final bool isDisabled;
-
+  final double? fontSize;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -55,8 +56,7 @@ class AppButton extends StatelessWidget {
                   child: Text(
                     title,
                     style: Apptextstyles.font16Blackebold.copyWith(
-                      color: textColor ?? Colors.white,
-                    ),
+                        color: textColor ?? Colors.white, fontSize: fontSize),
                   ),
                 ),
                 if (isLoading && !isLoadingSide)
