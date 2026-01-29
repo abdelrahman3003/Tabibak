@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
@@ -31,7 +32,9 @@ class WelcomePanner extends StatelessWidget {
                   Text(
                     "${AppStrings.welcome.tr()}, ${userModel != null ? userModel.name : ""} 👋",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.bold, color: AppColors.white),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.sp,
+                        color: AppColors.white),
                   ),
                   5.hBox,
                   Text(

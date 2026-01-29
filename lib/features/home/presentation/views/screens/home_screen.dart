@@ -42,7 +42,10 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       20.hBox,
-                      TitleText(title: AppStrings.doctorSpeciality.tr()),
+                      TitleText(
+                        title: AppStrings.doctorSpeciality.tr(),
+                        subtitle: "عرض الكل",
+                      ),
                       10.hBox,
                       CategoriesListStates(),
                     ],
@@ -52,7 +55,10 @@ class HomeScreen extends StatelessWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
-              child: TitleText(title: AppStrings.recommendationDoctor.tr()),
+              child: TitleText(
+                title: AppStrings.recommendationDoctor.tr(),
+                subtitle: "المزيد",
+              ),
             ),
           ),
         ],
