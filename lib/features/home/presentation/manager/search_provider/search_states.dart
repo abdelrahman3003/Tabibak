@@ -13,12 +13,12 @@ class SearchStates {
     this.isDeleteLoading,
   });
   SearchStates copyWith(
-      {bool? isLoadin,
+      {bool? isLoading,
       String? errorMessage,
       List<DoctorModel>? searchDoctorsList,
       bool? isDeleteLoading}) {
     return SearchStates(
-        isLoading: isLoading,
+        isLoading: isLoading ?? false,
         searchDoctorsList: searchDoctorsList ?? this.searchDoctorsList,
         errorMessage: errorMessage ?? this.errorMessage,
         isDeleteLoading: isDeleteLoading);

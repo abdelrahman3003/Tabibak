@@ -50,7 +50,11 @@ class HomeRemoteData {
   }
 
   Future<List<DoctorModel>> searchDoctor(String search) async {
-    return await apiService.searchDoctor(
-        ApiConstants.getAllDoctorsSummary, "ilike.*$search*");
+    final response = await Supabase.instance.client
+        .from('doctors')
+        .select('*')
+        .ilike('name', '%$search%');
+
+    return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
 }

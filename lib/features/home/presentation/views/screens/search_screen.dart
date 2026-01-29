@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/empty_widget.dart';
 import 'package:tabibak/core/widgets/search_bar_widget.dart';
 import 'package:tabibak/features/home/presentation/manager/search_provider/search_provider.dart';
@@ -13,8 +15,8 @@ class SearchScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(searchProviderNotifer);
-    final controller = ref.read(searchProviderNotifer.notifier);
+    final state = ref.watch(searchProviderNotifier);
+    final controller = ref.read(searchProviderNotifier.notifier);
 
     return Stack(
       children: [
@@ -61,7 +63,10 @@ class SearchScreen extends ConsumerWidget {
     }
     return SearchCardListView(
       searchDoctorList: doctors,
-      onItemTap: (index) => controller.goToDoctorDetails(context, index),
+      onItemTap: (index) {
+        controller.goToDoctorDetails(index);
+        context.pushNamed(Routes.doctorDetailsScreen);
+      },
     );
   }
 }

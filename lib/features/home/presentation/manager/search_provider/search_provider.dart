@@ -2,19 +2,24 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
-import 'package:tabibak/core/routing/routes.dart';
+import 'package:tabibak/features/doctor/presentaion/manager/doctor/doctor_provider.dart';
+import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/repo/home_repo.dart';
+import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/home/presentation/manager/search_provider/search_states.dart';
 
-final searchProviderNotifer =
-    StateNotifierProvider.autoDispose<SearchProvider, SearchStates>(
-        (ref) => SearchProvider(ref));
+final searchProviderNotifier =
+    StateNotifierProvider.autoDispose<SearchProvider, SearchStates>((ref) =>
+        SearchProvider(ref, HomeRepoImp(homeRemoteData: HomeRemoteData())));
 
 class SearchProvider extends StateNotifier<SearchStates> {
-  SearchProvider(this.ref) : super(SearchStates()) {
+  final HomeRepo homeRepo;
+  final Ref ref;
+
+  SearchProvider(this.ref, this.homeRepo) : super(SearchStates()) {
     initData();
   }
 
@@ -24,7 +29,6 @@ class SearchProvider extends StateNotifier<SearchStates> {
     cachedList = getSavedDoctors();
   }
 
-  final Ref ref;
   TextEditingController? searchTextController;
   List<DoctorModel>? cachedList;
   void search(String search) async {
@@ -32,15 +36,15 @@ class SearchProvider extends StateNotifier<SearchStates> {
       state = SearchStates();
       return;
     }
-    state = SearchStates(isLoading: true);
+    state = state.copyWith(isLoading: true);
 
     final result = await ref.read(homeRepoProvider).searchDoctor(search);
     result.when(
       sucess: (data) async {
-        state = SearchStates(searchDoctorsList: data);
+        state = state.copyWith(searchDoctorsList: data);
       },
       failure: (apiErrorModel) {
-        state = SearchStates(errorMessage: apiErrorModel.message);
+        state = state.copyWith(errorMessage: apiErrorModel.message);
       },
     );
   }
@@ -64,15 +68,10 @@ class SearchProvider extends StateNotifier<SearchStates> {
     return decoded.map((e) => DoctorModel.fromJson(e)).toList();
   }
 
-  void goToDoctorDetails(BuildContext context, int index) async {
+  void goToDoctorDetails(int index) async {
     final doctorList = state.searchDoctorsList ?? cachedList;
-    String doctorId = doctorList![index].doctorId;
-    context.pushNamed(Routes.doctorDetailsScreen);
-    // await ref
-    //     .watch(doctorDetailsNotifierProvider.notifier)
-    //     .getDoctorById(doctorId);
-
-    _saveDoctorSearch(SharedPrefKeys.searchDoctors, doctorList[index]);
+    await _saveDoctorSearch(SharedPrefKeys.searchDoctors, doctorList![index]);
+    ref.read(doctorIdProvider.notifier).state = doctorList[index].doctorId;
   }
 
   removeCachedList() {

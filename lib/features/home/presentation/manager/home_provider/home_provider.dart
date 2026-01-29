@@ -3,18 +3,7 @@ import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
 import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_states.dart';
-import 'package:tabibak/gen/assets.gen.dart';
 
-final categoryListIconsProvider = StateProvider<List<String>>((ref) {
-  return [
-    Assets.images.manDoctor.path,
-    Assets.images.kidneys1.path,
-    Assets.images.brain1.path,
-    Assets.images.iamge.path,
-    Assets.images.dentistry.path,
-    Assets.images.optometry.path
-  ];
-});
 final homeRepoProvider = StateProvider<HomeRepo>(
   (ref) => HomeRepoImp(homeRemoteData: HomeRemoteData()),
 );
