@@ -2,18 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/features/doctor/presentaion/manager/doctor/doctor_provider.dart';
-import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
-import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/home/presentation/manager/search_provider/search_states.dart';
 
 final searchProviderNotifier =
-    StateNotifierProvider.autoDispose<SearchProvider, SearchStates>((ref) =>
-        SearchProvider(ref, HomeRepoImp(homeRemoteData: HomeRemoteData())));
+    StateNotifierProvider.autoDispose<SearchProvider, SearchStates>(
+        (ref) => SearchProvider(ref, getIt<HomeRepo>()));
 
 class SearchProvider extends StateNotifier<SearchStates> {
   final HomeRepo homeRepo;

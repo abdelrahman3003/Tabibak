@@ -1,14 +1,13 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
-import 'package:tabibak/core/networking/api_service.dart';
-import 'package:tabibak/core/networking/dio_factory.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
 
 class HomeRemoteData {
-  final SupabaseClient supabase = Supabase.instance.client;
-  final ApiService apiService = ApiService(DioFactory.getDio());
+  final SupabaseClient supabase;
+
+  HomeRemoteData({required this.supabase});
   Future<UserModel> getUserData() async {
     final response = await supabase
         .from('users')
@@ -50,10 +49,8 @@ class HomeRemoteData {
   }
 
   Future<List<DoctorModel>> searchDoctor(String search) async {
-    final response = await Supabase.instance.client
-        .from('doctors')
-        .select('*')
-        .ilike('name', '%$search%');
+    final response =
+        await supabase.from('doctors').select('*').ilike('name', '%$search%');
 
     return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
   }

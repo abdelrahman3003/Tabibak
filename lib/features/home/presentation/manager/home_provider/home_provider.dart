@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
+import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
-import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_states.dart';
 
 final homeRepoProvider = StateProvider<HomeRepo>(
-  (ref) => HomeRepoImp(homeRemoteData: HomeRemoteData()),
+  (ref) => getIt<HomeRepo>(),
 );
 final buttonLoadingProvider = StateProvider<bool>((ref) => false);
 

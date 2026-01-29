@@ -1,3 +1,4 @@
+import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 
 import 'env_service.dart';
@@ -10,5 +11,7 @@ class AppService {
     await EnvService.init();
     await SharedPrefsService.init();
     await SupabaseService.init();
+
+    setupServiceLocator();
   }
 }
