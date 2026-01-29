@@ -1,12 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/features/doctor/data/remote_data/doctor_remote_data.dart';
+import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/features/doctor/data/repo/doctor_repo.dart';
-import 'package:tabibak/features/doctor/data/repo/doctor_repo_impl.dart';
 import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_states.dart';
 import 'package:tabibak/features/home/data/model/comment_model.dart';
 
 final doctorRepoProvider = StateProvider<DoctorRepo>(
-  (ref) => DoctorRepoImpl(doctorRemoteData: DoctorRemoteData()),
+  (ref) => getIt<DoctorRepo>(),
 );
 final commentNotifierProvider =
     StateNotifierProvider.autoDispose<CommentProvider, CommentStates>(

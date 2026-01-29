@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
-import 'package:tabibak/features/profile/data/data_source/profile_remote_data_source.dart';
 import 'package:tabibak/features/profile/data/repo/profile_repo.dart';
-import 'package:tabibak/features/profile/data/repo/profile_repo_imp.dart';
 import 'package:tabibak/features/profile/presentation/manager/proffile_states.dart';
 
 final themeStateProvider = StateProvider<bool>(
     (ref) => SharedPrefsService.prefs.getBool(SharedPrefKeys.isDark) ?? false);
-final profileProviderController =
-    StateNotifierProvider.autoDispose<ProfileController, ProffileStates>(
-        (ref) => ProfileController(ref));
 final profileLogout =
     StateNotifierProvider.autoDispose<ProfileController, ProffileStates>(
         (ref) => ProfileController(ref));
+final profileProviderController =
+    StateNotifierProvider.autoDispose<ProfileController, ProffileStates>(
+        (ref) => ProfileController(ref));
 final profileRepoProvider = AutoDisposeProvider<ProfileRepo>((ref) {
-  return ProfileRepoImp(profileRemoteDataSource: ProfileRemoteDataSource());
+  return getIt<ProfileRepo>();
 });
 
 class ProfileController extends StateNotifier<ProffileStates> {

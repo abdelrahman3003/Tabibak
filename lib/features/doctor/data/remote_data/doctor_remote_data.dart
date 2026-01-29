@@ -4,10 +4,12 @@ import 'package:tabibak/features/home/data/model/comment_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class DoctorRemoteData {
-  final SupabaseClient supabase = Supabase.instance.client;
+  final Supabase supabase;
+
+  DoctorRemoteData({required this.supabase});
 
   Future<DoctorModel> getDoctor(String doctorId) async {
-    final response = await supabase
+    final response = await supabase.client
         .from('doctors')
         .select(ApiConstants.getDoctors)
         .eq("doctor_id", doctorId)
@@ -18,9 +20,9 @@ class DoctorRemoteData {
   Future<List<CommentModel>> addComment({
     required CommentModel commentModel,
   }) async {
-    await supabase.from('comments').insert(commentModel.toJson());
+    await supabase.client.from('comments').insert(commentModel.toJson());
 
-    final response = await supabase
+    final response = await supabase.client
         .from('comments')
         .select()
         .order('created_at', ascending: false)
