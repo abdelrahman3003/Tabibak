@@ -32,4 +32,8 @@ class AppointmentsRemoteData {
         .eq("user_id", supabase.client.auth.currentUser!.id);
     return response.map((e) => AppointmentModel.fromJson(e)).toList();
   }
+
+  Future<void> deleteAppointment(int appointmentId) async {
+    await supabase.client.from('appointments').delete().eq("id", appointmentId);
+  }
 }

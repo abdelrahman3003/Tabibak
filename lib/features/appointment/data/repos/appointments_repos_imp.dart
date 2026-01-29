@@ -39,6 +39,17 @@ class AppointmentsReposImp implements AppointmentsRepos {
       final result = await appointmentsRemoteData.getAppointments();
       return ApiResult.sucess(result);
     } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> deleteAppointment(int appointmentId) async {
+    try {
+      final result =
+          await appointmentsRemoteData.deleteAppointment(appointmentId);
+      return ApiResult.sucess(result);
+    } catch (error) {
       log("-------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }

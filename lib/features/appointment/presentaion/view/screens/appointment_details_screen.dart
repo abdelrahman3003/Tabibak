@@ -67,7 +67,7 @@ class AppointmentDetailsScreen extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            DeleteButtonStates(appointmentId: 1)
+            DeleteButtonStates(appointmentId: appointment.id!)
           ],
         ),
       ),
