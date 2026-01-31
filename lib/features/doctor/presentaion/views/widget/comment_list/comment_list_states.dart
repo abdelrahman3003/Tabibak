@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_provider.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_list_view.dart';
 import 'package:tabibak/features/home/data/model/comment_model.dart';
@@ -36,7 +37,11 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleText(title: AppStrings.comments),
+        TitleText(
+          title: AppStrings.comments,
+          subtitle: "كل التعليقات",
+        ),
+        5.hBox,
         CommentListView(
           doctorCommentModelList: _getRecentComments(state.commentList!),
         ),
@@ -45,6 +50,6 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
   }
 
   List<CommentModel> _getRecentComments(List<CommentModel> comments) {
-    return comments.take(7).toList();
+    return comments.take(2).toList();
   }
 }

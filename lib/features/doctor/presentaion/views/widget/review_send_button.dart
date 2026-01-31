@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_provider.dart';
@@ -31,19 +30,33 @@ class _ReviewSendButtonState extends ConsumerState<ReviewSendButton> {
     return Row(
       children: [
         Expanded(
-          child: TextField(
-            controller: commentController,
-            decoration: InputDecoration(
-              hintText: "${AppStrings.writeCommentHere}..",
-              border: OutlineInputBorder(),
+            child: TextField(
+          controller: commentController,
+          decoration: InputDecoration(
+            fillColor: Color(0xffE2E8F0),
+            hintText: ' اكتب تعليقك هنا...',
+            hintStyle: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(color: Color(0xff878B94)),
+            contentPadding: const EdgeInsets.symmetric(vertical: 16),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(28),
+              borderSide: const BorderSide(color: Color(0xffE5E7EB)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(28),
+              borderSide:
+                  const BorderSide(color: AppColors.primary, width: 1.5),
             ),
           ),
-        ),
+        )),
         const SizedBox(width: 10),
         AppButton(
           isLoading: state.isLoading,
           isLoadingSide: true,
-          title: AppStrings.send,
+          title: "ارسال",
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 15),
           onPressed: () {
             ref.read(commentNotifierProvider.notifier).addComment(
                   CommentModel(
@@ -54,7 +67,7 @@ class _ReviewSendButtonState extends ConsumerState<ReviewSendButton> {
                 );
             commentController.clear();
           },
-          color: AppColors.textLight,
+          color: Color(0xff475569),
           textColor: AppColors.white,
         ),
       ],
