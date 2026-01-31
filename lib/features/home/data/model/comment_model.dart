@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tabibak/features/auth/data/models/user_model.dart';
 
 part 'comment_model.g.dart';
 
@@ -10,10 +11,14 @@ class CommentModel {
   final String? userId;
   @JsonKey(name: 'doctor_id')
   final String? doctorId;
-
+  final UserModel? userModel;
+  @JsonKey(name: 'created_at')
+  final String? createdAt;
   CommentModel({
     this.id,
+    this.userModel,
     this.comment,
+    this.createdAt,
     this.userId,
     this.doctorId,
   });

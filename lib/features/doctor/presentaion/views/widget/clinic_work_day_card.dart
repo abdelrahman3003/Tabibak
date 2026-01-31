@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
@@ -14,7 +12,6 @@ class ClinicWorkDayCard extends StatelessWidget {
   final WorkingDay workingDay;
   @override
   Widget build(BuildContext context) {
-    log("-----${formatTime(workingDay.shiftMorning?.start)}");
     return Container(
       width: double.infinity,
       padding: AppPadding.all12,

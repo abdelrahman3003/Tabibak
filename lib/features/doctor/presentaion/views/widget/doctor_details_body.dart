@@ -3,6 +3,7 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/bio_text.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/clinic_info_section.dart';
+import 'package:tabibak/features/doctor/presentaion/views/widget/doctor_review_section.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/schedule_section.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
@@ -43,8 +44,8 @@ class DoctorDetailsBody extends StatelessWidget {
           ScheduleSection(
             workingDayList: doctorModel.clinic?.workingDays,
           ),
-          // 20.hBox,
-          // DoctorReviewSection(doctorModel: doctorModel),
+          20.hBox,
+          DoctorReviewSection(doctorModel: doctorModel),
           // 20.hBox,
           // AppButton(
           //   title: AppStrings.bookingInquiry,
