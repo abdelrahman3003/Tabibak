@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/features/doctor/presentaion/views/widget/clinic_item_info.dart';
 import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
@@ -16,26 +16,26 @@ class ClinicInfoSection extends StatelessWidget {
       children: [
         TitleText(title: AppStrings.clinicDetails),
         10.hBox,
-        _buildInfoTile(Icons.monetization_on, AppStrings.clinicName,
-            clinic?.clinicName ?? AppStrings.unknown),
-        _buildInfoTile(Icons.monetization_on, AppStrings.consultationPrice,
-            "${clinic?.consultationFee ?? ""} ${AppStrings.currency}"),
-        _buildInfoTile(Icons.location_on, AppStrings.address,
-            clinic?.clinicAddressModel?.address ?? AppStrings.unknown),
-        _buildInfoTile(Icons.phone, AppStrings.phoneNumber,
-            clinic?.phoneNumber?.toString() ?? AppStrings.numberNotAvailable),
+        ClinicItemInfo(
+            icon: "assets/images/medical_services.png",
+            title: "اسم العيادة",
+            subtitle: clinic?.clinicName ?? ""),
+        12.hBox,
+        ClinicItemInfo(
+            icon: "assets/images/payments.png",
+            title: "سعر الكشف",
+            subtitle: clinic?.consultationFee?.toString() ?? ""),
+        12.hBox,
+        ClinicItemInfo(
+            icon: "assets/images/location_on.png",
+            title: "العنوان",
+            subtitle: clinic?.clinicAddressModel?.address ?? ""),
+        12.hBox,
+        ClinicItemInfo(
+            icon: "assets/images/call.png",
+            title: "رقم الهاتف",
+            subtitle: clinic?.phoneNumber ?? ""),
       ],
     );
   }
-}
-
-Widget _buildInfoTile(IconData icon, String title, String value) {
-  return ListTile(
-    leading: Icon(icon, color: AppColors.primary),
-    title: Text(
-      title,
-      style: const TextStyle(fontWeight: FontWeight.bold),
-    ),
-    subtitle: Text(value),
-  );
 }
