@@ -1,19 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-String? formatTime(String? time) {
-  if (time == null || time.isEmpty) return null;
+String formatTime(String? time) {
+  if (time == null || time.isEmpty) return "";
 
   final parts = time.split(':');
-  if (parts.length < 2) return null;
+  if (parts.length < 2) return "";
 
-  final hour24 = int.parse(parts[0]);
-  final minute = int.parse(parts[1]);
+  final hour = parts[0].padLeft(2, '0');
+  final minute = parts[1].padLeft(2, '0');
 
-  final period = hour24 >= 12 ? "PM" : "AM";
-  final hour12 = hour24 % 12 == 0 ? 12 : hour24 % 12;
-
-  return "${hour12.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period";
+  return "$hour:$minute";
 }
 
 TimeOfDay? parseTime(String? time) {
