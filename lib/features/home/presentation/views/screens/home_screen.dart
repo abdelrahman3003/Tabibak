@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                         subtitle: "عرض الكل",
                       ),
                       10.hBox,
-                      CategoriesListStates(),
+                      Flexible(child: CategoriesListStates()),
                     ],
                   ),
                 ),
