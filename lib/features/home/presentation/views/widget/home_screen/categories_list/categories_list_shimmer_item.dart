@@ -8,29 +8,26 @@ class CategoriesListShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 90.h,
-      child: ListView.builder(
-        itemCount: 10,
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ShimmerWidget(
-                width: 60.w,
-                height: 60.w,
-                radius: 90,
-              ),
-              8.hBox,
-              ShimmerWidget(
-                width: 50.w,
-                height: 10.h,
-              )
-            ],
-          ),
+    return ListView.builder(
+      itemCount: 10,
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ShimmerWidget(
+              width: 50.w,
+              height: 50.w,
+              radius: 90,
+            ),
+            8.hBox,
+            ShimmerWidget(
+              width: 50.w,
+              height: 10.h,
+            )
+          ],
         ),
       ),
     );

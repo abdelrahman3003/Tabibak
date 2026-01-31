@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({
@@ -52,7 +51,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               ),
               icon: Icon(
                 Icons.arrow_back_ios,
-                size: 20.5.h,
+                size: 22,
               ),
             ),
       centerTitle: true,

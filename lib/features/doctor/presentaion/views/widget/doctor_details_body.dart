@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/booking_dialog_injury.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/clinic_info_section.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/schedule_section.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 import 'doctor_details_header.dart';
-import 'doctor_review_section.dart';
 
 class DoctorDetailsBody extends StatelessWidget {
   const DoctorDetailsBody({super.key, required this.doctorModel});
@@ -37,38 +30,38 @@ class DoctorDetailsBody extends StatelessWidget {
           20.hBox,
           TitleText(title: AppStrings.aboutDoctor),
           const SizedBox(height: 8),
-          Text(
-            doctorModel.bio ??
-                "${AppStrings.specialty} ${doctorModel.specialty?.nameAr}",
-            style: Theme.of(context).textTheme.bodyLarge,
-            textAlign: TextAlign.justify,
-          ),
+          // Text(
+          //   doctorModel.bio ??
+          //       "${AppStrings.specialty} ${doctorModel.specialty?.nameAr}",
+          //   style: Theme.of(context).textTheme.bodyLarge,
+          //   textAlign: TextAlign.justify,
+          // ),
           20.hBox,
-          ClinicInfoSection(clinic: doctorModel.clinic),
-          20.hBox,
-          ScheduleSection(
-            workingDayList: doctorModel.clinic?.workingDays,
-          ),
-          20.hBox,
-          DoctorReviewSection(doctorModel: doctorModel),
-          20.hBox,
-          AppButton(
-            title: AppStrings.bookingInquiry,
-            onPressed: () {
-              final isBooked = doctorModel.clinic!.isBooking;
-              if (isBooked != null && isBooked) {
-                context.pushNamed(Routes.appointmentBookingScreen,
-                    arguments: doctorModel);
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (context) => BookingDialogInjury(
-                    isBooked: isBooked!,
-                  ),
-                );
-              }
-            },
-          )
+          // ClinicInfoSection(clinic: doctorModel.clinic),
+          // 20.hBox,
+          // ScheduleSection(
+          //   workingDayList: doctorModel.clinic?.workingDays,
+          // ),
+          // 20.hBox,
+          // DoctorReviewSection(doctorModel: doctorModel),
+          // 20.hBox,
+          // AppButton(
+          //   title: AppStrings.bookingInquiry,
+          //   onPressed: () {
+          //     final isBooked = doctorModel.clinic!.isBooking;
+          //     if (isBooked != null && isBooked) {
+          //       context.pushNamed(Routes.appointmentBookingScreen,
+          //           arguments: doctorModel);
+          //     } else {
+          //       showDialog(
+          //         context: context,
+          //         builder: (context) => BookingDialogInjury(
+          //           isBooked: isBooked!,
+          //         ),
+          //       );
+          //     }
+          //   },
+          // )
         ],
       ),
     );
