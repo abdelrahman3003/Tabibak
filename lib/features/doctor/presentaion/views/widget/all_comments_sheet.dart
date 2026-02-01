@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_provider.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_item.dart';
-import 'package:tabibak/features/home/data/model/comment_model.dart';
+import 'package:tabibak/features/doctor/presentaion/views/widget/review_send_button.dart';
 
 class AllCommentsSheet extends StatelessWidget {
-  const AllCommentsSheet({super.key, required this.comments});
-  final List<CommentModel> comments;
+  const AllCommentsSheet({super.key, required this.doctorId});
+  final String doctorId;
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -26,14 +28,19 @@ class AllCommentsSheet extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               12.hBox,
-              Expanded(
-                  child: ListView.separated(
-                separatorBuilder: (context, index) => 10.hBox,
-                itemCount: comments.length,
-                itemBuilder: (context, index) {
-                  return CommentItem(comment: comments[index]);
-                },
-              )),
+              Expanded(child: Consumer(builder: (context, ref, _) {
+                final state = ref.watch(commentNotifierProvider);
+                final comments = state.commentList ?? [];
+                return ListView.separated(
+                  separatorBuilder: (context, index) => 10.hBox,
+                  itemCount: comments.length,
+                  itemBuilder: (context, index) {
+                    return CommentItem(comment: comments[index]);
+                  },
+                );
+              })),
+              20.hBox,
+              ReviewSendButton(doctorId: doctorId)
             ],
           ),
         );

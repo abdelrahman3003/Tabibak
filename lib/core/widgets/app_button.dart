@@ -16,6 +16,7 @@ class AppButton extends StatelessWidget {
     this.isLoadingSide = false,
     this.isDisabled = false,
     this.fontSize,
+    this.borderRadius,
   });
 
   final Color? color;
@@ -27,12 +28,13 @@ class AppButton extends StatelessWidget {
   final bool isLoadingSide;
   final bool isDisabled;
   final double? fontSize;
+  final BorderRadiusGeometry? borderRadius;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.r),
+          borderRadius: borderRadius ?? BorderRadius.circular(5.r),
         ),
         padding: padding ?? const EdgeInsets.symmetric(vertical: 16),
         backgroundColor: isDisabled

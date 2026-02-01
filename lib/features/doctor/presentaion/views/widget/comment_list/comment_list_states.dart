@@ -12,8 +12,12 @@ import '../../../../../home/presentation/views/widget/home_screen/title_text.dar
 
 class CommentListStates extends ConsumerStatefulWidget {
   final List<CommentModel> initialComments;
-
-  const CommentListStates({super.key, required this.initialComments});
+  final String doctorId;
+  const CommentListStates({
+    super.key,
+    required this.initialComments,
+    required this.doctorId,
+  });
 
   @override
   ConsumerState<CommentListStates> createState() => _CommentListStatesState();
@@ -64,7 +68,7 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) {
-        return AllCommentsSheet(comments: state.commentList ?? []);
+        return AllCommentsSheet(doctorId: widget.doctorId);
       },
     );
   }
