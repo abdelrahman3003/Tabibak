@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_provider.dart';
+import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_states.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/all_comments_sheet.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_list_view.dart';
 import 'package:tabibak/features/home/data/model/comment_model.dart';
@@ -42,7 +43,7 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
           title: AppStrings.comments,
           subtitle: "كل التعليقات",
           onTap: () {
-            showCommentsBottomSheet(context);
+            showCommentsBottomSheet(context, state);
           },
         ),
         10.hBox,
@@ -57,13 +58,13 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
     return comments.take(2).toList();
   }
 
-  void showCommentsBottomSheet(BuildContext context) {
+  void showCommentsBottomSheet(BuildContext context, CommentStates state) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) {
-        return AllCommentsSheet(comments: widget.initialComments);
+        return AllCommentsSheet(comments: state.commentList ?? []);
       },
     );
   }

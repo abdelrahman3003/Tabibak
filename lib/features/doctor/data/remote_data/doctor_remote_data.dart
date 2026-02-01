@@ -24,9 +24,8 @@ class DoctorRemoteData {
 
     final response = await supabase.client
         .from('comments')
-        .select()
-        .order('created_at', ascending: false)
-        .limit(7);
+        .select("*,users(*)")
+        .order('created_at', ascending: false);
 
     final commentList =
         response.map<CommentModel>((e) => CommentModel.fromJson(e)).toList();

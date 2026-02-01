@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_list_view.dart';
+import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_item.dart';
 import 'package:tabibak/features/home/data/model/comment_model.dart';
 
 class AllCommentsSheet extends StatelessWidget {
@@ -27,10 +27,13 @@ class AllCommentsSheet extends StatelessWidget {
               ),
               12.hBox,
               Expanded(
-                child: CommentListView(
-                  doctorCommentModelList: comments,
-                ),
-              ),
+                  child: ListView.separated(
+                separatorBuilder: (context, index) => 10.hBox,
+                itemCount: comments.length,
+                itemBuilder: (context, index) {
+                  return CommentItem(comment: comments[index]);
+                },
+              )),
             ],
           ),
         );
