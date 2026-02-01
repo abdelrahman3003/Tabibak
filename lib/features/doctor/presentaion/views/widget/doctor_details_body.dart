@@ -33,18 +33,21 @@ class DoctorDetailsBody extends StatelessWidget {
           ),
           20.hBox,
           TitleText(title: AppStrings.aboutDoctor),
-          8.hBox,
+          10.hBox,
           BioText(
             text: doctorModel.bio ??
                 "${AppStrings.specialty} ${doctorModel.specialty?.nameAr}",
           ),
           40.hBox,
           ClinicInfoSection(clinic: doctorModel.clinic),
-          20.hBox,
+          40.hBox,
+          TitleText(title: "مواعيد العمل"),
+          10.hBox,
+
           ScheduleSection(
             workingDayList: doctorModel.clinic?.workingDays,
           ),
-          20.hBox,
+          40.hBox,
           DoctorReviewSection(doctorModel: doctorModel),
           // 20.hBox,
           // AppButton(

@@ -11,6 +11,7 @@ class CommentModel {
   final String? userId;
   @JsonKey(name: 'doctor_id')
   final String? doctorId;
+  @JsonKey(name: 'users')
   final UserModel? userModel;
   @JsonKey(name: 'created_at')
   final String? createdAt;

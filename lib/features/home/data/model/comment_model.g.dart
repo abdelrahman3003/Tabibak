@@ -8,9 +8,9 @@ part of 'comment_model.dart';
 
 CommentModel _$CommentModelFromJson(Map<String, dynamic> json) => CommentModel(
       id: (json['id'] as num?)?.toInt(),
-      userModel: json['userModel'] == null
+      userModel: json['users'] == null
           ? null
-          : UserModel.fromJson(json['userModel'] as Map<String, dynamic>),
+          : UserModel.fromJson(json['users'] as Map<String, dynamic>),
       comment: json['comment'] as String?,
       createdAt: json['created_at'] as String?,
       userId: json['user_id'] as String?,
@@ -23,6 +23,6 @@ Map<String, dynamic> _$CommentModelToJson(CommentModel instance) =>
       'comment': instance.comment,
       'user_id': instance.userId,
       'doctor_id': instance.doctorId,
-      'userModel': instance.userModel,
+      'users': instance.userModel,
       'created_at': instance.createdAt,
     };

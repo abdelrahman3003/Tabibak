@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class TitleText extends StatelessWidget {
-  const TitleText({super.key, required this.title, this.subtitle});
+  const TitleText({super.key, required this.title, this.subtitle, this.onTap});
   final String title;
   final String? subtitle;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -18,9 +19,12 @@ class TitleText extends StatelessWidget {
                   ?.copyWith(fontSize: 18.sp, fontWeight: FontWeight.bold)),
         ),
         if (subtitle != null)
-          Text(subtitle!,
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.w500, color: AppColors.primary)),
+          InkWell(
+            onTap: onTap,
+            child: Text(subtitle!,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.w500, color: AppColors.primary)),
+          ),
       ],
     );
   }
