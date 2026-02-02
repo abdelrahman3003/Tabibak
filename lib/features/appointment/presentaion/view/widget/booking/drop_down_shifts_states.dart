@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/function/formate_date.dart';
 import 'package:tabibak/core/widgets/app_drop_dowm.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
@@ -27,7 +26,7 @@ class DropDownShiftsStates extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppDropdown<String>(
-          hint: "Select Shift",
+          hint: "اختر الفتره",
           items: shiftMap.keys.toList(),
           value: selectedShiftKey,
           labelBuilder: (item) => item,
@@ -47,13 +46,11 @@ class DropDownShiftsStates extends ConsumerWidget {
             );
           },
         ),
-        10.hBox,
-        if (state.emptyShift != null)
-          Text(state.emptyShift!,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(color: Colors.red)),
+        Text(state.emptyShift ?? "",
+            style: Theme.of(context)
+                .textTheme
+                .labelMedium
+                ?.copyWith(color: Colors.red)),
       ],
     );
   }
@@ -64,12 +61,12 @@ Map<String, int> _buildShiftMap(DayShiftsModel? model) {
 
   final morning = model?.morning;
   if (morning?.start != null && morning?.end != null) {
-    map[_shiftLabel('Morning', morning!)] = morning.id;
+    map["صباحي"] = morning!.id;
   }
 
   final evening = model?.evening;
   if (evening?.start != null && evening?.end != null) {
-    map[_shiftLabel('Evening', evening!)] = evening.id;
+    map["مسائي"] = evening!.id;
   }
 
   return map;

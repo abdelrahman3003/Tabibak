@@ -20,7 +20,7 @@ class _BookingDateState extends ConsumerState<BookingDate> {
   @override
   Widget build(BuildContext context) {
     return AppTextFormFiled(
-      hint: "Date",
+      hint: "اليوم",
       controller: widget.dateController,
       validator: (value) => Validation.validateRequired(value),
       readOnly: true,

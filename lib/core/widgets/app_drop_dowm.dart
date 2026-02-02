@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class AppDropdown<T> extends StatelessWidget {
@@ -29,7 +30,7 @@ class AppDropdown<T> extends StatelessWidget {
     return DropdownButtonFormField<T>(
       initialValue: value,
       validator: validator,
-      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18.sp),
+      padding: AppPadding.horizontal16,
       icon: suffixIcon ??
           const Icon(Icons.keyboard_arrow_down, color: AppColors.primary),
       decoration: InputDecoration(
@@ -42,18 +43,6 @@ class AppDropdown<T> extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondary,
             ),
         border: InputBorder.none,
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade400, width: 1.0),
-        ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.primary, width: 1.5),
-        ),
-        errorBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.red, width: 1.0),
-        ),
-        focusedErrorBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.red, width: 1.0),
-        ),
       ),
       items: items
           .map(

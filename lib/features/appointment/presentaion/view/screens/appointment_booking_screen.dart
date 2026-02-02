@@ -10,7 +10,9 @@ import 'package:tabibak/features/appointment/presentaion/manager/appointment_boo
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/booking_button_states.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/booking_date.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/drop_down_shifts_states.dart';
+import 'package:tabibak/features/appointment/presentaion/view/widget/booking/title_text_field.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_item.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class AppointmentBookingScreen extends ConsumerStatefulWidget {
@@ -48,36 +50,69 @@ class _AppointmentBookingScreenState
         child: Form(
           key: _formState,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              DoctorItem(doctorSummary: widget.doctorModel),
+              20.hBox,
+              TitleTextField(text: "أدخل اسمك الكامل"),
+              10.hBox,
               AppTextFormFiled(
-                hint: 'Patient Name',
+                hint: 'أدخل اسمك الكامل',
                 controller: patientNameController,
                 validator: (value) => Validation.validateName(value),
+                prefixIcon: Icon(Icons.person_3_outlined),
               ),
+              20.hBox,
+              TitleTextField(text: "رقم الهاتف"),
               10.hBox,
               AppTextFormFiled(
-                hint: 'Phone Number',
+                hint: "05x xxx xxxx",
                 controller: phonePhoneController,
                 validator: (value) => Validation.validateRequired(value),
+                prefixIcon: Icon(Icons.phone_android_outlined),
               ),
+              20.hBox,
+              TitleTextField(text: "وصف الحالة"),
               10.hBox,
               AppTextFormFiled(
-                hint: 'Description',
+                hint: "اشرح باختصار سبب الحجز...",
                 controller: descriptionController,
-                validator: (value) => Validation.validateRequired(value),
+                maxLines: 3,
+              ),
+              30.hBox,
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TitleTextField(text: "التاريخ"),
+                        BookingDate(
+                          clinicID: widget.doctorModel.clinic!.id!,
+                          dateController: ref.read(dateStateController),
+                        ),
+                        10.hBox,
+                      ],
+                    ),
+                  ),
+                  20.wBox,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TitleTextField(text: "الفترة"),
+                        DropDownShiftsStates(
+                          onSelected: ({shiftEveningId, shiftMorningId}) {
+                            selectedShiftMorningId = shiftMorningId;
+                            selectedShiftEveningId = shiftEveningId;
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               10.hBox,
-              BookingDate(
-                clinicID: widget.doctorModel.clinic!.id!,
-                dateController: ref.read(dateStateController),
-              ),
-              10.hBox,
-              DropDownShiftsStates(
-                onSelected: ({shiftEveningId, shiftMorningId}) {
-                  selectedShiftMorningId = shiftMorningId;
-                  selectedShiftEveningId = shiftEveningId;
-                },
-              ),
               const Spacer(),
               BookingButtonStates(
                 onPressed: () {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class AppTextFormFiled extends StatelessWidget {
@@ -14,7 +13,8 @@ class AppTextFormFiled extends StatelessWidget {
       this.obscureText = false,
       this.errorText,
       this.onTap,
-      this.readOnly = false});
+      this.readOnly = false,
+      this.maxLines});
   final String? hint;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -25,7 +25,7 @@ class AppTextFormFiled extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool readOnly;
   final void Function()? onTap;
-
+  final int? maxLines;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -33,8 +33,8 @@ class AppTextFormFiled extends StatelessWidget {
       onTap: onTap,
       validator: validator,
       readOnly: readOnly,
-      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18.sp),
       obscureText: obscureText,
+      maxLines: maxLines ?? 1,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
         errorText: errorText,
@@ -42,26 +42,11 @@ class AppTextFormFiled extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: suffixIcon,
         ),
-        border: InputBorder.none,
-        contentPadding: const EdgeInsets.symmetric(vertical: 15),
         hintText: hint,
-        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-            fontSize: 18.sp, color: Theme.of(context).colorScheme.secondary),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade400, width: 1.0),
-        ),
-        errorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.red, width: 1.0),
-        ),
-        focusedErrorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.red, width: 1.0),
-        ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: AppColors.primary,
-            width: 1.5,
-          ),
-        ),
+        hintStyle: Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .copyWith(color: AppColors.subtextColor),
       ),
     );
   }
