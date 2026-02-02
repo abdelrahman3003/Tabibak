@@ -49,92 +49,97 @@ class _AppointmentBookingScreenState
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formState,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DoctorItem(doctorSummary: widget.doctorModel),
-              20.hBox,
-              TitleTextField(text: "أدخل اسمك الكامل"),
-              10.hBox,
-              AppTextFormFiled(
-                hint: 'أدخل اسمك الكامل',
-                controller: patientNameController,
-                validator: (value) => Validation.validateName(value),
-                prefixIcon: Icon(Icons.person_3_outlined),
-              ),
-              20.hBox,
-              TitleTextField(text: "رقم الهاتف"),
-              10.hBox,
-              AppTextFormFiled(
-                hint: "05x xxx xxxx",
-                controller: phonePhoneController,
-                validator: (value) => Validation.validateRequired(value),
-                prefixIcon: Icon(Icons.phone_android_outlined),
-              ),
-              20.hBox,
-              TitleTextField(text: "وصف الحالة"),
-              10.hBox,
-              AppTextFormFiled(
-                hint: "اشرح باختصار سبب الحجز...",
-                controller: descriptionController,
-                maxLines: 3,
-              ),
-              30.hBox,
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleTextField(text: "التاريخ"),
-                        BookingDate(
-                          clinicID: widget.doctorModel.clinic!.id!,
-                          dateController: ref.read(dateStateController),
-                        ),
-                        10.hBox,
-                      ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DoctorItem(
+                  doctorSummary: widget.doctorModel,
+                  isShowBooking: false,
+                ),
+                20.hBox,
+                TitleTextField(text: "أدخل اسمك الكامل"),
+                10.hBox,
+                AppTextFormFiled(
+                  hint: 'أدخل اسمك الكامل',
+                  controller: patientNameController,
+                  validator: (value) => Validation.validateName(value),
+                  prefixIcon: Icon(Icons.person_3_outlined),
+                ),
+                20.hBox,
+                TitleTextField(text: "رقم الهاتف"),
+                10.hBox,
+                AppTextFormFiled(
+                  hint: "05x xxx xxxx",
+                  controller: phonePhoneController,
+                  validator: (value) => Validation.validateRequired(value),
+                  prefixIcon: Icon(Icons.phone_android_outlined),
+                ),
+                20.hBox,
+                TitleTextField(text: "وصف الحالة"),
+                10.hBox,
+                AppTextFormFiled(
+                  hint: "اشرح باختصار سبب الحجز...",
+                  controller: descriptionController,
+                  maxLines: 3,
+                ),
+                30.hBox,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TitleTextField(text: "التاريخ"),
+                          BookingDate(
+                            clinicID: widget.doctorModel.clinic!.id!,
+                            dateController: ref.read(dateStateController),
+                          ),
+                          10.hBox,
+                        ],
+                      ),
                     ),
-                  ),
-                  20.wBox,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleTextField(text: "الفترة"),
-                        DropDownShiftsStates(
-                          onSelected: ({shiftEveningId, shiftMorningId}) {
-                            selectedShiftMorningId = shiftMorningId;
-                            selectedShiftEveningId = shiftEveningId;
-                          },
-                        ),
-                      ],
+                    20.wBox,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TitleTextField(text: "الفترة"),
+                          DropDownShiftsStates(
+                            onSelected: ({shiftEveningId, shiftMorningId}) {
+                              selectedShiftMorningId = shiftMorningId;
+                              selectedShiftEveningId = shiftEveningId;
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              10.hBox,
-              const Spacer(),
-              BookingButtonStates(
-                onPressed: () {
-                  if (!_formState.currentState!.validate()) {
-                    return;
-                  }
-                  ref
-                      .read(appointmentBookingNotifierProvider.notifier)
-                      .addAppointment(AppointmentModel(
-                        userId: Supabase.instance.client.auth.currentUser!.id,
-                        doctorId: widget.doctorModel.doctorId,
-                        name: patientNameController.text,
-                        phone: phonePhoneController.text,
-                        description: descriptionController.text,
-                        appointmentDate: ref.read(dateStateController).text,
-                        shiftMorningId: selectedShiftMorningId,
-                        shiftEveningId: selectedShiftEveningId,
-                        status: 1,
-                      ));
-                },
-              ),
-            ],
+                  ],
+                ),
+                30.hBox,
+                BookingButtonStates(
+                  onPressed: () {
+                    if (!_formState.currentState!.validate()) {
+                      return;
+                    }
+                    ref
+                        .read(appointmentBookingNotifierProvider.notifier)
+                        .addAppointment(AppointmentModel(
+                          userId: Supabase.instance.client.auth.currentUser!.id,
+                          doctorId: widget.doctorModel.doctorId,
+                          name: patientNameController.text,
+                          phone: phonePhoneController.text,
+                          description: descriptionController.text,
+                          appointmentDate: ref.read(dateStateController).text,
+                          shiftMorningId: selectedShiftMorningId,
+                          shiftEveningId: selectedShiftEveningId,
+                          status: 1,
+                        ));
+                  },
+                ),
+                20.hBox,
+              ],
+            ),
           ),
         ),
       ),

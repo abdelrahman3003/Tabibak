@@ -30,8 +30,6 @@ class DropDownShiftsStates extends ConsumerWidget {
           items: shiftMap.keys.toList(),
           value: selectedShiftKey,
           labelBuilder: (item) => item,
-          validator: (item) =>
-              item == null || item.isEmpty ? "Please select a shift" : null,
           onChanged: (value) {
             if (value == null) return;
 

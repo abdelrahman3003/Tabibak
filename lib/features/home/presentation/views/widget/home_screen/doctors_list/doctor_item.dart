@@ -12,11 +12,12 @@ class DoctorItem extends StatelessWidget {
     super.key,
     this.onTap,
     required this.doctorSummary,
+    this.isShowBooking = true,
   });
 
   final Function()? onTap;
   final DoctorModel doctorSummary;
-
+  final bool isShowBooking;
   @override
   Widget build(BuildContext context) {
     return _buildRoot(context);
@@ -38,7 +39,7 @@ class DoctorItem extends StatelessWidget {
           children: [
             _buildImage(),
             16.wBox,
-            Expanded(child: _buildInfo(context)),
+            Expanded(child: _buildInfo(context, isShowBooking)),
           ],
         ),
       ),
@@ -47,8 +48,8 @@ class DoctorItem extends StatelessWidget {
 
   Widget _buildImage() {
     return Container(
-      height: 110.h,
-      width: 100.w,
+      height: 90.h,
+      width: 80.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppRadius.r8),
         color: AppColors.second,
@@ -62,7 +63,7 @@ class DoctorItem extends StatelessWidget {
     );
   }
 
-  Widget _buildInfo(BuildContext context) {
+  Widget _buildInfo(BuildContext context, bool isShowBooking) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -71,7 +72,7 @@ class DoctorItem extends StatelessWidget {
         5.hBox,
         _buildRating(context),
         8.hBox,
-        _buildPriceAndButton(context),
+        _buildPriceAndButton(context, isShowBooking),
       ],
     );
   }
@@ -123,7 +124,7 @@ class DoctorItem extends StatelessWidget {
     );
   }
 
-  Widget _buildPriceAndButton(BuildContext context) {
+  Widget _buildPriceAndButton(BuildContext context, bool isShow) {
     return Row(
       children: [
         Expanded(
@@ -138,12 +139,13 @@ class DoctorItem extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 40),
-        AppButton(
-          title: "احجز الآن",
-          onPressed: () {},
-          padding: const EdgeInsets.symmetric(horizontal: 14),
-          fontSize: 12.sp,
-        ),
+        if (isShow)
+          AppButton(
+            title: "احجز الآن",
+            onPressed: () {},
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            fontSize: 12.sp,
+          ),
       ],
     );
   }
