@@ -1,44 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/routing/routes.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
 class BookingSuccessScreen extends StatelessWidget {
   const BookingSuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final doctorModel =
+        ModalRoute.of(context)?.settings.arguments as DoctorModel;
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
+      body: SafeArea(
+        child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Icon(
-                Icons.check_circle,
-                color: Colors.green,
-                size: 100,
+              Text(
+                "تأكيد الحجز",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
               20.hBox,
-              const Text(
-                "Your appointment has been booked successfully 🎉",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              Text(
+                "تم الحجز بنجاح",
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(),
               ),
-              30.hBox,
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Routes.layoutScreen,
-                    (route) => false,
-                  );
-                },
-                child: const Text("Back to Home"),
+              40.hBox,
+              Text(
+                "تم حجز موعدك بنجاح ",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
+              Row(
+                children: [
+                  ImageCircle(
+                    radius: 16,
+                    urlImage: doctorModel.image,
+                  )
+                ],
+              )
             ],
           ),
         ),

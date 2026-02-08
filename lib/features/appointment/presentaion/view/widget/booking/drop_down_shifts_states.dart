@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/function/formate_date.dart';
 import 'package:tabibak/core/widgets/app_drop_dowm.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/home/data/model/day_shift_model.dart';
-import 'package:tabibak/features/home/data/model/shift_model.dart';
 
 final dateStateController = StateProvider.autoDispose<TextEditingController>(
-    (ref) => TextEditingController());
+  (ref) => TextEditingController(),
+);
 
 class DropDownShiftsStates extends ConsumerWidget {
   final Function({int? shiftMorningId, int? shiftEveningId})? onSelected;
@@ -22,6 +21,7 @@ class DropDownShiftsStates extends ConsumerWidget {
     final shiftMap = _buildShiftMap(state.dayShiftsModel);
     final selectedShiftKey =
         _resolveSelectedKey(shiftMap, state.dayShiftsModel);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,14 +29,14 @@ class DropDownShiftsStates extends ConsumerWidget {
           hint: "اختر الفتره",
           items: shiftMap.keys.toList(),
           value: selectedShiftKey,
-          labelBuilder: (item) => item,
+          labelBuilder: (item) => item == 'morning' ? 'صباحي' : 'مسائي',
           onChanged: (value) {
             if (value == null) return;
 
             final id = shiftMap[value];
             if (id == null) return;
 
-            final isMorning = value.startsWith('Morning');
+            final isMorning = value == 'morning';
 
             onSelected?.call(
               shiftMorningId: isMorning ? id : null,
@@ -44,11 +44,13 @@ class DropDownShiftsStates extends ConsumerWidget {
             );
           },
         ),
-        Text(state.emptyShift ?? "",
-            style: Theme.of(context)
-                .textTheme
-                .labelMedium
-                ?.copyWith(color: Colors.red)),
+        Text(
+          state.emptyShift ?? "",
+          style: Theme.of(context)
+              .textTheme
+              .labelMedium
+              ?.copyWith(color: Colors.red),
+        ),
       ],
     );
   }
@@ -59,19 +61,15 @@ Map<String, int> _buildShiftMap(DayShiftsModel? model) {
 
   final morning = model?.morning;
   if (morning?.start != null && morning?.end != null) {
-    map["صباحي"] = morning!.id;
+    map['morning'] = morning!.id;
   }
 
   final evening = model?.evening;
   if (evening?.start != null && evening?.end != null) {
-    map["مسائي"] = evening!.id;
+    map['evening'] = evening!.id;
   }
 
   return map;
-}
-
-String _shiftLabel(String title, ShiftModel shift) {
-  return '$title ${formatTime(shift.start!)} - ${formatTime(shift.end!)}';
 }
 
 String? _resolveSelectedKey(

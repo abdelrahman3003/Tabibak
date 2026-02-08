@@ -25,6 +25,7 @@ class AppointmentsReposImp implements AppointmentsRepos {
     try {
       final result = await appointmentsRemoteData.getDayShift(
           dayEn: dayEn, clinicId: clinicId);
+
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
