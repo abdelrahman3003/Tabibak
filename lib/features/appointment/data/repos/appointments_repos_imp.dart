@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
@@ -15,6 +17,7 @@ class AppointmentsReposImp implements AppointmentsRepos {
       final result = await appointmentsRemoteData.addAppointment(appointment);
       return ApiResult.sucess(result);
     } catch (error) {
+      log("--------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

@@ -124,17 +124,20 @@ class _AppointmentBookingScreenState
                     }
                     ref
                         .read(appointmentBookingNotifierProvider.notifier)
-                        .addAppointment(AppointmentModel(
-                          userId: Supabase.instance.client.auth.currentUser!.id,
-                          doctorId: widget.doctorModel.doctorId,
-                          name: patientNameController.text,
-                          phone: phonePhoneController.text,
-                          description: descriptionController.text,
-                          appointmentDate: ref.read(dateStateController).text,
-                          shiftMorningId: selectedShiftMorningId,
-                          shiftEveningId: selectedShiftEveningId,
-                          status: 1,
-                        ));
+                        .addAppointment(
+                          AppointmentModel(
+                            userId:
+                                Supabase.instance.client.auth.currentUser!.id,
+                            doctorId: widget.doctorModel.doctorId,
+                            name: patientNameController.text,
+                            phone: phonePhoneController.text,
+                            description: descriptionController.text,
+                            appointmentDate: ref.read(dateStateController).text,
+                            shiftMorningId: selectedShiftMorningId,
+                            shiftEveningId: selectedShiftEveningId,
+                            status: 1,
+                          ),
+                        );
                   },
                 ),
                 20.hBox,

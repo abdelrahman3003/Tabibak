@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
@@ -39,7 +41,9 @@ class AppointmentBookingProvider
   }
 
   Future<void> addAppointment(AppointmentModel appointment) async {
-    state = state.copyWith(isLoading: true);
+    log("---------${appointment.appointmentDate}");
+
+    state = state.copyWith(isLoading: true, appointmentModel: appointment);
     final result = await appointmentsRepos.addAppointment(appointment);
 
     result.when(

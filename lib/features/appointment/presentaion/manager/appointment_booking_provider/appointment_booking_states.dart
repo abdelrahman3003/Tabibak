@@ -1,3 +1,4 @@
+import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/home/data/model/day_shift_model.dart';
 
 class AppointmentBookingStates {
@@ -6,12 +7,14 @@ class AppointmentBookingStates {
   final DayShiftsModel? dayShiftsModel;
   final String? emptyShift;
   final bool isSuccess;
+  final AppointmentModel? appointmentModel;
   AppointmentBookingStates({
     this.isLoading = false,
     this.errorMessage,
     this.emptyShift,
     this.dayShiftsModel,
     this.isSuccess = false,
+    this.appointmentModel,
   });
 
   AppointmentBookingStates copyWith({
@@ -21,13 +24,15 @@ class AppointmentBookingStates {
     String? emptyShift,
     DayShiftsModel? dayShiftsModel,
     bool? isSuccess,
+    AppointmentModel? appointmentModel,
   }) {
     return AppointmentBookingStates(
       isLoading: isLoading ?? false,
-      dayShiftsModel: dayShiftsModel,
-      emptyShift: emptyShift,
+      dayShiftsModel: dayShiftsModel ?? this.dayShiftsModel,
+      emptyShift: emptyShift ?? this.emptyShift,
       errorMessage: errorMessage,
       isSuccess: isSuccess ?? false,
+      appointmentModel: appointmentModel ?? this.appointmentModel,
     );
   }
 }

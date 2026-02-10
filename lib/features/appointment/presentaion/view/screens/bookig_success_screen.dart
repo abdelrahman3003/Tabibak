@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/appointment/presentaion/view/widget/booking/appointment_success_arg.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
 class BookingSuccessScreen extends StatelessWidget {
@@ -8,8 +8,8 @@ class BookingSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final doctorModel =
-        ModalRoute.of(context)?.settings.arguments as DoctorModel;
+    final appointmentSuccessArg =
+        ModalRoute.of(context)?.settings.arguments as AppointmentSuccessArg;
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -40,7 +40,6 @@ class BookingSuccessScreen extends StatelessWidget {
                 children: [
                   ImageCircle(
                     radius: 16,
-                    urlImage: doctorModel.image,
                   )
                 ],
               )
