@@ -23,7 +23,11 @@ class SpecialistScreen extends StatelessWidget {
               10.hBox,
               SearchBarWidget(controller: TextEditingController()),
               20.hBox,
-              SizedBox(height: 40, child: FilterList()),
+              SizedBox(
+                  height: 40,
+                  child: FilterList(
+                    filters: [" الاعلي تقيما", "الارخص"],
+                  )),
               30.hBox,
               TitleText(title: "الأطباء المتاحين", subtitle: "12 طبيب"),
               10.hBox,

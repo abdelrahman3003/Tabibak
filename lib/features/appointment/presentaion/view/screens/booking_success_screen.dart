@@ -3,8 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/appointment_success_arg.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
@@ -30,6 +33,8 @@ class BookingSuccessScreen extends StatelessWidget {
                 _buildDateInfo(context),
                 20.hBox,
                 _buildTimeInfo(context),
+                Spacer(),
+                _buildButton(context)
               ],
             ),
           ),
@@ -114,5 +119,14 @@ class BookingSuccessScreen extends StatelessWidget {
         ],
       );
     });
+  }
+
+  AppButton _buildButton(BuildContext context) {
+    return AppButton(
+      title: "الرجوع",
+      onPressed: () {
+        context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => true);
+      },
+    );
   }
 }
