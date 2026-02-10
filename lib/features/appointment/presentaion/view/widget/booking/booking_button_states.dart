@@ -4,10 +4,9 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/core/widgets/dialogs.dart' show Dialogs;
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
-import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/appointment_success_arg.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class BookingButtonStates extends ConsumerWidget {
   const BookingButtonStates({
@@ -25,13 +24,17 @@ class BookingButtonStates extends ConsumerWidget {
         appointmentModel: state.appointmentModel!,
         doctorModel: doctorModel,
       );
-      context.pushReplacementNamed(
-        Routes.bookingSuccessScreen,
-        arguments: arg,
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.pushReplacementNamed(
+          Routes.bookingSuccessScreen,
+          arguments: arg,
+        );
+      });
     }
     if (state.errorMessage != null) {
-      Dialogs.errorDialog(context, state.errorMessage!);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(state.errorMessage!)),
+      );
     }
     return AppButton(
       isDisabled: state.isLoading,

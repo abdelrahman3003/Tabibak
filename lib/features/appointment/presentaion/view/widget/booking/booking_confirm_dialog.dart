@@ -16,7 +16,6 @@ class BookingConfirmDialog extends ConsumerWidget {
     final isLoading = ref.watch(appointmentBookingNotifierProvider.select(
       (state) => true,
     ));
-    final provider = ref.read(appointmentBookingNotifierProvider);
 
     return AlertDialog(
       shape: RoundedRectangleBorder(

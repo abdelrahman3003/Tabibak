@@ -118,10 +118,12 @@ class _AppointmentBookingScreenState
                 ),
                 30.hBox,
                 BookingButtonStates(
+                  doctorModel: widget.doctorModel,
                   onPressed: () {
                     if (!_formState.currentState!.validate()) {
                       return;
                     }
+
                     ref
                         .read(appointmentBookingNotifierProvider.notifier)
                         .addAppointment(
