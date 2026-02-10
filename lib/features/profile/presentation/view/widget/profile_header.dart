@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
@@ -14,10 +15,10 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 30),
+      padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
-        borderRadius: BorderRadius.only(
+        color: AppColors.primary,
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
         ),
@@ -30,9 +31,16 @@ class ProfileHeader extends StatelessWidget {
 
             return Stack(
               children: [
-                ImageCircle(
-                  urlImage: userModel.image,
-                  radius: 60,
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: ImageCircle(
+                    urlImage: userModel.image,
+                    radius: 60,
+                  ),
                 ),
                 Positioned(
                   bottom: 0,
@@ -43,36 +51,55 @@ class ProfileHeader extends StatelessWidget {
                           .read(profileProviderController.notifier)
                           .uploadAndSaveProfileImage();
                     },
-                    child: CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.white,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
                       child: Icon(Icons.camera_alt,
-                          size: 18, color: AppColors.primary),
+                          size: 20, color: AppColors.primary),
                     ),
                   ),
                 )
               ],
             );
           }),
-          const SizedBox(height: 10),
-          Text(userModel.name ?? "", style: Apptextstyles.font18blackBold),
-          const SizedBox(height: 4),
+          const SizedBox(height: 16),
+          Text(
+            userModel.name ?? "",
+            style: Apptextstyles.font18blackBold.copyWith(
+              color: Colors.white,
+              fontSize: 22.sp,
+            ),
+          ),
+          const SizedBox(height: 8),
           _buildEditableInfo(userModel.email ?? "", Icons.email),
         ],
       ),
     );
   }
 
-  // Stack imageUser(String image) {
   Widget _buildEditableInfo(String label, IconData icon) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, size: 18),
-        const SizedBox(width: 6),
-        Text(label, style: Apptextstyles.font14BlackReqular),
-        const SizedBox(width: 6),
-      ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16, color: Colors.white70),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: Apptextstyles.font14BlackReqular.copyWith(
+              color: Colors.white.withOpacity(0.9),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

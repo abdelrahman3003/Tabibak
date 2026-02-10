@@ -3,17 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/features/profile/presentation/manager/profile_provider.dart';
+import 'package:tabibak/features/profile/presentation/view/widget/profile_menu_tile.dart';
 
 class ThemeSwitch extends ConsumerWidget {
   const ThemeSwitch({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: SwitchListTile(
-        secondary: const Icon(Icons.brightness_6, color: Colors.orange),
-        title: Text(AppStrings.darkMode),
+    return ProfileMenuTile(
+      title: AppStrings.darkMode,
+      icon: Icons.brightness_6,
+      iconColor: Colors.orange,
+      trailing: Switch(
         value: ref.read(themeStateProvider),
         onChanged: (value) {
           ref.read(themeStateProvider.notifier).state = value;
