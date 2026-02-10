@@ -17,7 +17,7 @@ class ProfileHeader extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: Theme.of(context).primaryColor,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),
@@ -58,7 +58,7 @@ class ProfileHeader extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Icon(Icons.camera_alt,
-                          size: 20, color: AppColors.primary),
+                          size: 20, color: Theme.of(context).primaryColor),
                     ),
                   ),
                 )

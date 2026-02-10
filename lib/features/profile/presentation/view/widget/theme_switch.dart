@@ -15,7 +15,7 @@ class ThemeSwitch extends ConsumerWidget {
       icon: Icons.brightness_6,
       iconColor: Colors.orange,
       trailing: Switch(
-        value: ref.read(themeStateProvider),
+        value: ref.watch(themeStateProvider),
         onChanged: (value) {
           ref.read(themeStateProvider.notifier).state = value;
           SharedPrefsService.prefs.setBool(SharedPrefKeys.isDark, value);

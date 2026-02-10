@@ -21,21 +21,27 @@ class AppointmentInfoCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: AppRadius.radius12, // Assuming radius12 exists or matches radius8 style
-        border: Border.all(color: AppColors.borderLight),
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Theme.of(context).colorScheme.surface
+            : AppColors.white,
+        borderRadius: AppRadius.radius12,
+        border: Border.all(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.grey.withOpacity(0.2)
+              : AppColors.borderLight,
+        ),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
               icon,
-              color: AppColors.primary,
+              color: Theme.of(context).primaryColor,
               size: 24,
             ),
           ),
