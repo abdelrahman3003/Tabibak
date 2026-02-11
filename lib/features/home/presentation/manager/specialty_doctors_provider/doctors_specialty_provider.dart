@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/home/presentation/manager/specialty_doctors_provider/doctors_specialty_states.dart';
 
+final specialtyIdProvider = StateProvider<int>((ref) => 0);
 final doctorsSpecialtyProvider =
     StateNotifierProvider<DoctorsSpecialtyProvider, SpecialtyDoctorsStates>(
   (ref) => DoctorsSpecialtyProvider(ref),
@@ -10,10 +11,11 @@ final doctorsSpecialtyProvider =
 class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
   DoctorsSpecialtyProvider(this.ref) : super(SpecialtyDoctorsStates());
   final Ref ref;
-  Future<void> getSpecialtiesDoctors(int specialtyId) async {
+  Future<void> getSpecialtiesDoctors({int? specialtyId}) async {
     state = state.copyWith(isLoading: true);
-    final result =
-        await ref.read(homeRepoProvider).getSpecialtiesDoctors(specialtyId);
+    final result = await ref
+        .read(homeRepoProvider)
+        .getSpecialtiesDoctors(specialtyId ?? ref.watch(specialtyIdProvider));
     result.when(
       sucess: (specialtyDoctors) {
         state = state.copyWith(specialtyDoctors: specialtyDoctors);
@@ -26,7 +28,9 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
 
   Future<void> getDoctorsHighestRating() async {
     state = state.copyWith(isLoading: true);
-    final result = await ref.read(homeRepoProvider).doctorsHighestRating();
+    final result = await ref
+        .read(homeRepoProvider)
+        .getDoctorHighRate(ref.read(specialtyIdProvider));
     result.when(
       sucess: (specialtyDoctors) {
         state = state.copyWith(specialtyDoctors: specialtyDoctors);

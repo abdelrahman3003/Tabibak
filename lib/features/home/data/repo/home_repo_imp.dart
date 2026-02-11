@@ -52,6 +52,8 @@ class HomeRepoImp extends HomeRepo {
       final result = await homeRemoteData.getSpecialtiesDoctors(specialtyId);
       return ApiResult.sucess(result);
     } catch (e) {
+      log("------$e");
+
       return ApiResult.failure(ErrorHandler.handle(e));
     }
   }
@@ -99,9 +101,11 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<DoctorModel>>> doctorsHighestRating() async {
+  Future<ApiResult<List<DoctorModel>>> getDoctorHighRate(
+      int specialtyId) async {
     try {
-      final result = await homeRemoteData.doctorsHighestRating();
+      final result =
+          await homeRemoteData.getDoctorHighRate(specialtyId: specialtyId);
       return ApiResult.sucess(result);
     } catch (error) {
       log("------$error");

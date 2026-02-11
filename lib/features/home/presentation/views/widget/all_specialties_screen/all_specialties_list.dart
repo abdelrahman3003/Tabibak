@@ -32,7 +32,9 @@ class AllSpecialtiesList extends ConsumerWidget {
           onTap: () {
             ref
                 .read(doctorsSpecialtyProvider.notifier)
-                .getSpecialtiesDoctors(specialty.id!);
+                .getSpecialtiesDoctors(specialtyId: specialtiesList[index].id);
+            ref.read(specialtyIdProvider.notifier).state =
+                specialtiesList[index].id!;
             context.pushNamed(Routes.specialistScreen);
           },
         );
