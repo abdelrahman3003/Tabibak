@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
@@ -18,7 +19,9 @@ class CategoriesListView extends StatelessWidget {
       itemBuilder: (context, index) => Consumer(builder: (context, ref, _) {
         return CategoryItem(
           icon: specialtiesList[index].icon!,
-          name: specialtiesList[index].nameAr ?? "",
+          name: context.locale.languageCode == 'ar'
+              ? specialtiesList[index].nameAr ?? ""
+              : specialtiesList[index].nameEn ?? "",
           onTap: () {
             ref
                 .read(doctorsSpecialtyProvider.notifier)

@@ -128,7 +128,7 @@ class BookingSuccessScreen extends StatelessWidget {
 
   AppButton _buildButton(BuildContext context) {
     return AppButton(
-      title: "الرجوع",
+      title: AppStrings.goBack,
       onPressed: () {
         context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => true);
       },

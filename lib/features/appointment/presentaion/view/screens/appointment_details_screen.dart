@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
@@ -82,7 +83,9 @@ class AppointmentDetailsScreen extends StatelessWidget {
           ),
           8.wBox,
           Text(
-            appointment.appointmentsStatus?.statusAr ?? AppStrings.unknown,
+            context.locale.languageCode == 'ar'
+                ? appointment.appointmentsStatus?.statusAr ?? ""
+                : appointment.appointmentsStatus?.statusEn ?? "",
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: _getStatusColor(appointment.status),
                   fontWeight: FontWeight.bold,

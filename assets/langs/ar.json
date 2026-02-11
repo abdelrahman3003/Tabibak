@@ -127,5 +127,17 @@
     "Morning Shift": "صباحي",
     "Evening Shift": "مسائي",
     "Consultation Price Not Set": "سعر الكشف غير محدد",
-    "Book Now": "احجز الآن"
+    "Book Now": "احجز الآن",
+    "Enter Full Name": "أدخل اسمك الكامل",
+    "Phone Number Label": "رقم الهاتف",
+    "Condition Description": "وصف الحالة",
+    "Explain Booking Reason": "اشرح باختصار سبب الحجز...",
+    "Date Label": "التاريخ",
+    "Period Label": "الفترة",
+    "Previous": "السابقه",
+    "Upcoming": "القادمة",
+    "Go Back": "الرجوع",
+    "Select Period": "اختر الفتره",
+    "Day Label": "اليوم",
+    "This Day Not Available": "هذا اليوم غير متاح"
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
@@ -19,7 +20,10 @@ class BookingHeader extends StatelessWidget {
               doctorModel.name ?? "",
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            Text(doctorModel.specialty?.nameAr ?? "",
+            Text(
+                context.locale.languageCode == 'ar'
+                    ? doctorModel.specialty?.nameAr ?? ""
+                    : doctorModel.specialty?.nameEn ?? "",
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!

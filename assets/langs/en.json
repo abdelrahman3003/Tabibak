@@ -133,5 +133,17 @@
     "Morning Shift": "Morning",
     "Evening Shift": "Evening",
     "Consultation Price Not Set": "Consultation price not set",
-    "Book Now": "Book Now"
+    "Book Now": "Book Now",
+    "Enter Full Name": "Enter your full name",
+    "Phone Number Label": "Phone Number",
+    "Condition Description": "Condition Description",
+    "Explain Booking Reason": "Briefly explain the reason for booking...",
+    "Date Label": "Date",
+    "Period Label": "Period",
+    "Previous": "Previous",
+    "Upcoming": "Upcoming",
+    "Go Back": "Go Back",
+    "Select Period": "Select Period",
+    "Day Label": "Day",
+    "This Day Not Available": "This day is not available"
 }

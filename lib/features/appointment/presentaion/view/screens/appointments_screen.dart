@@ -21,7 +21,7 @@ class AppointmentsScreen extends StatelessWidget {
             20.hBox,
             SizedBox(
                 height: 40,
-                child: FilterList(filters: ["السابقه ", "القادمة"])),
+                child: FilterList(filters: [AppStrings.previous, AppStrings.upcoming])),
             10.hBox,
             Expanded(child: AppointmentListStates()),
           ],

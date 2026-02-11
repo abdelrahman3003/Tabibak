@@ -139,4 +139,16 @@ class AppStrings {
   static String get eveningShift => "Evening Shift".tr();
   static String get consultationPriceNotSet => "Consultation Price Not Set".tr();
   static String get bookNow => "Book Now".tr();
+  static String get enterFullName => "Enter Full Name".tr();
+  static String get phoneNumberLabel => "Phone Number Label".tr();
+  static String get conditionDescription => "Condition Description".tr();
+  static String get explainBookingReason => "Explain Booking Reason".tr();
+  static String get dateLabel => "Date Label".tr();
+  static String get periodLabel => "Period Label".tr();
+  static String get previous => "Previous".tr();
+  static String get upcoming => "Upcoming".tr();
+  static String get goBack => "Go Back".tr();
+  static String get selectPeriod => "Select Period".tr();
+  static String get dayLabel => "Day Label".tr();
+  static String get thisDayNotAvailable => "This Day Not Available".tr();
 }

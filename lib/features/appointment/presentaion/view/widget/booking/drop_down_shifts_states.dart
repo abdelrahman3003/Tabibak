@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/widgets/app_drop_dowm.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/home/data/model/day_shift_model.dart';
@@ -26,10 +27,12 @@ class DropDownShiftsStates extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppDropdown<String>(
-          hint: "اختر الفتره",
+          hint: AppStrings.selectPeriod,
           items: shiftMap.keys.toList(),
           value: selectedShiftKey,
-          labelBuilder: (item) => item == 'morning' ? 'صباحي' : 'مسائي',
+          labelBuilder: (item) => item == 'morning'
+              ? AppStrings.morningShift
+              : AppStrings.eveningShift,
           onChanged: (value) {
             if (value == null) return;
 

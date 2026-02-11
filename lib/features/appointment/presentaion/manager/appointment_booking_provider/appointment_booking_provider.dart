@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos.dart';
@@ -24,7 +25,7 @@ class AppointmentBookingProvider
       sucess: (dayShiftsModel) {
         if (dayShiftsModel?.evening == null &&
             dayShiftsModel?.morning == null) {
-          state = state.copyWith(emptyShift: "هذا اليوم غير متاح");
+          state = state.copyWith(emptyShift: AppStrings.thisDayNotAvailable);
         } else {
           state =
               state.copyWith(dayShiftsModel: dayShiftsModel, emptyShift: null);

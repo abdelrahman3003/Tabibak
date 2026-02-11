@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
@@ -38,7 +39,9 @@ class ClinicWorkDayCard extends StatelessWidget {
               ),
               SizedBox(width: 4),
               Text(
-                workingDay.day.dayAr ?? "",
+                context.locale.languageCode == 'ar'
+                    ? workingDay.day.dayAr ?? ""
+                    : workingDay.day.dayEn ?? "",
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium

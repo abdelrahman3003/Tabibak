@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
@@ -73,7 +74,9 @@ class AppointmentCardItem extends StatelessWidget {
         5.hBox,
         _buildIconTextRow(
           icon: Icons.local_fire_department_outlined,
-          text: appointment.doctor?.specialty?.nameAr ?? "",
+          text: context.locale.languageCode == 'ar'
+              ? appointment.doctor?.specialty?.nameAr ?? ""
+              : appointment.doctor?.specialty?.nameEn ?? "",
           textStyle: Theme.of(context).textTheme.bodyMedium,
           iconSize: 16,
         ),
@@ -115,7 +118,9 @@ class AppointmentCardItem extends StatelessWidget {
 
   Widget _buildStatusContainer(BuildContext context) {
     final color = _getColor(appointment.status ?? 0);
-    final statusText = appointment.appointmentsStatus?.statusAr ?? "";
+    final statusText = context.locale.languageCode == 'ar'
+        ? appointment.appointmentsStatus?.statusAr ?? ""
+        : appointment.appointmentsStatus?.statusEn ?? "";
 
     return Container(
       padding: AppPadding.all8,

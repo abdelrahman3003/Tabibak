@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
@@ -31,7 +32,9 @@ class DoctorDetailsBody extends StatelessWidget {
             child: DoctorDetailsHeader(
               name: doctorModel.name,
               image: doctorModel.image,
-              specialty: doctorModel.specialty?.nameAr,
+              specialty: context.locale.languageCode == 'ar'
+                  ? doctorModel.specialty?.nameAr
+                  : doctorModel.specialty?.nameEn,
               university: doctorModel.education?.university,
               rate: 1,
             ),
@@ -41,7 +44,7 @@ class DoctorDetailsBody extends StatelessWidget {
           10.hBox,
           BioText(
             text: doctorModel.bio ??
-                "${AppStrings.specialty} ${doctorModel.specialty?.nameAr}",
+                "${AppStrings.specialty} ${context.locale.languageCode == 'ar' ? doctorModel.specialty?.nameAr : doctorModel.specialty?.nameEn}",
           ),
           40.hBox,
           ClinicInfoSection(clinic: doctorModel.clinic),

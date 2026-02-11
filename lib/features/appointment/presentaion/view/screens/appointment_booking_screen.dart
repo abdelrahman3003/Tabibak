@@ -58,7 +58,7 @@ class _AppointmentBookingScreenState
                   isShowBooking: false,
                 ),
                 20.hBox,
-                TitleTextField(text: "أدخل اسمك الكامل"),
+                TitleTextField(text: AppStrings.enterFullName),
                 10.hBox,
                 AppTextFormFiled(
                   hint: 'أدخل اسمك الكامل',
@@ -67,7 +67,7 @@ class _AppointmentBookingScreenState
                   prefixIcon: Icon(Icons.person_3_outlined),
                 ),
                 20.hBox,
-                TitleTextField(text: "رقم الهاتف"),
+                TitleTextField(text: AppStrings.phoneNumberLabel),
                 10.hBox,
                 AppTextFormFiled(
                   hint: "05x xxx xxxx",
@@ -76,10 +76,10 @@ class _AppointmentBookingScreenState
                   prefixIcon: Icon(Icons.phone_android_outlined),
                 ),
                 20.hBox,
-                TitleTextField(text: "وصف الحالة"),
+                TitleTextField(text: AppStrings.conditionDescription),
                 10.hBox,
                 AppTextFormFiled(
-                  hint: "اشرح باختصار سبب الحجز...",
+                  hint: AppStrings.explainBookingReason,
                   controller: descriptionController,
                   maxLines: 3,
                 ),
@@ -90,7 +90,7 @@ class _AppointmentBookingScreenState
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TitleTextField(text: "التاريخ"),
+                          TitleTextField(text: AppStrings.dateLabel),
                           BookingDate(
                             clinicID: widget.doctorModel.clinic!.id!,
                             dateController: ref.read(dateStateController),
@@ -104,7 +104,7 @@ class _AppointmentBookingScreenState
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TitleTextField(text: "الفترة"),
+                          TitleTextField(text: AppStrings.periodLabel),
                           DropDownShiftsStates(
                             onSelected: ({shiftEveningId, shiftMorningId}) {
                               selectedShiftMorningId = shiftMorningId;

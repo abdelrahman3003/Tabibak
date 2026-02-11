@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
@@ -20,7 +21,7 @@ class _BookingDateState extends ConsumerState<BookingDate> {
   @override
   Widget build(BuildContext context) {
     return AppTextFormFiled(
-      hint: "اليوم",
+      hint: AppStrings.dayLabel,
       controller: widget.dateController,
       validator: (value) => Validation.validateRequired(value),
       readOnly: true,

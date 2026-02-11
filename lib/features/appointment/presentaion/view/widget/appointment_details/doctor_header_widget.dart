@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
@@ -49,7 +50,11 @@ class DoctorHeaderWidget extends StatelessWidget {
                 ),
                 4.hBox,
                 Text(
-                  appointment.doctor?.specialty?.nameAr ?? AppStrings.unknown,
+                  context.locale.languageCode == 'ar'
+                      ? appointment.doctor?.specialty?.nameAr ??
+                          AppStrings.unknown
+                      : appointment.doctor?.specialty?.nameEn ??
+                          AppStrings.unknown,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: AppColors.subtextColor,
                       ),
