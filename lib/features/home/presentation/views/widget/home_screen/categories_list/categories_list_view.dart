@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
 import 'package:tabibak/features/home/presentation/manager/specialty_doctors_provider/doctors_specialty_provider.dart';
@@ -12,7 +13,8 @@ class CategoriesListView extends StatelessWidget {
   final List<SpecialtyModel> specialtiesList;
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
+      separatorBuilder: (context, index) => 20.wBox,
       itemCount: specialtiesList.length,
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,

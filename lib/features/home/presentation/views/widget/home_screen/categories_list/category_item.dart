@@ -9,12 +9,13 @@ class CategoryItem extends StatelessWidget {
     required this.icon,
     required this.name,
     this.onTap,
+    this.isAllCategories = false,
   });
 
   final String icon;
   final String name;
   final Function()? onTap;
-
+  final bool isAllCategories;
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -27,8 +28,8 @@ class CategoryItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 120.h,
-            width: 120.w,
+            height: isAllCategories ? 110.h : 70.h,
+            width: isAllCategories ? 110.w : 70.w,
             padding: EdgeInsets.all(12.r),
             decoration: BoxDecoration(
               color: isDark
