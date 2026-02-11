@@ -16,7 +16,9 @@ class CommentItem extends StatelessWidget {
     return Container(
       padding: AppPadding.all12,
       decoration: BoxDecoration(
-        color: Color(0xffE2E8F0),
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Theme.of(context).cardColor
+            : const Color(0xffE2E8F0),
         borderRadius: AppRadius.radius8,
       ),
       child: Row(

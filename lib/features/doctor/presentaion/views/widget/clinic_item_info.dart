@@ -19,7 +19,9 @@ class ClinicItemInfo extends StatelessWidget {
       padding: AppPadding.all12,
       decoration: BoxDecoration(
         border: Border.all(
-          color: const Color(0xff000000).withValues(alpha: 0.08),
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white.withOpacity(0.1)
+              : const Color(0xff000000).withValues(alpha: 0.08),
           width: 1,
         ),
         borderRadius: AppRadius.radius8,

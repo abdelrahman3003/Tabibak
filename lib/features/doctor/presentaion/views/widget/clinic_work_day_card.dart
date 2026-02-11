@@ -16,10 +16,14 @@ class ClinicWorkDayCard extends StatelessWidget {
       width: double.infinity,
       padding: AppPadding.all12,
       decoration: BoxDecoration(
-          color: Color(0xffEDF2F7),
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Theme.of(context).cardColor.withOpacity(0.5)
+              : const Color(0xffEDF2F7),
           borderRadius: AppRadius.radius8,
           border: Border.all(
-            color: const Color(0xffE2E8F0), // أغمق درجة واحدة بس
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withOpacity(0.1)
+                : const Color(0xffE2E8F0),
             width: 1,
           )),
       child: Column(

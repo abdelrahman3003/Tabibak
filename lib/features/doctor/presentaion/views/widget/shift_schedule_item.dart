@@ -12,8 +12,11 @@ class ShiftScheduleItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 5),
-      decoration:
-          BoxDecoration(color: Colors.white, borderRadius: AppRadius.radius8),
+      decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.white.withOpacity(0.1)
+              : Colors.white,
+          borderRadius: AppRadius.radius8),
       child: Column(
         children: [
           Text(
@@ -21,7 +24,10 @@ class ShiftScheduleItem extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .labelSmall
-                ?.copyWith(color: Color(0xff94A3B8)),
+                ?.copyWith(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white70
+                        : const Color(0xff94A3B8)),
           ),
           SizedBox(height: 5),
           FittedBox(

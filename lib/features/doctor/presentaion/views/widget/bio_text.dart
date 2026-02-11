@@ -11,12 +11,14 @@ class BioText extends StatelessWidget {
       width: double.infinity,
       padding: AppPadding.all8,
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            offset: const Offset(0, 3),
-          ),
-        ],
+        boxShadow: Theme.of(context).brightness == Brightness.light
+            ? [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.02),
+                  offset: const Offset(0, 3),
+                ),
+              ]
+            : null,
       ),
       child: Text(
         text,
