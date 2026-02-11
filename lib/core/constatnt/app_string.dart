@@ -129,4 +129,14 @@ class AppStrings {
   static String get bookingStatus => "Booking Status".tr();
   static String get viewAll => "View All".tr();
   static String get more => "More".tr();
+  static String get allComments => "All Comments".tr();
+  static String get clinicNameLabel => "Clinic Name".tr();
+  static String get consultationFee => "Consultation Fee".tr();
+  static String get phone => "Phone".tr();
+  static String get rateTheDoctor => "Rate the Doctor".tr();
+  static String get submit => "Submit".tr();
+  static String get morningShift => "Morning Shift".tr();
+  static String get eveningShift => "Evening Shift".tr();
+  static String get consultationPriceNotSet => "Consultation Price Not Set".tr();
+  static String get bookNow => "Book Now".tr();
 }

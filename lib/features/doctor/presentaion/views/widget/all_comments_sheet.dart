@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_provider.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_item.dart';
@@ -20,11 +21,12 @@ class AllCommentsSheet extends StatelessWidget {
         return Container(
           padding: AppPadding.all20,
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: AppRadius.radius16),
+              color: Theme.of(context).cardColor,
+              borderRadius: AppRadius.radius16),
           child: Column(
             children: [
               Text(
-                "التعليقات",
+                AppStrings.comments,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               12.hBox,

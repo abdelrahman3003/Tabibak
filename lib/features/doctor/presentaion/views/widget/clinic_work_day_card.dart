@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/function/formate_date.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
@@ -50,13 +51,13 @@ class ClinicWorkDayCard extends StatelessWidget {
             children: [
               Expanded(
                   child: ShiftScheduleItem(
-                      title: "مسائي",
+                      title: AppStrings.morningShift,
                       subtitle:
                           "${formatTime(workingDay.shiftMorning?.start)} - ${formatTime(workingDay.shiftMorning?.end)} ")),
               14.wBox,
               Expanded(
                   child: ShiftScheduleItem(
-                      title: "مسائي",
+                      title: AppStrings.eveningShift,
                       subtitle:
                           "${formatTime(workingDay.shiftEvening?.start)} - ${formatTime(workingDay.shiftEvening?.end)} ")),
             ],

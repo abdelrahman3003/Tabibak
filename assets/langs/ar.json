@@ -93,7 +93,6 @@
     "Booking Confirmed Message": "شكراً لك! تم تأكيد الحجز الخاص بك.",
     "Choose Another Day Message": "يرجى اختيار يوم آخر أو عيادة مختلفة",
     "Clinic Details": "تفاصيل العيادة",
-    "Clinic Name": "سم العيادة",
     "Book": "احجز",
     "Error": "خطأ",
     "Unknown Error Occurred": "حدث خطأ غير معروف",
@@ -117,5 +116,16 @@
     "Delete": "حذف",
     "Booking Status": "حالة الحجز",
     "View All": "عرض الكل",
-    "More": "المزيد"
+    "More": "المزيد",
+    "All Comments": "كل التعليقات",
+    "Clinic Name": "اسم العيادة",
+    "Consultation Fee": "سعر الكشف",
+    "Phone": "رقم الهاتف",
+    "Send": "ارسال",
+    "Rate the Doctor": "قيّم الدكتور",
+    "Submit": "إرسال",
+    "Morning Shift": "صباحي",
+    "Evening Shift": "مسائي",
+    "Consultation Price Not Set": "سعر الكشف غير محدد",
+    "Book Now": "احجز الآن"
 }

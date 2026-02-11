@@ -18,22 +18,22 @@ class ClinicInfoSection extends StatelessWidget {
         10.hBox,
         ClinicItemInfo(
             icon: "assets/images/medical_services.png",
-            title: "اسم العيادة",
+            title: AppStrings.clinicNameLabel,
             subtitle: clinic?.clinicName ?? ""),
         12.hBox,
         ClinicItemInfo(
             icon: "assets/images/payments.png",
-            title: "سعر الكشف",
+            title: AppStrings.consultationFee,
             subtitle: clinic?.consultationFee?.toString() ?? ""),
         12.hBox,
         ClinicItemInfo(
             icon: "assets/images/location_on.png",
-            title: "العنوان",
+            title: AppStrings.address,
             subtitle: clinic?.clinicAddressModel?.address ?? ""),
         12.hBox,
         ClinicItemInfo(
             icon: "assets/images/call.png",
-            title: "رقم الهاتف",
+            title: AppStrings.phone,
             subtitle: clinic?.phoneNumber ?? ""),
       ],
     );

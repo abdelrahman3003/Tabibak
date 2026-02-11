@@ -70,7 +70,6 @@
     "Phone Number": "Phone Number",
     "Number Not Available": "Number Not Available",
     "Write Comment Here": "Write your comment here...",
-    "Send": "Send",
     "Comments": "Comments",
     "App Language": "English",
     "Code Language": "ar",
@@ -100,7 +99,6 @@
     "Choose Another Day Message": "Please choose another day or a different clinic",
     "OK": "OK",
     "Clinic Details": "Clinic Details",
-    "Clinic Name": "Clinic Name",
     "Book": "Book",
     "Error": "Error",
     "Unknown Error Occurred": "An unknown error occurred",
@@ -124,5 +122,16 @@
     "Delete": "Delete",
     "Booking Status": "Booking Status",
     "View All": "View All",
-    "More": "More"
+    "More": "More",
+    "All Comments": "All Comments",
+    "Clinic Name": "Clinic Name",
+    "Consultation Fee": "Consultation Fee",
+    "Phone": "Phone",
+    "Send": "Send",
+    "Rate the Doctor": "Rate the Doctor",
+    "Submit": "Submit",
+    "Morning Shift": "Morning",
+    "Evening Shift": "Evening",
+    "Consultation Price Not Set": "Consultation price not set",
+    "Book Now": "Book Now"
 }

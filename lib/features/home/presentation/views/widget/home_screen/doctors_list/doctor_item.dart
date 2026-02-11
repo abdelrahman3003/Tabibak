@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
@@ -142,7 +143,7 @@ class DoctorItem extends StatelessWidget {
         Expanded(
           child: Text(
             doctorSummary.clinic?.consultationFee == null
-                ? "سعر الكشف غير محدد"
+                ? AppStrings.consultationPriceNotSet
                 : "${doctorSummary.clinic!.consultationFee} جنيه",
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -153,7 +154,7 @@ class DoctorItem extends StatelessWidget {
         const SizedBox(width: 40),
         if (isShow)
           AppButton(
-            title: "احجز الآن",
+            title: AppStrings.bookNow,
             onPressed: () {},
             padding: const EdgeInsets.symmetric(horizontal: 14),
             fontSize: 12.sp,

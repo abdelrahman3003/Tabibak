@@ -45,7 +45,7 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
       children: [
         TitleText(
           title: AppStrings.comments,
-          subtitle: "كل التعليقات",
+          subtitle: AppStrings.allComments,
           onTap: () {
             showCommentsBottomSheet(context, state);
           },

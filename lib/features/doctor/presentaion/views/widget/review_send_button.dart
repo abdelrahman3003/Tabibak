@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_provider.dart';
@@ -33,8 +34,10 @@ class _ReviewSendButtonState extends ConsumerState<ReviewSendButton> {
             child: TextField(
           controller: commentController,
           decoration: InputDecoration(
-            fillColor: Color(0xffE2E8F0),
-            hintText: ' اكتب تعليقك هنا...',
+            fillColor: Theme.of(context).brightness == Brightness.dark
+                ? Theme.of(context).cardColor
+                : const Color(0xffE2E8F0),
+            hintText: AppStrings.writeCommentHere,
             hintStyle: Theme.of(context)
                 .textTheme
                 .bodyLarge
@@ -55,7 +58,7 @@ class _ReviewSendButtonState extends ConsumerState<ReviewSendButton> {
         AppButton(
           isLoading: state.isLoading,
           isLoadingSide: true,
-          title: "ارسال",
+          title: AppStrings.send,
           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 15),
           onPressed: () {
             ref.read(commentNotifierProvider.notifier).addComment(
