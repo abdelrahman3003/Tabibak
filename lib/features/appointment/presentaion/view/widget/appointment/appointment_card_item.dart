@@ -19,7 +19,21 @@ class AppointmentCardItem extends StatelessWidget {
         padding: AppPadding.all20,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: AppRadius.radius8,
+          borderRadius: AppRadius.radius16,
+          border: Border.all(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.1)
+                : Colors.grey.withValues(alpha: 0.1),
+            width: 1,
+          ),
+          boxShadow: [
+            if (Theme.of(context).brightness == Brightness.light)
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+          ],
         ),
         child: Row(
           children: [
@@ -90,13 +104,10 @@ class AppointmentCardItem extends StatelessWidget {
         10.hBox,
         Text(
           formatDayMonth(appointment.appointmentDate ?? ""),
-          style: Theme.of(context)
-              .textTheme
-              .labelMedium
-              ?.copyWith(
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.grey
-                      : const Color(0xff94A3B8)),
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey
+                  : const Color(0xff94A3B8)),
         ),
       ],
     );
