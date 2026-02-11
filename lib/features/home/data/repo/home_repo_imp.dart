@@ -46,19 +46,6 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<DoctorModel>>> getSpecialtiesDoctors(
-      int specialtyId) async {
-    try {
-      final result = await homeRemoteData.getSpecialtiesDoctors(specialtyId);
-      return ApiResult.sucess(result);
-    } catch (e) {
-      log("------$e");
-
-      return ApiResult.failure(ErrorHandler.handle(e));
-    }
-  }
-
-  @override
   Future<ApiResult<DoctorModel>> getDoctorId(String id) async {
     try {
       final result = await homeRemoteData.getDoctorById(id);
@@ -90,26 +77,15 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist(
-      int specialtyId) async {
+  Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist({
+    int? specialtyId,
+    String? sortBy,
+  }) async {
     try {
-      final result = await homeRemoteData.getSpecialtiesDoctors(specialtyId);
+      final result = await homeRemoteData.getSpecialtyDoctors(
+          sortBy: sortBy, specialtyId: specialtyId);
       return ApiResult.sucess(result);
     } catch (error) {
-      return ApiResult.failure(ErrorHandler.handle(error));
-    }
-  }
-
-  @override
-  Future<ApiResult<List<DoctorModel>>> getDoctorHighRate(
-      int specialtyId) async {
-    try {
-      final result =
-          await homeRemoteData.getDoctorHighRate(specialtyId: specialtyId);
-      return ApiResult.sucess(result);
-    } catch (error) {
-      log("------$error");
-
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

@@ -34,7 +34,12 @@ class SpecialistScreen extends StatelessWidget {
                         if (index == 0) {
                           ref
                               .read(doctorsSpecialtyProvider.notifier)
-                              .getDoctorsHighestRating();
+                              .getSpecialtiesDoctors(sortBy: "avg_rating");
+                        } else {
+                          ref
+                              .read(doctorsSpecialtyProvider.notifier)
+                              .getSpecialtiesDoctors(
+                                  sortBy: "consultation_fee");
                         }
                       },
                     ));

@@ -11,26 +11,12 @@ final doctorsSpecialtyProvider =
 class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
   DoctorsSpecialtyProvider(this.ref) : super(SpecialtyDoctorsStates());
   final Ref ref;
-  Future<void> getSpecialtiesDoctors({int? specialtyId}) async {
+  Future<void> getSpecialtiesDoctors({int? specialtyId, String? sortBy}) async {
     state = state.copyWith(isLoading: true);
-    final result = await ref
-        .read(homeRepoProvider)
-        .getSpecialtiesDoctors(specialtyId ?? ref.watch(specialtyIdProvider));
-    result.when(
-      sucess: (specialtyDoctors) {
-        state = state.copyWith(specialtyDoctors: specialtyDoctors);
-      },
-      failure: (apiErrorModel) {
-        state = state.copyWith(errorMessage: apiErrorModel.errors);
-      },
-    );
-  }
+    final result = await ref.read(homeRepoProvider).getDoctorSpecialist(
+        sortBy: sortBy,
+        specialtyId: specialtyId ?? ref.read(specialtyIdProvider));
 
-  Future<void> getDoctorsHighestRating() async {
-    state = state.copyWith(isLoading: true);
-    final result = await ref
-        .read(homeRepoProvider)
-        .getDoctorHighRate(ref.read(specialtyIdProvider));
     result.when(
       sucess: (specialtyDoctors) {
         state = state.copyWith(specialtyDoctors: specialtyDoctors);

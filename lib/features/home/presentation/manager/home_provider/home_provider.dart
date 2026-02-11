@@ -62,18 +62,4 @@ class HomeController extends StateNotifier<HomeStates> {
       },
     );
   }
-
-  Future<void> getDoctorSpecialist(int specialtyId) async {
-    state = state.copyWith(isLoading: true);
-    final result =
-        await ref.read(homeRepoProvider).getDoctorSpecialist(specialtyId);
-    result.when(
-      sucess: (data) {
-        state = state.copyWith(doctorsSpecialtyList: data);
-      },
-      failure: (apiErrorModel) {
-        state = state.copyWith(errorMessage: apiErrorModel.errors);
-      },
-    );
-  }
 }

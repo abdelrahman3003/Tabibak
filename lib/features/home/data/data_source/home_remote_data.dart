@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
@@ -40,32 +42,28 @@ class HomeRemoteData {
     return DoctorModel.fromJson(response);
   }
 
-  Future<List<DoctorModel>> getSpecialtiesDoctors(int specialtyId) async {
-    final response = await supabase
-        .from('doctors')
-        .select(ApiConstants.getDoctors)
-        .eq("specialty", specialtyId);
-    return response.map((doctor) => DoctorModel.fromJson(doctor)).toList();
+  Future<List<DoctorModel>> getSpecialtyDoctors({
+    int? specialtyId,
+    String? sortBy,
+    bool ascending = false,
+  }) async {
+    log("--------$sortBy");
+    final response = await supabase.rpc(
+      'get_doctors_filtered_by_specialty',
+      params: {
+        'spec_id': specialtyId,
+        'sort_by': sortBy,
+        'ascending': ascending,
+      },
+    );
+
+    return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
 
   Future<List<DoctorModel>> searchDoctor(String search) async {
     final response =
         await supabase.from('doctors').select('*').ilike('name', '%$search%');
 
-    return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
-  }
-
-  Future<List<DoctorModel>> getDoctorHighRate({
-    int? specialtyId,
-  }) async {
-    final response = await supabase.rpc(
-      'get_doctors_filtered_by_specialty',
-      params: {
-        'sort_by': 'avg_rating',
-        'ascending': false,
-        'spec_id': specialtyId,
-      },
-    );
     return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
 }

@@ -8,11 +8,10 @@ abstract class HomeRepo {
 
   Future<ApiResult<List<SpecialtyModel>>> getSpecialties();
   Future<ApiResult<List<DoctorModel>>> geTopDoctors();
-  Future<ApiResult<List<DoctorModel>>> getSpecialtiesDoctors(int specialtyId);
   Future<ApiResult<List<DoctorModel>>> fetchAllDoctors();
   Future<ApiResult<DoctorModel>> getDoctorId(String id);
   Future<ApiResult<List<DoctorModel>>> searchDoctor(String search);
 
-  Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist(int specialtyId);
-  Future<ApiResult<List<DoctorModel>>> getDoctorHighRate(int specialtyId);
+  Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist(
+      {int? specialtyId, String? sortBy});
 }
