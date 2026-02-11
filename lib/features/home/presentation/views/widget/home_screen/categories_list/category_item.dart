@@ -4,42 +4,66 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem(
-      {super.key, required this.icon, required this.name, this.onTap});
+  const CategoryItem({
+    super.key,
+    required this.icon,
+    required this.name,
+    this.onTap,
+  });
+
   final String icon;
   final String name;
   final Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8.r),
+      borderRadius: BorderRadius.circular(AppRadius.r12),
+      splashColor: Colors.grey,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-              height: 60.h,
-              width: 60.w,
-              padding: EdgeInsets.all(8),
-              margin: EdgeInsets.symmetric(horizontal: 14.w),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppRadius.r12),
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Theme.of(context).cardColor
-                      : const Color(0xffEEF2FF)),
-              child: CachedNetworkImage(
-                imageUrl: icon,
-                errorWidget: (context, url, error) => SizedBox(),
-              )),
-          SizedBox(height: 5),
-          Text(name,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelMedium
-                  ?.copyWith(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white70
-                          : const Color(0xff475569)))
+            height: 120.h,
+            width: 120.w,
+            padding: EdgeInsets.all(12.r),
+            decoration: BoxDecoration(
+              color: isDark
+                  ? Theme.of(context).cardColor
+                  : const Color(0xffEEF2FF),
+              borderRadius: BorderRadius.circular(AppRadius.r16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: CachedNetworkImage(
+              imageUrl: icon,
+              fit: BoxFit.contain,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              errorWidget: (context, url, error) => const Icon(
+                Icons.broken_image,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            name,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: isDark ? Colors.white70 : const Color(0xff475569),
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
         ],
       ),
     );

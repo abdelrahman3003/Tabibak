@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/categories_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/sliver_app_delegete.dart';
@@ -45,6 +47,9 @@ class HomeScreen extends StatelessWidget {
                       TitleText(
                         title: AppStrings.doctorSpeciality.tr(),
                         subtitle: AppStrings.viewAll,
+                        onTap: () {
+                          context.pushNamed(Routes.allSpecialtiesScreen);
+                        },
                       ),
                       10.hBox,
                       Flexible(child: CategoriesListStates()),
