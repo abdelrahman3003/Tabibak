@@ -97,4 +97,16 @@ class HomeRepoImp extends HomeRepo {
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
+
+  @override
+  Future<ApiResult<List<DoctorModel>>> doctorsHighestRating() async {
+    try {
+      final result = await homeRemoteData.doctorsHighestRating();
+      return ApiResult.sucess(result);
+    } catch (error) {
+      log("------$error");
+
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
 }

@@ -14,4 +14,5 @@ abstract class HomeRepo {
   Future<ApiResult<List<DoctorModel>>> searchDoctor(String search);
 
   Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist(int specialtyId);
+  Future<ApiResult<List<DoctorModel>>> doctorsHighestRating();
 }

@@ -23,4 +23,17 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
       },
     );
   }
+
+  Future<void> getDoctorsHighestRating() async {
+    state = state.copyWith(isLoading: true);
+    final result = await ref.read(homeRepoProvider).doctorsHighestRating();
+    result.when(
+      sucess: (specialtyDoctors) {
+        state = state.copyWith(specialtyDoctors: specialtyDoctors);
+      },
+      failure: (apiErrorModel) {
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
+      },
+    );
+  }
 }

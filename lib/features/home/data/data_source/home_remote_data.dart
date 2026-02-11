@@ -54,4 +54,12 @@ class HomeRemoteData {
 
     return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
+
+  Future<List<DoctorModel>> doctorsHighestRating() async {
+    final response = await supabase.rpc(
+      'get_doctors_filtered',
+      params: {'sort_by': 'avg_rating', 'ascending': false},
+    );
+    return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
+  }
 }
