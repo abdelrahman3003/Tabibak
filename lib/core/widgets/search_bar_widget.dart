@@ -18,11 +18,17 @@ class SearchBarWidget extends StatelessWidget {
         hintStyle: Theme.of(context)
             .textTheme
             .bodyLarge
-            ?.copyWith(color: Color(0xff878B94)),
+            ?.copyWith(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white70
+                    : const Color(0xff878B94)),
         contentPadding: const EdgeInsets.symmetric(vertical: 16),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(28),
-          borderSide: const BorderSide(color: Color(0xffE5E7EB)),
+          borderSide: BorderSide(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white.withOpacity(0.2)
+                  : const Color(0xffE5E7EB)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(28),

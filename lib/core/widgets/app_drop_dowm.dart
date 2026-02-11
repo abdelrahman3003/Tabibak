@@ -38,10 +38,12 @@ class AppDropdown<T> extends StatelessWidget {
         suffixIcon: null,
         contentPadding: const EdgeInsets.symmetric(vertical: 15),
         hintText: hint,
-        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              fontSize: 18.sp,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
+          hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontSize: 18.sp,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white70
+                    : Theme.of(context).colorScheme.secondary,
+              ),
         border: InputBorder.none,
       ),
       items: items

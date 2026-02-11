@@ -24,7 +24,9 @@ class CategoryItem extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 14.w),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppRadius.r12),
-                  color: Color(0xffEEF2FF)),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).cardColor
+                      : const Color(0xffEEF2FF)),
               child: CachedNetworkImage(
                 imageUrl: icon,
                 errorWidget: (context, url, error) => SizedBox(),
@@ -34,7 +36,10 @@ class CategoryItem extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .labelMedium
-                  ?.copyWith(color: Color(0xff475569)))
+                  ?.copyWith(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white70
+                          : const Color(0xff475569)))
         ],
       ),
     );

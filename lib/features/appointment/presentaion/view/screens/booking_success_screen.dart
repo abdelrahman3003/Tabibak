@@ -90,7 +90,10 @@ class BookingSuccessScreen extends StatelessWidget {
         Container(
             padding: AppPadding.all16,
             decoration: BoxDecoration(
-                color: AppColors.borderLight, borderRadius: AppRadius.radius8),
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white.withOpacity(0.1)
+                    : AppColors.borderLight,
+                borderRadius: AppRadius.radius8),
             child: const Icon(Icons.date_range_outlined)),
         12.wBox,
         Text(appointmentSuccessArg.appointmentModel.appointmentDate ?? "",
@@ -111,7 +114,9 @@ class BookingSuccessScreen extends StatelessWidget {
           Container(
               padding: AppPadding.all16,
               decoration: BoxDecoration(
-                  color: AppColors.borderLight,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white.withOpacity(0.1)
+                      : AppColors.borderLight,
                   borderRadius: AppRadius.radius8),
               child: const Icon(Icons.timelapse)),
           12.wBox,

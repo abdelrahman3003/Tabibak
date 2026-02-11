@@ -18,7 +18,7 @@ class AppointmentCardItem extends StatelessWidget {
       child: Container(
         padding: AppPadding.all20,
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: AppRadius.radius8,
         ),
         child: Row(
@@ -93,7 +93,10 @@ class AppointmentCardItem extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .labelMedium
-              ?.copyWith(color: const Color(0xff94A3B8)),
+              ?.copyWith(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.grey
+                      : const Color(0xff94A3B8)),
         ),
       ],
     );

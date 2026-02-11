@@ -5,7 +5,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title = '',
     this.isShowBack = true,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor, // Changed default from Colors.white to null to respect theme
     this.shadow = Colors.transparent,
     this.titleStyle,
     this.iconColor,

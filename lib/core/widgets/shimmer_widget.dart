@@ -24,13 +24,17 @@ class ShimmerWidget extends StatelessWidget {
       child: Shimmer(
         duration: const Duration(milliseconds: 800),
         interval: const Duration(milliseconds: 300),
-        color: Colors.grey,
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.grey.shade700
+            : Colors.grey,
         colorOpacity: 0.3,
         enabled: true,
         child: Container(
           height: height,
           width: width,
-          color: Colors.grey.shade300,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.grey.shade800
+              : Colors.grey.shade300,
         ),
       ),
     );

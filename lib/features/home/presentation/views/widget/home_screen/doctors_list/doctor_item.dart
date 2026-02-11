@@ -30,8 +30,11 @@ class DoctorItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         decoration: BoxDecoration(
-          color: AppColors.white,
-          border: Border.all(color: const Color(0xffF1F5F9)),
+          color: Theme.of(context).cardColor,
+          border: Border.all(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey.withOpacity(0.2)
+                  : const Color(0xffF1F5F9)),
           borderRadius: AppRadius.radius20,
         ),
         child: Row(

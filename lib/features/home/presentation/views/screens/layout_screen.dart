@@ -39,9 +39,11 @@ class LayoutScreen extends ConsumerWidget {
             ),
             GNav(
               gap: 12,
-              activeColor: AppColors.primary,
-              color: AppColors.primary,
-              tabBackgroundColor: AppColors.second,
+              activeColor: Theme.of(context).primaryColor,
+              color: Theme.of(context).primaryColor,
+              tabBackgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? Theme.of(context).primaryColor.withOpacity(0.2)
+                  : AppColors.second,
               selectedIndex: selectedIndex,
               onTabChange: (index) {
                 ref.read(indexScreenProvider.notifier).state = index;

@@ -17,8 +17,9 @@ class FilterItem extends StatelessWidget {
         height: 30,
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
         decoration: BoxDecoration(
-            color:
-                isActive ? Theme.of(context).colorScheme.primary : Colors.white,
+            color: isActive
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).cardColor,
             borderRadius: AppRadius.radius20),
         child: Text(
           text,
