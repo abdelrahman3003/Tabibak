@@ -25,7 +25,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
   @override
   Widget build(BuildContext context) {
     return ProfileMenuTile(
-      title: AppStrings.language,
+      title: AppStrings.language.tr(),
       icon: Icons.language,
       iconColor: Colors.blue,
       trailing: DropdownButtonHideUnderline(

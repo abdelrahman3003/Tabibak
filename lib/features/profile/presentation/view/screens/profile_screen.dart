@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                 ),
                 16.hBox,
-                const SettingSection(),
+                SettingSection(),
                 24.hBox,
                 Text(
                   AppStrings.account.tr(),
@@ -43,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                 ),
                 16.hBox,
-                const AccountSection(),
+                AccountSection(),
                 30.hBox,
               ],
             ),

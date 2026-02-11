@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
@@ -11,7 +12,7 @@ class ThemeSwitch extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ProfileMenuTile(
-      title: AppStrings.darkMode,
+      title: AppStrings.darkMode.tr(),
       icon: Icons.brightness_6,
       iconColor: Colors.orange,
       trailing: Switch(
