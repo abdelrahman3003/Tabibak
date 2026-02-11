@@ -127,4 +127,6 @@ class AppStrings {
   static String get deleteMessage => "Delete Message".tr();
   static String get delete => "Delete".tr();
   static String get bookingStatus => "Booking Status".tr();
+  static String get viewAll => "View All".tr();
+  static String get more => "More".tr();
 }

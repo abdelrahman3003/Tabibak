@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                       20.hBox,
                       TitleText(
                         title: AppStrings.doctorSpeciality.tr(),
-                        subtitle: "عرض الكل",
+                        subtitle: AppStrings.viewAll,
                       ),
                       10.hBox,
                       Flexible(child: CategoriesListStates()),
@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: TitleText(
                 title: AppStrings.recommendationDoctor.tr(),
-                subtitle: "المزيد",
+                subtitle: AppStrings.more,
               ),
             ),
           ),

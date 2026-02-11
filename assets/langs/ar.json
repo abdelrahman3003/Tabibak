@@ -115,5 +115,7 @@
     "Delete Confirmation": "تأكيد الحذف",
     "Delete Message": "هل أنت متأكد أنك تريد حذف هذا الحجز؟",
     "Delete": "حذف",
-    "Booking Status": "حالة الحجز"
+    "Booking Status": "حالة الحجز",
+    "View All": "عرض الكل",
+    "More": "المزيد"
 }
