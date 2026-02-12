@@ -27,4 +27,20 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
       },
     );
   }
+
+  void searchSpecialtyDoctors(String search) async {
+    state = state.copyWith(isLoading: true);
+
+    final result = await ref
+        .read(homeRepoProvider)
+        .searchDoctor(search, specialtyId: ref.read(specialtyProvider)!.id);
+    result.when(
+      sucess: (specialtyDoctors) async {
+        state = state.copyWith(specialtyDoctors: specialtyDoctors);
+      },
+      failure: (apiErrorModel) {
+        state = state.copyWith(errorMessage: apiErrorModel.message);
+      },
+    );
+  }
 }

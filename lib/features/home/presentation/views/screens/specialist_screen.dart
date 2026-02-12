@@ -24,7 +24,14 @@ class SpecialistScreen extends ConsumerWidget {
           child: Column(
             children: [
               10.hBox,
-              SearchBarWidget(controller: TextEditingController()),
+              SearchBarWidget(
+                controller: TextEditingController(),
+                onChanged: (text) {
+                  ref
+                      .read(doctorsSpecialtyProvider.notifier)
+                      .searchSpecialtyDoctors(text);
+                },
+              ),
               20.hBox,
               SpecialtyDoctorFilterList(),
               30.hBox,

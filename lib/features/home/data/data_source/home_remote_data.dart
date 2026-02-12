@@ -57,9 +57,19 @@ class HomeRemoteData {
     return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
 
-  Future<List<DoctorModel>> searchDoctor(String search) async {
-    final response =
-        await supabase.from('doctors').select('*').ilike('name', '%$search%');
+  Future<List<DoctorModel>> searchDoctor(String search,
+      {int? specialtyId}) async {
+    var query = supabase.from('doctors').select('*, specialty(*)');
+
+    if (specialtyId != null) {
+      query = query.eq('specialty_id', specialtyId);
+    }
+
+    if (search.isNotEmpty) {
+      query = query.ilike('name', '%$search%');
+    }
+
+    final response = await query;
 
     return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
   }

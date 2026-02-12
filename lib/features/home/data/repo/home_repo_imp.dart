@@ -67,7 +67,8 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<DoctorModel>>> searchDoctor(search) async {
+  Future<ApiResult<List<DoctorModel>>> searchDoctor(String search,
+      {int? specialtyId}) async {
     try {
       final result = await homeRemoteData.searchDoctor(search);
       return ApiResult.sucess(result);
