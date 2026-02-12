@@ -137,7 +137,8 @@ class AppStrings {
   static String get submit => "Submit".tr();
   static String get morningShift => "Morning Shift".tr();
   static String get eveningShift => "Evening Shift".tr();
-  static String get consultationPriceNotSet => "Consultation Price Not Set".tr();
+  static String get consultationPriceNotSet =>
+      "Consultation Price Not Set".tr();
   static String get bookNow => "Book Now".tr();
   static String get enterFullName => "Enter Full Name".tr();
   static String get phoneNumberLabel => "Phone Number Label".tr();
@@ -151,4 +152,8 @@ class AppStrings {
   static String get selectPeriod => "Select Period".tr();
   static String get dayLabel => "Day Label".tr();
   static String get thisDayNotAvailable => "This Day Not Available".tr();
+  static String get lowestPrice => "Lowest Price".tr();
+  static String get availableDoctors => "Available Doctors".tr();
+  static String get highestRated => "Highest Rated".tr();
+  static String get doctors => "Doctors".tr();
 }

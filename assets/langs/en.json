@@ -145,5 +145,10 @@
     "Go Back": "Go Back",
     "Select Period": "Select Period",
     "Day Label": "Day",
-    "This Day Not Available": "This day is not available"
+    "This Day Not Available": "This day is not available",
+    "Lowest Price": "Lowest Price",
+    "Available Doctors": "Available Doctors",
+    "Highest Rated": "Highest Rated",
+    "doctor": "Doctor",
+    "doctors": "Doctors"
 }

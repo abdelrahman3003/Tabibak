@@ -28,8 +28,7 @@ class CategoriesListView extends StatelessWidget {
             ref
                 .read(doctorsSpecialtyProvider.notifier)
                 .getSpecialtiesDoctors(specialtyId: specialtiesList[index].id);
-            ref.read(specialtyIdProvider.notifier).state =
-                specialtiesList[index].id!;
+            ref.read(specialtyProvider.notifier).state = specialtiesList[index];
 
             context.pushNamed(Routes.specialistScreen);
           },

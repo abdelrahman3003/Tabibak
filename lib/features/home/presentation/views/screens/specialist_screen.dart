@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/widgets/search_bar_widget.dart';
 import 'package:tabibak/features/home/presentation/manager/specialty_doctors_provider/doctors_specialty_provider.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
+import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/doctor_available_counter.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/doctors_list/doctor_specialty_list_states.dart';
-import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/filters_list/filter_list.dart';
+import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/filters_list/specialty_doctor_filter_list.dart';
 
-class SpecialistScreen extends StatelessWidget {
+class SpecialistScreen extends ConsumerWidget {
   const SpecialistScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final locale = Localizations.localeOf(context).languageCode;
+    final specialtyName = locale == 'ar'
+        ? ref.read(specialtyProvider)!.nameAr
+        : ref.read(specialtyProvider)!.nameEn;
     return Scaffold(
-        appBar: AppBarWidget(
-          title: AppStrings.aboutDoctor,
-        ),
+        appBar: AppBarWidget(title: specialtyName),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
@@ -25,27 +26,9 @@ class SpecialistScreen extends StatelessWidget {
               10.hBox,
               SearchBarWidget(controller: TextEditingController()),
               20.hBox,
-              Consumer(builder: (context, ref, _) {
-                return SizedBox(
-                    height: 40,
-                    child: FilterList(
-                      filters: [" الاعلي تقيما", "الارخص"],
-                      onFilterSelected: (index) {
-                        if (index == 0) {
-                          ref
-                              .read(doctorsSpecialtyProvider.notifier)
-                              .getSpecialtiesDoctors(sortBy: "avg_rating");
-                        } else {
-                          ref
-                              .read(doctorsSpecialtyProvider.notifier)
-                              .getSpecialtiesDoctors(
-                                  sortBy: "consultation_fee");
-                        }
-                      },
-                    ));
-              }),
+              SpecialtyDoctorFilterList(),
               30.hBox,
-              TitleText(title: "الأطباء المتاحين", subtitle: "12 طبيب"),
+              DoctorAvailableCounter(),
               10.hBox,
               DoctorSpecialtyListStates()
             ],

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
@@ -47,7 +45,6 @@ class HomeRemoteData {
     String? sortBy,
     bool ascending = false,
   }) async {
-    log("--------$sortBy");
     final response = await supabase.rpc(
       'get_doctors_filtered_by_specialty',
       params: {

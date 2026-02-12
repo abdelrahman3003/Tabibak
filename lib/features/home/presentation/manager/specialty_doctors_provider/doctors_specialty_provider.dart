@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/features/home/data/model/specialty_model.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/home/presentation/manager/specialty_doctors_provider/doctors_specialty_states.dart';
 
-final specialtyIdProvider = StateProvider<int>((ref) => 0);
+final specialtyProvider = StateProvider<SpecialtyModel?>((ref) => null);
 final doctorsSpecialtyProvider =
     StateNotifierProvider<DoctorsSpecialtyProvider, SpecialtyDoctorsStates>(
   (ref) => DoctorsSpecialtyProvider(ref),
@@ -15,7 +16,7 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
     state = state.copyWith(isLoading: true);
     final result = await ref.read(homeRepoProvider).getDoctorSpecialist(
         sortBy: sortBy,
-        specialtyId: specialtyId ?? ref.read(specialtyIdProvider));
+        specialtyId: specialtyId ?? ref.read(specialtyProvider)!.id);
 
     result.when(
       sucess: (specialtyDoctors) {
