@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/core/extenstion/num_extention.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 
 class RatingsRow extends StatelessWidget {
@@ -27,7 +26,7 @@ class RatingsRow extends StatelessWidget {
               ),
               5.wBox,
               Text(
-                "( ${ratingCount?.localized(context)} ${ratingCount == 1 ? AppStrings.rating : AppStrings.ratings}) ",
+                "( $ratingCount ${ratingCount == 1 ? AppStrings.rating : AppStrings.ratings} ) ",
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(),
               )
             ],
