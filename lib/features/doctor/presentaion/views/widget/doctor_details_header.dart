@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
@@ -14,24 +15,43 @@ class DoctorDetailsHeader extends StatelessWidget {
       this.image,
       this.specialty,
       this.university,
-      this.rate});
+      this.rate,
+      this.isOpen});
   final String? image;
   final String? name;
   final String? specialty;
   final String? university;
   final double? rate;
+  final bool? isOpen;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ImageCircle(urlImage: image, radius: 60.r),
+        Stack(
+          children: [
+            ImageCircle(urlImage: image, radius: 60.r),
+            if (isOpen != null && isOpen!)
+              Positioned(
+                bottom: 5,
+                right: 5,
+                child: Container(
+                  padding: AppPadding.all8,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
+                ),
+              ),
+          ],
+        ),
         12.hBox,
         Text(name ?? AppStrings.nameNotFound,
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall
                 ?.copyWith(fontWeight: FontWeight.bold)),
-        Text("$specialty - $university" ?? "",
+        Text("$specialty - $university",
             style: Theme.of(context)
                 .textTheme
                 .titleMedium

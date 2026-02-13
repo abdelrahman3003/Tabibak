@@ -156,4 +156,6 @@ class AppStrings {
   static String get availableDoctors => "Available Doctors".tr();
   static String get highestRated => "Highest Rated".tr();
   static String get doctors => "Doctors".tr();
+  static String get openNow => "Open Now".tr();
+  static String get closed => "Closed".tr();
 }

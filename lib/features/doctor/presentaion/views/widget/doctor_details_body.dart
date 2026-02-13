@@ -37,6 +37,7 @@ class DoctorDetailsBody extends StatelessWidget {
                   : doctorModel.specialty?.nameEn,
               university: doctorModel.education?.university,
               rate: 1,
+              isOpen: doctorModel.clinic?.isOpen ?? false,
             ),
           ),
           20.hBox,
