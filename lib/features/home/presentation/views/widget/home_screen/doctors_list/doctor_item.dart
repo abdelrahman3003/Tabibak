@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/naviagrion.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
+import 'package:tabibak/features/doctor/presentaion/views/widget/booking_dialog_injury.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class DoctorItem extends StatelessWidget {
@@ -31,23 +34,7 @@ class DoctorItem extends StatelessWidget {
       borderRadius: 8.radius,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          border: Border.all(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.white.withValues(alpha: 0.1)
-                : Colors.grey.withValues(alpha: 0.1),
-          ),
-          borderRadius: AppRadius.radius20,
-          boxShadow: [
-            if (Theme.of(context).brightness == Brightness.light)
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 2),
-              ),
-          ],
-        ),
+        decoration: _decoration(context),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -57,6 +44,26 @@ class DoctorItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  BoxDecoration _decoration(BuildContext context) {
+    return BoxDecoration(
+      color: Theme.of(context).cardColor,
+      border: Border.all(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? Colors.white.withValues(alpha: 0.1)
+            : Colors.grey.withValues(alpha: 0.1),
+      ),
+      borderRadius: AppRadius.radius20,
+      boxShadow: [
+        if (Theme.of(context).brightness == Brightness.light)
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+      ],
     );
   }
 
@@ -158,7 +165,20 @@ class DoctorItem extends StatelessWidget {
         if (isShow)
           AppButton(
             title: AppStrings.bookNow,
-            onPressed: () {},
+            onPressed: () {
+              final isBooked = doctorSummary.clinic!.isBooking;
+              if (isBooked != null && isBooked) {
+                context.pushNamed(Routes.appointmentBookingScreen,
+                    arguments: doctorSummary);
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) => BookingDialogInjury(
+                    isBooked: isBooked!,
+                  ),
+                );
+              }
+            },
             padding: const EdgeInsets.symmetric(horizontal: 14),
             fontSize: 12.sp,
           ),
