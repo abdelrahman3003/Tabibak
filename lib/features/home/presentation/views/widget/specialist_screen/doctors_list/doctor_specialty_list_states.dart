@@ -21,8 +21,7 @@ class DoctorSpecialtyListStates extends StatelessWidget {
         child: isLoading || doctorsSpecialtyList == null
             ? DoctorSpecialtiesListShimmer()
             : doctorsSpecialtyList.isNotEmpty
-                ? DoctorSpecialtyListView(
-                    doctorsSummaryList: doctorsSpecialtyList)
+                ? DoctorSpecialtyListView(doctorList: doctorsSpecialtyList)
                 : Center(child: EmptyWidget()),
       );
     });

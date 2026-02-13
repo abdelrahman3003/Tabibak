@@ -127,9 +127,8 @@ class DoctorItem extends StatelessWidget {
     return Row(
       children: [
         const Icon(Icons.star, color: Color(0xffEAB308), size: 12),
-        const SizedBox(width: 3),
         Text(
-          "4.8",
+          doctorSummary.avrRating.toString(),
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: const Color(0xffEAB308),
@@ -137,7 +136,7 @@ class DoctorItem extends StatelessWidget {
         ),
         const SizedBox(width: 3),
         Text(
-          "(120 تقييم)",
+          "(${doctorSummary.ratingsCount.toString()} ${doctorSummary.ratingsCount == 1 ? AppStrings.rating : AppStrings.ratings})",
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.subtextColor,
