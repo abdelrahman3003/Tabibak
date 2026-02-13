@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';

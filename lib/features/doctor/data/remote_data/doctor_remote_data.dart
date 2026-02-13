@@ -32,11 +32,11 @@ class DoctorRemoteData {
     return commentList;
   }
 
-  Future<void> addRate({required double rate, required int doctorId}) async {
+  Future<void> addRate({required double rate, required String doctorId}) async {
     await supabase.client.from('ratings').insert({
       'doctor_id': doctorId,
       'user_id': supabase.client.auth.currentUser!.id,
-      'rating': rate,
+      'rate': rate.toInt(),
     });
   }
 }

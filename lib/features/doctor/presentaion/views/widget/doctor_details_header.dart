@@ -6,31 +6,24 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/ratings_row.dart';
 import 'package:tabibak/features/doctor/presentaion/views/widget/show_rating_dialog.dart';
+import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
 class DoctorDetailsHeader extends StatelessWidget {
-  const DoctorDetailsHeader(
-      {super.key,
-      required this.name,
-      this.image,
-      this.specialty,
-      this.university,
-      this.rate,
-      this.isOpen});
-  final String? image;
-  final String? name;
-  final String? specialty;
-  final String? university;
-  final double? rate;
-  final bool? isOpen;
+  const DoctorDetailsHeader({
+    super.key,
+    required this.doctor,
+  });
+  final DoctorModel doctor;
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context).languageCode;
     return Column(
       children: [
         Stack(
           children: [
-            ImageCircle(urlImage: image, radius: 60.r),
-            if (isOpen != null && isOpen!)
+            ImageCircle(urlImage: doctor.image, radius: 60.r),
+            if (doctor.clinic?.isOpen != null && doctor.clinic!.isOpen!)
               Positioned(
                 bottom: 5,
                 right: 5,
@@ -46,18 +39,22 @@ class DoctorDetailsHeader extends StatelessWidget {
           ],
         ),
         12.hBox,
-        Text(name ?? AppStrings.nameNotFound,
+        Text(doctor.name ?? AppStrings.nameNotFound,
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall
                 ?.copyWith(fontWeight: FontWeight.bold)),
-        Text("$specialty - $university",
+        Text(
+            "${locale == 'ar' ? doctor.specialty?.nameAr : doctor.specialty?.nameEn ?? ""} - ${doctor.education?.university ?? ""}",
             style: Theme.of(context)
                 .textTheme
                 .titleMedium
                 ?.copyWith(color: AppColors.subtextColor)),
         4.hBox,
-        RatingsRow(rate: rate),
+        RatingsRow(
+          rate: doctor.avrRating,
+          ratingCount: doctor.ratingsCount,
+        ),
         4.hBox,
         TextButton.icon(
           onPressed: () => showRatingDialog(context),

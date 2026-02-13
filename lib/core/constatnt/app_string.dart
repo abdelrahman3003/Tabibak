@@ -68,6 +68,8 @@ class AppStrings {
   static String get nameNotFound => "Name Not Found".tr();
   static String get specialtyNotAvailable => "Specialty Not Available".tr();
   static String get rateDoctor => "Rate Doctor".tr();
+  static String get ratings => "Ratings".tr();
+  static String get rating => "Rating".tr();
   static String get consultationPrice => "Consultation Price".tr();
   static String get currency => "Currency".tr();
   static String get address => "Address".tr();

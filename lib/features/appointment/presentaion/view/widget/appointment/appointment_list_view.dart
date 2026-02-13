@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';

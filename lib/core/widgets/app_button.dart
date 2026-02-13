@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/theme/appTextStyles.dart';
 
 import '../theme/app_colors.dart';
 
@@ -36,32 +35,31 @@ class AppButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: borderRadius ?? BorderRadius.circular(5.r),
         ),
-        padding: padding ?? const EdgeInsets.symmetric(vertical: 16),
+        padding: padding ?? EdgeInsets.symmetric(vertical: 16.h),
         backgroundColor: isDisabled
             ? Theme.of(context).colorScheme.secondary
             : (color ?? AppColors.primary),
       ),
       onPressed: isDisabled ? null : onPressed,
-      child: isLoadingSide && isLoading
+      child: isLoading
           ? Center(
               child: SizedBox(
-                height: 15.h,
-                width: 14.w,
+                height: 16.h,
+                width: 16.w,
                 child: const CircularProgressIndicator(
                   color: Colors.white,
+                  strokeWidth: 3,
                 ),
               ),
             )
           : Stack(
               children: [
                 Center(
-                  child: Text(
-                    title,
-                    style: Apptextstyles.font16Blackebold.copyWith(
-                        color: textColor ?? Colors.white, fontSize: fontSize),
-                  ),
+                  child: Text(title,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold, color: AppColors.white)),
                 ),
-                if (isLoading && !isLoadingSide)
+                if (isLoadingSide)
                   Positioned(
                     right: 1,
                     child: Padding(

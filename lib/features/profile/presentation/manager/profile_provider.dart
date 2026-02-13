@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';

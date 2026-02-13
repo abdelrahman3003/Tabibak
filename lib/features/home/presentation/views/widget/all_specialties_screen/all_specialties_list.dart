@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/home/presentation/manager/all_specialteis_provider/all_specialties_provider.dart';
 import 'package:tabibak/features/home/presentation/manager/specialty_doctors_provider/doctors_specialty_provider.dart';

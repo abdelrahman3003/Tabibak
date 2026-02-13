@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
@@ -29,16 +29,7 @@ class DoctorDetailsBody extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.center,
-            child: DoctorDetailsHeader(
-              name: doctorModel.name,
-              image: doctorModel.image,
-              specialty: context.locale.languageCode == 'ar'
-                  ? doctorModel.specialty?.nameAr
-                  : doctorModel.specialty?.nameEn,
-              university: doctorModel.education?.university,
-              rate: 1,
-              isOpen: doctorModel.clinic?.isOpen ?? false,
-            ),
+            child: DoctorDetailsHeader(doctor: doctorModel),
           ),
           20.hBox,
           TitleText(title: AppStrings.aboutDoctor),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/doctor/data/remote_data/doctor_remote_data.dart';
@@ -30,6 +32,20 @@ class DoctorRepoImpl implements DoctorRepo {
 
       return ApiResult.sucess(result);
     } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> addRate(
+      {required double rate, required String doctorId}) async {
+    try {
+      final result =
+          await doctorRemoteData.addRate(rate: rate, doctorId: doctorId);
+
+      return ApiResult.sucess(result);
+    } catch (error) {
+      log("--------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

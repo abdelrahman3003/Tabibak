@@ -3,7 +3,6 @@ import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class DoctorStates {
   final bool isLoading;
-
   final DoctorModel? doctorModel;
   final String? errorMessage;
   DoctorStates({
@@ -16,6 +15,7 @@ class DoctorStates {
     final DoctorModel? doctorModel,
     final String? errorMessage,
     final bool? isLoading,
+    final bool? isSendRateLoading,
   }) {
     return DoctorStates(
       isLoading: isLoading ?? false,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';

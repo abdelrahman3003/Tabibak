@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';

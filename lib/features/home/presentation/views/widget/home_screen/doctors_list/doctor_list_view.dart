@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/extenstion/naviagrion.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/doctor/presentaion/manager/doctor/doctor_provider.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
