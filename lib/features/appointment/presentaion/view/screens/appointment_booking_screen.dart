@@ -61,7 +61,7 @@ class _AppointmentBookingScreenState
                 TitleTextField(text: AppStrings.enterFullName),
                 10.hBox,
                 AppTextFormFiled(
-                  hint: 'أدخل اسمك الكامل',
+                  hint: AppStrings.enterFullName,
                   controller: patientNameController,
                   validator: (value) => Validation.validateName(value),
                   prefixIcon: Icon(Icons.person_3_outlined),

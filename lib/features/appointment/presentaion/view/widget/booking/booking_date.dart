@@ -35,7 +35,7 @@ class _BookingDateState extends ConsumerState<BookingDate> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2030),
     );
 
