@@ -70,9 +70,12 @@ class HomeRepoImp extends HomeRepo {
   Future<ApiResult<List<DoctorModel>>> searchDoctor(String search,
       {int? specialtyId}) async {
     try {
-      final result = await homeRemoteData.searchDoctor(search);
+      final result =
+          await homeRemoteData.searchDoctor(search, specialtyId: specialtyId);
       return ApiResult.sucess(result);
     } catch (error) {
+      log("------$error");
+
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -85,9 +88,9 @@ class HomeRepoImp extends HomeRepo {
     try {
       final result = await homeRemoteData.getSpecialtyDoctors(
           sortBy: sortBy, specialtyId: specialtyId);
+
       return ApiResult.sucess(result);
     } catch (error) {
-      log("-------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

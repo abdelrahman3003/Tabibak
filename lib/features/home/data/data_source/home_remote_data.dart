@@ -74,7 +74,7 @@ class HomeRemoteData {
     var query = supabase.from('doctors').select('*, specialty(*)');
 
     if (specialtyId != null) {
-      query = query.eq('specialty_id', specialtyId);
+      query = query.eq('specialty', specialtyId);
     }
 
     if (search.isNotEmpty) {
