@@ -158,6 +158,7 @@ class DoctorItem extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
                 ),
+            maxLines: 1,
           ),
         ),
         const SizedBox(width: 40),

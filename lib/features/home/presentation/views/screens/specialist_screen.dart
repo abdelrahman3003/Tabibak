@@ -27,9 +27,9 @@ class SpecialistScreen extends ConsumerWidget {
               SearchBarWidget(
                 controller: TextEditingController(),
                 onChanged: (text) {
-                  ref
-                      .read(doctorsSpecialtyProvider.notifier)
-                      .searchSpecialtyDoctors(text);
+                  // ref
+                  //     .read(doctorsSpecialtyProvider.notifier)
+                  //     .searchSpecialtyDoctors(text);
                 },
               ),
               20.hBox,

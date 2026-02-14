@@ -28,19 +28,29 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
     );
   }
 
-  void searchSpecialtyDoctors(String search) async {
+  void sortDoctorsByRating({bool ascending = false}) {
     state = state.copyWith(isLoading: true);
 
-    final result = await ref
-        .read(homeRepoProvider)
-        .searchDoctor(search, specialtyId: ref.read(specialtyProvider)!.id);
-    result.when(
-      sucess: (specialtyDoctors) async {
-        state = state.copyWith(specialtyDoctors: specialtyDoctors);
-      },
-      failure: (apiErrorModel) {
-        state = state.copyWith(errorMessage: apiErrorModel.message);
-      },
-    );
+    state.specialtyDoctors?.sort((a, b) {
+      int aRating = a.avrRating?.toInt() ?? 0;
+      int bRating = b.avrRating?.toInt() ?? 0;
+
+      return ascending
+          ? aRating.compareTo(bRating)
+          : bRating.compareTo(aRating);
+    });
+    state = state.copyWith(isLoading: false);
+  }
+
+  void sortDoctorsByFee({bool ascending = true}) {
+    state = state.copyWith(isLoading: true);
+
+    state.specialtyDoctors?.sort((a, b) {
+      double aFee = (a.clinic?.consultationFee ?? double.infinity).toDouble();
+      double bFee = (b.clinic?.consultationFee ?? double.infinity).toDouble();
+
+      return ascending ? aFee.compareTo(bFee) : bFee.compareTo(aFee);
+    });
+    state = state.copyWith(isLoading: false);
   }
 }

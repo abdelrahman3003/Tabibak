@@ -62,7 +62,6 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: TitleText(
                 title: AppStrings.recommendationDoctor.tr(),
-                subtitle: AppStrings.more,
               ),
             ),
           ),

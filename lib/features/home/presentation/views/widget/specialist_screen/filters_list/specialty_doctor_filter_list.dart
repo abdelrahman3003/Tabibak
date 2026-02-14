@@ -14,9 +14,11 @@ class SpecialtyDoctorFilterList extends ConsumerWidget {
         child: FilterList(
           filters: [AppStrings.highestRated, AppStrings.lowestPrice],
           onFilterSelected: (index) {
-            ref.read(doctorsSpecialtyProvider.notifier).getSpecialtiesDoctors(
-                  sortBy: index == 0 ? "avg_rating" : "consultation_fee",
-                );
+            if (index == 0) {
+              ref.read(doctorsSpecialtyProvider.notifier).sortDoctorsByRating();
+            } else {
+              ref.read(doctorsSpecialtyProvider.notifier).sortDoctorsByFee();
+            }
           },
         ));
   }
