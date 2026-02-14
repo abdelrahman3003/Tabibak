@@ -46,15 +46,23 @@ class HomeRemoteData {
     bool ascending = false,
   }) async {
     final response = await supabase.rpc(
-      'get_doctors_filtered_by_specialty',
+      'get_filtered_sorted_doctor_ids',
       params: {
-        'spec_id': specialtyId,
+        'spec_id': 6,
         'sort_by': sortBy,
-        'ascending': ascending,
+        'ascending': false,
       },
     );
 
-    return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
+    final doctorIds = (response as List).map((e) => e['doctor_id']).toList();
+    if (doctorIds.isEmpty) return [];
+
+    final doctors = await supabase
+        .from('doctors')
+        .select(ApiConstants.getDoctors)
+        .inFilter('doctor_id', doctorIds);
+
+    return (doctors as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
 
   Future<List<DoctorModel>> searchDoctor(String search,

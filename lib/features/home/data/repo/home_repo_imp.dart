@@ -87,6 +87,7 @@ class HomeRepoImp extends HomeRepo {
           sortBy: sortBy, specialtyId: specialtyId);
       return ApiResult.sucess(result);
     } catch (error) {
+      log("-------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
