@@ -153,7 +153,7 @@ class DoctorItem extends StatelessWidget {
           child: Text(
             doctorSummary.clinic?.consultationFee == null
                 ? AppStrings.consultationPriceNotSet
-                : "${doctorSummary.clinic!.consultationFee} جنيه",
+                : "${doctorSummary.clinic!.consultationFee} ${AppStrings.egp}",
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: AppColors.primary,
