@@ -141,7 +141,7 @@ class AppointmentCardItem extends StatelessWidget {
   Color _getColor(int index) {
     switch (index) {
       case 2:
-        return AppColors.lightGreen;
+        return AppColors.green;
       case 3:
         return AppColors.red;
       default:

@@ -13,7 +13,7 @@ class AppointmentListView extends StatelessWidget {
     return ListView.separated(
       padding: EdgeInsets.zero,
       itemCount: appointmentList.length,
-      separatorBuilder: (context, index) => 16.hBox,
+      separatorBuilder: (context, index) => 5.hBox,
       itemBuilder: (context, index) {
         return AppointmentCardItem(
           appointment: appointmentList[index],
