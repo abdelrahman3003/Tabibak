@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
+import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
@@ -178,13 +180,28 @@ class _SignupViewState extends ConsumerState<SignupView>
     return SlideTransition(
         position: signupAnimation,
         child: AppButton(
+          fontSize: 18.sp,
           title: isLoading
               ? "${AppStrings.creatingAccount}..."
               : AppStrings.signOut,
           isLoading: isLoading,
           onPressed: () {
             if (!isLoading && signUpFormKey.currentState!.validate()) {
-              ref.read(authControllerProvider.notifier).singUp(context);
+              context.pushNamed(Routes.oTPVerificationScreen,
+                  arguments: UserModel(
+                    name: ref
+                        .read(authControllerProvider.notifier)
+                        .nameController
+                        .text,
+                    email: ref
+                        .read(authControllerProvider.notifier)
+                        .emailController
+                        .text,
+                    password: ref
+                        .read(authControllerProvider.notifier)
+                        .passwordController
+                        .text,
+                  ));
             }
           },
         ));

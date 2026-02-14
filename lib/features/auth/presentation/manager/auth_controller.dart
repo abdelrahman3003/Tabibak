@@ -4,6 +4,7 @@ import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';
+import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/data/repo/auth_repo.dart';
 import 'package:tabibak/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
@@ -95,10 +96,11 @@ class AuthController extends StateNotifier<AuthStates> {
       final currentRoute = ModalRoute.of(context)?.settings.name;
 
       if (currentRoute != Routes.oTPVerificationScreen) {
-        context.pushNamed(
-          Routes.oTPVerificationScreen,
-          arguments: emailController.text,
-        );
+        context.pushNamed(Routes.oTPVerificationScreen,
+            arguments: UserModel(
+                name: nameController.text,
+                email: emailController.text,
+                password: passwordController.text));
       }
       state = SendOtpSuccess();
     }, failure: (error) {
@@ -108,14 +110,20 @@ class AuthController extends StateNotifier<AuthStates> {
     });
   }
 
-  Future<void> verifyOtpCode(BuildContext context) async {
+  Future<void> verifyOtpCode(BuildContext context,
+      {bool isSignUp = false}) async {
     state = VerifyOtpLoading();
     final result = await ref.read(authRepositoryProvider).verifyOtpCode(
           email: emailController.text,
           token: otpController.text,
         );
     result.when(sucess: (_) async {
-      context.pushNamed(Routes.resetPasswordView);
+      if (isSignUp) {
+        context.pop();
+        singUp(context);
+      } else {
+        context.pushNamed(Routes.resetPasswordView);
+      }
       state = VerifyOtpSuccess();
     }, failure: (error) {
       state = VerifyOtpFailure();

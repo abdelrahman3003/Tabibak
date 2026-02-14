@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
+import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/otp_widget.dart';
@@ -25,6 +27,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
   @override
   void initState() {
     super.initState();
+    ref.read(authControllerProvider.notifier).sendOtp(context);
     _startTimer();
   }
 
@@ -49,7 +52,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(authControllerProvider);
-    String email = ModalRoute.of(context)!.settings.arguments as String;
+    final userModel = ModalRoute.of(context)!.settings.arguments as UserModel?;
     return Scaffold(
       appBar: AppBarWidget(title: AppStrings.confirmCode),
       body: Padding(
@@ -57,7 +60,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            titeTextStates(state, email),
+            titeTextStates(state, userModel?.email ?? ""),
             20.hBox,
             OtpWidget(
                 controller:
@@ -66,7 +69,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
                     .read(authControllerProvider.notifier)
                     .verifyOtpCode(context)),
             20.hBox,
-            verifyOtpButtonStates(email, state),
+            verifyOtpButtonStates(userModel?.email ?? "", state),
             20.hBox,
             timerTextStates(context, state),
           ],
@@ -101,6 +104,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
   verifyOtpButtonStates(String email, AuthStates state) {
     bool isLoading = state is VerifyOtpLoading;
     return AppButton(
+      fontSize: 18.sp,
       title: isLoading ? "${AppStrings.sendingCode}..." : AppStrings.confirm,
       isLoading: isLoading,
       onPressed: () {

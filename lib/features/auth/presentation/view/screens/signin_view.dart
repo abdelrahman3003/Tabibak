@@ -161,7 +161,7 @@ class _SigninViewState extends ConsumerState<SigninView>
             ),
           ),
           const SizedBox(height: 30),
-          loginbuttonStates(),
+          loginButtonStates(),
           20.hBox,
           signinWuthGoogleButton(context),
           const SizedBox(height: 60),
@@ -222,12 +222,13 @@ class _SigninViewState extends ConsumerState<SigninView>
     );
   }
 
-  SlideTransition loginbuttonStates() {
+  SlideTransition loginButtonStates() {
     final loginState = ref.watch(authControllerProvider);
     bool isLoading = loginState is LoginLoading;
     return SlideTransition(
         position: signinAnimation,
         child: AppButton(
+          fontSize: 18.sp,
           title: isLoading ? "${AppStrings.loggingIn}.." : AppStrings.login,
           isLoading: isLoading,
           onPressed: () {
