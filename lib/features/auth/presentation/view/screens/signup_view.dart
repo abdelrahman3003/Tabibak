@@ -8,7 +8,7 @@ import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/password_textfiled.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/password_text_filed.dart';
 
 class SignupView extends ConsumerStatefulWidget {
   const SignupView({super.key});
@@ -27,7 +27,7 @@ late Animation<Offset> passwordAnimation;
 
 late AnimationController signupAnimationController;
 late Animation<Offset> signupAnimation;
-final signupformKey = GlobalKey<FormState>();
+final signUpFormKey = GlobalKey<FormState>();
 
 class _SignupViewState extends ConsumerState<SignupView>
     with TickerProviderStateMixin {
@@ -39,7 +39,7 @@ class _SignupViewState extends ConsumerState<SignupView>
       duration: const Duration(milliseconds: 400),
     );
     nameAnimation = Tween<Offset>(
-      begin: const Offset(1, 0), // من اليمين
+      begin: const Offset(1, 0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
         parent: nameAnimationController, curve: Curves.easeOut));
@@ -48,7 +48,7 @@ class _SignupViewState extends ConsumerState<SignupView>
       duration: const Duration(milliseconds: 400),
     );
     emailAnimation = Tween<Offset>(
-      begin: const Offset(1, 0), // من اليمين
+      begin: const Offset(1, 0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
         parent: emailAnimationController, curve: Curves.easeOut));
@@ -112,7 +112,7 @@ class _SignupViewState extends ConsumerState<SignupView>
 
   signupBody(BuildContext context) {
     return Form(
-      key: signupformKey,
+      key: signUpFormKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -147,7 +147,7 @@ class _SignupViewState extends ConsumerState<SignupView>
           const SizedBox(height: 15),
           SlideTransition(
               position: passwordAnimation,
-              child: PasswordTextfiled(
+              child: PasswordTextFiled(
                 controller: ref
                     .read(authControllerProvider.notifier)
                     .passwordController,
@@ -162,7 +162,7 @@ class _SignupViewState extends ConsumerState<SignupView>
               title: AppStrings.alreadyHaveAccount,
               subtitle: AppStrings.login,
               onTap: () {
-                ref.read(authControllerProvider.notifier).cleartextformData();
+                ref.read(authControllerProvider.notifier).clearTextFormData();
                 context.pop();
                 context.pushNamed(Routes.singinView);
               })
@@ -183,7 +183,7 @@ class _SignupViewState extends ConsumerState<SignupView>
               : AppStrings.signOut,
           isLoading: isLoading,
           onPressed: () {
-            if (!isLoading && signupformKey.currentState!.validate()) {
+            if (!isLoading && signUpFormKey.currentState!.validate()) {
               ref.read(authControllerProvider.notifier).singUp(context);
             }
           },

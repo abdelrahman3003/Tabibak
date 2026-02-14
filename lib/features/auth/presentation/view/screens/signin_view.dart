@@ -13,7 +13,7 @@ import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/password_textfiled.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/password_text_filed.dart';
 import 'package:tabibak/gen/assets.gen.dart';
 
 class SigninView extends ConsumerStatefulWidget {
@@ -138,7 +138,7 @@ class _SigninViewState extends ConsumerState<SigninView>
           const SizedBox(height: 30),
           SlideTransition(
             position: passwordAnimation,
-            child: PasswordTextfiled(
+            child: PasswordTextFiled(
               validator: (value) {
                 return Validation.validatePassord(value);
               },
@@ -171,7 +171,7 @@ class _SigninViewState extends ConsumerState<SigninView>
             onTap: () {
               context.pop();
               context.pushNamed(Routes.singupView);
-              ref.read(authControllerProvider.notifier).cleartextformData();
+              ref.read(authControllerProvider.notifier).clearTextFormData();
             },
           )
         ],

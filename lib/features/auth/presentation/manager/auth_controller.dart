@@ -38,7 +38,7 @@ class AuthController extends StateNotifier<AuthStates> {
     result.when(sucess: (_) async {
       context.pop();
       context.pushNamed(Routes.singinView);
-      cleartextformData();
+      clearTextFormData();
       state = SignUpSuccess();
     }, failure: (error) {
       state = SignUpSuccess();
@@ -57,7 +57,7 @@ class AuthController extends StateNotifier<AuthStates> {
       context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
       await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
 
-      cleartextformData();
+      clearTextFormData();
       state = LoginSuccess();
     }, failure: (error) {
       state = LoginFailure();
@@ -77,7 +77,7 @@ class AuthController extends StateNotifier<AuthStates> {
       );
       await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
 
-      cleartextformData();
+      clearTextFormData();
       state = LoginWithGoogleSuccess();
     }, failure: (error) {
       state = LoginFailure();
@@ -125,35 +125,21 @@ class AuthController extends StateNotifier<AuthStates> {
   }
 
   Future<void> resetPassword(BuildContext context) async {
-    state = ResetPassordLoading();
+    state = ResetPasswordLoading();
     final result = await ref.read(authRepositoryProvider).resetPassword(
           newPassword: newPasswordController.text,
         );
     result.when(sucess: (_) async {
       context.pushNamed(Routes.resetPasswordSucessView);
-      state = ResetPassordSuccess();
+      state = ResetPasswordSuccess();
     }, failure: (error) {
-      state = ResetPassordFailure();
+      state = ResetPasswordFailure();
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error.message.toString())));
     });
   }
 
-  // Future<void> addUserData() async {
-  //   final currentUserId = Supabase.instance.client.auth.currentUser!.id;
-  //   state = AddUserDataLoading();
-  //   final result = await ref.read(authRepositoryProvider).addUserData(UserModel(
-  //       userId: currentUserId,
-  //       name: nameController.text,
-  //       email: emailController.text));
-  //   result.when(sucess: (_) async {
-  //     state = AddUserDataSuceess();
-  //   }, failure: (error) {
-  //     state = AddUserDataFailure();
-  //   });
-  // }
-
-  void cleartextformData() {
+  void clearTextFormData() {
     nameController.clear();
     emailController.clear();
     passwordController.clear();

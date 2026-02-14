@@ -28,14 +28,14 @@ class VerifyOtpLoading extends AuthStates {}
 
 class VerifyOtpSuccess extends AuthStates {}
 
-class ResetPassordFailure extends AuthStates {}
+class ResetPasswordFailure extends AuthStates {}
 
-class ResetPassordLoading extends AuthStates {}
+class ResetPasswordLoading extends AuthStates {}
 
-class ResetPassordSuccess extends AuthStates {}
+class ResetPasswordSuccess extends AuthStates {}
 
 class AddUserDataLoading extends AuthStates {}
 
-class AddUserDataSuceess extends AuthStates {}
+class AddUserDataSuccess extends AuthStates {}
 
 class AddUserDataFailure extends AuthStates {}

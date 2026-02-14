@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/core/widgets/app_button.dart';
 
 class AlertWidget extends StatelessWidget {
   const AlertWidget(
@@ -25,34 +27,44 @@ class AlertWidget extends StatelessWidget {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       title: Text(title, style: Theme.of(context).textTheme.titleLarge),
-      content: Text(title, style: Theme.of(context).textTheme.titleMedium),
+      content: Text(subtitle, style: Theme.of(context).textTheme.titleMedium),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(AppStrings.cancel),
         ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: confirmColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          onPressed: onPressed,
-          child: SizedBox(
-            height: 25.h,
-            width: 25.w,
-            child: FittedBox(
-                child: isLoading
-                    ? Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: CircularProgressIndicator(
-                          color: AppColors.white,
-                        ),
-                      )
-                    : Text(confirmString)),
+        SizedBox(
+          width: 70.h,
+          child: AppButton(
+            padding: AppPadding.all8,
+            title: confirmString,
+            isLoading: isLoading,
+            onPressed: onPressed,
+            color: AppColors.red,
           ),
         ),
+        // ElevatedButton(
+        //   style: ElevatedButton.styleFrom(
+        //     backgroundColor: confirmColor,
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(12),
+        //     ),
+        //   ),
+        //   onPressed: onPressed,
+        //   child: SizedBox(
+        //     height: 25.h,
+        //     width: 25.w,
+        //     child: FittedBox(
+        //         child: isLoading
+        //             ? Padding(
+        //                 padding: const EdgeInsets.all(5),
+        //                 child: CircularProgressIndicator(
+        //                   color: AppColors.white,
+        //                 ),
+        //               )
+        //             : Text(confirmString)),
+        //   ),
+        // ),
       ],
     );
   }

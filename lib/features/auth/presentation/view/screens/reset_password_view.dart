@@ -4,10 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/validation.dart';
-import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/password_textfiled.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/password_text_filed.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/reset_password_button_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class ResetPasswordView extends ConsumerWidget {
@@ -35,13 +34,13 @@ class ResetPasswordView extends ConsumerWidget {
                     .copyWith(fontSize: 20.sp),
               ),
               20.hBox,
-              PasswordTextfiled(
+              PasswordTextFiled(
                 controller: provider.newPasswordController,
                 hint: AppStrings.newPassword,
                 validator: (value) => Validation.validatePassord(value),
               ),
               20.hBox,
-              PasswordTextfiled(
+              PasswordTextFiled(
                   controller: provider.confirmNewPasswordController,
                   hint: AppStrings.confirmNewPassword,
                   validator: (value) {
@@ -52,33 +51,11 @@ class ResetPasswordView extends ConsumerWidget {
                     return null;
                   }),
               30.hBox,
-              resetPassowrdButtonStates(context),
+              ResetPasswordButtonStates(),
             ],
           ),
         ),
       ),
     );
-  }
-
-  resetPassowrdButtonStates(BuildContext context) {
-    return Consumer(builder: (context, ref, _) {
-      final state = ref.watch(authControllerProvider);
-      bool isLoading = state is ResetPassordLoading;
-      return AppButton(
-        title:
-            isLoading ? "${AppStrings.changing}..." : AppStrings.savePassword,
-        isLoading: isLoading,
-        onPressed: () {
-          if (!isLoading &&
-              ref
-                  .read(authControllerProvider.notifier)
-                  .resetPasswordKeyForm
-                  .currentState!
-                  .validate()) {
-            ref.read(authControllerProvider.notifier).resetPassword(context);
-          }
-        },
-      );
-    });
   }
 }

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 
-class PasswordTextfiled extends StatefulWidget {
-  const PasswordTextfiled(
+class PasswordTextFiled extends StatefulWidget {
+  const PasswordTextFiled(
       {super.key, this.controller, this.validator, this.errorText, this.hint});
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final String? errorText;
   final String? hint;
   @override
-  State<PasswordTextfiled> createState() => _PasswordTextfiledState();
+  State<PasswordTextFiled> createState() => _PasswordTextFiledState();
 }
 
 bool isPassword = true;
 
-class _PasswordTextfiledState extends State<PasswordTextfiled> {
+class _PasswordTextFiledState extends State<PasswordTextFiled> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -37,27 +37,5 @@ class _PasswordTextfiledState extends State<PasswordTextfiled> {
       obscureText: isPassword,
       validator: widget.validator,
     );
-
-    // AppTextFormFiled(
-    //   hint: widget.hint ?? AppStrings.password,
-    //   prefixIcon: Icon(
-    //     Icons.password_rounded,
-    //   ),
-    //   obscureText: isPassword,
-    //   controller: widget.controller,
-    //   validator: widget.validator,
-    //   errorText: widget.errorText,
-    //   suffixIcon: IconButton(
-    //       onPressed: () {
-    //         isPassword = !isPassword;
-    //         setState(() {});
-    //       },
-    //       icon: Icon(
-    //           isPassword
-    //               ? Icons.visibility_off_outlined
-    //               : Icons.visibility_outlined,
-    //           size: 24),
-    //       color: Colors.grey),
-    // );
   }
 }
