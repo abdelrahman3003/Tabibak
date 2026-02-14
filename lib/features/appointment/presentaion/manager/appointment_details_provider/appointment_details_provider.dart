@@ -21,11 +21,24 @@ class AppointmentDetailsProvider
   final Ref ref;
   final AppointmentsRepos appointmentsRepos;
   deleteAppointment(int appointmentId) async {
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isDeleting: true);
     final result = await appointmentsRepos.deleteAppointment(appointmentId);
     result.when(
       sucess: (data) {
         state = state.copyWith(isDeleted: true);
+      },
+      failure: (apiErrorModel) {
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
+      },
+    );
+  }
+
+  getAppointmentsQueue(int appointmentId) async {
+    state = state.copyWith(isLoading: true);
+    final result = await appointmentsRepos.getAppointmentsQueue(appointmentId);
+    result.when(
+      sucess: (queue) {
+        state = state.copyWith(appointmentQueue: queue);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);

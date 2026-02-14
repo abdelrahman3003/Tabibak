@@ -160,4 +160,5 @@ class AppStrings {
   static String get doctors => "Doctors".tr();
   static String get openNow => "Open Now".tr();
   static String get closed => "Closed".tr();
+  static String get queuePosition => "Queue Position".tr();
 }

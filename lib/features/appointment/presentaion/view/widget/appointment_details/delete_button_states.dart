@@ -47,7 +47,7 @@ class DeleteButtonStates extends StatelessWidget {
                     }
                     return AlertWidget(
                       context: context,
-                      isLoading: state.isLoading,
+                      isLoading: state.isDeleting,
                       title: AppStrings.deleteConfirmation,
                       subtitle: AppStrings.deleteMessage,
                       confirmString: AppStrings.delete,

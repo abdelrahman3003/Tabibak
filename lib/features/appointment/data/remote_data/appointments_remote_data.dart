@@ -36,4 +36,14 @@ class AppointmentsRemoteData {
   Future<void> deleteAppointment(int appointmentId) async {
     await supabase.client.from('appointments').delete().eq("id", appointmentId);
   }
+
+  Future<int?> getAppointmentQueueById(int appointmentId) async {
+    final response = await supabase.client.rpc(
+      'get_appointment_queue_by_id',
+      params: {
+        'p_appointment_id': appointmentId,
+      },
+    ).single();
+    return response.values.first as int?;
+  }
 }

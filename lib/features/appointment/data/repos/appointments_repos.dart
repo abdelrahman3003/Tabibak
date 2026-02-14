@@ -8,4 +8,6 @@ abstract class AppointmentsRepos {
       {required String dayEn, required int clinicId});
   Future<ApiResult<List<AppointmentModel>>> getAppointments();
   Future<ApiResult<void>> deleteAppointment(int appointmentId);
+
+  Future<ApiResult<int?>> getAppointmentsQueue(int appointmentId);
 }
