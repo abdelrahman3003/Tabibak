@@ -34,10 +34,11 @@ class DoctorDetailsBody extends StatelessWidget {
           20.hBox,
           TitleText(title: AppStrings.aboutDoctor),
           10.hBox,
-          BioText(
-            text: doctorModel.bio ??
-                "${AppStrings.specialty} ${context.locale.languageCode == 'ar' ? doctorModel.specialty?.nameAr : doctorModel.specialty?.nameEn}",
-          ),
+          if (doctorModel.bioAr != null || doctorModel.bioEn != null)
+            BioText(
+                text: context.locale.languageCode == 'ar'
+                    ? doctorModel.bioAr ?? ""
+                    : doctorModel.bioEn ?? ""),
           40.hBox,
           ClinicInfoSection(clinic: doctorModel.clinic),
           40.hBox,

@@ -17,7 +17,10 @@ class DoctorModel {
   final double? avrRating;
   @JsonKey(name: 'ratings_count')
   final int? ratingsCount;
-  final String? bio;
+  @JsonKey(name: 'bio_ar')
+  final String? bioAr;
+  @JsonKey(name: 'bio_en')
+  final String? bioEn;
   final String? phone;
   final String? email;
   @JsonKey(name: 'specialties')
@@ -31,7 +34,8 @@ class DoctorModel {
     required this.doctorId,
     this.name,
     this.image,
-    this.bio,
+    this.bioAr,
+    this.bioEn,
     this.avrRating,
     this.ratingsCount,
     this.specialty,
