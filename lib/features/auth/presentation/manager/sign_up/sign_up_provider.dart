@@ -12,7 +12,7 @@ class SignUpProvider extends StateNotifier<SignUpStates> {
   SignUpProvider(super.state, this.ref, this.authRepo);
   final Ref ref;
   final AuthRepository authRepo;
-  Future<void> signIn(
+  Future<void> signUp(
       {required String name,
       required String email,
       required String password}) async {

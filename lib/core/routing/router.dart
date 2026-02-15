@@ -28,12 +28,12 @@ class AppRouter {
       case Routes.singUpScreen:
         return _buildSlideRoute(SignupView());
       case Routes.forgetPasswordScreen:
-        return _buildSlideRoute(ForgetPasswordScreen());
+        return _buildSlideRoute(ForgetPasswordScreen(), settings: setting);
       case Routes.oTPVerificationScreen:
-        return _buildSlideRoute(OtpVerificationScreen());
+        return _buildSlideRoute(OtpVerificationScreen(), settings: setting);
 
       case Routes.resetPasswordScreen:
-        return _buildSlideRoute(const ResetPasswordScreen());
+        return _buildSlideRoute(const ResetPasswordScreen(), settings: setting);
       case Routes.layoutScreen:
         return _buildSlideRoute(const LayoutScreen());
       case Routes.specialistScreen:
@@ -70,9 +70,10 @@ class AppRouter {
     }
   }
 
-  static PageRoute _buildSlideRoute(Widget page) {
+  static PageRoute _buildSlideRoute(Widget page, {RouteSettings? settings}) {
     return PageRouteBuilder(
       pageBuilder: (_, __, ___) => page,
+      settings: settings,
       transitionsBuilder: (_, animation, __, child) {
         const begin = Offset(1, 0);
         const end = Offset.zero;

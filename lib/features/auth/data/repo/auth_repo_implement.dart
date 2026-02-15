@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
@@ -46,22 +48,26 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<ApiResult<void>> sendOpt({required String email}) async {
+  Future<ApiResult<void>> sendOtp({required String email}) async {
     try {
       final result = await remoteDatasource.sendOtp(email);
       return ApiResult.sucess(result);
     } catch (error) {
+      log("------send $error");
+
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
 
   @override
-  Future<ApiResult<AuthResponse>> verifyOtpCode(
-      {required String email, required String token}) async {
+  Future<ApiResult<void>> verifyOtpCode(
+      {required String email, required String otp}) async {
     try {
-      final result = await remoteDatasource.verifyOtpCode(email, token);
+      final result = await remoteDatasource.verifyOtp(email: email, otp: otp);
       return ApiResult.sucess(result);
     } catch (error) {
+      log("------verify $error");
+
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

@@ -8,9 +8,9 @@ abstract class AuthRepository {
   Future<ApiResult<void>> nativeGoogleSignIn();
   Future<ApiResult<AuthResponse>> signUp(
       {required String name, required String email, required String password});
-  Future<ApiResult<void>> sendOpt({required String email});
+  Future<ApiResult<void>> sendOtp({required String email});
   Future<ApiResult<void>> verifyOtpCode(
-      {required String email, required String token});
+      {required String email, required String otp});
   Future<ApiResult<UserResponse>> resetPassword({required String newPassword});
   Future<ApiResult<void>> addUserData(UserModel userModel);
   Future<ApiResult<void>> signOut();

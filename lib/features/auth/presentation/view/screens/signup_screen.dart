@@ -4,7 +4,7 @@ import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/presentation/manager/sign_up/sign_up_provider.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/signup_body.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/sign_up/signup_body.dart';
 
 class SignupView extends ConsumerStatefulWidget {
   const SignupView({super.key});
@@ -34,9 +34,10 @@ class _SignupViewState extends ConsumerState<SignupView>
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
+    nameController = TextEditingController(text: "abdo");
+    emailController =
+        TextEditingController(text: "abdelrahmantemsah30@gmail.com");
+    passwordController = TextEditingController(text: "123456");
 
     nameAnimationController = AnimationController(
       vsync: this,

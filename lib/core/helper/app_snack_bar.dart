@@ -7,7 +7,7 @@ void showErrorSnackBar(String message) {
   scaffoldMessengerKey.currentState?.showSnackBar(
     SnackBar(
       content: Text(message),
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.black,
     ),
   );
 }
