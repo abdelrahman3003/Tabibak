@@ -25,7 +25,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<ApiResult<AuthResponse>> login(
+  Future<ApiResult<AuthResponse>> signIn(
       {required String email, required String password}) async {
     try {
       final result = await remoteDatasource.login(email, password);
@@ -81,6 +81,16 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<ApiResult<void>> addUserData(UserModel userModel) async {
     try {
       final result = await remoteDatasource.addUserData(userModel);
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> signOut() async {
+    try {
+      final result = await remoteDatasource.signOut();
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

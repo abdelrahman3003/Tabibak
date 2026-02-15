@@ -3,37 +3,37 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
+import 'package:tabibak/features/auth/data/repo/auth_repo.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/profile/data/repo/profile_repo.dart';
-import 'package:tabibak/features/profile/presentation/manager/proffile_states.dart';
+import 'package:tabibak/features/profile/presentation/manager/profile_states.dart';
 
 final themeStateProvider = StateProvider<bool>(
     (ref) => SharedPrefsService.prefs.getBool(SharedPrefKeys.isDark) ?? false);
 final profileLogout =
-    StateNotifierProvider.autoDispose<ProfileController, ProffileStates>(
-        (ref) => ProfileController(ref));
+    StateNotifierProvider.autoDispose<ProfileController, ProfileStates>(
+        (ref) => ProfileController(ref, getIt<AuthRepository>()));
 final profileProviderController =
-    StateNotifierProvider.autoDispose<ProfileController, ProffileStates>(
-        (ref) => ProfileController(ref));
+    StateNotifierProvider.autoDispose<ProfileController, ProfileStates>(
+        (ref) => ProfileController(ref, getIt<AuthRepository>()));
 final profileRepoProvider = AutoDisposeProvider<ProfileRepo>((ref) {
   return getIt<ProfileRepo>();
 });
 
-class ProfileController extends StateNotifier<ProffileStates> {
-  ProfileController(this.ref) : super(ProffileStates());
+class ProfileController extends StateNotifier<ProfileStates> {
+  ProfileController(this.ref, this.authRepo) : super(ProfileStates());
   final Ref ref;
-
+  final AuthRepository authRepo;
   logOut(BuildContext context) async {
-    state = state.copyWith(isLogOutLoading: true);
-    final result = await ref.read(profileRepoProvider).signOut();
+    state = state.copyWith(isLogOutLoading: true, errorMessage: null);
+    final result = await authRepo.signOut();
     result.when(sucess: (_) async {
       await SharedPrefsService.prefs.remove(SharedPrefKeys.step);
       await SharedPrefsService.prefs.remove(SharedPrefKeys.isDark);
       ref.read(themeStateProvider.notifier).state = false;
-      state = state.copyWith(isLogOutLoading: false);
-      //  context.pushNamedAndRemoveUntil(Routes.singinView, (route) => false);
+      state = state.copyWith(isLoggedOut: true);
     }, failure: (error) {
-      state = state.copyWith(isLogOutLoading: false);
+      state = state.copyWith(errorMessage: error.message);
     });
   }
 

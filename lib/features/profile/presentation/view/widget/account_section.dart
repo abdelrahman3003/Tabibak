@@ -2,6 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
+import 'package:tabibak/core/helper/app_snack_bar.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/alert_widget.dart';
 import 'package:tabibak/features/profile/presentation/manager/profile_provider.dart';
@@ -23,9 +26,16 @@ class AccountSection extends StatelessWidget {
             context: context,
             builder: (context) {
               return Consumer(builder: (context, ref, child) {
-                final state = ref.watch(
-                  profileProviderController
-                      .select((state) => state.isLogOutLoading),
+                ref.listen(profileProviderController, (previous, next) {
+                  if (next.isLoggedOut) {
+                    context.pushNamedAndRemoveUntil(
+                        Routes.singInScreen, (route) => false);
+                  } else if (next.errorMessage != null) {
+                    showErrorSnackBar(next.errorMessage!);
+                  }
+                });
+                final isLoading = ref.watch(
+                  profileProviderController.select((s) => s.isLogOutLoading),
                 );
                 return AlertWidget(
                   context: context,
@@ -33,7 +43,7 @@ class AccountSection extends StatelessWidget {
                   subtitle: AppStrings.signOutMessage,
                   confirmString: AppStrings.logout,
                   confirmColor: AppColors.red,
-                  isLoading: state,
+                  isLoading: isLoading,
                   onPressed: () {
                     ref
                         .watch(profileProviderController.notifier)

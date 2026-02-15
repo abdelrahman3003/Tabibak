@@ -12,17 +12,9 @@ class AuthRemoteDatasource {
       {required String name,
       required String email,
       required String password}) async {
-    final reslut = await supabase.auth
+    final result = await supabase.auth
         .signUp(data: {"name": name}, email: email, password: password);
-    // await addUserData(
-    //   UserModel(
-    //     userId: supabase.auth.currentUser!.id,
-    //     name: name,
-    //     email: email,
-    //   ),
-    // );
-
-    return reslut;
+    return result;
   }
 
   Future<AuthResponse> login(String email, String password) async {
@@ -68,7 +60,7 @@ class AuthRemoteDatasource {
         .eq('user_id', supabase.auth.currentUser!.id)
         .maybeSingle();
 
-    final imageUrl = existingUser != null && existingUser['image'] != null
+    existingUser != null && existingUser['image'] != null
         ? existingUser['image']
         : googleUser.photoUrl;
     // await addUserData(UserModel(
@@ -83,5 +75,9 @@ class AuthRemoteDatasource {
     await supabase
         .from('users')
         .upsert(userModel.toJson(), onConflict: 'user_id');
+  }
+
+  Future<void> signOut() async {
+    return await supabase.auth.signOut();
   }
 }

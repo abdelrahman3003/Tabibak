@@ -10,10 +10,6 @@ class ProfileRemoteDataSource {
 
   ProfileRemoteDataSource({required this.supabase});
 
-  Future<void> signOut() async {
-    return await supabase.client.auth.signOut();
-  }
-
   Future<String> uploadProfileImage(XFile file) async {
     final fileBytes = await file.readAsBytes();
     final fileName = "profile_${supabase.client.auth.currentUser!.id}.png";

@@ -14,7 +14,7 @@ class SignInProvider extends StateNotifier<SignInStates> {
   final AuthRepository authRepo;
   Future<void> signIn({required String email, required String password}) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
-    final result = await authRepo.login(email: email, password: password);
+    final result = await authRepo.signIn(email: email, password: password);
     result.when(sucess: (_) async {
       await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
       state = state.copyWith(isLoggedIn: true);
