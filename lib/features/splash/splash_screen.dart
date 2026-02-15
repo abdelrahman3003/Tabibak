@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
           );
         }
         return context.pushNamedAndRemoveUntil(
-          Routes.singinView,
+          Routes.singInScreen,
           (route) => true,
         );
       });

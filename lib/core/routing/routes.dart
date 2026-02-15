@@ -1,17 +1,18 @@
 class Routes {
-  static const String singinView = "/signin";
-  static const String singupView = "/signup";
-  static const String forgrtPasswordView = "/forget-password";
-  static const String oTPVerificationScreen = "/otp-verification";
-  static const String resetPasswordView = "/reset-password";
-  static const String resetPasswordSucessView = "/reset-password-success";
-  static const String layoutScreen = "/layout";
-  static const String specialistScreen = "/specialist";
-  static const String doctorDetailsScreen = "/doctor-details";
-  static const String appointmentBookingScreen = "/appointment-booking-screen";
-  static const String appointmentDetailsScreen = "/appointment-details-screen";
-  static const String notifcationScreen = "/notification";
+  static const String singInScreen = "/singInScreen";
+  static const String singUpScreen = "/singUpScreen";
+  static const String forgetPasswordScreen = "/forgetPassword";
+  static const String oTPVerificationScreen = "/oTPVerificationScreen";
+  static const String resetPasswordScreen = "/resetPasswordScreen";
+  static const String resetPasswordSuccessScreen =
+      "/resetPasswordSuccessScreen";
+  static const String layoutScreen = "/layoutScreen";
+  static const String specialistScreen = "/doctorDetailsScreen";
+  static const String doctorDetailsScreen = "/doctorDetailsScreen";
+  static const String appointmentBookingScreen = "/appointmentBookingScreen";
+  static const String appointmentDetailsScreen = "/appointmentDetailsScreen";
+  static const String notificationScreen = "/notificationScreen ";
   static const String splashScreen = "/splashScreen";
   static const String bookingSuccessScreen = "/bookingSuccessScreen";
-  static const String allSpecialtiesScreen = "/all-specialties";
+  static const String allSpecialtiesScreen = "/allSpecialtiesScreen";
 }

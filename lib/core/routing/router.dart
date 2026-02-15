@@ -5,17 +5,16 @@ import 'package:tabibak/features/appointment/presentaion/view/screens/appointmen
 import 'package:tabibak/features/appointment/presentaion/view/screens/appointment_details_screen.dart';
 import 'package:tabibak/features/appointment/presentaion/view/screens/booking_success_screen.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/appointment_success_arg.dart';
-import 'package:tabibak/features/auth/presentation/view/screens/forgrt_password_view.dart';
-import 'package:tabibak/features/auth/presentation/view/screens/otp_verification_view.dart';
-import 'package:tabibak/features/auth/presentation/view/screens/reset_password_sucess_view.dart';
-import 'package:tabibak/features/auth/presentation/view/screens/reset_password_view.dart';
-import 'package:tabibak/features/auth/presentation/view/screens/signin_view.dart';
-import 'package:tabibak/features/auth/presentation/view/screens/signup_view.dart';
-import 'package:tabibak/features/doctor/presentaion/views/screens/doctor_details_screen.dart';
+import 'package:tabibak/features/auth/presentation/view/screens/forget_password_screen.dart';
+import 'package:tabibak/features/auth/presentation/view/screens/otp_verification_screen.dart';
+import 'package:tabibak/features/auth/presentation/view/screens/reset_password_screen.dart';
+import 'package:tabibak/features/auth/presentation/view/screens/reset_password_sucess_screen.dart';
+import 'package:tabibak/features/auth/presentation/view/screens/signin_screen.dart';
+import 'package:tabibak/features/auth/presentation/view/screens/signup_screen.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/presentation/views/screens/all_specialties_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/layout_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/specialist_screen.dart';
-import 'package:tabibak/features/home/presentation/views/screens/all_specialties_screen.dart';
 import 'package:tabibak/features/notification/notifcation_screen.dart';
 import 'package:tabibak/features/splash/splash_screen.dart';
 
@@ -24,23 +23,22 @@ class AppRouter {
     switch (setting.name) {
       case Routes.splashScreen:
         return _buildSlideRoute(SplashScreen());
-      case Routes.singinView:
-        return _buildSlideRoute(SigninView());
-      case Routes.singupView:
+      case Routes.singInScreen:
+        return _buildSlideRoute(SigninScreen());
+      case Routes.singUpScreen:
         return _buildSlideRoute(SignupView());
-      case Routes.forgrtPasswordView:
-        return _buildSlideRoute(ForgrtPasswordView());
+      case Routes.forgetPasswordScreen:
+        return _buildSlideRoute(ForgetPasswordScreen());
       case Routes.oTPVerificationScreen:
-        return _buildSlideRoute(OTPVerificationScreen());
+        return _buildSlideRoute(OtpVerificationScreen());
 
-      case Routes.resetPasswordView:
-        return _buildSlideRoute(const ResetPasswordView());
+      case Routes.resetPasswordScreen:
+        return _buildSlideRoute(const ResetPasswordScreen());
       case Routes.layoutScreen:
         return _buildSlideRoute(const LayoutScreen());
       case Routes.specialistScreen:
         return _buildSlideRoute(const SpecialistScreen());
-      case Routes.doctorDetailsScreen:
-        return _buildSlideRoute(const DoctorDetailsScreen());
+
       case Routes.appointmentBookingScreen:
         final doctorModel = setting.arguments as DoctorModel;
         return _buildSlideRoute(
@@ -54,10 +52,10 @@ class AppRouter {
 
         return _buildSlideRoute(
             BookingSuccessScreen(appointmentSuccessArg: args));
-      case Routes.resetPasswordSucessView:
-        return _buildSlideRoute(const ResetPasswordSucessView());
-      case Routes.notifcationScreen:
-        return _buildSlideRoute(const NotifcationScreen());
+      case Routes.resetPasswordSuccessScreen:
+        return _buildSlideRoute(const ResetPasswordSuccessScreen());
+      case Routes.notificationScreen:
+        return _buildSlideRoute(const NotificationScreen());
       case Routes.allSpecialtiesScreen:
         return _buildSlideRoute(const AllSpecialtiesScreen());
 

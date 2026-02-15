@@ -5,8 +5,8 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 
-class ResetPasswordSucessView extends StatelessWidget {
-  const ResetPasswordSucessView({super.key});
+class ResetPasswordSuccessScreen extends StatelessWidget {
+  const ResetPasswordSuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +37,7 @@ class ResetPasswordSucessView extends StatelessWidget {
                 title: AppStrings.goToLogin,
                 onPressed: () {
                   context.pushNamedAndRemoveUntil(
-                    Routes.singinView,
-                    (route) => false,
-                  );
+                      Routes.singInScreen, (route) => false);
                 },
               ),
             ],

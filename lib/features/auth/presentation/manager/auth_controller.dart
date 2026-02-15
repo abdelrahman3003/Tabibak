@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
-import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';
-import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/data/repo/auth_repo.dart';
 import 'package:tabibak/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
@@ -20,150 +16,87 @@ class AuthController extends StateNotifier<AuthStates> {
   final Ref ref;
 
   AuthController(this.ref) : super(AuthInitial());
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final nameController = TextEditingController();
-  final otpController = TextEditingController();
-  final newPasswordController = TextEditingController();
-  final confirmNewPasswordController = TextEditingController();
 
-  final resetPasswordKeyForm = GlobalKey<FormState>();
-  final sendOtpKey = GlobalKey<FormState>();
-  Future<void> singUp(BuildContext context) async {
+  Future<void> signUp(
+      {required String name,
+      required String email,
+      required String password}) async {
     state = SignUpLoading();
-    final result = await ref.read(authRepositoryProvider).signUp(
-        name: nameController.text,
-        email: emailController.text,
-        password: passwordController.text);
+    final result = await ref
+        .read(authRepositoryProvider)
+        .signUp(name: name, email: email, password: password);
 
     result.when(sucess: (_) async {
-      context.pop();
-      context.pushNamed(Routes.singinView);
-      clearTextFormData();
       state = SignUpSuccess();
     }, failure: (error) {
-      state = SignUpSuccess();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+      state = SignUpFailure(error.message.toString());
     });
   }
 
-  Future<void> login(BuildContext context) async {
+  Future<void> login({required String email, required String password}) async {
     state = LoginLoading();
     final result = await ref
         .read(authRepositoryProvider)
-        .login(email: emailController.text, password: passwordController.text);
+        .login(email: email, password: password);
     result.when(sucess: (_) async {
-      context.pop();
-      context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
       await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
-
-      clearTextFormData();
       state = LoginSuccess();
     }, failure: (error) {
-      state = LoginFailure();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+      state = LoginFailure(error.message.toString());
     });
   }
 
-  Future<void> nativeGoogleSignIn(BuildContext context) async {
+  Future<void> nativeGoogleSignIn() async {
     state = LoginWithGoogleLoading();
     final result = await ref.read(authRepositoryProvider).nativeGoogleSignIn();
     result.when(sucess: (_) async {
-      context.pop();
-      context.pushNamedAndRemoveUntil(
-        Routes.layoutScreen,
-        (route) => false,
-      );
       await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
-
-      clearTextFormData();
       state = LoginWithGoogleSuccess();
     }, failure: (error) {
-      state = LoginFailure();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+      state = LoginFailure(error.message.toString());
     });
   }
 
-  Future<void> sendOtp(BuildContext context) async {
+  Future<void> sendOtp({required String email}) async {
     state = SendOtpLoading();
-    final result = await ref
-        .read(authRepositoryProvider)
-        .sendOpt(email: emailController.text);
+    final result =
+        await ref.read(authRepositoryProvider).sendOpt(email: email);
     result.when(sucess: (_) async {
-      final currentRoute = ModalRoute.of(context)?.settings.name;
-
-      if (currentRoute != Routes.oTPVerificationScreen) {
-        context.pushNamed(Routes.oTPVerificationScreen,
-            arguments: UserModel(
-                name: nameController.text,
-                email: emailController.text,
-                password: passwordController.text));
-      }
       state = SendOtpSuccess();
     }, failure: (error) {
-      state = SendOtpSuccess();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+      state = SendOtpFailure(error.message.toString());
     });
   }
 
-  Future<void> verifyOtpCode(BuildContext context,
-      {bool isSignUp = false}) async {
+  Future<void> verifyOtpCode(
+      {required String email,
+      required String otp,
+      bool isSignUp = false}) async {
     state = VerifyOtpLoading();
     final result = await ref.read(authRepositoryProvider).verifyOtpCode(
-          email: emailController.text,
-          token: otpController.text,
+          email: email,
+          token: otp,
         );
     result.when(sucess: (_) async {
       if (isSignUp) {
-        context.pop();
-        singUp(context);
+        state = VerifyOtpSuccess();
       } else {
-        context.pushNamed(Routes.resetPasswordView);
+        state = VerifyOtpSuccess();
       }
-      state = VerifyOtpSuccess();
     }, failure: (error) {
-      state = VerifyOtpFailure();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+      state = VerifyOtpFailure(error.message.toString());
     });
   }
 
-  Future<void> resetPassword(BuildContext context) async {
+  Future<void> resetPassword({required String newPassword}) async {
     state = ResetPasswordLoading();
     final result = await ref.read(authRepositoryProvider).resetPassword(
-          newPassword: newPasswordController.text,
+          newPassword: newPassword,
         );
     result.when(sucess: (_) async {
-      context.pushNamed(Routes.resetPasswordSucessView);
       state = ResetPasswordSuccess();
     }, failure: (error) {
-      state = ResetPasswordFailure();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.message.toString())));
+      state = ResetPasswordFailure(error.message.toString());
     });
-  }
-
-  void clearTextFormData() {
-    nameController.clear();
-    emailController.clear();
-    passwordController.clear();
-    otpController.clear();
-    newPasswordController.clear();
-    confirmNewPasswordController.clear();
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    nameController.dispose();
-    otpController.dispose();
-    newPasswordController.dispose();
-    confirmNewPasswordController.dispose();
-    super.dispose();
   }
 }

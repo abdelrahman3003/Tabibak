@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/routing/routes.dart';
+import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
@@ -12,22 +15,24 @@ import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/otp_widget.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
-class OTPVerificationScreen extends ConsumerStatefulWidget {
-  const OTPVerificationScreen({super.key});
+class OtpVerificationScreen extends ConsumerStatefulWidget {
+  const OtpVerificationScreen({super.key});
 
   @override
-  ConsumerState<OTPVerificationScreen> createState() =>
-      _OTPVerificationScreenState();
+  ConsumerState<OtpVerificationScreen> createState() =>
+      _OtpVerificationScreenState();
 }
 
-class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
+class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   int _secondsRemaining = 120;
   late final Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    ref.read(authControllerProvider.notifier).sendOtp(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // ref.read(authControllerProvider.notifier).sendOtp();
+    });
     _startTimer();
   }
 
@@ -44,7 +49,6 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
 
   @override
   void dispose() {
-    ref.read(authControllerProvider.notifier).otpController.dispose();
     _timer.cancel();
     super.dispose();
   }
@@ -53,6 +57,21 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(authControllerProvider);
     final userModel = ModalRoute.of(context)!.settings.arguments as UserModel?;
+
+    ref.listen(authControllerProvider, (previous, next) {
+      if (next is VerifyOtpSuccess) {
+        context.pushNamed(Routes.resetPasswordScreen);
+      } else if (next is VerifyOtpFailure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error), backgroundColor: AppColors.red),
+        );
+      } else if (next is SendOtpFailure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error), backgroundColor: AppColors.red),
+        );
+      }
+    });
+
     return Scaffold(
       appBar: AppBarWidget(title: AppStrings.confirmCode),
       body: Padding(
@@ -60,14 +79,10 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            titeTextStates(state, userModel?.email ?? ""),
+            titleTextStates(state, userModel?.email ?? ""),
             20.hBox,
             OtpWidget(
-                controller:
-                    ref.read(authControllerProvider.notifier).otpController,
-                onCompleted: (pin) => ref
-                    .read(authControllerProvider.notifier)
-                    .verifyOtpCode(context)),
+                controller: TextEditingController(), onCompleted: (pin) => {}),
             20.hBox,
             verifyOtpButtonStates(userModel?.email ?? "", state),
             20.hBox,
@@ -78,7 +93,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
     );
   }
 
-  Text titeTextStates(AuthStates state, String email) {
+  Text titleTextStates(AuthStates state, String email) {
     return Text(
         state is SendOtpLoading
             ? "${AppStrings.sendingCode}..."
@@ -89,7 +104,10 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
   InkWell timerTextStates(BuildContext context, AuthStates state) {
     return InkWell(
       onTap: () {
-        ref.read(authControllerProvider.notifier).sendOtp(context);
+        if (_secondsRemaining == 0) {
+          // ref.read(authControllerProvider.notifier).sendOtp();
+          _startTimer();
+        }
       },
       child: Text(
           state is SendOtpLoading
@@ -109,7 +127,7 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
       isLoading: isLoading,
       onPressed: () {
         if (!isLoading) {
-          ref.read(authControllerProvider.notifier).verifyOtpCode(context);
+          //   ref.read(authControllerProvider.notifier).verifyOtpCode();
         }
       },
     );

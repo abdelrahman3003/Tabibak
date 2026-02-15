@@ -6,7 +6,13 @@ import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart'
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
 
 class ResetPasswordButtonStates extends StatelessWidget {
-  const ResetPasswordButtonStates({super.key});
+  final GlobalKey<FormState> resetPasswordKeyForm;
+  final String newPassword;
+  const ResetPasswordButtonStates({
+    super.key,
+    required this.resetPasswordKeyForm,
+    required this.newPassword,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +24,10 @@ class ResetPasswordButtonStates extends StatelessWidget {
             isLoading ? "${AppStrings.changing}..." : AppStrings.savePassword,
         isLoading: isLoading,
         onPressed: () {
-          if (!isLoading &&
-              ref
-                  .read(authControllerProvider.notifier)
-                  .resetPasswordKeyForm
-                  .currentState!
-                  .validate()) {
-            ref.read(authControllerProvider.notifier).resetPassword(context);
+          if (!isLoading && resetPasswordKeyForm.currentState!.validate()) {
+            ref
+                .read(authControllerProvider.notifier)
+                .resetPassword(newPassword: newPassword);
           }
         },
       );
