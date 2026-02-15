@@ -35,9 +35,11 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       if (args != null && args is UserModel) {
         setState(() {
           userModel = args;
-          ref
-              .read(otpVerificationNotifierProvider.notifier)
-              .sendOtp(email: userModel!.email!);
+          if (ref.read(secondsRemainingState) == 120) {
+            ref
+                .read(otpVerificationNotifierProvider.notifier)
+                .sendOtp(email: userModel!.email!);
+          }
         });
       }
     });
