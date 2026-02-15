@@ -37,9 +37,8 @@ class _SignupViewState extends ConsumerState<SignupView>
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: "abdo");
-    emailController =
-        TextEditingController(text: "abdelrahmatemsah29@gmail.com");
+    nameController = TextEditingController();
+    emailController = TextEditingController();
     passwordController = TextEditingController();
 
     nameAnimationController = AnimationController(
