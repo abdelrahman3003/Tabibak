@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/routing/router.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_theme.dart';
@@ -20,6 +21,7 @@ class MyApp extends ConsumerWidget {
         builder: (context, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+            scaffoldMessengerKey: scaffoldMessengerKey,
             title: 'Tabibak',
             theme: isDark ? AppTheme.darkTheme : AppTheme.lightTheme,
             localizationsDelegates: context.localizationDelegates,

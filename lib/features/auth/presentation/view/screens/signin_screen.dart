@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
+import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/auth/presentation/manager/sign_in/sign_in_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/signin_body.dart';
 
@@ -112,11 +112,7 @@ class _SigninScreenState extends ConsumerState<SigninScreen>
       if (next.isLoggedIn) {
         context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
       } else if (next.errorMessage != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(next.errorMessage!),
-              backgroundColor: AppColors.red),
-        );
+        showErrorSnackBar(next.errorMessage!);
       }
     });
 

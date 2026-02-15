@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
+import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/auth/presentation/manager/sign_up/sign_up_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/signup_body.dart';
 
@@ -115,11 +115,7 @@ class _SignupViewState extends ConsumerState<SignupView>
         context.pop();
         context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
       } else if (next.errorMessage != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(next.errorMessage!),
-              backgroundColor: AppColors.red),
-        );
+        showErrorSnackBar(next.errorMessage!);
       }
     });
 
