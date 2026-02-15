@@ -154,5 +154,20 @@
     "Ratings": "Ratings",
     "Rating": "Rating",
     "Queue Position": "Queue Position",
-    "Enter your full name": "Enter your full name"
+    "Enter your full name": "Enter your full name",
+    "Connection to server failure": "Connection to server failure",
+    "Request to server was canceled": "Request to server was canceled",
+    "Connection timeout with the server": "Connection timeout with the server",
+    "Connection to server failed due to internet connection": "Connection to server failed due to internet connection",
+    "Receive timeout in connection with server": "Receive timeout in connection with server",
+    "Send timeout in connection with server": "Send timeout in connection with server",
+    "Something went wrong": "Something went wrong",
+    "Invalid email address": "Invalid email address",
+    "Validation failed": "Validation failed",
+    "Missing email or phone": "Missing email or phone",
+    "Invalid credentials": "Invalid credentials",
+    "Weak password": "Weak password",
+    "User already exists": "User already exists",
+    "OTP expired": "OTP expired",
+    "Email address invalid": "Email address invalid"
 }

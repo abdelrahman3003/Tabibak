@@ -6,9 +6,9 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/otp_verification/otp_verification_provider.dart';
-import 'package:tabibak/features/auth/presentation/manager/sign_up/sign_up_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/otp_verification/otp_timer_text.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/otp_verification/title_text_states.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/otp_verification/verification_button_states.dart';
@@ -48,15 +48,19 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(otpVerificationNotifierProvider, (previous, next) {
-      if (next.isVerifiedIn) {
-        context.pop();
-        ref.read(signUpNotifierProvider.notifier).signUp(
-            name: userModel?.name ?? "",
-            email: userModel?.email ?? "",
-            password: userModel?.password ?? "");
-      } else if (next.errorMessage != null) {
-        showErrorSnackBar(next.errorMessage!);
-      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (next.isVerifiedIn) {
+          ref.read(otpVerificationNotifierProvider.notifier).signUp(
+              name: userModel?.name ?? "",
+              email: userModel?.email ?? "",
+              password: userModel?.password ?? "");
+        } else if (next.isSignedUp) {
+          context.pushNamedAndRemoveUntil(
+              Routes.layoutScreen, (route) => false);
+        } else if (next.errorMessage != null) {
+          showErrorSnackBar(next.errorMessage!);
+        }
+      });
     });
 
     return Scaffold(
@@ -68,14 +72,17 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
           children: [
             TitleTextStates(email: userModel?.email ?? ""),
             20.hBox,
-            OtpWidget(onCompleted: (pin) {
-              otp = pin;
-            }),
+            OtpWidget(
+              onChanged: (value) {
+                otp = value;
+                setState(() {});
+              },
+            ),
             20.hBox,
             VerificationButtonStates(
                 email: userModel?.email ?? "", otp: otp ?? ""),
             20.hBox,
-            OtpTimerText()
+            OtpTimerText(email: userModel?.email ?? "")
           ],
         ),
       ),

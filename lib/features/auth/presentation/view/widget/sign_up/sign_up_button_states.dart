@@ -6,7 +6,7 @@ import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
-import 'package:tabibak/features/auth/presentation/manager/sign_up/sign_up_provider.dart';
+import 'package:tabibak/features/auth/presentation/manager/otp_verification/otp_verification_provider.dart';
 
 class SignUpButtonStates extends ConsumerWidget {
   final Animation<Offset> animation;
@@ -26,7 +26,7 @@ class SignUpButtonStates extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(
-      signUpNotifierProvider.select((s) => s.isLoading),
+      otpVerificationNotifierProvider.select((s) => s.isLoading),
     );
 
     return SlideTransition(

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/networking/api_error_model.dart';
 
 // TODO: wallahy I will refactor this .. Omar Ahmed
@@ -9,55 +10,60 @@ class ErrorHandler {
     if (error is DioException) {
       switch (error.type) {
         case DioExceptionType.connectionError:
-          return ApiErrorModel(message: "Connection to server failure");
+          return ApiErrorModel(message: AppStrings.connectionServerFailure);
         case DioExceptionType.cancel:
-          return ApiErrorModel(message: "Request to server was canceled");
+          return ApiErrorModel(message: AppStrings.requestServerCanceled);
         case DioExceptionType.connectionTimeout:
-          return ApiErrorModel(message: "Connection timeout was the server");
+          return ApiErrorModel(message: AppStrings.connectionTimeoutServer);
         case DioExceptionType.unknown:
-          return ApiErrorModel(
-              message:
-                  "Connection to server failed due to internet connection");
+          return ApiErrorModel(message: AppStrings.internetConnectionFailed);
         case DioExceptionType.receiveTimeout:
-          return ApiErrorModel(
-              message: "Recieve timeout to connectio with server");
+          return ApiErrorModel(message: AppStrings.receiveTimeoutServer);
         case DioExceptionType.badResponse:
           return handelError(error.response?.data);
         case DioExceptionType.sendTimeout:
-          return ApiErrorModel(message: "Send time in connection with server");
+          return ApiErrorModel(message: AppStrings.sendTimeoutServer);
 
         default:
-          ApiErrorModel(message: "Something went wrong");
+          return ApiErrorModel(message: AppStrings.somethingWentWrong);
       }
     }
     if (error is AuthException) {
-      return _mapSupabaseError(error);
+      return mapSupabaseError(error);
     }
-    return ApiErrorModel(message: "خطا غير معروف");
+    return ApiErrorModel(message: AppStrings.unknownErrorOccurred);
   }
 
-  static ApiErrorModel _mapSupabaseError(AuthException error) {
+  static ApiErrorModel mapSupabaseError(AuthException error) {
+    final apiError = error is AuthApiException ? error : null;
+
     if (error.message.startsWith('Email address') &&
         error.message.contains('is invalid')) {
-      return ApiErrorModel(message: "البريد الإلكتروني غير صالح");
+      return ApiErrorModel(message: AppStrings.invalidEmailAddress);
     }
-    switch (error.message) {
+
+    switch (apiError?.code) {
       case "validation_failed":
-        return ApiErrorModel(message: "خطأ في التسجيل");
-      case "missing email or phone":
-        return ApiErrorModel(message: "يجب إدخال البريد الإلكتروني");
-      case "Invalid login credentials":
-        return ApiErrorModel(message: "بيانات تسجيل الدخول غير صحيحة");
-      case "Signup requires a valid password":
-        return ApiErrorModel(message: "كلمة المرور غير صحيحة");
-      case "User already registered":
-        return ApiErrorModel(message: "المستخدم مسجل بالفعل");
-      case "Anonymous sign-ins are disabled":
-        return ApiErrorModel(message: "تسجيل الدخول المجهول غير مفعل");
-      case "Unable to validate email address: invalid format":
-        return ApiErrorModel(message: "صيغة البريد الإلكتروني غير صحيحة");
+        return ApiErrorModel(message: AppStrings.validationFailed);
+
+      case "missing_email_or_phone":
+        return ApiErrorModel(message: AppStrings.missingEmailOrPhone);
+
+      case "invalid_credentials":
+        return ApiErrorModel(message: AppStrings.invalidCredentials);
+
+      case "weak_password":
+        return ApiErrorModel(message: AppStrings.weakPassword);
+
+      case "user_already_exists":
+        return ApiErrorModel(message: AppStrings.userAlreadyExists);
+
       case "otp_expired":
-        return ApiErrorModel(message: "انتهت صلاحية رمز التحقق");
+        return ApiErrorModel(message: AppStrings.otpExpired);
+
+      case "email_address_invalid":
+        return ApiErrorModel(message: AppStrings.emailAddressInvalid);
+
       default:
         return ApiErrorModel(message: error.message);
     }
@@ -66,7 +72,7 @@ class ErrorHandler {
 
 ApiErrorModel handelError(dynamic data) {
   return ApiErrorModel(
-      message: data['message'] ?? "Unknown error eccured",
+      message: data['message'] ?? AppStrings.unknownErrorOccurred,
       code: data['code'],
       errors: data['data']);
 }

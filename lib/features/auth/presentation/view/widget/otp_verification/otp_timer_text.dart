@@ -8,8 +8,11 @@ import 'package:tabibak/features/auth/presentation/manager/otp_verification/otp_
 final secondsRemainingState = StateProvider<int>((ref) => 120);
 
 class OtpTimerText extends ConsumerStatefulWidget {
-  const OtpTimerText({super.key});
-
+  const OtpTimerText({
+    super.key,
+    required this.email,
+  });
+  final String email;
   @override
   ConsumerState<OtpTimerText> createState() => _OtpTimerTextState();
 }
@@ -20,12 +23,12 @@ class _OtpTimerTextState extends ConsumerState<OtpTimerText> {
   @override
   void initState() {
     super.initState();
-    startTimer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      startTimer();
+    });
   }
 
   void startTimer() {
-    ref.read(secondsRemainingState.notifier).state = 120;
-
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final remaining = ref.read(secondsRemainingState.notifier);
@@ -54,6 +57,9 @@ class _OtpTimerTextState extends ConsumerState<OtpTimerText> {
       onTap: secondsRemaining == 0
           ? () {
               startTimer();
+              ref
+                  .read(otpVerificationNotifierProvider.notifier)
+                  .sendOtp(email: widget.email);
             }
           : null,
       child: Text(

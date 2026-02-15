@@ -162,4 +162,22 @@ class AppStrings {
   static String get closed => "Closed".tr();
   static String get queuePosition => "Queue Position".tr();
   static String get enterYourFullName => "Enter your full name".tr();
+  static String get connectionServerFailure => "Connection to server failure".tr();
+  static String get requestServerCanceled => "Request to server was canceled".tr();
+  static String get connectionTimeoutServer =>
+      "Connection timeout with the server".tr();
+  static String get internetConnectionFailed =>
+      "Connection to server failed due to internet connection".tr();
+  static String get receiveTimeoutServer =>
+          "Receive timeout in connection with server".tr();
+  static String get sendTimeoutServer => "Send timeout in connection with server".tr();
+  static String get somethingWentWrong => "Something went wrong".tr();
+  static String get invalidEmailAddress => "Invalid email address".tr();
+  static String get validationFailed => "Validation failed".tr();
+  static String get missingEmailOrPhone => "Missing email or phone".tr();
+  static String get invalidCredentials => "Invalid credentials".tr();
+  static String get weakPassword => "Weak password".tr();
+  static String get userAlreadyExists => "User already exists".tr();
+  static String get otpExpired => "OTP expired".tr();
+  static String get emailAddressInvalid => "Email address invalid".tr();
 }

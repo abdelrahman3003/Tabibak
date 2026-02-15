@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/services/env_service.dart';
@@ -27,6 +29,7 @@ class AuthRemoteDatasource {
   }
 
   Future<void> verifyOtp({required String email, required String otp}) async {
+    log("-------$otp");
     await supabase.auth.verifyOTP(
       email: email,
       token: otp,

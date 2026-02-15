@@ -147,5 +147,20 @@
     "Ratings": "مراجعات",
     "Rating": "مراجعة",
     "Queue Position": "موقعك في الطابور",
-    "Enter your full name": "أدخل اسمك الكامل"
+    "Enter your full name": "أدخل اسمك الكامل",
+    "Connection to server failure": "فشل الاتصال بالخادم",
+    "Request to server was canceled": "تم إلغاء الطلب إلى الخادم",
+    "Connection timeout with the server": "انتهت مهلة الاتصال بالخادم",
+    "Connection to server failed due to internet connection": "فشل الاتصال بالخادم بسبب اتصال الإنترنت",
+    "Receive timeout in connection with server": "انتهت مهلة الاستلام في الاتصال بالخادم",
+    "Send timeout in connection with server": "انتهت مهلة الإرسال في الاتصال بالخادم",
+    "Something went wrong": "حدث خطأ ما",
+    "Invalid email address": "البريد الإلكتروني غير صالح",
+    "Validation failed": "بيانات غير صحيحة",
+    "Missing email or phone": "يجب إدخال البريد الإلكتروني أو الهاتف",
+    "Invalid credentials": "بيانات تسجيل الدخول غير صحيحة",
+    "Weak password": "كلمة المرور ضعيفة",
+    "User already exists": "المستخدم مسجل بالفعل",
+    "OTP expired": "انتهت صلاحية رمز التحقق",
+    "Email address invalid": "صيغة البريد الإلكتروني غير صحيحة"
 }

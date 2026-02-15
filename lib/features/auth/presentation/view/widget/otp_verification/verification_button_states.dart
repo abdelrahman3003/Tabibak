@@ -18,6 +18,7 @@ class VerificationButtonStates extends ConsumerWidget {
     final isLoading = ref.watch(otpVerificationNotifierProvider.select(
       (s) => s.isLoading,
     ));
+
     return AppButton(
       fontSize: 18.sp,
       title: isLoading ? "${AppStrings.sendingCode}..." : AppStrings.confirm,
