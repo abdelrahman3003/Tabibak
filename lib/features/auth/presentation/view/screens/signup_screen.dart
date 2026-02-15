@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
+import 'package:tabibak/features/auth/presentation/manager/sign_up/sign_up_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/signup_body.dart';
 
 class SignupView extends ConsumerStatefulWidget {
@@ -111,13 +110,15 @@ class _SignupViewState extends ConsumerState<SignupView>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authControllerProvider, (previous, next) {
-      if (next is SignUpSuccess) {
+    ref.listen(signUpNotifierProvider, (previous, next) {
+      if (next.isSignedUp) {
         context.pop();
         context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
-      } else if (next is SignUpFailure) {
+      } else if (next.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next.error), backgroundColor: AppColors.red),
+          SnackBar(
+              content: Text(next.errorMessage!),
+              backgroundColor: AppColors.red),
         );
       }
     });
