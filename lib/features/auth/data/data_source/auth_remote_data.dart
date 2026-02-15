@@ -4,8 +4,8 @@ import 'package:tabibak/core/services/env_service.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 
 class AuthRemoteDatasource {
-  AuthRemoteDatasource();
-  final SupabaseClient supabase = Supabase.instance.client;
+  AuthRemoteDatasource(this.supabase);
+  final SupabaseClient supabase;
   final GoogleSignIn googleSignIn =
       GoogleSignIn(serverClientId: EnvService.googleClientId);
   Future<AuthResponse> signUp(

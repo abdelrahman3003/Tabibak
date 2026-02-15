@@ -1,15 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tabibak/core/helper/shared_pref.dart';
-import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';
+import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/features/auth/data/repo/auth_repo.dart';
-import 'package:tabibak/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
 
 final authControllerProvider =
     StateNotifierProvider.autoDispose<AuthController, AuthStates>(
         (ref) => AuthController(ref));
 final authRepositoryProvider = AutoDisposeProvider<AuthRepository>((ref) {
-  return AuthRepositoryImpl(AuthRemoteDatasource());
+  return getIt<AuthRepository>();
 });
 
 class AuthController extends StateNotifier<AuthStates> {
@@ -33,34 +31,9 @@ class AuthController extends StateNotifier<AuthStates> {
     });
   }
 
-  Future<void> login({required String email, required String password}) async {
-    state = LoginLoading();
-    final result = await ref
-        .read(authRepositoryProvider)
-        .login(email: email, password: password);
-    result.when(sucess: (_) async {
-      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
-      state = LoginSuccess();
-    }, failure: (error) {
-      state = LoginFailure(error.message.toString());
-    });
-  }
-
-  Future<void> nativeGoogleSignIn() async {
-    state = LoginWithGoogleLoading();
-    final result = await ref.read(authRepositoryProvider).nativeGoogleSignIn();
-    result.when(sucess: (_) async {
-      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
-      state = LoginWithGoogleSuccess();
-    }, failure: (error) {
-      state = LoginFailure(error.message.toString());
-    });
-  }
-
   Future<void> sendOtp({required String email}) async {
     state = SendOtpLoading();
-    final result =
-        await ref.read(authRepositoryProvider).sendOpt(email: email);
+    final result = await ref.read(authRepositoryProvider).sendOpt(email: email);
     result.when(sucess: (_) async {
       state = SendOtpSuccess();
     }, failure: (error) {

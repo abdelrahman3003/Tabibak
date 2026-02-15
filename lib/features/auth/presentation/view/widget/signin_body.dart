@@ -9,8 +9,7 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
+import 'package:tabibak/features/auth/presentation/manager/sign_in/sign_in_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/google_signin_button.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/password_text_filed.dart';
@@ -64,7 +63,7 @@ class SigninBody extends ConsumerWidget {
           20.hBox,
           InkWell(
             onTap: () {
-              //    context.pushNamed(Routes.forgetPasswordView);
+              context.pushNamed(Routes.resetPasswordScreen);
             },
             child: Align(
               alignment: Alignment.centerRight,
@@ -79,6 +78,8 @@ class SigninBody extends ConsumerWidget {
           _LoginButton(
             animation: signinAnimation,
             signinKey: signinKey,
+            emailController: emailController,
+            passwordController: passwordController,
           ),
           20.hBox,
           GoogleSignInButton(animation: googleAnimation),
@@ -100,12 +101,19 @@ class SigninBody extends ConsumerWidget {
 class _LoginButton extends ConsumerWidget {
   final Animation<Offset> animation;
   final GlobalKey<FormState> signinKey;
-  const _LoginButton({required this.animation, required this.signinKey});
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  const _LoginButton({
+    required this.animation,
+    required this.signinKey,
+    required this.emailController,
+    required this.passwordController,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loginState = ref.watch(authControllerProvider);
-    bool isLoading = loginState is LoginLoading;
+    final loginState = ref.watch(signInNotifierProvider);
+    bool isLoading = loginState.isLoading;
     return SlideTransition(
         position: animation,
         child: AppButton(
@@ -114,7 +122,10 @@ class _LoginButton extends ConsumerWidget {
           isLoading: isLoading,
           onPressed: () {
             if (!isLoading && signinKey.currentState!.validate()) {
-              //  ref.read(authControllerProvider.notifier).login();
+              ref.read(signInNotifierProvider.notifier).signIn(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
             }
           },
         ));

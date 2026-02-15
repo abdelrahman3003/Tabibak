@@ -3,6 +3,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/features/appointment/data/remote_data/appointments_remote_data.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos_imp.dart';
+import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';
+import 'package:tabibak/features/auth/data/repo/auth_repo.dart';
+import 'package:tabibak/features/auth/data/repo/auth_repo_implement.dart';
 import 'package:tabibak/features/doctor/data/remote_data/doctor_remote_data.dart';
 import 'package:tabibak/features/doctor/data/repo/doctor_repo.dart';
 import 'package:tabibak/features/doctor/data/repo/doctor_repo_impl.dart';
@@ -20,6 +23,10 @@ void setupServiceLocator() {
   getIt.registerSingleton<Supabase>(Supabase.instance);
 
   // Repository
+
+  getIt.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(AuthRemoteDatasource(getIt<Supabase>().client)));
+
   getIt.registerLazySingleton<HomeRepo>(() => HomeRepoImp(
         homeRemoteData: HomeRemoteData(supabase: getIt<Supabase>().client),
       ));

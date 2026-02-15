@@ -6,8 +6,7 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
+import 'package:tabibak/features/auth/presentation/manager/sign_in/sign_in_provider.dart';
 import 'package:tabibak/gen/assets.gen.dart';
 
 class GoogleSignInButton extends ConsumerWidget {
@@ -18,12 +17,12 @@ class GoogleSignInButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: () {
-        ref.read(authControllerProvider.notifier).nativeGoogleSignIn();
+        ref.read(signInNotifierProvider.notifier).nativeGoogleSignIn();
       },
       child: SlideTransition(
         position: animation,
         child: Consumer(builder: (context, ref, _) {
-          final state = ref.watch(authControllerProvider);
+          final state = ref.watch(signInNotifierProvider);
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 16),
             width: double.infinity,
@@ -31,7 +30,7 @@ class GoogleSignInButton extends ConsumerWidget {
               borderRadius: 8.radius,
               border: Border.all(color: AppColors.textLight),
             ),
-            child: state is LoginWithGoogleLoading
+            child: state.isGoogleLoading
                 ? SizedBox(
                     height: 30.h,
                     width: 30.h,

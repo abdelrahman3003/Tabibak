@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
+import 'package:tabibak/features/auth/presentation/manager/sign_in/sign_in_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/signin_body.dart';
 
 class SigninScreen extends ConsumerStatefulWidget {
@@ -109,12 +108,14 @@ class _SigninScreenState extends ConsumerState<SigninScreen>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authControllerProvider, (previous, next) {
-      if (next is LoginSuccess || next is LoginWithGoogleSuccess) {
+    ref.listen(signInNotifierProvider, (previous, next) {
+      if (next.isLoggedIn) {
         context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
-      } else if (next is LoginFailure) {
+      } else if (next.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next.error), backgroundColor: AppColors.red),
+          SnackBar(
+              content: Text(next.errorMessage!),
+              backgroundColor: AppColors.red),
         );
       }
     });
