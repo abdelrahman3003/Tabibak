@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
@@ -53,8 +51,6 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await remoteDatasource.sendOtp(email);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("------send $error");
-
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -66,8 +62,6 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await remoteDatasource.verifyOtp(email: email, otp: otp);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("------verify $error");
-
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

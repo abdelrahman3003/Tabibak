@@ -5,6 +5,7 @@ import 'package:tabibak/features/appointment/presentaion/view/screens/appointmen
 import 'package:tabibak/features/appointment/presentaion/view/screens/appointment_details_screen.dart';
 import 'package:tabibak/features/appointment/presentaion/view/screens/booking_success_screen.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/appointment_success_arg.dart';
+import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/forget_password_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/otp_verification_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/reset_password_screen.dart';
@@ -30,7 +31,11 @@ class AppRouter {
       case Routes.forgetPasswordScreen:
         return _buildSlideRoute(ForgetPasswordScreen(), settings: setting);
       case Routes.oTPVerificationScreen:
-        return _buildSlideRoute(OtpVerificationScreen(), settings: setting);
+        final user = setting.arguments as UserModel;
+        return _buildSlideRoute(
+          OtpVerificationScreen(userModel: user),
+          settings: setting,
+        );
 
       case Routes.resetPasswordScreen:
         return _buildSlideRoute(const ResetPasswordScreen(), settings: setting);

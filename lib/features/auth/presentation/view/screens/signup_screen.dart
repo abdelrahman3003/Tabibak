@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
+import 'package:tabibak/core/helper/app_snack_bar.dart';
+import 'package:tabibak/core/helper/dependancy_injection.dart';
+import 'package:tabibak/core/routing/routes.dart';
+import 'package:tabibak/features/auth/data/models/user_model.dart';
+import 'package:tabibak/features/auth/presentation/manager/sign%20up/sign_up_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/sign_up/signup_body.dart';
 
 class SignupView extends ConsumerStatefulWidget {
@@ -32,8 +39,8 @@ class _SignupViewState extends ConsumerState<SignupView>
     super.initState();
     nameController = TextEditingController(text: "abdo");
     emailController =
-        TextEditingController(text: "abdelrahmantemsah30@gmail.com");
-    passwordController = TextEditingController(text: "123456");
+        TextEditingController(text: "abdelrahmatemsah29@gmail.com");
+    passwordController = TextEditingController();
 
     nameAnimationController = AnimationController(
       vsync: this,
@@ -101,12 +108,23 @@ class _SignupViewState extends ConsumerState<SignupView>
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(signUpNotifierProvider, (previous, next) {
+      if (next.isSignedUp) {
+        context.pushNamed(Routes.oTPVerificationScreen,
+            arguments: UserModel(
+                name: nameController.text,
+                email: emailController.text,
+                password: passwordController.text,
+                userId: getIt<Supabase>().client.auth.currentUser!.id));
+      } else if (next.errorMessage != null) {
+        showErrorSnackBar(next.errorMessage!);
+      }
+    });
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

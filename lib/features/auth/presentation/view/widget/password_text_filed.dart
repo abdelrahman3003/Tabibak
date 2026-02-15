@@ -18,6 +18,7 @@ class _PasswordTextFiledState extends State<PasswordTextFiled> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       decoration: InputDecoration(
         hintText: widget.hint ?? AppStrings.password,
         prefixIcon: Icon(Icons.password_rounded),

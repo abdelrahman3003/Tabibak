@@ -3,16 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
+import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/otp_verification/otp_verification_provider.dart';
 
 class VerificationButtonStates extends ConsumerWidget {
   const VerificationButtonStates({
     super.key,
-    required this.email,
-    required this.otp,
+    required this.userModel,
   });
-  final String email;
-  final String otp;
+  final UserModel userModel;
   @override
   Widget build(BuildContext context, ref) {
     final isLoading = ref.watch(otpVerificationNotifierProvider.select(
@@ -28,7 +27,7 @@ class VerificationButtonStates extends ConsumerWidget {
           : () {
               ref
                   .read(otpVerificationNotifierProvider.notifier)
-                  .verifyOtpCode(email: email, otp: otp);
+                  .verifyOtpCode(userModel: userModel);
             },
     );
   }

@@ -40,7 +40,7 @@ class AppButton extends StatelessWidget {
             ? Theme.of(context).colorScheme.secondary
             : (color ?? AppColors.primary),
       ),
-      onPressed: isLoading ? null : onPressed,
+      onPressed: isLoading || isLoadingSide ? null : onPressed,
       child: isLoading
           ? Center(
               child: SizedBox(

@@ -3,7 +3,9 @@ class OtpVerificationStates {
   final bool isSendingOtp;
   final String? errorMessage;
   final bool isVerifiedIn;
+
   final bool isSignedUp;
+  final String? otp;
 
   OtpVerificationStates({
     this.isLoading = false,
@@ -11,6 +13,7 @@ class OtpVerificationStates {
     this.errorMessage,
     this.isVerifiedIn = false,
     this.isSignedUp = false,
+    this.otp,
   });
   OtpVerificationStates copyWith({
     bool? isLoading,
@@ -25,6 +28,7 @@ class OtpVerificationStates {
       isVerifiedIn: isVerifiedIn ?? false,
       isSignedUp: isSignedUp ?? false,
       errorMessage: errorMessage,
+      otp: otp ?? this.otp,
     );
   }
 }

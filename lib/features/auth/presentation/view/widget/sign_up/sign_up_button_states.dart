@@ -2,11 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/core/extenstion/naviagation.dart';
-import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/auth/data/models/user_model.dart';
-import 'package:tabibak/features/auth/presentation/manager/otp_verification/otp_verification_provider.dart';
+import 'package:tabibak/features/auth/presentation/manager/sign%20up/sign_up_provider.dart';
 
 class SignUpButtonStates extends ConsumerWidget {
   final Animation<Offset> animation;
@@ -26,7 +23,7 @@ class SignUpButtonStates extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(
-      otpVerificationNotifierProvider.select((s) => s.isLoading),
+      signUpNotifierProvider.select((s) => s.isLoading),
     );
 
     return SlideTransition(
@@ -36,15 +33,13 @@ class SignUpButtonStates extends ConsumerWidget {
           title: isLoading
               ? "${AppStrings.creatingAccount}..."
               : AppStrings.createAccount,
-          isLoading: isLoading,
+          isLoadingSide: isLoading,
           onPressed: () {
             if (!isLoading && signUpFormKey.currentState!.validate()) {
-              context.pushNamed(Routes.oTPVerificationScreen,
-                  arguments: UserModel(
-                    name: nameController.text,
-                    email: emailController.text,
-                    password: passwordController.text,
-                  ));
+              ref.read(signUpNotifierProvider.notifier).signUp(
+                  name: nameController.text,
+                  email: emailController.text,
+                  password: passwordController.text);
             }
           },
         ));

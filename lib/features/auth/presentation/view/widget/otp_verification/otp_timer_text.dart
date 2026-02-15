@@ -37,6 +37,7 @@ class _OtpTimerTextState extends ConsumerState<OtpTimerText> {
       } else {
         _timer?.cancel();
       }
+      setState(() {});
     });
   }
 
@@ -57,6 +58,7 @@ class _OtpTimerTextState extends ConsumerState<OtpTimerText> {
       onTap: secondsRemaining == 0
           ? () {
               startTimer();
+              ref.read(secondsRemainingState.notifier).state = 120;
               ref
                   .read(otpVerificationNotifierProvider.notifier)
                   .sendOtp(email: widget.email);

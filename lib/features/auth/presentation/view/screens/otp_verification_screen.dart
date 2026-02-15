@@ -1,11 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
+import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/otp_verification/otp_verification_provider.dart';
@@ -16,51 +15,33 @@ import 'package:tabibak/features/auth/presentation/view/widget/otp_widget.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class OtpVerificationScreen extends ConsumerStatefulWidget {
-  const OtpVerificationScreen({super.key});
-
+  const OtpVerificationScreen({super.key, required this.userModel});
+  final UserModel userModel;
   @override
   ConsumerState<OtpVerificationScreen> createState() =>
       _OtpVerificationScreenState();
 }
 
 class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
-  Timer? _timer;
-  String? otp;
-  UserModel? userModel;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final args = ModalRoute.of(context)?.settings.arguments;
-      if (args != null && args is UserModel) {
-        setState(() {
-          userModel = args;
-          if (ref.read(secondsRemainingState) == 120) {
-            ref
-                .read(otpVerificationNotifierProvider.notifier)
-                .sendOtp(email: userModel!.email!);
-          }
-        });
-      }
+    Future.microtask(() {
+      ref
+          .read(otpVerificationNotifierProvider.notifier)
+          .sendOtp(email: widget.userModel.email!);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(otpVerificationNotifierProvider, (previous, next) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (next.isVerifiedIn) {
-          ref.read(otpVerificationNotifierProvider.notifier).signUp(
-              name: userModel?.name ?? "",
-              email: userModel?.email ?? "",
-              password: userModel?.password ?? "");
-        } else if (next.isSignedUp) {
-          context.pushNamedAndRemoveUntil(
-              Routes.layoutScreen, (route) => false);
-        } else if (next.errorMessage != null) {
-          showErrorSnackBar(next.errorMessage!);
-        }
-      });
+    ref.listen(otpVerificationNotifierProvider, (previous, next) async {
+      if (next.isVerifiedIn) {
+        await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
+        context.pushNamed(Routes.layoutScreen);
+      } else if (next.errorMessage != null) {
+        showErrorSnackBar(next.errorMessage!);
+      }
     });
 
     return Scaffold(
@@ -70,28 +51,20 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TitleTextStates(email: userModel?.email ?? ""),
+            TitleTextStates(email: widget.userModel.email ?? ""),
             20.hBox,
             OtpWidget(
               onChanged: (value) {
-                otp = value;
-                setState(() {});
+                ref.read(otpVerificationNotifierProvider.notifier).otp = value;
               },
             ),
             20.hBox,
-            VerificationButtonStates(
-                email: userModel?.email ?? "", otp: otp ?? ""),
+            VerificationButtonStates(userModel: widget.userModel),
             20.hBox,
-            OtpTimerText(email: userModel?.email ?? "")
+            OtpTimerText(email: widget.userModel.email ?? "")
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 }
