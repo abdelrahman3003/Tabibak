@@ -13,6 +13,7 @@ import 'package:tabibak/features/auth/presentation/view/screens/reset_password_s
 import 'package:tabibak/features/auth/presentation/view/screens/reset_password_sucess_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/signin_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/signup_screen.dart';
+import 'package:tabibak/features/doctor/presentation/views/screens/doctor_details_screen.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/screens/all_specialties_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/layout_screen.dart';
@@ -33,18 +34,22 @@ class AppRouter {
         return _buildSlideRoute(ForgetPasswordScreen(), settings: setting);
       case Routes.oTPVerificationScreen:
         final user = setting.arguments as UserModel;
-        return _buildSlideRoute(
-          OtpVerificationScreen(userModel: user),
-          settings: setting,
-        );
-
+        return _buildSlideRoute(OtpVerificationScreen(userModel: user),
+            settings: setting);
+      case Routes.resetPasswordSuccessScreen:
+        return _buildSlideRoute(const ResetPasswordSuccessScreen());
+      case Routes.emailVerificationScreen:
+        final email = setting.arguments as String;
+        return _buildSlideRoute(EmailVerificationScreen(email: email));
       case Routes.resetPasswordScreen:
         return _buildSlideRoute(const ResetPasswordScreen(), settings: setting);
       case Routes.layoutScreen:
         return _buildSlideRoute(const LayoutScreen());
+
       case Routes.specialistScreen:
         return _buildSlideRoute(const SpecialistScreen());
-
+      case Routes.doctorDetailsScreen:
+        return _buildSlideRoute(const DoctorDetailsScreen());
       case Routes.appointmentBookingScreen:
         final doctorModel = setting.arguments as DoctorModel;
         return _buildSlideRoute(
@@ -55,18 +60,12 @@ class AppRouter {
             AppointmentDetailsScreen(appointment: appointment));
       case Routes.bookingSuccessScreen:
         final args = setting.arguments as AppointmentSuccessArg;
-
         return _buildSlideRoute(
             BookingSuccessScreen(appointmentSuccessArg: args));
-      case Routes.resetPasswordSuccessScreen:
-        return _buildSlideRoute(const ResetPasswordSuccessScreen());
       case Routes.notificationScreen:
         return _buildSlideRoute(const NotificationScreen());
       case Routes.allSpecialtiesScreen:
         return _buildSlideRoute(const AllSpecialtiesScreen());
-      case Routes.emailVerificationScreen:
-        final email = setting.arguments as String;
-        return _buildSlideRoute(EmailVerificationScreen(email: email));
 
       default:
         return _buildSlideRoute(

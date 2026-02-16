@@ -7,7 +7,7 @@ class Routes {
   static const String resetPasswordSuccessScreen =
       "/resetPasswordSuccessScreen";
   static const String layoutScreen = "/layoutScreen";
-  static const String specialistScreen = "/doctorDetailsScreen";
+  static const String specialistScreen = "/specialistScreen";
   static const String doctorDetailsScreen = "/doctorDetailsScreen";
   static const String appointmentBookingScreen = "/appointmentBookingScreen";
   static const String appointmentDetailsScreen = "/appointmentDetailsScreen";
