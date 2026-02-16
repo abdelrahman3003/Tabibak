@@ -5,7 +5,7 @@ import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/doctor/presentaion/manager/rating/rating_provider.dart';
+import 'package:tabibak/features/doctor/presentation/manager/rating/rating_provider.dart';
 
 void showRatingDialog(BuildContext context) {
   final ratingProvider = StateProvider<double>((ref) => 0);

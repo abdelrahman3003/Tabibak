@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
-import 'package:tabibak/features/doctor/presentaion/manager/doctor/doctor_provider.dart';
+import 'package:tabibak/features/doctor/presentation/manager/doctor/doctor_provider.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/features/doctor/data/repo/doctor_repo.dart';
-import 'package:tabibak/features/doctor/presentaion/manager/doctor/doctor_states.dart';
+import 'package:tabibak/features/doctor/presentation/manager/doctor/doctor_states.dart';
 
 final doctorIdProvider = StateProvider<String?>((ref) => null);
 final doctorRepoProvider = StateProvider<DoctorRepo>(

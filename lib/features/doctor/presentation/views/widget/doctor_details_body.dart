@@ -6,11 +6,11 @@ import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/bio_text.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/booking_dialog_injury.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/clinic_info_section.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_list_states.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/schedule_section.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/bio_text.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/booking_dialog_injury.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/clinic_info_section.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/comment_list/comment_list_states.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/schedule_section.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 

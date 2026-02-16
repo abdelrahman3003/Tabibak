@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/clinic_work_day_card.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/clinic_work_day_card.dart';
 import 'package:tabibak/features/home/data/model/working_day_model.dart';
 
 class ScheduleSection extends StatelessWidget {

@@ -9,7 +9,7 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/booking_dialog_injury.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/booking_dialog_injury.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class DoctorItem extends StatelessWidget {

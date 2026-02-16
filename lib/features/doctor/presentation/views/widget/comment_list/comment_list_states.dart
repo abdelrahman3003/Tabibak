@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_provider.dart';
-import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_states.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/all_comments_sheet.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_list_view.dart';
+import 'package:tabibak/features/doctor/presentation/manager/comment/comment_provider.dart';
+import 'package:tabibak/features/doctor/presentation/manager/comment/comment_states.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/all_comments_sheet.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/comment_list/comment_list_view.dart';
 import 'package:tabibak/features/home/data/model/comment_model.dart';
 
 import '../../../../../home/presentation/views/widget/home_screen/title_text.dart';

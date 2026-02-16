@@ -4,9 +4,9 @@ import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_provider.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/comment_list/comment_item.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/review_send_button.dart';
+import 'package:tabibak/features/doctor/presentation/manager/comment/comment_provider.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/comment_list/comment_item.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/review_send_button.dart';
 
 class AllCommentsSheet extends StatelessWidget {
   const AllCommentsSheet({super.key, required this.doctorId});

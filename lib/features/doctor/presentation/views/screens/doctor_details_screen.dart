@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/features/doctor/presentaion/manager/doctor/doctor_provider.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/doctor_details_body.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/doctor_details_shimmer.dart';
+import 'package:tabibak/features/doctor/presentation/manager/doctor/doctor_provider.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/doctor_details_body.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/doctor_details_shimmer.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class DoctorDetailsScreen extends ConsumerWidget {

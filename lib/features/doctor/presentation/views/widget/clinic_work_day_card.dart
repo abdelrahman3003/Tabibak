@@ -6,7 +6,7 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/function/formate_date.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/doctor/presentaion/views/widget/shift_schedule_item.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/shift_schedule_item.dart';
 import 'package:tabibak/features/home/data/model/working_day_model.dart';
 
 class ClinicWorkDayCard extends StatelessWidget {

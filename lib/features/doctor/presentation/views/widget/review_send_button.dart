@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/doctor/presentaion/manager/comment/comment_provider.dart';
+import 'package:tabibak/features/doctor/presentation/manager/comment/comment_provider.dart';
 import 'package:tabibak/features/home/data/model/comment_model.dart';
 
 class ReviewSendButton extends ConsumerStatefulWidget {
