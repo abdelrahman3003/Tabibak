@@ -36,6 +36,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await remoteDatasource.login(email, password);
       return ApiResult.sucess(result);
     } catch (error) {
+      log("-----$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

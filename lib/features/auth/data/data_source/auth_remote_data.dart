@@ -21,8 +21,30 @@ class AuthRemoteDatasource {
   }
 
   Future<AuthResponse> login(String email, String password) async {
-    return await supabase.auth
-        .signInWithPassword(email: email, password: password);
+    final response = await supabase.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
+
+    final user = response.user;
+
+    if (user == null) throw const AuthException('Login failed');
+    if (user.emailConfirmedAt == null) {
+      await supabase.auth.signOut();
+      throw const AuthException('email_not_confirmed');
+    } else {
+      final existingUser = await getUserById(user.id);
+      if (existingUser == null) {
+        final newUser = UserModel(
+          name: user.userMetadata?['name'] ?? 'User',
+          email: user.email ?? '',
+          userId: user.id,
+        );
+        await addUserData(newUser);
+      }
+    }
+
+    return response;
   }
 
   Future<void> sendOtp(String email) async {
@@ -75,6 +97,15 @@ class AuthRemoteDatasource {
     await supabase
         .from('users')
         .upsert(userModel.toJson(), onConflict: 'user_id');
+  }
+
+  Future<UserModel?> getUserById(String userId) async {
+    final response = await supabase
+        .from('users')
+        .select()
+        .eq('user_id', userId)
+        .maybeSingle();
+    return response != null ? UserModel.fromJson(response) : null;
   }
 
   Future<void> signOut() async {
