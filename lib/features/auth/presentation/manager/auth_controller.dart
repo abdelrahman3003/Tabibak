@@ -14,16 +14,4 @@ class AuthController extends StateNotifier<AuthStates> {
   final Ref ref;
 
   AuthController(this.ref) : super(AuthInitial());
-
-  Future<void> resetPassword({required String newPassword}) async {
-    state = ResetPasswordLoading();
-    final result = await ref.read(authRepositoryProvider).resetPassword(
-          newPassword: newPassword,
-        );
-    result.when(sucess: (_) async {
-      state = ResetPasswordSuccess();
-    }, failure: (error) {
-      state = ResetPasswordFailure(error.message.toString());
-    });
-  }
 }

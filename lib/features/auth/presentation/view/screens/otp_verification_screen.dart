@@ -4,7 +4,6 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
-import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/otp_verification/otp_verification_provider.dart';
@@ -24,21 +23,10 @@ class OtpVerificationScreen extends ConsumerStatefulWidget {
 
 class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   @override
-  void initState() {
-    super.initState();
-    // Future.microtask(() {
-    //   ref
-    //       .read(otpVerificationNotifierProvider.notifier)
-    //       .sendOtp(email: widget.userModel.email!);
-    // });
-  }
-
-  @override
   Widget build(BuildContext context) {
     ref.listen(otpVerificationNotifierProvider, (previous, next) async {
       if (next.isVerifiedIn) {
-        await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
-        context.pushNamed(Routes.layoutScreen);
+        context.pushNamed(Routes.resetPasswordScreen);
       } else if (next.errorMessage != null) {
         showErrorSnackBar(next.errorMessage!);
       }

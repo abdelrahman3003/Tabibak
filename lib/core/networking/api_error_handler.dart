@@ -64,6 +64,9 @@ class ErrorHandler {
       case "otp_expired":
         return ApiErrorModel(message: AppStrings.otpExpired);
 
+      case "over_email_send_rate_limit":
+        return ApiErrorModel(message: AppStrings.emailRateLimitExceed);
+
       case "email_address_invalid":
         return ApiErrorModel(message: AppStrings.emailAddressInvalid);
 

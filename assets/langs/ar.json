@@ -163,5 +163,7 @@
     "Weak password": "كلمة المرور ضعيفة",
     "User already exists": "المستخدم مسجل بالفعل",
     "OTP expired": "انتهت صلاحية رمز التحقق",
-    "Email address invalid": "صيغة البريد الإلكتروني غير صحيحة"
+    "Email rate limit exceeded": "تم تجاوز حد استخدام البريد الإلكتروني",
+    "Email address invalid": "صيغة البريد الإلكتروني غير صحيحة",
+    "Same Password": "كلمة المرور الجديدة يجب أن تكون مختلفة عن القديمة"
 }

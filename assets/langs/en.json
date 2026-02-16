@@ -170,8 +170,10 @@
     "Weak password": "Weak password",
     "User already exists": "User already exists",
     "OTP expired": "OTP expired",
+    "Email rate limit exceeded": "Email rate limit exceeded",
     "Email address invalid": "Email address invalid",
     "Check Email": "Check your email",
     "Verification Email Sent": "A verification link has been sent to your email address. Please check your inbox and follow the instructions to verify your account.",
-    "Back To Login": "Back to Login"
+    "Back To Login": "Back to Login",
+    "Same Password": "New password should be different from the old password"
 }

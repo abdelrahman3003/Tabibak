@@ -4,8 +4,8 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/password_text_filed.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/sign_up/do_you_have_account.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/sign_up/password_text_filed.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/sign_up/sign_up_button_states.dart';
 
 class SignupBody extends ConsumerWidget {

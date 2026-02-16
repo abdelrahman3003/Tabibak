@@ -6,10 +6,10 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/password_text_filed.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/sign_in/google_signin_button.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/sign_in/sign_in_button_states.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/sign_up/do_you_have_account.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/sign_up/password_text_filed.dart';
 
 class SigninBody extends ConsumerWidget {
   final GlobalKey<FormState> signinKey;

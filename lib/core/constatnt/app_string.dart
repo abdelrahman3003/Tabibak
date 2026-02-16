@@ -183,8 +183,10 @@ class AppStrings {
   static String get weakPassword => "Weak password".tr();
   static String get userAlreadyExists => "User already exists".tr();
   static String get otpExpired => "OTP expired".tr();
+  static String get emailRateLimitExceed => "Email rate limit exceeded".tr();
   static String emailAddressInvalid = "Email address invalid".tr();
   static String checkEmail = "Check Email".tr();
   static String verificationEmailSent = "Verification Email Sent".tr();
   static String backToLogin = "Back To Login".tr();
+  static String samePassword = "Same Password".tr();
 }

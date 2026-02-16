@@ -65,7 +65,8 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                 validator: (value) => Validation.validateEmail(value),
               ),
               20.hBox,
-              SendOtpButtonStates(formKey: formKey, email: emailController.text)
+              SendOtpButtonStates(
+                  formKey: formKey, emailController: emailController)
             ],
           ),
         ),

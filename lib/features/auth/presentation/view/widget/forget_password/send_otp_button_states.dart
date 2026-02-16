@@ -8,10 +8,10 @@ class SendOtpButtonStates extends ConsumerWidget {
   const SendOtpButtonStates({
     super.key,
     required this.formKey,
-    required this.email,
+    required this.emailController,
   });
   final GlobalKey<FormState> formKey;
-  final String email;
+  final TextEditingController emailController;
   @override
   Widget build(BuildContext context, ref) {
     final state = ref.watch(forgetPasswordNotifierProvider);
@@ -24,7 +24,7 @@ class SendOtpButtonStates extends ConsumerWidget {
         if (formKey.currentState!.validate()) {
           ref
               .read(forgetPasswordNotifierProvider.notifier)
-              .sendOtp(email: email);
+              .sendOtp(email: emailController.text);
         }
       },
     );

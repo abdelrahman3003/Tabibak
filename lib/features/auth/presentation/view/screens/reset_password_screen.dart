@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/password_text_filed.dart';
+import 'package:tabibak/features/auth/presentation/manager/reset_password/reset_password_provider.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/reset_passwprd/reset_password_button_states.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/sign_up/password_text_filed.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {
@@ -20,28 +20,26 @@ class ResetPasswordScreen extends ConsumerStatefulWidget {
       _ResetPasswordScreenState();
 }
 
-late TextEditingController newPasswordController;
-late TextEditingController conformPasswordController;
-
 class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
+  late TextEditingController newPasswordController;
+  late TextEditingController conformPasswordController;
+  final formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
-
-    ref.listen(authControllerProvider, (previous, next) {
-      if (next is ResetPasswordSuccess) {
-        context.pushNamed(Routes.resetPasswordSuccessScreen);
-      } else if (next is ResetPasswordFailure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next.error), backgroundColor: AppColors.red),
-        );
-      }
-    });
+    newPasswordController = TextEditingController();
+    conformPasswordController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = ref.read(authControllerProvider.notifier);
+    ref.listen(resetPasswordNotifierProvider, (previous, next) {
+      if (next.isReset) {
+        context.pushNamed(Routes.resetPasswordSuccessScreen);
+      } else if (next.errorMessage != null) {
+        showErrorSnackBar(next.errorMessage!);
+      }
+    });
 
     return Scaffold(
       appBar: AppBarWidget(
@@ -50,6 +48,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Form(
+          key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -78,13 +77,20 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 },
               ),
               30.hBox,
-              // const ResetPasswordButtonStates(
-              //     resetPasswordKeyForm: resetPasswordKeyForm,
-              //     newPassword: newPassword)
+              ResetPasswordButtonStates(
+                  formKey: formKey,
+                  newPasswordController: newPasswordController)
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    newPasswordController.dispose();
+    conformPasswordController.dispose();
   }
 }
