@@ -18,6 +18,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final result = await remoteDatasource.signUp(
           name: name, email: email, password: password);
+
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
@@ -57,9 +58,12 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<ApiResult<void>> verifyOtpCode(
-      {required String email, required String otp}) async {
+      {required UserModel userModel, required String otp}) async {
     try {
-      final result = await remoteDatasource.verifyOtp(email: email, otp: otp);
+      final result =
+          await remoteDatasource.verifyOtp(email: userModel.email!, otp: otp);
+      await remoteDatasource.addUserData(UserModel(
+          email: userModel.email, name: userModel.name, isVerified: true));
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

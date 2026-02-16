@@ -10,8 +10,7 @@ abstract class AuthRepository {
       {required String name, required String email, required String password});
   Future<ApiResult<void>> sendOtp({required String email});
   Future<ApiResult<void>> verifyOtpCode(
-      {required String email, required String otp});
+      {required UserModel userModel, required String otp});
   Future<ApiResult<UserResponse>> resetPassword({required String newPassword});
-  Future<ApiResult<void>> addUserData(UserModel userModel);
   Future<ApiResult<void>> signOut();
 }

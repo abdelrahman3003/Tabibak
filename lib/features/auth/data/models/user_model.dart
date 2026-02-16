@@ -18,7 +18,8 @@ class UserModel {
 
   @JsonKey(name: 'is_doctor')
   final bool? isDoctor;
-
+  @JsonKey(name: 'is_verified')
+  final bool? isVerified;
   @JsonKey(name: 'created_at')
   final String? createdAt;
 
@@ -31,6 +32,7 @@ class UserModel {
     this.userId,
     this.fcmToken,
     this.isDoctor,
+    this.isVerified,
     this.createdAt,
   });
 

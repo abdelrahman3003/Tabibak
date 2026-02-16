@@ -27,10 +27,9 @@ class OtpVerificationProvider extends StateNotifier<OtpVerificationStates> {
   Future<void> verifyOtpCode(
       {required UserModel userModel, bool isSignUp = false}) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
-    final result = await authRepo.verifyOtpCode(
-        email: userModel.email ?? "", otp: otp ?? "");
+    final result =
+        await authRepo.verifyOtpCode(userModel: userModel, otp: otp ?? "");
     result.when(sucess: (_) async {
-      await authRepo.addUserData(userModel);
       state = state.copyWith(isVerifiedIn: true);
     }, failure: (error) {
       state = state.copyWith(errorMessage: error.message);
