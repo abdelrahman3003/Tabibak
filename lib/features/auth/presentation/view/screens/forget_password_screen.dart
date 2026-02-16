@@ -6,10 +6,10 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
 import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/forget_password/send_otp_button_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class ForgetPasswordScreen extends ConsumerStatefulWidget {
@@ -28,12 +28,6 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
   void initState() {
     super.initState();
     emailController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    super.dispose();
   }
 
   @override
@@ -74,7 +68,7 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                 validator: (value) => Validation.validateEmail(value),
               ),
               20.hBox,
-              sendOtpButtonStates()
+              SendOtpButtonStates(formKey: formKey)
             ],
           ),
         ),
@@ -82,24 +76,9 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
     );
   }
 
-  Consumer sendOtpButtonStates() {
-    return Consumer(
-      builder: (context, ref, _) {
-        final sendOtpState = ref.watch(authControllerProvider);
-
-        bool isLoading = sendOtpState is SendOtpLoading;
-        return AppButton(
-          title: isLoading ? "${AppStrings.sendCode}..." : AppStrings.sendCode,
-          isLoading: isLoading,
-          onPressed: () {
-            if (!isLoading && formKey.currentState!.validate()) {
-              // ref
-              //     .read(authControllerProvider.notifier)
-              //     .sendOtp(email: emailController.text);
-            }
-          },
-        );
-      },
-    );
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
   }
 }

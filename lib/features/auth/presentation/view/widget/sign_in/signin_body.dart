@@ -5,6 +5,7 @@ import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/routing/routes.dart';
+import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/do_you_have_account.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/password_text_filed.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/sign_in/google_signin_button.dart';
@@ -59,12 +60,15 @@ class SigninBody extends ConsumerWidget {
           20.hBox,
           InkWell(
             onTap: () {
-              context.pushNamed(Routes.resetPasswordScreen);
+              context.pushNamed(Routes.forgetPasswordScreen);
             },
             child: Align(
               alignment: Alignment.centerRight,
               child: Text(AppStrings.forgotPassword,
-                  style: Theme.of(context).textTheme.bodyLarge),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: AppColors.primary)),
             ),
           ),
           30.hBox,
