@@ -4,7 +4,7 @@ import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/presentation/manager/sign_in/sign_in_provider.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/signin_body.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/sign_in/signin_body.dart';
 
 class SigninScreen extends ConsumerStatefulWidget {
   const SigninScreen({super.key});
@@ -34,8 +34,7 @@ class _SigninScreenState extends ConsumerState<SigninScreen>
   @override
   void initState() {
     super.initState();
-    emailController =
-        TextEditingController(text: "abdelrahmatemsah29@gmail.com");
+    emailController = TextEditingController();
     passwordController = TextEditingController();
 
     emailAnimationController = AnimationController(

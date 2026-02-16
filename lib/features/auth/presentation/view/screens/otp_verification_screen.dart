@@ -9,9 +9,9 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/otp_verification/otp_verification_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/otp_verification/otp_timer_text.dart';
+import 'package:tabibak/features/auth/presentation/view/widget/otp_verification/otp_widget.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/otp_verification/title_text_states.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/otp_verification/verification_button_states.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/otp_widget.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class OtpVerificationScreen extends ConsumerStatefulWidget {

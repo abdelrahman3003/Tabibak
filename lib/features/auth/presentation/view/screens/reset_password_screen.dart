@@ -64,7 +64,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               PasswordTextFiled(
                 controller: newPasswordController,
                 hint: AppStrings.newPassword,
-                validator: (value) => Validation.validatePassord(value),
+                validator: (value) => Validation.validatePassword(value),
               ),
               20.hBox,
               PasswordTextFiled(
@@ -74,7 +74,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                   if (value != newPasswordController.text) {
                     return AppStrings.passwordsNotMatch;
                   }
-                  return Validation.validatePassord(value);
+                  return Validation.validatePassword(value);
                 },
               ),
               30.hBox,

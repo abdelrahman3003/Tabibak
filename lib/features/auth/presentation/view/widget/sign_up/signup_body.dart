@@ -69,7 +69,7 @@ class SignupBody extends ConsumerWidget {
               child: PasswordTextFiled(
                 controller: passwordController,
                 validator: (value) {
-                  return Validation.validatePassord(value);
+                  return Validation.validatePassword(value);
                 },
               )),
           const SizedBox(height: 60),

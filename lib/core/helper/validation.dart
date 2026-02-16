@@ -11,7 +11,7 @@ class Validation {
     return null;
   }
 
-  static String? validatePassord(String? value) {
+  static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return "كلمة المرور مطلوبة";
     }
