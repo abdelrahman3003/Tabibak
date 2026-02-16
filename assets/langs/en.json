@@ -166,8 +166,12 @@
     "Validation failed": "Validation failed",
     "Missing email or phone": "Missing email or phone",
     "Invalid credentials": "Invalid credentials",
+    "Email not confirmed": "Email not confirmed",
     "Weak password": "Weak password",
     "User already exists": "User already exists",
     "OTP expired": "OTP expired",
-    "Email address invalid": "Email address invalid"
+    "Email address invalid": "Email address invalid",
+    "Check Email": "Check your email",
+    "Verification Email Sent": "A verification link has been sent to your email address. Please check your inbox and follow the instructions to verify your account.",
+    "Back To Login": "Back to Login"
 }

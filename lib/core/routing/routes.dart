@@ -15,4 +15,5 @@ class Routes {
   static const String splashScreen = "/splashScreen";
   static const String bookingSuccessScreen = "/bookingSuccessScreen";
   static const String allSpecialtiesScreen = "/allSpecialtiesScreen";
+  static const String emailVerificationScreen = "/emailVerificationScreen";
 }

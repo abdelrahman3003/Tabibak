@@ -12,8 +12,11 @@ class AuthRemoteDatasource {
       {required String name,
       required String email,
       required String password}) async {
-    final result = await supabase.auth
-        .signUp(data: {"name": name}, email: email, password: password);
+    final result = await supabase.auth.signUp(
+        data: {"name": name},
+        email: email,
+        password: password,
+        emailRedirectTo: "myapp://auth-callback");
     return result;
   }
 

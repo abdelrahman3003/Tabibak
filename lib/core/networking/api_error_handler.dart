@@ -49,6 +49,9 @@ class ErrorHandler {
       case "missing_email_or_phone":
         return ApiErrorModel(message: AppStrings.missingEmailOrPhone);
 
+      case "email_not_confirmed":
+        return ApiErrorModel(message: AppStrings.emailNotConfirm);
+
       case "invalid_credentials":
         return ApiErrorModel(message: AppStrings.invalidCredentials);
 

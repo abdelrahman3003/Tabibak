@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
-import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/presentation/manager/sign%20up/sign_up_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/sign_up/signup_body.dart';
 
@@ -38,7 +35,8 @@ class _SignupViewState extends ConsumerState<SignupView>
   void initState() {
     super.initState();
     nameController = TextEditingController();
-    emailController = TextEditingController();
+    emailController =
+        TextEditingController(text: "abdelrahmatemsah29@gmail.com");
     passwordController = TextEditingController();
 
     nameAnimationController = AnimationController(
@@ -99,27 +97,11 @@ class _SignupViewState extends ConsumerState<SignupView>
   }
 
   @override
-  void dispose() {
-    nameAnimationController.dispose();
-    emailAnimationController.dispose();
-    passwordAnimationController.dispose();
-    signupAnimationController.dispose();
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     ref.listen(signUpNotifierProvider, (previous, next) {
       if (next.isSignedUp) {
-        context.pushNamed(Routes.oTPVerificationScreen,
-            arguments: UserModel(
-                name: nameController.text,
-                email: emailController.text,
-                password: passwordController.text,
-                userId: getIt<Supabase>().client.auth.currentUser!.id));
+        context.pushNamed(Routes.emailVerificationScreen,
+            arguments: emailController.text);
       } else if (next.errorMessage != null) {
         showErrorSnackBar(next.errorMessage!);
       }
@@ -138,5 +120,17 @@ class _SignupViewState extends ConsumerState<SignupView>
         signupAnimation: signupAnimation,
       ),
     ));
+  }
+
+  @override
+  void dispose() {
+    nameAnimationController.dispose();
+    emailAnimationController.dispose();
+    passwordAnimationController.dispose();
+    signupAnimationController.dispose();
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }

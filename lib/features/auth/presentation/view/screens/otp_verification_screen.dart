@@ -26,11 +26,11 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      ref
-          .read(otpVerificationNotifierProvider.notifier)
-          .sendOtp(email: widget.userModel.email!);
-    });
+    // Future.microtask(() {
+    //   ref
+    //       .read(otpVerificationNotifierProvider.notifier)
+    //       .sendOtp(email: widget.userModel.email!);
+    // });
   }
 
   @override

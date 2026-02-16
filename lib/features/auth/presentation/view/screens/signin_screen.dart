@@ -34,7 +34,8 @@ class _SigninScreenState extends ConsumerState<SigninScreen>
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController();
+    emailController =
+        TextEditingController(text: "abdelrahmatemsah29@gmail.com");
     passwordController = TextEditingController();
 
     emailAnimationController = AnimationController(

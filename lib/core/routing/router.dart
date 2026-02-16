@@ -6,6 +6,7 @@ import 'package:tabibak/features/appointment/presentaion/view/screens/appointmen
 import 'package:tabibak/features/appointment/presentaion/view/screens/booking_success_screen.dart';
 import 'package:tabibak/features/appointment/presentaion/view/widget/booking/appointment_success_arg.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
+import 'package:tabibak/features/auth/presentation/view/screens/email_verification_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/forget_password_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/otp_verification_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/reset_password_screen.dart';
@@ -63,6 +64,9 @@ class AppRouter {
         return _buildSlideRoute(const NotificationScreen());
       case Routes.allSpecialtiesScreen:
         return _buildSlideRoute(const AllSpecialtiesScreen());
+      case Routes.emailVerificationScreen:
+        final email = setting.arguments as String;
+        return _buildSlideRoute(EmailVerificationScreen(email: email));
 
       default:
         return _buildSlideRoute(

@@ -159,6 +159,7 @@
     "Validation failed": "بيانات غير صحيحة",
     "Missing email or phone": "يجب إدخال البريد الإلكتروني أو الهاتف",
     "Invalid credentials": "بيانات تسجيل الدخول غير صحيحة",
+    "Email not confirmed": "البريد الإلكتروني غير مؤكد",
     "Weak password": "كلمة المرور ضعيفة",
     "User already exists": "المستخدم مسجل بالفعل",
     "OTP expired": "انتهت صلاحية رمز التحقق",
