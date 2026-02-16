@@ -7,8 +7,7 @@ import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
+import 'package:tabibak/features/auth/presentation/manager/forget_password/forget_password_provider.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/forget_password/send_otp_button_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
@@ -32,14 +31,12 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authControllerProvider, (previous, next) {
-      if (next is SendOtpSuccess) {
+    ref.listen(forgetPasswordNotifierProvider, (previous, next) {
+      if (next.isOTPSended) {
         context.pushNamed(Routes.oTPVerificationScreen,
-            arguments: UserModel(
-              email: emailController.text,
-            ));
-      } else if (next is SendOtpFailure) {
-        showErrorSnackBar(next.error);
+            arguments: UserModel(email: emailController.text));
+      } else if (next.errorMessage != null) {
+        showErrorSnackBar(next.errorMessage!);
       }
     });
 
@@ -68,7 +65,7 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                 validator: (value) => Validation.validateEmail(value),
               ),
               20.hBox,
-              SendOtpButtonStates(formKey: formKey)
+              SendOtpButtonStates(formKey: formKey, email: emailController.text)
             ],
           ),
         ),

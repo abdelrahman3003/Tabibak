@@ -2,33 +2,30 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_controller.dart';
-import 'package:tabibak/features/auth/presentation/manager/auth_states.dart';
+import 'package:tabibak/features/auth/presentation/manager/forget_password/forget_password_provider.dart';
 
 class SendOtpButtonStates extends ConsumerWidget {
   const SendOtpButtonStates({
     super.key,
     required this.formKey,
+    required this.email,
   });
   final GlobalKey<FormState> formKey;
+  final String email;
   @override
   Widget build(BuildContext context, ref) {
-    return Consumer(
-      builder: (context, ref, _) {
-        final sendOtpState = ref.watch(authControllerProvider);
+    final state = ref.watch(forgetPasswordNotifierProvider);
 
-        bool isLoading = sendOtpState is SendOtpLoading;
-        return AppButton(
-          title: isLoading ? "${AppStrings.sendCode}..." : AppStrings.sendCode,
-          isLoading: isLoading,
-          onPressed: () {
-            if (!isLoading && formKey.currentState!.validate()) {
-              // ref
-              //     .read(authControllerProvider.notifier)
-              //     .sendOtp(email: emailController.text);
-            }
-          },
-        );
+    return AppButton(
+      title:
+          state.isLoading ? "${AppStrings.sendCode}..." : AppStrings.sendCode,
+      isLoadingSide: state.isLoading,
+      onPressed: () {
+        if (formKey.currentState!.validate()) {
+          ref
+              .read(forgetPasswordNotifierProvider.notifier)
+              .sendOtp(email: email);
+        }
       },
     );
   }

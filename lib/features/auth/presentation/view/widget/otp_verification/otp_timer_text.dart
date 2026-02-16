@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/features/auth/presentation/manager/forget_password/forget_password_provider.dart';
 import 'package:tabibak/features/auth/presentation/manager/otp_verification/otp_verification_provider.dart';
 
 final secondsRemainingState = StateProvider<int>((ref) => 120);
@@ -60,7 +61,7 @@ class _OtpTimerTextState extends ConsumerState<OtpTimerText> {
               startTimer();
               ref.read(secondsRemainingState.notifier).state = 120;
               ref
-                  .read(otpVerificationNotifierProvider.notifier)
+                  .read(forgetPasswordNotifierProvider.notifier)
                   .sendOtp(email: widget.email);
             }
           : null,
