@@ -4,7 +4,7 @@ import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/data/remote_data/appointments_remote_data.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos_imp.dart';
-import 'package:tabibak/features/appointment/presentaion/manager/appointment_provider/appointment_states.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_provider/appointment_states.dart';
 
 final appointsProviderNotifier =
     StateNotifierProvider.autoDispose<AppointmentProvider, AppointmentStates>(

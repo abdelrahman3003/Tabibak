@@ -4,8 +4,8 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
-import 'package:tabibak/features/appointment/presentaion/view/widget/booking/appointment_success_arg.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_provider.dart';
+import 'package:tabibak/features/appointment/presentation/view/widget/booking/appointment_success_arg.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class BookingButtonStates extends ConsumerWidget {

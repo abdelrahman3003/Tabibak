@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/features/appointment/data/remote_data/appointments_remote_data.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos_imp.dart';
-import 'package:tabibak/features/appointment/presentaion/manager/appointment_details_provider/appointment_details_states.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_details_provider/appointment_details_states.dart';
 
 final appointmentDetailsNotifier = StateNotifierProvider.autoDispose<
     AppointmentDetailsProvider, AppointmentDetailsStates>(

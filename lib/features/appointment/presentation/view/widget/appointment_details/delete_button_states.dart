@@ -6,8 +6,8 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/alert_widget.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/appointment/presentaion/manager/appointment_details_provider/appointment_details_provider.dart';
-import 'package:tabibak/features/appointment/presentaion/manager/appointment_provider/appointment_provider.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_details_provider/appointment_details_provider.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_provider/appointment_provider.dart';
 
 class DeleteButtonStates extends StatelessWidget {
   const DeleteButtonStates({

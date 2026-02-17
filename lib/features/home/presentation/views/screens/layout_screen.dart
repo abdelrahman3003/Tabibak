@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/appointment/presentaion/view/screens/appointments_screen.dart';
+import 'package:tabibak/features/appointment/presentation/view/screens/appointments_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/home_screen.dart';
 import 'package:tabibak/features/home/presentation/views/screens/search_screen.dart';
 import 'package:tabibak/features/profile/presentation/view/screens/profile_screen.dart';
@@ -41,9 +41,10 @@ class LayoutScreen extends ConsumerWidget {
               gap: 12,
               activeColor: Theme.of(context).primaryColor,
               color: Theme.of(context).primaryColor,
-              tabBackgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? Theme.of(context).primaryColor.withOpacity(0.2)
-                  : AppColors.second,
+              tabBackgroundColor:
+                  Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).primaryColor.withOpacity(0.2)
+                      : AppColors.second,
               selectedIndex: selectedIndex,
               onTabChange: (index) {
                 ref.read(indexScreenProvider.notifier).state = index;

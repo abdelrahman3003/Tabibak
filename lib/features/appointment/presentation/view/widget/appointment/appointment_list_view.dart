@@ -3,7 +3,7 @@ import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
-import 'package:tabibak/features/appointment/presentaion/view/widget/appointment/appointment_card_item.dart';
+import 'package:tabibak/features/appointment/presentation/view/widget/appointment/appointment_card_item.dart';
 
 class AppointmentListView extends StatelessWidget {
   const AppointmentListView({super.key, required this.appointmentList});

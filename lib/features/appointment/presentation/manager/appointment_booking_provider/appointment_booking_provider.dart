@@ -3,7 +3,7 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos.dart';
-import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_states.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_states.dart';
 
 final appointmentBookingNotifierProvider = StateNotifierProvider.autoDispose<
     AppointmentBookingProvider, AppointmentBookingStates>(

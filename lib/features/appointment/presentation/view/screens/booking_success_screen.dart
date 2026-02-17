@@ -8,8 +8,8 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/appointment/presentaion/manager/appointment_booking_provider/appointment_booking_provider.dart';
-import 'package:tabibak/features/appointment/presentaion/view/widget/booking/appointment_success_arg.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_provider.dart';
+import 'package:tabibak/features/appointment/presentation/view/widget/booking/appointment_success_arg.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
 class BookingSuccessScreen extends StatelessWidget {

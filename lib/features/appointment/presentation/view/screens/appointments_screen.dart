@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/features/appointment/presentaion/manager/appointment_provider/appointment_provider.dart';
-import 'package:tabibak/features/appointment/presentaion/view/widget/appointment/appointment_list_states.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_provider/appointment_provider.dart';
+import 'package:tabibak/features/appointment/presentation/view/widget/appointment/appointment_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/filters_list/filter_list.dart';
 
