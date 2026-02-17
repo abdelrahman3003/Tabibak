@@ -34,37 +34,17 @@ class AlertWidget extends StatelessWidget {
           child: Text(AppStrings.cancel),
         ),
         SizedBox(
-          width: 70.h,
-          child: AppButton(
-            padding: AppPadding.all8,
-            title: confirmString,
-            isLoading: isLoading,
-            onPressed: onPressed,
-            color: AppColors.red,
+          width: 70.w,
+          child: FittedBox(
+            child: AppButton(
+              padding: AppPadding.all8,
+              title: confirmString,
+              isLoading: isLoading,
+              onPressed: onPressed,
+              color: AppColors.red,
+            ),
           ),
         ),
-        // ElevatedButton(
-        //   style: ElevatedButton.styleFrom(
-        //     backgroundColor: confirmColor,
-        //     shape: RoundedRectangleBorder(
-        //       borderRadius: BorderRadius.circular(12),
-        //     ),
-        //   ),
-        //   onPressed: onPressed,
-        //   child: SizedBox(
-        //     height: 25.h,
-        //     width: 25.w,
-        //     child: FittedBox(
-        //         child: isLoading
-        //             ? Padding(
-        //                 padding: const EdgeInsets.all(5),
-        //                 child: CircularProgressIndicator(
-        //                   color: AppColors.white,
-        //                 ),
-        //               )
-        //             : Text(confirmString)),
-        //   ),
-        // ),
       ],
     );
   }

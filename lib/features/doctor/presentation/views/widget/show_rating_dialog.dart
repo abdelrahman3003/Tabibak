@@ -22,20 +22,31 @@ void showRatingDialog(BuildContext context) {
         }
         return AlertDialog(
           title: Text(AppStrings.rateTheDoctor),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              5,
-              (index) => IconButton(
-                icon: Icon(
-                  Icons.star,
-                  color: index < rating ? Colors.amber : Colors.grey,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    5,
+                    (index) => IconButton(
+                      padding: EdgeInsets.symmetric(horizontal: 4.w),
+                      constraints: const BoxConstraints(),
+                      icon: Icon(
+                        Icons.star,
+                        size: 32,
+                        color: index < rating ? Colors.amber : Colors.grey,
+                      ),
+                      onPressed: () {
+                        ref.read(ratingProvider.notifier).state = index + 1.0;
+                      },
+                    ),
+                  ),
                 ),
-                onPressed: () {
-                  ref.read(ratingProvider.notifier).state = index + 1.0;
-                },
               ),
-            ),
+            ],
           ),
           actions: [
             TextButton(
@@ -43,18 +54,20 @@ void showRatingDialog(BuildContext context) {
               child: Text(AppStrings.cancel),
             ),
             SizedBox(
-              width: 80.w,
-              child: AppButton(
-                padding: AppPadding.all8,
-                isLoading: state.isLoading,
-                title: AppStrings.submit,
-                onPressed: state.isLoading
-                    ? null
-                    : () {
-                        ref
-                            .read(ratingNotifierProvider.notifier)
-                            .addRate(rate: ref.read(ratingProvider));
-                      },
+              width: 70.w,
+              child: FittedBox(
+                child: AppButton(
+                  padding: AppPadding.all8,
+                  isLoading: state.isLoading,
+                  title: AppStrings.submit,
+                  onPressed: state.isLoading
+                      ? null
+                      : () {
+                          ref
+                              .read(ratingNotifierProvider.notifier)
+                              .addRate(rate: ref.read(ratingProvider));
+                        },
+                ),
               ),
             ),
           ],
