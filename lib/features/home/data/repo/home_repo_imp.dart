@@ -74,8 +74,6 @@ class HomeRepoImp extends HomeRepo {
           await homeRemoteData.searchDoctor(search, specialtyId: specialtyId);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("------$error");
-
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

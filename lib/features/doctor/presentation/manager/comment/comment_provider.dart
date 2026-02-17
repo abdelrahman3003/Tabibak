@@ -16,7 +16,7 @@ class CommentProvider extends StateNotifier<CommentStates> {
   CommentProvider(this.ref) : super(CommentStates());
   final Ref ref;
 
-  void init(List<CommentModel> initialComments) {
+  void init(List<CommentModel>? initialComments) {
     if (state.commentList == null || state.commentList!.isEmpty) {
       state = state.copyWith(commentList: initialComments);
     }
@@ -28,7 +28,7 @@ class CommentProvider extends StateNotifier<CommentStates> {
 
     result.when(
       sucess: (commentList) {
-        state = state.copyWith(commentList: commentList);
+        state = state.copyWith(commentList: commentList, isSended: true);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);

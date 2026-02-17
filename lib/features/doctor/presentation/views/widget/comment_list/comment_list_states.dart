@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/doctor/presentation/manager/comment/comment_provider.dart';
-import 'package:tabibak/features/doctor/presentation/manager/comment/comment_states.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/all_comments_sheet.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/comment_list/comment_list_view.dart';
 import 'package:tabibak/features/home/data/model/comment_model.dart';
@@ -34,35 +33,35 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(commentNotifierProvider);
-
-    if (state.commentList == null || state.commentList!.isEmpty) {
-      return const SizedBox();
-    }
+    final commentList = ref.watch(commentNotifierProvider.select(
+      (s) => s.commentList,
+    ));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleText(
           title: AppStrings.comments,
-          subtitle: AppStrings.allComments,
+          subtitle: commentList == null || commentList.isEmpty
+              ? AppStrings.addComment
+              : AppStrings.allComments,
           onTap: () {
-            showCommentsBottomSheet(context, state);
+            showCommentsBottomSheet(context);
           },
         ),
         10.hBox,
         CommentListView(
-          doctorCommentModelList: _getRecentComments(state.commentList!),
+          doctorCommentModelList: _getRecentComments(commentList),
         ),
       ],
     );
   }
 
-  List<CommentModel> _getRecentComments(List<CommentModel> comments) {
-    return comments.take(2).toList();
+  List<CommentModel> _getRecentComments(List<CommentModel>? comments) {
+    return comments == null ? [] : comments.take(2).toList();
   }
 
-  void showCommentsBottomSheet(BuildContext context, CommentStates state) {
+  void showCommentsBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

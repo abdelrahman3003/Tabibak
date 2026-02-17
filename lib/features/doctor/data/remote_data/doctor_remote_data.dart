@@ -17,7 +17,7 @@ class DoctorRemoteData {
     return DoctorModel.fromJson(response);
   }
 
-  Future<List<CommentModel>> addComment({
+  Future<List<CommentModel>?> addComment({
     required CommentModel commentModel,
   }) async {
     await supabase.client.from('comments').insert(commentModel.toJson());
@@ -25,6 +25,7 @@ class DoctorRemoteData {
     final response = await supabase.client
         .from('comments')
         .select("*,users(*)")
+        .eq("doctor_id", commentModel.doctorId!)
         .order('created_at', ascending: true);
 
     final commentList =

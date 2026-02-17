@@ -4,6 +4,7 @@ import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/widgets/empty_widget.dart';
 import 'package:tabibak/features/doctor/presentation/manager/comment/comment_provider.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/comment_list/comment_item.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/review_send_button.dart';
@@ -33,13 +34,15 @@ class AllCommentsSheet extends StatelessWidget {
               Expanded(child: Consumer(builder: (context, ref, _) {
                 final state = ref.watch(commentNotifierProvider);
                 final comments = state.commentList ?? [];
-                return ListView.separated(
-                  separatorBuilder: (context, index) => 10.hBox,
-                  itemCount: comments.length,
-                  itemBuilder: (context, index) {
-                    return CommentItem(comment: comments[index]);
-                  },
-                );
+                return comments.isEmpty
+                    ? EmptyWidget()
+                    : ListView.separated(
+                        separatorBuilder: (context, index) => 10.hBox,
+                        itemCount: comments.length,
+                        itemBuilder: (context, index) {
+                          return CommentItem(comment: comments[index]);
+                        },
+                      );
               })),
               20.hBox,
               ReviewSendButton(doctorId: doctorId)

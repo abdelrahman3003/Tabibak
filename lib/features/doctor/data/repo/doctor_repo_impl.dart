@@ -24,7 +24,7 @@ class DoctorRepoImpl implements DoctorRepo {
   }
 
   @override
-  Future<ApiResult<List<CommentModel>>> addComment(
+  Future<ApiResult<List<CommentModel>?>> addComment(
       CommentModel commentModel) async {
     try {
       final result =
