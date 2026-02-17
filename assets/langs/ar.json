@@ -165,5 +165,6 @@
     "OTP expired": "انتهت صلاحية رمز التحقق",
     "Email rate limit exceeded": "تم تجاوز حد استخدام البريد الإلكتروني",
     "Email address invalid": "صيغة البريد الإلكتروني غير صحيحة",
-    "Same Password": "كلمة المرور الجديدة يجب أن تكون مختلفة عن القديمة"
+    "Same Password": "كلمة المرور الجديدة يجب أن تكون مختلفة عن القديمة",
+    "Remove this from your search history": "إزالة هذا من سجل البحث"
 }

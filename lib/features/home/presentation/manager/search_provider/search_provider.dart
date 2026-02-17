@@ -77,7 +77,7 @@ class SearchProvider extends StateNotifier<SearchStates> {
     SharedPrefsService.prefs.remove(SharedPrefKeys.searchDoctors);
   }
 
-  removeDoctorFromCache(int doctorId) async {
+  removeDoctorFromCache(String doctorId) async {
     state = SearchStates(isDeleteLoading: true);
     cachedList!.removeWhere((doctor) => doctor.doctorId == doctorId);
     state = SearchStates(isDeleteLoading: false);

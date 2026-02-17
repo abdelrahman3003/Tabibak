@@ -189,4 +189,6 @@ class AppStrings {
   static String verificationEmailSent = "Verification Email Sent".tr();
   static String backToLogin = "Back To Login".tr();
   static String samePassword = "Same Password".tr();
+  static String removeDoctorSearchHistory =
+      "Remove this from your search history".tr();
 }

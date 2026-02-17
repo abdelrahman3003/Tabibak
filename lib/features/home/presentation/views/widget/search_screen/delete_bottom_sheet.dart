@@ -49,7 +49,7 @@ class DeleteBottomSheet extends StatelessWidget {
                   .copyWith(fontWeight: FontWeight.w500),
             ),
             subtitle: Text(
-              "Remove this from your search history",
+              AppStrings.removeDoctorSearchHistory,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             onTap: onDelete,

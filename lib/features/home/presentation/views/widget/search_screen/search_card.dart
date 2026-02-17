@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/presentation/manager/search_provider/search_provider.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 import 'package:tabibak/features/home/presentation/views/widget/search_screen/delete_bottom_sheet.dart';
 
@@ -42,9 +43,9 @@ class SearchCard extends ConsumerWidget {
                   doctorSummary: doctorSummary,
                   onDelete: () {
                     context.pop();
-                    // ref
-                    //     .read(searchProviderNotifer.notifier)
-                    //     .removeDoctorFromCache(doctorSummary.doctorId);
+                    ref
+                        .read(searchProviderNotifier.notifier)
+                        .removeDoctorFromCache(doctorSummary.doctorId);
                   },
                 );
               },
