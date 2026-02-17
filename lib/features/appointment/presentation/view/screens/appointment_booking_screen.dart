@@ -95,11 +95,11 @@ class _AppointmentBookingScreenState
                             clinicID: widget.doctorModel.clinic!.id!,
                             dateController: ref.read(dateStateController),
                           ),
-                          10.hBox,
+                          20.hBox,
                         ],
                       ),
                     ),
-                    20.wBox,
+                    12.wBox,
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -28,9 +28,10 @@ class AppDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
+      isExpanded: true,
       initialValue: value,
       validator: validator,
-      padding: AppPadding.horizontal16,
+      padding: EdgeInsets.zero,
       icon: suffixIcon ??
           const Icon(Icons.keyboard_arrow_down, color: AppColors.primary),
       decoration: InputDecoration(
@@ -38,12 +39,12 @@ class AppDropdown<T> extends StatelessWidget {
         suffixIcon: null,
         contentPadding: const EdgeInsets.symmetric(vertical: 15),
         hintText: hint,
-          hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: 18.sp,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white70
-                    : Theme.of(context).colorScheme.secondary,
-              ),
+        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontSize: 18.sp,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white70
+                  : Theme.of(context).colorScheme.secondary,
+            ),
         border: InputBorder.none,
       ),
       items: items

@@ -14,7 +14,8 @@ class AppTextFormFiled extends StatelessWidget {
       this.errorText,
       this.onTap,
       this.readOnly = false,
-      this.maxLines});
+      this.maxLines,
+      this.contentPadding});
   final String? hint;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -26,6 +27,7 @@ class AppTextFormFiled extends StatelessWidget {
   final bool readOnly;
   final void Function()? onTap;
   final int? maxLines;
+  final EdgeInsetsGeometry? contentPadding;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -37,6 +39,7 @@ class AppTextFormFiled extends StatelessWidget {
       maxLines: maxLines ?? 1,
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
+        contentPadding: contentPadding,
         errorText: errorText,
         suffixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
