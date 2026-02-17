@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 
 String formatTime(String? time) {
   if (time == null || time.isEmpty) return "";
@@ -7,10 +8,17 @@ String formatTime(String? time) {
   final parts = time.split(':');
   if (parts.length < 2) return "";
 
-  final hour = parts[0].padLeft(2, '0');
+  int hour = int.parse(parts[0]);
   final minute = parts[1].padLeft(2, '0');
 
-  return "$hour:$minute";
+  final isAm = hour < 12;
+
+  hour = hour % 12;
+  if (hour == 0) hour = 12;
+
+  final formattedHour = hour.toString().padLeft(2, '0');
+
+  return "$formattedHour:$minute ${isAm ? AppStrings.am : AppStrings.pm}";
 }
 
 TimeOfDay? parseTime(String? time) {

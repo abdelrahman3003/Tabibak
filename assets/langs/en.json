@@ -186,5 +186,7 @@
     "OnboardingSubtitle3": "Your health data and privacy are our top priority. Professional healthcare management at your fingertips.",
     "Skip": "Skip",
     "Next": "Next",
-    "Get Started": "Get Started"
+    "Get Started": "Get Started",
+    "pm": "pm",
+    "am": "am"
 }

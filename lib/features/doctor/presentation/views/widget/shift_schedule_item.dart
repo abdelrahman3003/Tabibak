@@ -21,19 +21,16 @@ class ShiftScheduleItem extends StatelessWidget {
         children: [
           Text(
             title,
-            style: Theme.of(context)
-                .textTheme
-                .labelSmall
-                ?.copyWith(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white70
-                        : const Color(0xff94A3B8)),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white70
+                    : const Color(0xff94A3B8)),
           ),
           SizedBox(height: 5),
           FittedBox(
             child: Text(
               subtitle,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: AppColors.primary, fontWeight: FontWeight.bold),
             ),
           )

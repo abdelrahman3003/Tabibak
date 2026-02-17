@@ -201,4 +201,6 @@ class AppStrings {
   static String get skip => "Skip".tr();
   static String get next => "Next".tr();
   static String get getStarted => "Get Started".tr();
+  static String get am => "am".tr();
+  static String get pm => "pm".tr();
 }
