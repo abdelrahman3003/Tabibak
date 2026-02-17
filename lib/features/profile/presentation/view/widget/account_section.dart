@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
+import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/alert_widget.dart';
@@ -26,8 +27,13 @@ class AccountSection extends StatelessWidget {
             context: context,
             builder: (context) {
               return Consumer(builder: (context, ref, child) {
-                ref.listen(profileProviderController, (previous, next) {
+                ref.listen(profileProviderController, (previous, next) async {
                   if (next.isLoggedOut) {
+                    await SharedPrefsService.prefs
+                        .setInt(SharedPrefKeys.step, 1);
+                    await SharedPrefsService.prefs
+                        .remove(SharedPrefKeys.isDark);
+                    ref.read(themeStateProvider.notifier).state = false;
                     context.pushNamedAndRemoveUntil(
                         Routes.singInScreen, (route) => false);
                   } else if (next.errorMessage != null) {

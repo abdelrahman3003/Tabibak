@@ -167,5 +167,14 @@
     "Email address invalid": "صيغة البريد الإلكتروني غير صحيحة",
     "Same Password": "كلمة المرور الجديدة يجب أن تكون مختلفة عن القديمة",
     "Remove this from your search history": "إزالة هذا من سجل البحث",
-    "Add Comment": "أضف تعليق"
+    "Add Comment": "أضف تعليق",
+    "OnboardingTitle1": "ابحث عن أطباء موثوقين",
+    "OnboardingSubtitle1": "تصفح مجموعة واسعة من المتخصصين المعتمدين وجد الرعاية الأفضل لصحتك.",
+    "OnboardingTitle2": "حجوزات سهلة",
+    "OnboardingSubtitle2": "احجز زيارتك في ثوانٍ دون انتظار. أدر مواعيدك بكل سلاسة.",
+    "OnboardingTitle3": "رعاية صحية آمنة",
+    "OnboardingSubtitle3": "صحتك وخصوصيتك هي أولويتنا القصوى. إدارة رعاية صحية احترافية بين يديك.",
+    "Skip": "تخطي",
+    "Next": "التالي",
+    "Get Started": "ابدأ الآن"
 }

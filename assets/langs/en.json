@@ -177,5 +177,14 @@
     "Back To Login": "Back to Login",
     "Same Password": "New password should be different from the old password",
     "Remove this from your search history": "Remove this from your search history",
-    "Add Comment": "Add comment"
+    "Add Comment": "Add comment",
+    "OnboardingTitle1": "Find Trusted Doctors",
+    "OnboardingSubtitle1": "Browse through a wide range of certified specialists and find the best care for your health.",
+    "OnboardingTitle2": "Easy Appointments",
+    "OnboardingSubtitle2": "Book your visit in seconds without the wait. Manage your appointments effortlessly.",
+    "OnboardingTitle3": "Secure Healthcare",
+    "OnboardingSubtitle3": "Your health data and privacy are our top priority. Professional healthcare management at your fingertips.",
+    "Skip": "Skip",
+    "Next": "Next",
+    "Get Started": "Get Started"
 }

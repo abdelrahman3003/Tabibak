@@ -16,7 +16,7 @@ class SignInProvider extends StateNotifier<SignInStates> {
     state = state.copyWith(isLoading: true, errorMessage: null);
     final result = await authRepo.signIn(email: email, password: password);
     result.when(sucess: (_) async {
-      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
+      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 2);
       state = state.copyWith(isLoggedIn: true);
     }, failure: (error) {
       state = state.copyWith(errorMessage: error.message);
@@ -27,7 +27,7 @@ class SignInProvider extends StateNotifier<SignInStates> {
     state = state.copyWith(isGoogleLoading: true, errorMessage: null);
     final result = await authRepo.nativeGoogleSignIn();
     result.when(sucess: (_) async {
-      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
+      await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 2);
       state = state.copyWith(isLoggedIn: true);
     }, failure: (error) {
       state = state.copyWith(errorMessage: error.message);

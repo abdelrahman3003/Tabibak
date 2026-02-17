@@ -28,9 +28,6 @@ class ProfileController extends StateNotifier<ProfileStates> {
     state = state.copyWith(isLogOutLoading: true, errorMessage: null);
     final result = await authRepo.signOut();
     result.when(sucess: (_) async {
-      await SharedPrefsService.prefs.remove(SharedPrefKeys.step);
-      await SharedPrefsService.prefs.remove(SharedPrefKeys.isDark);
-      ref.read(themeStateProvider.notifier).state = false;
       state = state.copyWith(isLoggedOut: true);
     }, failure: (error) {
       state = state.copyWith(errorMessage: error.message);
