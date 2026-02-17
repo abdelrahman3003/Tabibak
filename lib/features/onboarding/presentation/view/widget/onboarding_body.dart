@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/features/onboarding/data/model/onboarding_model.dart';
@@ -26,7 +25,7 @@ class OnboardingBody extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                model.title.tr(),
+                model.title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 28.sp,
@@ -36,7 +35,7 @@ class OnboardingBody extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               Text(
-                model.subtitle.tr(),
+                model.subtitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16.sp,

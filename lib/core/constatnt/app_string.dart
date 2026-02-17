@@ -189,7 +189,16 @@ class AppStrings {
   static String verificationEmailSent = "Verification Email Sent".tr();
   static String backToLogin = "Back To Login".tr();
   static String samePassword = "Same Password".tr();
-  static String addComment = "Add Comment".tr();
-  static String removeDoctorSearchHistory =
+  static String get addComment => "Add Comment".tr();
+  static String get removeDoctorSearchHistory =>
       "Remove this from your search history".tr();
+  static String get onboardingTitle1 => "OnboardingTitle1".tr();
+  static String get onboardingSubtitle1 => "OnboardingSubtitle1".tr();
+  static String get onboardingTitle2 => "OnboardingTitle2".tr();
+  static String get onboardingSubtitle2 => "OnboardingSubtitle2".tr();
+  static String get onboardingTitle3 => "OnboardingTitle3".tr();
+  static String get onboardingSubtitle3 => "OnboardingSubtitle3".tr();
+  static String get skip => "Skip".tr();
+  static String get next => "Next".tr();
+  static String get getStarted => "Get Started".tr();
 }

@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
@@ -25,18 +25,18 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   static final List<OnboardingModel> _onboardingData = [
     OnboardingModel(
-      title: 'OnboardingTitle1',
-      subtitle: 'OnboardingSubtitle1',
+      title: AppStrings.onboardingTitle1,
+      subtitle: AppStrings.onboardingSubtitle1,
       image: 'assets/images/onboarding/doctor.png',
     ),
     OnboardingModel(
-      title: 'OnboardingTitle2',
-      subtitle: 'OnboardingSubtitle2',
+      title: AppStrings.onboardingTitle2,
+      subtitle: AppStrings.onboardingSubtitle2,
       image: 'assets/images/onboarding/booking.png',
     ),
     OnboardingModel(
-      title: 'OnboardingTitle3',
-      subtitle: 'OnboardingSubtitle3',
+      title: AppStrings.onboardingTitle3,
+      subtitle: AppStrings.onboardingSubtitle3,
       image: 'assets/images/onboarding/security.png',
     ),
   ];
@@ -106,8 +106,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     const Spacer(),
                     AppButton(
                       title: currentPage == _onboardingData.length - 1
-                          ? 'Get Started'.tr()
-                          : 'Next'.tr(),
+                          ? AppStrings.getStarted
+                          : AppStrings.next,
                       onPressed: () => _nextPage(currentPage),
                     ),
                     SizedBox(height: 40.h),

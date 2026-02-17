@@ -1,4 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
@@ -17,7 +17,7 @@ class SkipButton extends StatelessWidget {
           TextButton(
             onPressed: onPressed,
             child: Text(
-              'Skip'.tr(),
+              AppStrings.skip,
               style: TextStyle(
                 color: AppColors.subtextColor,
                 fontSize: 16.sp,
