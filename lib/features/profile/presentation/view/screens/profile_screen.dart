@@ -42,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                16.hBox,
+                10.hBox,
                 AccountSection(),
                 30.hBox,
               ],

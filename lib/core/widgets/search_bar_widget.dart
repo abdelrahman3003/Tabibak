@@ -11,17 +11,16 @@ class SearchBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       onChanged: onChanged,
-      onSubmitted: onChanged,
+      onSubmitted: onSubmitted,
       decoration: InputDecoration(
+        prefixIcon: const Icon(Icons.search, color: Color(0xff878B94)),
         hintText: ' ${AppStrings.searchDoctor}..',
-        hintStyle: Theme.of(context)
-            .textTheme
-            .bodyLarge
-            ?.copyWith(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white70
-                    : const Color(0xff878B94)),
+        hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white70
+                : const Color(0xff878B94)),
         contentPadding: const EdgeInsets.symmetric(vertical: 16),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(28),

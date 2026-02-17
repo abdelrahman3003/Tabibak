@@ -33,7 +33,7 @@ class _ChangeLanguageState extends State<ChangeLanguage> {
           value: _selectedLanguage,
           icon: Icon(Icons.arrow_forward_ios,
               size: 16, color: AppColors.subtextColor),
-          items: ["العربية", "English"]
+          items: ["English", "العربية"]
               .map((lang) => DropdownMenuItem(
                     value: lang,
                     child: Text(

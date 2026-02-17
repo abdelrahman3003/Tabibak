@@ -12,7 +12,7 @@ class SettingSection extends ConsumerWidget {
     return Column(
       children: [
         ChangeLanguage(),
-        12.hBox,
+        10.hBox,
         ThemeSwitch(),
       ],
     );
