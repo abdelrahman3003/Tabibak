@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 
@@ -21,7 +22,7 @@ class HomeAppBar extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("أهلاً بك 👋",
+                  Text("${AppStrings.welcome}👋",
                       style: Theme.of(context).textTheme.labelLarge),
                   5.hBox,
                   Text(userModel != null ? userModel.name ?? "" : "",

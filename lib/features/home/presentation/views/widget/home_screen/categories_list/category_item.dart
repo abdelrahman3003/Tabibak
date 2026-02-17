@@ -60,6 +60,8 @@ class CategoryItem extends StatelessWidget {
           Text(
             name,
             textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: isDark ? Colors.white70 : const Color(0xff475569),
                   fontWeight: FontWeight.w600,

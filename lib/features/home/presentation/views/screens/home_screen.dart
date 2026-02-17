@@ -36,8 +36,8 @@ class HomeScreen extends StatelessWidget {
           SliverPersistentHeader(
               pinned: true,
               delegate: SliverAppBarDelegate(
-                minHeight: 155.h,
-                maxHeight: 155.h,
+                minHeight: 190.h,
+                maxHeight: 190.h,
                 child: Container(
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: Column(
