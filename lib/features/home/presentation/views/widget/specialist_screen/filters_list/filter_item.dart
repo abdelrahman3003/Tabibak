@@ -14,18 +14,19 @@ class FilterItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 30,
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
         decoration: BoxDecoration(
             color: isActive
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).cardColor,
             borderRadius: AppRadius.radius20),
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: isActive ? AppColors.white : null,
-              fontWeight: FontWeight.w500),
+        child: Center(
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: isActive ? AppColors.white : null,
+                fontWeight: FontWeight.w500),
+          ),
         ),
       ),
     );
