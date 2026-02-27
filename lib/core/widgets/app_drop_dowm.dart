@@ -29,29 +29,23 @@ class AppDropdown<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
       isExpanded: true,
-      initialValue: value,
+      value: value,
       validator: validator,
       padding: EdgeInsets.zero,
       icon: suffixIcon ??
           const Icon(Icons.keyboard_arrow_down, color: AppColors.primary),
       decoration: InputDecoration(
         prefixIcon: prefixIcon,
-        suffixIcon: null,
-        contentPadding: const EdgeInsets.symmetric(vertical: 15),
         hintText: hint,
-        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              fontSize: 18.sp,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white70
-                  : Theme.of(context).colorScheme.secondary,
-            ),
-        border: InputBorder.none,
       ),
       items: items
           .map(
             (item) => DropdownMenuItem<T>(
               value: item,
-              child: Text(labelBuilder(item)),
+              child: Text(
+                labelBuilder(item),
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
           )
           .toList(),

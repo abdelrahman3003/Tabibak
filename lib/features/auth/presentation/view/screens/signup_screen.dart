@@ -20,6 +20,9 @@ class _SignupViewState extends ConsumerState<SignupView>
   late AnimationController emailAnimationController;
   late Animation<Offset> emailAnimation;
 
+  late AnimationController specialtyAnimationController;
+  late Animation<Offset> specialtyAnimation;
+
   late AnimationController passwordAnimationController;
   late Animation<Offset> passwordAnimation;
 
@@ -57,6 +60,16 @@ class _SignupViewState extends ConsumerState<SignupView>
     ).animate(CurvedAnimation(
         parent: emailAnimationController, curve: Curves.easeOut));
 
+    specialtyAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    specialtyAnimation = Tween<Offset>(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+        parent: specialtyAnimationController, curve: Curves.easeOut));
+
     passwordAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -84,6 +97,12 @@ class _SignupViewState extends ConsumerState<SignupView>
       }
     });
     emailAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        specialtyAnimationController.forward();
+      }
+    });
+
+    specialtyAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         passwordAnimationController.forward();
       }
@@ -115,6 +134,7 @@ class _SignupViewState extends ConsumerState<SignupView>
         passwordController: passwordController,
         nameAnimation: nameAnimation,
         emailAnimation: emailAnimation,
+        specialtyAnimation: specialtyAnimation,
         passwordAnimation: passwordAnimation,
         signupAnimation: signupAnimation,
       ),
@@ -125,6 +145,7 @@ class _SignupViewState extends ConsumerState<SignupView>
   void dispose() {
     nameAnimationController.dispose();
     emailAnimationController.dispose();
+    specialtyAnimationController.dispose();
     passwordAnimationController.dispose();
     signupAnimationController.dispose();
     nameController.dispose();
