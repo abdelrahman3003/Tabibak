@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:773836528322:android:13f3171a1bc76fbf59795b",
+        "android_client_info": {
+          "package_name": "app.temsah.tabibak"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXaBFlFjmbeBRUI9m3-SYRhsGeHLFeOaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:773836528322:android:072e3b85ecd6906559795b",
         "android_client_info": {
           "package_name": "com.example.maps"
@@ -26,9 +45,28 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:773836528322:android:d2b97c0178606fd359795b",
+        "mobilesdk_app_id": "1:773836528322:android:c9a82d9f9577291959795b",
         "android_client_info": {
-          "package_name": "com.example.tabibak"
+          "package_name": "com.example.tabibak_for_clinic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXaBFlFjmbeBRUI9m3-SYRhsGeHLFeOaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773836528322:android:742ed49861455db759795b",
+        "android_client_info": {
+          "package_name": "com.example.techscope_hr"
         }
       },
       "oauth_client": [],
