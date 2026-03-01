@@ -19,13 +19,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'email': instance.email,
-      'password': instance.password,
-      'image': instance.image,
       'user_id': instance.userId,
-      'fcm_token': instance.fcmToken,
-      'is_doctor': instance.isDoctor,
-      'created_at': instance.createdAt,
     };

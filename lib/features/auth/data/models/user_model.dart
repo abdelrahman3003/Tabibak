@@ -4,22 +4,28 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
+  @JsonKey(includeToJson: false)
   final int? id;
+
   final String? name;
   final String? email;
+
+  @JsonKey(includeToJson: false)
   final String? password;
+
+  @JsonKey(includeToJson: false)
   final String? image;
 
   @JsonKey(name: 'user_id')
   final String? userId;
 
-  @JsonKey(name: 'fcm_token')
+  @JsonKey(name: 'fcm_token', includeToJson: false)
   final String? fcmToken;
 
-  @JsonKey(name: 'is_doctor')
+  @JsonKey(name: 'is_doctor', includeToJson: false)
   final bool? isDoctor;
 
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', includeToJson: false)
   final String? createdAt;
 
   UserModel({
