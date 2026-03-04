@@ -64,6 +64,7 @@ class HomeRemoteData {
     final doctors = await supabase
         .from('doctors')
         .select(ApiConstants.getDoctors)
+        .eq('status', 3)
         .inFilter('doctor_id', doctorIds);
 
     return (doctors as List).map((e) => DoctorModel.fromJson(e)).toList();
@@ -74,7 +75,7 @@ class HomeRemoteData {
     var query = supabase.from('doctors').select('*, specialty(*)');
 
     if (specialtyId != null) {
-      query = query.eq('specialty', specialtyId);
+      query = query.eq('specialty', specialtyId).eq("status", 3);
     }
 
     if (search.isNotEmpty) {

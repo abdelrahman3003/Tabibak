@@ -23,7 +23,8 @@ class DoctorDetailsHeader extends StatelessWidget {
         Stack(
           children: [
             ImageCircle(urlImage: doctor.image, radius: 60.r),
-            if (doctor.clinic?.isOpen != null && doctor.clinic!.isOpen!)
+            if (doctor.clinic?.isAvailable != null &&
+                doctor.clinic!.isAvailable!)
               Positioned(
                 bottom: 5,
                 right: 5,

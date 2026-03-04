@@ -10,8 +10,8 @@ class ClinicModel {
   final String? doctorId;
   @JsonKey(name: 'is_booking')
   final bool? isBooking;
-  @JsonKey(name: 'is_open')
-  final bool? isOpen;
+  @JsonKey(name: 'is_available')
+  final bool? isAvailable;
   @JsonKey(name: 'clinic_name')
   final String? clinicName;
   @JsonKey(name: 'phone_number')
@@ -26,7 +26,7 @@ class ClinicModel {
     this.id,
     this.doctorId,
     this.isBooking,
-    this.isOpen,
+    this.isAvailable,
     this.clinicName,
     this.phoneNumber,
     this.consultationFee,
