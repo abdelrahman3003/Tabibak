@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/widgets/empty_widget.dart';
 import 'package:tabibak/features/home/presentation/manager/home_provider/home_provider.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_list_view.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_shimmer_list.dart';
@@ -14,7 +15,9 @@ class DoctorListStates extends StatelessWidget {
         homeControllerProvider.select((state) => state.topDoctorsList),
       );
       return toDoctorsList != null
-          ? DoctorListView(doctorsSummaryList: toDoctorsList)
+          ? toDoctorsList.isEmpty
+              ? EmptyWidget()
+              : DoctorListView(doctorsSummaryList: toDoctorsList)
           : DoctorShimmerList();
     });
   }

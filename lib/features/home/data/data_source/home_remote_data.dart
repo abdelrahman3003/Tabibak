@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
@@ -26,8 +24,11 @@ class HomeRemoteData {
   }
 
   Future<List<DoctorModel>> getTopDoctors() async {
-    final response =
-        await supabase.from('doctors').select(ApiConstants.getDoctors).limit(5);
+    final response = await supabase
+        .from('doctors')
+        .select(ApiConstants.getDoctors)
+        .eq("status", 3)
+        .limit(5);
 
     return response.map((doctor) => DoctorModel.fromJson(doctor)).toList();
   }
@@ -47,7 +48,6 @@ class HomeRemoteData {
     String? sortBy,
     bool ascending = false,
   }) async {
-    log("-----$sortBy");
     final response = await supabase.rpc(
       'get_filtered_sorted_doctor_ids',
       params: {

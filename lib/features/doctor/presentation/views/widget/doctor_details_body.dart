@@ -31,15 +31,20 @@ class DoctorDetailsBody extends StatelessWidget {
             alignment: Alignment.center,
             child: DoctorDetailsHeader(doctor: doctorModel),
           ),
-          20.hBox,
-          TitleText(title: AppStrings.aboutDoctor),
-          10.hBox,
           if (doctorModel.bioAr != null || doctorModel.bioEn != null)
-            BioText(
-                text: context.locale.languageCode == 'ar'
-                    ? doctorModel.bioAr ?? ""
-                    : doctorModel.bioEn ?? ""),
-          40.hBox,
+            Column(
+              children: [
+                20.hBox,
+                TitleText(title: AppStrings.aboutDoctor),
+                10.hBox,
+                BioText(
+                    text: context.locale.languageCode == 'ar'
+                        ? doctorModel.bioAr ?? ""
+                        : doctorModel.bioEn ?? ""),
+                20.hBox,
+              ],
+            ),
+          20.hBox,
           ClinicInfoSection(clinic: doctorModel.clinic),
           40.hBox,
           TitleText(title: AppStrings.workingHours),
