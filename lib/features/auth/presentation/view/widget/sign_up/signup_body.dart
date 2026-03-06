@@ -7,7 +7,6 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/sign_up/do_you_have_account.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/sign_up/password_text_filed.dart';
 import 'package:tabibak/features/auth/presentation/view/widget/sign_up/sign_up_button_states.dart';
-import 'package:tabibak/features/auth/presentation/view/widget/sign_up/specialties_drop_down.dart';
 
 class SignupBody extends ConsumerWidget {
   final GlobalKey<FormState> signUpFormKey;
@@ -63,18 +62,6 @@ class SignupBody extends ConsumerWidget {
               controller: emailController,
               validator: (value) {
                 return Validation.validateEmail(value);
-              },
-            ),
-          ),
-          const SizedBox(height: 15),
-          SlideTransition(
-            position: specialtyAnimation,
-            child: SpecialtiesDropDown(
-              validator: (value) {
-                if (value == null) {
-                  return AppStrings.specialtyNotAvailable;
-                }
-                return null;
               },
             ),
           ),
