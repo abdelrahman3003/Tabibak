@@ -51,15 +51,14 @@ class _SplashScreenState extends State<SplashScreen> {
               Image.asset(
                 "assets/images/app_logo.png",
                 color: AppColors.white,
-                height: 180.h,
-                width: 350.w,
+                height: 150.h,
+                width: 220.w,
                 fit: BoxFit.cover,
               ),
               Text(
                 " طبيبك",
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       fontWeight: FontWeight.w800,
-                      fontFamily: "Inter",
                       color: AppColors.white,
                     ),
               ),
