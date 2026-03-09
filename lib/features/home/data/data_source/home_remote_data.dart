@@ -19,8 +19,18 @@ class HomeRemoteData {
   }
 
   Future<List<SpecialtyModel>> getSpecialties() async {
-    final response = await supabase.from('specialties').select();
-    return response.map((e) => SpecialtyModel.fromJson(e)).toList();
+    final response = await supabase.from('specialties').select('''
+        id,
+        name_ar,
+        name_en,
+        icon,
+        doctors!inner(id,status)
+      ''').eq('doctors.status', 3);
+
+    return response.map((e) {
+      e.remove('doctors');
+      return SpecialtyModel.fromJson(e);
+    }).toList();
   }
 
   Future<List<DoctorModel>> getTopDoctors() async {

@@ -20,8 +20,6 @@ class HomeRepoImp extends HomeRepo {
 
       return ApiResult.sucess(result);
     } catch (error) {
-      log("---------$error");
-
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -33,6 +31,8 @@ class HomeRepoImp extends HomeRepo {
 
       return ApiResult.sucess(result);
     } catch (error) {
+      log("---------$error");
+
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
