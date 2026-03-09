@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/clinic_work_day_card.dart';
 import 'package:tabibak/features/home/data/model/working_day_model.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 class ScheduleSection extends StatelessWidget {
   const ScheduleSection({super.key, this.workingDayList});
@@ -8,11 +11,20 @@ class ScheduleSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final workingDays = _getCleanList(workingDayList);
-    return Column(
-        children: List.generate(
-      workingDays.length,
-      (index) => ClinicWorkDayCard(workingDay: workingDays[index]),
-    ));
+    return workingDays.isEmpty
+        ? SizedBox()
+        : Column(
+            children: [
+              30.hBox,
+              TitleText(title: AppStrings.workingHours),
+              10.hBox,
+              Column(
+                  children: List.generate(
+                workingDays.length,
+                (index) => ClinicWorkDayCard(workingDay: workingDays[index]),
+              )),
+            ],
+          );
   }
 }
 

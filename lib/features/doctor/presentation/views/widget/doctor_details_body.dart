@@ -46,8 +46,6 @@ class DoctorDetailsBody extends StatelessWidget {
             ),
           20.hBox,
           ClinicInfoSection(clinic: doctorModel.clinic),
-          40.hBox,
-          TitleText(title: AppStrings.workingHours),
           10.hBox,
           ScheduleSection(
             workingDayList: doctorModel.clinic?.workingDays,
