@@ -54,7 +54,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   Future<void> _completeOnboarding() async {
-    await SharedPrefsService.prefs.setInt(SharedPrefKeys.step, 1);
+    await SharedPrefsService.prefs.setBool(SharedPrefKeys.isOnboarding, true);
     if (!mounted) return;
     context.pushNamedAndRemoveUntil(Routes.singInScreen, (route) => false);
   }
@@ -84,8 +84,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               child: PageView.builder(
                 controller: _pageController,
                 itemCount: _onboardingData.length,
-                onPageChanged: (index) =>
-                    ref.read(onboardingControllerProvider.notifier).state = index,
+                onPageChanged: (index) => ref
+                    .read(onboardingControllerProvider.notifier)
+                    .state = index,
                 itemBuilder: (context, index) =>
                     OnboardingBody(model: _onboardingData[index]),
               ),

@@ -9,6 +9,7 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/alert_widget.dart';
 import 'package:tabibak/features/profile/presentation/manager/profile_provider.dart';
+import 'package:tabibak/features/profile/presentation/manager/profile_states.dart';
 import 'package:tabibak/features/profile/presentation/view/widget/profile_menu_tile.dart';
 
 class AccountSection extends StatelessWidget {
@@ -28,17 +29,7 @@ class AccountSection extends StatelessWidget {
             builder: (context) {
               return Consumer(builder: (context, ref, child) {
                 ref.listen(profileProviderController, (previous, next) async {
-                  if (next.isLoggedOut) {
-                    await SharedPrefsService.prefs
-                        .setInt(SharedPrefKeys.step, 1);
-                    await SharedPrefsService.prefs
-                        .remove(SharedPrefKeys.isDark);
-                    ref.read(themeStateProvider.notifier).state = false;
-                    context.pushNamedAndRemoveUntil(
-                        Routes.singInScreen, (route) => false);
-                  } else if (next.errorMessage != null) {
-                    showErrorSnackBar(next.errorMessage!);
-                  }
+                  await _navigateLogout(next, ref, context);
                 });
                 final isLoading = ref.watch(
                   profileProviderController.select((s) => s.isLogOutLoading),
@@ -60,5 +51,16 @@ class AccountSection extends StatelessWidget {
             });
       },
     );
+  }
+
+  Future<void> _navigateLogout(
+      ProfileStates next, WidgetRef ref, BuildContext context) async {
+    if (next.isLoggedOut) {
+      context.pushNamedAndRemoveUntil(Routes.singInScreen, (route) => false);
+      await SharedPrefsService.prefs.remove(SharedPrefKeys.isDark);
+      ref.read(themeStateProvider.notifier).state = false;
+    } else if (next.errorMessage != null) {
+      showErrorSnackBar(next.errorMessage!);
+    }
   }
 }

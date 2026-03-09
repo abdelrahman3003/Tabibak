@@ -20,6 +20,8 @@ class HomeRepoImp extends HomeRepo {
 
       return ApiResult.sucess(result);
     } catch (error) {
+      log("---------$error");
+
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -49,6 +51,7 @@ class HomeRepoImp extends HomeRepo {
   Future<ApiResult<DoctorModel>> getDoctorId(String id) async {
     try {
       final result = await homeRemoteData.getDoctorById(id);
+
       return ApiResult.sucess(result);
     } catch (error) {
       log("Error fetching doctor by ID: $id - $error");

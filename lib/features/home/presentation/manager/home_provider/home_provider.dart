@@ -18,13 +18,18 @@ class HomeController extends StateNotifier<HomeStates> {
   }
   final Ref ref;
   void initData() async {
-    await getUserById();
-    await getSpecialties();
-    await getTopDoctors();
+    state = state.copyWith(isLoading: true);
+
+    await Future.wait([
+      getUserById(),
+      getSpecialties(),
+      getTopDoctors(),
+    ]);
+
+    state = state.copyWith(isLoading: false);
   }
 
   Future<void> getSpecialties() async {
-    state = state.copyWith(isLoading: true);
     final result = await ref.read(homeRepoProvider).getSpecialties();
     result.when(
       sucess: (data) {
@@ -37,7 +42,6 @@ class HomeController extends StateNotifier<HomeStates> {
   }
 
   Future<void> getTopDoctors() async {
-    state = state.copyWith(isLoading: true);
     final result = await ref.read(homeRepoProvider).geTopDoctors();
     result.when(
       sucess: (doctorsLList) {
@@ -50,12 +54,10 @@ class HomeController extends StateNotifier<HomeStates> {
   }
 
   Future<void> getUserById() async {
-    state = state.copyWith(isLoading: true);
     final result = await ref.read(homeRepoProvider).getUserData();
     result.when(
       sucess: (data) {
         state = state.copyWith(userModel: data);
-        ();
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
+import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
@@ -24,16 +26,26 @@ class _SplashScreenState extends State<SplashScreen> {
         opacity = 1;
       });
       Future.delayed(const Duration(milliseconds: 1200), () {
-        final step = SharedPrefsService.prefs.getInt(SharedPrefKeys.step);
-        String initRoute = Routes.onboardingScreen;
-        if (step == 1) {
-          initRoute = Routes.singInScreen;
-        } else if (step == 2) {
-          initRoute = Routes.layoutScreen;
-        }
-        return context.pushNamedAndRemoveUntil(initRoute, (route) => false);
+        _navigateNext();
       });
     });
+  }
+
+  void _navigateNext() {
+    bool isOnboarding =
+        SharedPrefsService.prefs.getBool(SharedPrefKeys.isOnboarding)!;
+    final user = getIt<Supabase>().client.auth.currentUser;
+    if (user != null) {
+      context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
+      return;
+    }
+    if (isOnboarding) {
+      context.pushNamedAndRemoveUntil(Routes.singInScreen, (route) => false);
+      return;
+    } else {
+      context.pushNamedAndRemoveUntil(
+          Routes.onboardingScreen, (route) => false);
+    }
   }
 
   @override

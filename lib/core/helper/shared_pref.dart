@@ -22,9 +22,8 @@ class SharedPrefsService {
 
 class SharedPrefKeys {
   static const String userToken = 'userToken';
-  static const String step = 'step';
   static const String lang = "lang";
   static const String isDark = "isDark";
   static const String searchDoctors = 'searchDoctors';
-  static const String onboarding = 'onboarding';
+  static const String isOnboarding = 'isOnboarding';
 }
