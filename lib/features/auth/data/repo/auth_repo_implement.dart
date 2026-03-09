@@ -13,7 +13,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this.remoteDatasource);
 
   @override
-  Future<ApiResult<AuthResponse>> signUp(
+  Future<ApiResult<void>> signUp(
       {required String name,
       required String email,
       required String password}) async {
@@ -28,7 +28,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<ApiResult<AuthResponse>> signIn(
+  Future<ApiResult<void>> signIn(
       {required String email, required String password}) async {
     try {
       final result = await remoteDatasource.login(email, password);

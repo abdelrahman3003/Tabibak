@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _navigateNext() {
     bool isOnboarding =
-        SharedPrefsService.prefs.getBool(SharedPrefKeys.isOnboarding)!;
+        SharedPrefsService.prefs.getBool(SharedPrefKeys.isOnboarding) ?? false;
     final user = getIt<Supabase>().client.auth.currentUser;
     if (user != null) {
       context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);

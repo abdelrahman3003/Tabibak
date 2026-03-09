@@ -8,23 +8,20 @@ class AuthRemoteDatasource {
   final SupabaseClient supabase;
   final GoogleSignIn googleSignIn =
       GoogleSignIn(serverClientId: EnvService.googleClientId);
-  Future<AuthResponse> signUp(
+  Future<void> signUp(
       {required String name,
       required String email,
       required String password}) async {
-    final result = await supabase.auth.signUp(
+    await supabase.auth.signUp(
         data: {"name": name},
         email: email,
         password: password,
         emailRedirectTo: "myapp://auth-callback");
-    return result;
   }
 
-  Future<AuthResponse> login(String email, String password) async {
-    final response = await supabase.auth.signInWithPassword(
-      email: email,
-      password: password,
-    );
+  Future<void> login(String email, String password) async {
+    final response = await supabase.auth
+        .signInWithPassword(email: email, password: password);
 
     final user = response.user;
 
@@ -32,19 +29,16 @@ class AuthRemoteDatasource {
     if (user.emailConfirmedAt == null) {
       await supabase.auth.signOut();
       throw const AuthException('email_not_confirmed');
-    } else {
-      final existingUser = await getUserById(user.id);
-      if (existingUser == null) {
-        final newUser = UserModel(
-          name: user.userMetadata?['name'] ?? 'User',
-          email: user.email ?? '',
-          userId: user.id,
-        );
-        await addUserData(newUser);
-      }
     }
-
-    return response;
+    final exitUser = await getUserById(user.id);
+    if (exitUser == null) {
+      addUserData(UserModel(
+        userId: user.id,
+        email: user.email ?? '',
+        name: user.userMetadata?['name'] ?? '',
+        image: user.userMetadata?['avatar_url'],
+      ));
+    }
   }
 
   Future<void> sendOtp(String email) async {
@@ -66,31 +60,37 @@ class AuthRemoteDatasource {
 
   Future<void> nativeGoogleSignIn() async {
     final googleUser = await googleSignIn.signIn();
+    if (googleUser == null) return;
 
-    final googleAuth = await googleUser!.authentication;
+    final googleAuth = await googleUser.authentication;
     final accessToken = googleAuth.accessToken;
     final idToken = googleAuth.idToken;
 
-    if (accessToken == null) {
-      throw 'No Access Token found.';
-    }
-    if (idToken == null) {
-      throw 'No ID Token found.';
-    }
+    if (accessToken == null) throw 'No Access Token found.';
+    if (idToken == null) throw 'No ID Token found.';
+
     await supabase.auth.signInWithIdToken(
       provider: OAuthProvider.google,
       idToken: idToken,
       accessToken: accessToken,
     );
-    final existingUser = await supabase
-        .from('users')
-        .select()
-        .eq('user_id', supabase.auth.currentUser!.id)
-        .maybeSingle();
 
-    existingUser != null && existingUser['image'] != null
-        ? existingUser['image']
-        : googleUser.photoUrl;
+    final user = supabase.auth.currentUser;
+    if (user == null) throw 'Supabase sign-in failed.';
+
+    final existingUser = await getUserById(user.id);
+
+    if (existingUser == null) {
+      final newUser = UserModel(
+        userId: user.id,
+        email: user.email ?? '',
+        name: user.userMetadata?['name'] ?? '',
+        image: user.userMetadata?['avatar_url'],
+      );
+
+      await addUserData(newUser);
+      return;
+    }
   }
 
   Future<void> addUserData(UserModel userModel) async {
