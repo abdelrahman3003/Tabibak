@@ -25,7 +25,7 @@ class HomeRemoteData {
         name_en,
         icon,
         doctors!inner(id,status)
-      ''').eq('doctors.status', 3);
+      ''').eq('doctors.status', 2);
 
     return response.map((e) {
       e.remove('doctors');
@@ -37,7 +37,7 @@ class HomeRemoteData {
     final response = await supabase
         .from('doctors')
         .select(ApiConstants.getDoctors)
-        .eq("status", 3)
+        .eq("status", 2)
         .limit(5);
 
     return response.map((doctor) => DoctorModel.fromJson(doctor)).toList();
@@ -74,7 +74,7 @@ class HomeRemoteData {
     final doctors = await supabase
         .from('doctors')
         .select(ApiConstants.getDoctors)
-        .eq('status', 3)
+        .eq('status', 2)
         .inFilter('doctor_id', doctorIds);
 
     return (doctors as List).map((e) => DoctorModel.fromJson(e)).toList();
@@ -82,10 +82,11 @@ class HomeRemoteData {
 
   Future<List<DoctorModel>> searchDoctor(String search,
       {int? specialtyId}) async {
-    var query = supabase.from('doctors').select('*, specialty(*)');
+    var query =
+        supabase.from('doctors').select('*, specialty(*)').eq('status', 2);
 
     if (specialtyId != null) {
-      query = query.eq('specialty', specialtyId).eq("status", 3);
+      query = query.eq('specialty', specialtyId);
     }
 
     if (search.isNotEmpty) {
