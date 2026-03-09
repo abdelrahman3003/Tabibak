@@ -64,8 +64,10 @@ class _ReviewSendButtonState extends ConsumerState<ReviewSendButton> {
                 : IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    onPressed: () {
-                      ref.read(commentNotifierProvider.notifier).addComment(
+                    onPressed: () async {
+                      await ref
+                          .read(commentNotifierProvider.notifier)
+                          .addComment(
                             CommentModel(
                               comment: commentController.text,
                               doctorId: widget.doctorId,
@@ -73,6 +75,7 @@ class _ReviewSendButtonState extends ConsumerState<ReviewSendButton> {
                                   Supabase.instance.client.auth.currentUser?.id,
                             ),
                           );
+                      commentController.clear();
                     },
                     icon: const Icon(
                       Icons.send,

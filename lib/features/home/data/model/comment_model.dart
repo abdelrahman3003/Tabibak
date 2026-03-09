@@ -5,15 +5,16 @@ part 'comment_model.g.dart';
 
 @JsonSerializable()
 class CommentModel {
+  @JsonKey(includeToJson: false)
   final int? id;
   final String? comment;
   @JsonKey(name: 'user_id')
   final String? userId;
   @JsonKey(name: 'doctor_id')
   final String? doctorId;
-  @JsonKey(name: 'users')
+  @JsonKey(name: 'users', includeToJson: false)
   final UserModel? userModel;
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', includeToJson: false)
   final String? createdAt;
   CommentModel({
     this.id,

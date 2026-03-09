@@ -21,7 +21,6 @@ class DoctorRemoteData {
     required CommentModel commentModel,
   }) async {
     await supabase.client.from('comments').insert(commentModel.toJson());
-
     final response = await supabase.client
         .from('comments')
         .select("*,users(*)")

@@ -32,6 +32,7 @@ class DoctorRepoImpl implements DoctorRepo {
 
       return ApiResult.sucess(result);
     } catch (error) {
+      log("-------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
