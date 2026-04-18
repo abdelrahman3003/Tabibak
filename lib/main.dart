@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,10 @@ void main() async {
       supportedLocales: const [Locale('en'), Locale('ar')],
       path: "assets/langs",
       fallbackLocale: Locale('ar'),
-      child: const MyApp(),
+      child: DevicePreview(
+        enabled: true,
+        builder: (context) => const MyApp(),
+      ),
     ),
   ));
 }
