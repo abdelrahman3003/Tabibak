@@ -164,6 +164,7 @@ class DoctorItem extends StatelessWidget {
         const SizedBox(width: 40),
         if (isShow)
           AppButton(
+            width: 100.w,
             title: AppStrings.bookNow,
             onPressed: () {
               final isBooked = doctorSummary.clinic!.isBooking;
@@ -179,8 +180,10 @@ class DoctorItem extends StatelessWidget {
                 );
               }
             },
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            fontSize: 12.sp,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 14,
+            ),
+            fontSize: 11.sp,
           ),
       ],
     );
