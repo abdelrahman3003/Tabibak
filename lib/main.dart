@@ -18,7 +18,7 @@ void main() async {
       path: "assets/langs",
       fallbackLocale: Locale('ar'),
       child: DevicePreview(
-        enabled: true,
+        enabled: false,
         builder: (context) => const MyApp(),
       ),
     ),

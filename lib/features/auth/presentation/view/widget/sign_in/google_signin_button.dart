@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
@@ -32,20 +31,21 @@ class GoogleSignInButton extends ConsumerWidget {
               border: Border.all(color: AppColors.textLight),
             ),
             child: state.isGoogleLoading
-                ? SizedBox(
-                    height: 24.h,
-                    width: 24.w,
-                    child: const Center(
-                        child: CircularProgressIndicator(
-                      color: AppColors.primary,
-                      strokeWidth: 3,
-                    )),
+                ? Center(
+                    child: SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                        strokeWidth: 3,
+                      ),
+                    ),
                   )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(Assets.icons.googleIcon,
-                          width: 24.w, height: 24.h),
+                          width: 24, height: 24),
                       10.wBox,
                       Text(
                         AppStrings.loginWithGoogle,
