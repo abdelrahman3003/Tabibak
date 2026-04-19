@@ -38,6 +38,7 @@ AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
       doctor: json['doctors'] == null
           ? null
           : DoctorModel.fromJson(json['doctors'] as Map<String, dynamic>),
+      fcmToken: json['fcmToken'] as String?,
     );
 
 Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
@@ -57,6 +58,7 @@ Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
       'phone': instance.phone,
       'name': instance.name,
       'description': instance.description,
+      'fcmToken': instance.fcmToken,
       'users': instance.users?.toJson(),
       'appointments_status': instance.appointmentsStatus?.toJson(),
     };

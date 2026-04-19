@@ -17,6 +17,7 @@ class AppointmentsReposImp implements AppointmentsRepos {
       final result = await appointmentsRemoteData.addAppointment(appointment);
       return ApiResult.sucess(result);
     } catch (error) {
+      log("----------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

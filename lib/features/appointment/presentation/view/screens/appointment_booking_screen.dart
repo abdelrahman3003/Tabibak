@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/validation.dart';
+import 'package:tabibak/core/services/push_notification_service.dart';
 import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_provider.dart';
@@ -119,26 +120,27 @@ class _AppointmentBookingScreenState
                 30.hBox,
                 BookingButtonStates(
                   doctorModel: widget.doctorModel,
-                  onPressed: () {
+                  onPressed: () async {
                     if (!_formState.currentState!.validate()) {
                       return;
                     }
-
+                    final fcmToken = await PushNotificationService.getToken();
                     ref
                         .read(appointmentBookingNotifierProvider.notifier)
                         .addAppointment(
                           AppointmentModel(
-                            userId:
-                                Supabase.instance.client.auth.currentUser!.id,
-                            doctorId: widget.doctorModel.doctorId,
-                            name: patientNameController.text,
-                            phone: phonePhoneController.text,
-                            description: descriptionController.text,
-                            appointmentDate: ref.read(dateStateController).text,
-                            shiftMorningId: selectedShiftMorningId,
-                            shiftEveningId: selectedShiftEveningId,
-                            status: 1,
-                          ),
+                              userId:
+                                  Supabase.instance.client.auth.currentUser!.id,
+                              doctorId: widget.doctorModel.doctorId,
+                              name: patientNameController.text,
+                              phone: phonePhoneController.text,
+                              description: descriptionController.text,
+                              appointmentDate:
+                                  ref.read(dateStateController).text,
+                              shiftMorningId: selectedShiftMorningId,
+                              shiftEveningId: selectedShiftEveningId,
+                              status: 1,
+                              fcmToken: fcmToken),
                         );
                   },
                 ),

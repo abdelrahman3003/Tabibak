@@ -34,7 +34,7 @@ class AppointmentModel {
   final String? phone;
   final String? name;
   final String? description;
-
+  final String? fcmToken;
   final UserModel? users;
 
   @JsonKey(name: 'appointments_status')
@@ -58,6 +58,7 @@ class AppointmentModel {
     this.users,
     this.appointmentsStatus,
     this.doctor,
+    this.fcmToken,
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) =>

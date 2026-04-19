@@ -1,6 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/services/env_service.dart';
+import 'package:tabibak/core/services/push_notification_service.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 
 class AuthRemoteDatasource {
@@ -31,13 +32,14 @@ class AuthRemoteDatasource {
       throw const AuthException('email_not_confirmed');
     }
     final exitUser = await getUserById(user.id);
+    final fcmToken = await PushNotificationService.getToken();
     if (exitUser == null) {
       addUserData(UserModel(
-        userId: user.id,
-        email: user.email ?? '',
-        name: user.userMetadata?['name'] ?? '',
-        image: user.userMetadata?['avatar_url'],
-      ));
+          userId: user.id,
+          email: user.email ?? '',
+          name: user.userMetadata?['name'] ?? '',
+          image: user.userMetadata?['avatar_url'],
+          fcmToken: fcmToken));
     }
   }
 
@@ -79,13 +81,14 @@ class AuthRemoteDatasource {
     if (user == null) throw 'Supabase sign-in failed.';
 
     final existingUser = await getUserById(user.id);
-
+    final fcmToken = await PushNotificationService.getToken();
     if (existingUser == null) {
       final newUser = UserModel(
         userId: user.id,
         email: user.email ?? '',
         name: user.userMetadata?['name'] ?? '',
         image: user.userMetadata?['avatar_url'],
+        fcmToken: fcmToken,
       );
 
       await addUserData(newUser);
