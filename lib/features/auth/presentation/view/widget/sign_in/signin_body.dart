@@ -39,6 +39,7 @@ class SigninBody extends ConsumerWidget {
           SlideTransition(
               position: emailAnimation,
               child: TextFormField(
+                textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                   hintText: AppStrings.email,
                   prefixIcon: const Icon(Icons.email_outlined),

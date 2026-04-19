@@ -42,6 +42,7 @@ class SignupBody extends ConsumerWidget {
           SlideTransition(
             position: nameAnimation,
             child: TextFormField(
+              textAlignVertical: TextAlignVertical.center,
               controller: nameController,
               validator: (value) {
                 return Validation.validateName(value);
@@ -56,6 +57,7 @@ class SignupBody extends ConsumerWidget {
           SlideTransition(
             position: emailAnimation,
             child: TextFormField(
+              textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                   hintText: AppStrings.email,
                   prefixIcon: Icon(Icons.email_outlined)),

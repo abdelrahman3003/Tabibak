@@ -12,12 +12,19 @@ class PasswordTextFiled extends StatefulWidget {
   State<PasswordTextFiled> createState() => _PasswordTextFiledState();
 }
 
-bool isPassword = true;
-
 class _PasswordTextFiledState extends State<PasswordTextFiled> {
+  late bool isPassword;
+
+  @override
+  void initState() {
+    super.initState();
+    isPassword = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textAlignVertical: TextAlignVertical.center,
       controller: widget.controller,
       decoration: InputDecoration(
         hintText: widget.hint ?? AppStrings.password,
