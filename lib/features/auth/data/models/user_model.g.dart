@@ -22,4 +22,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'name': instance.name,
       'email': instance.email,
       'user_id': instance.userId,
+      'fcm_token': instance.fcmToken,
     };

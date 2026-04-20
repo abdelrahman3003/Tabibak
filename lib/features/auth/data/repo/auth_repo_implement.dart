@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
@@ -34,8 +32,6 @@ class AuthRepositoryImpl implements AuthRepository {
       final result = await remoteDatasource.login(email, password);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("------$error");
-
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

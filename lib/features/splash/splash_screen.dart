@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  void _navigateNext() {
+  void _navigateNext() async {
     bool isOnboarding =
         SharedPrefsService.prefs.getBool(SharedPrefKeys.isOnboarding) ?? false;
     final user = getIt<Supabase>().client.auth.currentUser;

@@ -19,7 +19,7 @@ class UserModel {
   @JsonKey(name: 'user_id')
   final String? userId;
 
-  @JsonKey(name: 'fcm_token', includeToJson: false)
+  @JsonKey(name: 'fcm_token')
   final String? fcmToken;
 
   @JsonKey(name: 'is_doctor', includeToJson: false)
