@@ -2,6 +2,7 @@ import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
+import 'package:tabibak/features/pharamcy/data/models/pharmacy_offer_model.dart';
 
 abstract class HomeRepo {
   Future<ApiResult<UserModel>> getUserData();
@@ -14,5 +15,7 @@ abstract class HomeRepo {
       {int? specialtyId});
 
   Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist(
+      {int? specialtyId, String? sortBy});
+  Future<ApiResult<List<PharmacyOfferModel>>> getOffers(
       {int? specialtyId, String? sortBy});
 }

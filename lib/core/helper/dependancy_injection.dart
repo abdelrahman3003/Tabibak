@@ -12,6 +12,8 @@ import 'package:tabibak/features/doctor/data/repo/doctor_repo_impl.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
 import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
+import 'package:tabibak/features/pharamcy/data/remote_data_source/pharamcy_remote_data_source.dart';
+import 'package:tabibak/features/pharamcy/data/repos/pharmacy_repo.dart';
 import 'package:tabibak/features/profile/data/data_source/profile_remote_data_source.dart';
 import 'package:tabibak/features/profile/data/repo/profile_repo.dart';
 import 'package:tabibak/features/profile/data/repo/profile_repo_imp.dart';
@@ -42,4 +44,6 @@ void setupServiceLocator() {
         profileRemoteDataSource:
             ProfileRemoteDataSource(supabase: getIt<Supabase>()),
       ));
+  getIt.registerLazySingleton<PharmacyRepository>(() => PharmacyRepository(
+      PharmacyRemoteDataSource(supabase: getIt<Supabase>())));
 }

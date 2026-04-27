@@ -6,6 +6,7 @@ import 'package:tabibak/features/home/presentation/manager/home_provider/home_st
 final homeRepoProvider = StateProvider<HomeRepo>(
   (ref) => getIt<HomeRepo>(),
 );
+
 final buttonLoadingProvider = StateProvider<bool>((ref) => false);
 
 final homeControllerProvider =
@@ -16,16 +17,17 @@ class HomeController extends StateNotifier<HomeStates> {
   HomeController(this.ref) : super(HomeStates()) {
     initData();
   }
+
   final Ref ref;
+
   void initData() async {
     state = state.copyWith(isLoading: true);
-
     await Future.wait([
       getUserById(),
       getSpecialties(),
       getTopDoctors(),
+      getPharmacyOffers(),
     ]);
-
     state = state.copyWith(isLoading: false);
   }
 
@@ -58,6 +60,18 @@ class HomeController extends StateNotifier<HomeStates> {
     result.when(
       sucess: (data) {
         state = state.copyWith(userModel: data);
+      },
+      failure: (apiErrorModel) {
+        state = state.copyWith(errorMessage: apiErrorModel.errors);
+      },
+    );
+  }
+
+  Future<void> getPharmacyOffers() async {
+    final result = await ref.read(homeRepoProvider).getOffers();
+    result.when(
+      sucess: (pharmacyOffers) {
+        state = state.copyWith(pharmacyOffers: pharmacyOffers);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);

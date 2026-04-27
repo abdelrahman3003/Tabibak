@@ -7,6 +7,7 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/categories_list/categories_list_states.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/doctors_list/doctor_list_states.dart';
+import 'package:tabibak/features/home/presentation/views/widget/home_screen/pharamcy_offers/pharamcy_offer_section.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/sliver_app_delegete.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/welcome_panner.dart';
@@ -30,33 +31,36 @@ class HomeScreen extends StatelessWidget {
                 HomeAppBar(),
                 20.hBox,
                 WelcomePanner(),
+                20.hBox,
+                PharmacyOffersSection(),
               ],
             ),
           ),
           SliverPersistentHeader(
-              pinned: true,
-              delegate: SliverAppBarDelegate(
-                minHeight: 190.h,
-                maxHeight: 190.h,
-                child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      20.hBox,
-                      TitleText(
-                        title: AppStrings.doctorSpeciality.tr(),
-                        subtitle: AppStrings.viewAll,
-                        onTap: () {
-                          context.pushNamed(Routes.allSpecialtiesScreen);
-                        },
-                      ),
-                      10.hBox,
-                      Flexible(child: CategoriesListStates()),
-                    ],
-                  ),
+            pinned: true,
+            delegate: SliverAppBarDelegate(
+              minHeight: 190.h,
+              maxHeight: 190.h,
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    20.hBox,
+                    TitleText(
+                      title: AppStrings.doctorSpeciality.tr(),
+                      subtitle: AppStrings.viewAll,
+                      onTap: () {
+                        context.pushNamed(Routes.allSpecialtiesScreen);
+                      },
+                    ),
+                    10.hBox,
+                    Flexible(child: CategoriesListStates()),
+                  ],
                 ),
-              )),
+              ),
+            ),
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -75,3 +79,5 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+// ── Pharmacy Offers Widget ──────────────────────────────────────────────────

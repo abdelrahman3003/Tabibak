@@ -3,6 +3,7 @@ import 'package:tabibak/core/networking/api_consatnt.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
+import 'package:tabibak/features/pharamcy/data/models/pharmacy_offer_model.dart';
 
 class HomeRemoteData {
   final SupabaseClient supabase;
@@ -84,17 +85,25 @@ class HomeRemoteData {
       {int? specialtyId}) async {
     var query =
         supabase.from('doctors').select('*, specialty(*)').eq('status', 2);
-
     if (specialtyId != null) {
       query = query.eq('specialty', specialtyId);
     }
-
     if (search.isNotEmpty) {
       query = query.ilike('name', '%$search%');
     }
-
     final response = await query;
 
     return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
+  }
+
+  Future<List<PharmacyOfferModel>> getAllOffers() async {
+    final response = await supabase
+        .from('pharmacy_offer')
+        .select('*,pharmacies(*)')
+        .eq('is_active', true);
+
+    return (response as List)
+        .map((e) => PharmacyOfferModel.fromJson(e))
+        .toList();
   }
 }

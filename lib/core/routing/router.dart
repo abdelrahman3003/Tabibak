@@ -20,56 +20,98 @@ import 'package:tabibak/features/home/presentation/views/screens/layout_screen.d
 import 'package:tabibak/features/home/presentation/views/screens/specialist_screen.dart';
 import 'package:tabibak/features/notification/notifcation_screen.dart';
 import 'package:tabibak/features/onboarding/presentation/view/screens/onboarding_screen.dart';
+import 'package:tabibak/features/pharamcy/presentation/view/screens/pharmacy_details_screen.dart';
 import 'package:tabibak/features/splash/splash_screen.dart';
 
 class AppRouter {
   static Route generateRoute(RouteSettings setting) {
     switch (setting.name) {
+      // ==================== Splash & Onboarding ====================
       case Routes.splashScreen:
         return _buildSlideRoute(SplashScreen());
+
       case Routes.onboardingScreen:
         return _buildSlideRoute(const OnboardingScreen());
+
+      // ==================== Authentication ====================
       case Routes.singInScreen:
         return _buildSlideRoute(SigninScreen());
+
       case Routes.singUpScreen:
         return _buildSlideRoute(SignupView());
+
       case Routes.forgetPasswordScreen:
-        return _buildSlideRoute(ForgetPasswordScreen(), settings: setting);
+        return _buildSlideRoute(
+          ForgetPasswordScreen(),
+          settings: setting,
+        );
+
       case Routes.oTPVerificationScreen:
         final user = setting.arguments as UserModel;
-        return _buildSlideRoute(OtpVerificationScreen(userModel: user),
-            settings: setting);
+        return _buildSlideRoute(
+          OtpVerificationScreen(userModel: user),
+          settings: setting,
+        );
+
+      case Routes.resetPasswordScreen:
+        return _buildSlideRoute(
+          const ResetPasswordScreen(),
+          settings: setting,
+        );
+
       case Routes.resetPasswordSuccessScreen:
         return _buildSlideRoute(const ResetPasswordSuccessScreen());
+
       case Routes.emailVerificationScreen:
         final email = setting.arguments as String;
-        return _buildSlideRoute(EmailVerificationScreen(email: email));
-      case Routes.resetPasswordScreen:
-        return _buildSlideRoute(const ResetPasswordScreen(), settings: setting);
+        return _buildSlideRoute(
+          EmailVerificationScreen(email: email),
+        );
+
+      // ==================== Main Layout ====================
       case Routes.layoutScreen:
         return _buildSlideRoute(const LayoutScreen());
 
+      // ==================== Doctors & Specialties ====================
       case Routes.specialistScreen:
         return _buildSlideRoute(const SpecialistScreen());
-      case Routes.doctorDetailsScreen:
-        return _buildSlideRoute(const DoctorDetailsScreen());
-      case Routes.appointmentBookingScreen:
-        final doctorModel = setting.arguments as DoctorModel;
-        return _buildSlideRoute(
-            AppointmentBookingScreen(doctorModel: doctorModel));
-      case Routes.appointmentDetailsScreen:
-        final appointment = setting.arguments as AppointmentModel;
-        return _buildSlideRoute(
-            AppointmentDetailsScreen(appointment: appointment));
-      case Routes.bookingSuccessScreen:
-        final args = setting.arguments as AppointmentSuccessArg;
-        return _buildSlideRoute(
-            BookingSuccessScreen(appointmentSuccessArg: args));
-      case Routes.notificationScreen:
-        return _buildSlideRoute(const NotificationScreen());
+
       case Routes.allSpecialtiesScreen:
         return _buildSlideRoute(const AllSpecialtiesScreen());
 
+      case Routes.doctorDetailsScreen:
+        return _buildSlideRoute(const DoctorDetailsScreen());
+
+      // ==================== Appointments ====================
+      case Routes.appointmentBookingScreen:
+        final doctorModel = setting.arguments as DoctorModel;
+        return _buildSlideRoute(
+          AppointmentBookingScreen(doctorModel: doctorModel),
+        );
+
+      case Routes.appointmentDetailsScreen:
+        final appointment = setting.arguments as AppointmentModel;
+        return _buildSlideRoute(
+          AppointmentDetailsScreen(appointment: appointment),
+        );
+
+      case Routes.bookingSuccessScreen:
+        final args = setting.arguments as AppointmentSuccessArg;
+        return _buildSlideRoute(
+          BookingSuccessScreen(appointmentSuccessArg: args),
+        );
+
+      // ==================== Notifications ====================
+      case Routes.notificationScreen:
+        return _buildSlideRoute(const NotificationScreen());
+
+      // ==================== pharmacy ====================
+      case Routes.pharmacyDetailsScreen:
+        final pharmacyId = setting.arguments as int;
+
+        return _buildSlideRoute(PharmacyDetailsScreen(pharmacyId: pharmacyId));
+
+      // ==================== Default ====================
       default:
         return _buildSlideRoute(
           Scaffold(
@@ -81,16 +123,31 @@ class AppRouter {
     }
   }
 
-  static PageRoute _buildSlideRoute(Widget page, {RouteSettings? settings}) {
+  // ==================== Custom Transition ====================
+  static PageRoute _buildSlideRoute(
+    Widget page, {
+    RouteSettings? settings,
+  }) {
     return PageRouteBuilder(
       pageBuilder: (_, __, ___) => page,
       settings: settings,
+
+      // Slide Animation (Right -> Left)
       transitionsBuilder: (_, animation, __, child) {
         const begin = Offset(1, 0);
         const end = Offset.zero;
-        final tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: Curves.ease));
-        return SlideTransition(position: animation.drive(tween), child: child);
+
+        final tween = Tween(
+          begin: begin,
+          end: end,
+        ).chain(
+          CurveTween(curve: Curves.ease),
+        );
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
       },
     );
   }

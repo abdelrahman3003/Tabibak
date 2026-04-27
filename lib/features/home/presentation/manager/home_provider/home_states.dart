@@ -1,6 +1,7 @@
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
+import 'package:tabibak/features/pharamcy/data/models/pharmacy_offer_model.dart';
 
 class HomeStates {
   final bool isLoading;
@@ -8,9 +9,11 @@ class HomeStates {
   final UserModel? userModel;
   final List<DoctorModel>? topDoctorsList;
   final List<SpecialtyModel>? specialties;
+  final List<PharmacyOfferModel>? pharmacyOffers;
   final String? errorMessage;
 
   HomeStates({
+    this.pharmacyOffers,
     this.isLoading = false,
     this.userModel,
     this.isSendCommentLoading,
@@ -27,10 +30,12 @@ class HomeStates {
     List<DoctorModel>? doctorsSpecialtyList,
     List<SpecialtyModel>? specialties,
     List<DoctorModel>? doctorsModelList,
+    List<PharmacyOfferModel>? pharmacyOffers,
     String? errorMessage,
   }) {
     return HomeStates(
       isLoading: isLoading ?? false,
+      pharmacyOffers: pharmacyOffers ?? this.pharmacyOffers,
       isSendCommentLoading: isSendCommentLoading ?? this.isSendCommentLoading,
       userModel: userModel ?? this.userModel,
       topDoctorsList: topDoctorsList ?? this.topDoctorsList,

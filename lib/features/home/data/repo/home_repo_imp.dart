@@ -7,6 +7,7 @@ import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
+import 'package:tabibak/features/pharamcy/data/models/pharmacy_offer_model.dart';
 
 class HomeRepoImp extends HomeRepo {
   final HomeRemoteData homeRemoteData;
@@ -31,8 +32,6 @@ class HomeRepoImp extends HomeRepo {
 
       return ApiResult.sucess(result);
     } catch (error) {
-      log("---------$error");
-
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -90,6 +89,17 @@ class HomeRepoImp extends HomeRepo {
       final result = await homeRemoteData.getSpecialtyDoctors(
           sortBy: sortBy, specialtyId: specialtyId);
 
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<PharmacyOfferModel>>> getOffers(
+      {int? specialtyId, String? sortBy}) async {
+    try {
+      final result = await homeRemoteData.getAllOffers();
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
