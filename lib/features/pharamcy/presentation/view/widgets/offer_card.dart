@@ -10,33 +10,38 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: .05),
+            color: colorScheme.shadow.withOpacity(0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
         ],
+        border: Border.all(
+          color: colorScheme.outlineVariant.withOpacity(0.3),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Offer name + discount badge
+          // Offer name + discount
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Text(
                   isArabic(context) ? offer.titleAr ?? "" : offer.titleEn ?? "",
-                  style: const TextStyle(
-                    fontSize: 15,
+                  style: textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1A1A2E),
+                    color: colorScheme.onSurface,
                   ),
                 ),
               ),
@@ -45,16 +50,15 @@ class OfferCard extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE8F4FD),
+                    color: colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFF2D7DD2)),
+                    border: Border.all(color: colorScheme.primary),
                   ),
                   child: Text(
                     '${offer.discount}% OFF',
-                    style: const TextStyle(
-                      color: Color(0xFF2D7DD2),
+                    style: textTheme.labelSmall?.copyWith(
+                      color: colorScheme.primary,
                       fontWeight: FontWeight.bold,
-                      fontSize: 12,
                     ),
                   ),
                 ),
@@ -67,24 +71,26 @@ class OfferCard extends StatelessWidget {
             isArabic(context)
                 ? offer.descriptionAr ?? ""
                 : offer.descriptionEn ?? "",
-            style: const TextStyle(
-              fontSize: 13,
-              color: Color(0xFF555555),
+            style: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurfaceVariant,
               height: 1.5,
             ),
           ),
 
           10.hBox,
+
           Row(
             children: [
-              const Icon(Icons.calendar_today_outlined,
-                  size: 13, color: Color(0xFF999999)),
+              Icon(
+                Icons.calendar_today_outlined,
+                size: 14,
+                color: colorScheme.onSurfaceVariant,
+              ),
               const SizedBox(width: 4),
               Text(
                 'Valid: ${offer.startDate} – ${offer.endDate}',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Color(0xFF999999),
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
                 ),
               ),
             ],

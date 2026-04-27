@@ -22,7 +22,9 @@ class PharmacyOfferBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Returns a Sliver — must be used inside CustomScrollView
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -32,10 +34,9 @@ class PharmacyOfferBody extends StatelessWidget {
             // ── Pharmacy Name ───────────────────────────────────────────────
             Text(
               pharmacyModel.name ?? '',
-              style: const TextStyle(
-                fontSize: 22,
+              style: textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1A1A2E),
+                color: colorScheme.onSurface,
               ),
             ),
 
@@ -47,8 +48,8 @@ class PharmacyOfferBody extends StatelessWidget {
               label: AppStrings.address,
               value: isArabic(context)
                   ? pharmacyModel.addressAr ?? ''
-                  : pharmacyModel.addressEn ?? "",
-              iconColor: const Color(0xFFE74C3C),
+                  : pharmacyModel.addressEn ?? '',
+              iconColor: colorScheme.error,
             ),
             const SizedBox(height: 12),
             InfoCard(
@@ -56,14 +57,14 @@ class PharmacyOfferBody extends StatelessWidget {
               label: AppStrings.workingHours,
               value:
                   '${pharmacyModel.timeStart ?? ''} – ${pharmacyModel.timeEnd ?? ''}',
-              iconColor: const Color(0xFF27AE60),
+              iconColor: colorScheme.secondary,
             ),
             const SizedBox(height: 12),
             InfoCard(
               icon: Icons.phone_outlined,
               label: AppStrings.phone,
               value: pharmacyModel.phone ?? '',
-              iconColor: const Color(0xFF2D7DD2),
+              iconColor: colorScheme.primary,
             ),
 
             // ── Employees Section ───────────────────────────────────────────
@@ -71,10 +72,9 @@ class PharmacyOfferBody extends StatelessWidget {
               const SizedBox(height: 28),
               Text(
                 AppStrings.ourTeam,
-                style: TextStyle(
-                  fontSize: 17,
+                style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF1A1A2E),
+                  color: colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 12),
@@ -95,10 +95,9 @@ class PharmacyOfferBody extends StatelessWidget {
             const SizedBox(height: 28),
             Text(
               AppStrings.availableOffers,
-              style: TextStyle(
-                fontSize: 17,
+              style: textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1A1A2E),
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 12),
@@ -106,10 +105,12 @@ class PharmacyOfferBody extends StatelessWidget {
             if (offers.isEmpty)
               Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
+                  padding: const EdgeInsets.symmetric(vertical: 24),
                   child: Text(
                     AppStrings.noOffersAvailable,
-                    style: TextStyle(color: Colors.grey),
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
               )
@@ -132,5 +133,3 @@ class PharmacyOfferBody extends StatelessWidget {
     );
   }
 }
-
-// ── Employee Chip ─────────────────────────────────────────────────────────────

@@ -8,29 +8,23 @@ import 'package:tabibak/features/pharamcy/presentation/view/widgets/pharmacy_off
 
 class PharmacyDetailsScreen extends ConsumerWidget {
   final int pharmacyId;
-
   const PharmacyDetailsScreen({required this.pharmacyId, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(pharmacyDetailsControllerProvider(pharmacyId));
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6FA),
+      backgroundColor: colorScheme.surface,
       body: switch (state) {
-        // Loading
         PharmacyDetailsState(isLoading: true) =>
           const Center(child: AppCircleIndicator()),
-
-        // Error
         PharmacyDetailsState(errorMessage: final error) when error != null =>
           Center(child: Text(error)),
-
-        // No data
         PharmacyDetailsState(pharmacy: null) =>
           Center(child: Text(AppStrings.unknownErrorOccurred)),
-
-        // Success
         PharmacyDetailsState(
           pharmacy: final pharmacy,
           offers: final offers,
@@ -41,17 +35,19 @@ class PharmacyDetailsScreen extends ConsumerWidget {
               SliverAppBar(
                 expandedHeight: 260,
                 pinned: true,
-                backgroundColor: const Color(0xFF2D7DD2),
+                backgroundColor: colorScheme.primary,
                 leading: GestureDetector(
                   onTap: () => Navigator.pop(context),
                   child: Container(
                     margin: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
+                      color: colorScheme.surface.withOpacity(0.9),
                       shape: BoxShape.circle,
                     ),
-                    child:
-                        const Icon(Icons.arrow_back, color: Color(0xFF2D7DD2)),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: colorScheme.primary,
+                    ),
                   ),
                 ),
                 flexibleSpace: FlexibleSpaceBar(
@@ -62,9 +58,12 @@ class PharmacyDetailsScreen extends ConsumerWidget {
                         pharmacy!.image ?? '',
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) => Container(
-                          color: const Color(0xFF2D7DD2),
-                          child: const Icon(Icons.local_pharmacy,
-                              size: 80, color: Colors.white54),
+                          color: colorScheme.primary,
+                          child: const Icon(
+                            Icons.local_pharmacy,
+                            size: 80,
+                            color: Colors.white54,
+                          ),
                         ),
                       ),
                       DecoratedBox(
@@ -74,7 +73,9 @@ class PharmacyDetailsScreen extends ConsumerWidget {
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              Colors.black.withValues(alpha: .5),
+                              Colors.black.withOpacity(
+                                isDark ? 0.85 : 0.5,
+                              ),
                             ],
                           ),
                         ),
@@ -83,8 +84,6 @@ class PharmacyDetailsScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-
-              // ── Body Content ──────────────────────────────────────────────
               PharmacyOfferBody(
                 pharmacyModel: pharmacy,
                 offers: offers,
