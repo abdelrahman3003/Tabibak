@@ -25,7 +25,8 @@ class AppointmentBookingProvider
       sucess: (dayShiftsModel) {
         if (dayShiftsModel?.evening == null &&
             dayShiftsModel?.morning == null) {
-          state = state.copyWith(emptyShift: AppStrings.thisDayNotAvailable);
+          state = state.copyWith(
+              emptyShift: AppStrings.thisDayNotAvailable, dayShiftsModel: null);
         } else {
           state =
               state.copyWith(dayShiftsModel: dayShiftsModel, emptyShift: null);

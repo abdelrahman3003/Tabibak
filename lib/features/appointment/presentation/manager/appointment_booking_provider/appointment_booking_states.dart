@@ -28,8 +28,8 @@ class AppointmentBookingStates {
   }) {
     return AppointmentBookingStates(
       isLoading: isLoading ?? false,
-      dayShiftsModel: dayShiftsModel ?? this.dayShiftsModel,
-      emptyShift: emptyShift ?? this.emptyShift,
+      dayShiftsModel: dayShiftsModel,
+      emptyShift: emptyShift,
       errorMessage: errorMessage,
       isSuccess: isSuccess ?? false,
       appointmentModel: appointmentModel ?? this.appointmentModel,

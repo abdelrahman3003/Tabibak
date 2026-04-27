@@ -5,55 +5,50 @@ import 'package:tabibak/core/widgets/app_drop_dowm.dart';
 import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/home/data/model/day_shift_model.dart';
 
-final dateStateController = StateProvider.autoDispose<TextEditingController>(
-  (ref) => TextEditingController(),
-);
-
-class DropDownShiftsStates extends ConsumerWidget {
+class DropDownShiftsStates extends ConsumerStatefulWidget {
   final Function({int? shiftMorningId, int? shiftEveningId})? onSelected;
 
   const DropDownShiftsStates({super.key, this.onSelected});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DropDownShiftsStates> createState() =>
+      _DropDownShiftsStatesState();
+}
+
+class _DropDownShiftsStatesState extends ConsumerState<DropDownShiftsStates> {
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(appointmentBookingNotifierProvider);
-    ref.watch(dateStateController.notifier).state;
-
     final shiftMap = _buildShiftMap(state.dayShiftsModel);
-    final selectedShiftKey =
-        _resolveSelectedKey(shiftMap, state.dayShiftsModel);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppDropdown<String>(
           hint: AppStrings.selectPeriod,
           items: shiftMap.keys.toList(),
-          value: selectedShiftKey,
+          value: null,
           labelBuilder: (item) => item == 'morning'
               ? AppStrings.morningShift
               : AppStrings.eveningShift,
           onChanged: (value) {
             if (value == null) return;
-
             final id = shiftMap[value];
             if (id == null) return;
-
             final isMorning = value == 'morning';
-
-            onSelected?.call(
+            widget.onSelected?.call(
               shiftMorningId: isMorning ? id : null,
               shiftEveningId: isMorning ? null : id,
             );
           },
         ),
-        Text(
-          state.emptyShift ?? "",
-          style: Theme.of(context)
-              .textTheme
-              .labelMedium
-              ?.copyWith(color: Colors.red),
-        ),
+        if (state.emptyShift != null)
+          Text(
+            state.emptyShift ?? "",
+            style: Theme.of(context)
+                .textTheme
+                .labelMedium
+                ?.copyWith(color: Colors.red),
+          ),
       ],
     );
   }
@@ -73,19 +68,4 @@ Map<String, int> _buildShiftMap(DayShiftsModel? model) {
   }
 
   return map;
-}
-
-String? _resolveSelectedKey(
-  Map<String, int> shiftMap,
-  DayShiftsModel? model,
-) {
-  final selectedId = model?.morning?.id ?? model?.evening?.id;
-  if (selectedId == null) return null;
-
-  return shiftMap.entries
-      .firstWhere(
-        (e) => e.value == selectedId,
-        orElse: () => const MapEntry('', 0),
-      )
-      .key;
 }

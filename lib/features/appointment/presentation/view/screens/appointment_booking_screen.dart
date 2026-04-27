@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -33,6 +31,7 @@ class _AppointmentBookingScreenState
   final patientNameController = TextEditingController();
   final phonePhoneController = TextEditingController();
   final descriptionController = TextEditingController();
+  final dateController = TextEditingController();
   int? selectedShiftMorningId;
   int? selectedShiftEveningId;
   final _formState = GlobalKey<FormState>();
@@ -46,8 +45,6 @@ class _AppointmentBookingScreenState
 
   @override
   Widget build(BuildContext context) {
-    log("-=-----------$selectedShiftEveningId");
-
     return Scaffold(
       appBar: AppBarWidget(title: AppStrings.bookingInquiry),
       body: Padding(
@@ -90,6 +87,7 @@ class _AppointmentBookingScreenState
                 ),
                 30.hBox,
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: Column(
@@ -97,10 +95,8 @@ class _AppointmentBookingScreenState
                         children: [
                           TitleTextField(text: AppStrings.dateLabel),
                           BookingDate(
-                            clinicID: widget.doctorModel.clinic!.id!,
-                            dateController: ref.read(dateStateController),
-                          ),
-                          20.hBox,
+                              clinicID: widget.doctorModel.clinic!.id!,
+                              dateController: dateController),
                         ],
                       ),
                     ),
@@ -112,8 +108,6 @@ class _AppointmentBookingScreenState
                           TitleTextField(text: AppStrings.periodLabel),
                           DropDownShiftsStates(
                             onSelected: ({shiftEveningId, shiftMorningId}) {
-                              log("--------- ev $shiftEveningId");
-                              log("--------- mo $shiftMorningId");
                               selectedShiftMorningId = shiftMorningId;
                               selectedShiftEveningId = shiftEveningId;
                             },
@@ -141,8 +135,7 @@ class _AppointmentBookingScreenState
                               name: patientNameController.text,
                               phone: phonePhoneController.text,
                               description: descriptionController.text,
-                              appointmentDate:
-                                  ref.read(dateStateController).text,
+                              appointmentDate: dateController.text,
                               shiftMorningId: selectedShiftMorningId,
                               shiftEveningId: selectedShiftEveningId,
                               status: 1,
