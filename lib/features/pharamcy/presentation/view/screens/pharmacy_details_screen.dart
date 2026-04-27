@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/widgets/app_circle_indicator.dart';
 import 'package:tabibak/features/pharamcy/presentation/manager/pharamcy_details_states.dart';
 import 'package:tabibak/features/pharamcy/presentation/manager/pharamcy_detalis_provider.dart';
@@ -27,7 +28,7 @@ class PharmacyDetailsScreen extends ConsumerWidget {
 
         // No data
         PharmacyDetailsState(pharmacy: null) =>
-          const Center(child: Text("There is an unknown error")),
+          Center(child: Text(AppStrings.unknownErrorOccurred)),
 
         // Success
         PharmacyDetailsState(

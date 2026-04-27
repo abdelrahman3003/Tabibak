@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/function/language_state.dart';
 import 'package:tabibak/features/pharamcy/data/models/pharamcy_employee_model.dart';
 import 'package:tabibak/features/pharamcy/data/models/pharmacy_model.dart';
@@ -22,6 +22,7 @@ class PharmacyOfferBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Returns a Sliver — must be used inside CustomScrollView
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -43,26 +44,33 @@ class PharmacyOfferBody extends StatelessWidget {
             // ── Info Cards ──────────────────────────────────────────────────
             InfoCard(
               icon: Icons.location_on_outlined,
-              label: 'Address',
+              label: AppStrings.address,
               value: isArabic(context)
-                  ? (pharmacyModel.addressAr ?? pharmacyModel.addressEn ?? '')
-                  : (pharmacyModel.addressEn ?? pharmacyModel.addressAr ?? ''),
+                  ? pharmacyModel.addressAr ?? ''
+                  : pharmacyModel.addressEn ?? "",
               iconColor: const Color(0xFFE74C3C),
             ),
             const SizedBox(height: 12),
             InfoCard(
               icon: Icons.access_time_outlined,
-              label: 'Working Hours',
+              label: AppStrings.workingHours,
               value:
                   '${pharmacyModel.timeStart ?? ''} – ${pharmacyModel.timeEnd ?? ''}',
               iconColor: const Color(0xFF27AE60),
             ),
+            const SizedBox(height: 12),
+            InfoCard(
+              icon: Icons.phone_outlined,
+              label: AppStrings.phone,
+              value: pharmacyModel.phone ?? '',
+              iconColor: const Color(0xFF2D7DD2),
+            ),
 
             // ── Employees Section ───────────────────────────────────────────
             if (employees.isNotEmpty) ...[
-              const SizedBox(height: 15),
-              const Text(
-                'Our Team',
+              const SizedBox(height: 28),
+              Text(
+                AppStrings.ourTeam,
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
@@ -82,22 +90,25 @@ class PharmacyOfferBody extends StatelessWidget {
                 ),
               ),
             ],
-            10.hBox,
-            const Text(
-              'Available Offers',
+
+            // ── Offers Section ──────────────────────────────────────────────
+            const SizedBox(height: 28),
+            Text(
+              AppStrings.availableOffers,
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF1A1A2E),
               ),
             ),
-            5.hBox,
+            const SizedBox(height: 12),
+
             if (offers.isEmpty)
-              const Center(
+              Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: 24),
                   child: Text(
-                    'No offers available',
+                    AppStrings.noOffersAvailable,
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
@@ -121,3 +132,5 @@ class PharmacyOfferBody extends StatelessWidget {
     );
   }
 }
+
+// ── Employee Chip ─────────────────────────────────────────────────────────────

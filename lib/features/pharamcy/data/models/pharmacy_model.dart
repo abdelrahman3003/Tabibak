@@ -4,6 +4,7 @@ class PharmacyModel {
   final String? addressAr;
   final String? addressEn;
   final String? image;
+  final String? phone;
   final String? timeStart;
   final String? timeEnd;
   final String? doctorName;
@@ -15,6 +16,7 @@ class PharmacyModel {
     this.addressAr,
     this.addressEn,
     this.image,
+    this.phone,
     this.doctorName,
     this.timeStart,
     this.timeEnd,
@@ -27,6 +29,7 @@ class PharmacyModel {
       name: json['name'],
       addressAr: json['address_ar'],
       addressEn: json['address_en'],
+      phone: json['phone'],
       image: json['image'],
       doctorName: json['doctor_name'],
       timeStart: json['time_start'],

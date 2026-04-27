@@ -120,7 +120,7 @@ class HomeOfferCard extends StatelessWidget {
                       4.wBox,
                       Expanded(
                         child: Text(
-                          "Pharmacy Offer",
+                          offer.pharmacy?.name ?? "",
                           style: TextStyle(
                             fontSize: 11.sp,
                             color: Colors.grey,

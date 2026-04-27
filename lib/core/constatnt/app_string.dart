@@ -203,4 +203,8 @@ class AppStrings {
   static String get getStarted => "Get Started".tr();
   static String get am => "am".tr();
   static String get pm => "pm".tr();
+  static String get pharmacyOffers => "Pharmacy Offers".tr();
+  static String get ourTeam => "Our Team".tr();
+  static String get availableOffers => "Available Offers".tr();
+  static String get noOffersAvailable => "No offers available".tr();
 }
