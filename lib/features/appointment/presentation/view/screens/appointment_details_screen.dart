@@ -67,7 +67,7 @@ class _AppointmentDetailsScreenState
                     ),
                     AppointmentInfoCard(
                       title: AppStrings.time,
-                      value: _getFormattedTime(),
+                      value: _getFormattedTime(context),
                       icon: Icons.access_time,
                     ),
                     AppointmentInfoCard(
@@ -125,12 +125,33 @@ class _AppointmentDetailsScreenState
     );
   }
 
-  String _getFormattedTime() {
-    if (widget.appointment.shiftMorning != null) {
-      return "${widget.appointment.shiftMorning?.start} - ${widget.appointment.shiftMorning?.end}";
-    } else if (widget.appointment.shiftEvening != null) {
-      return "${widget.appointment.shiftEvening?.start} - ${widget.appointment.shiftEvening?.end}";
+  String _formatTime(String? time, BuildContext context) {
+    if (time == null || time.isEmpty) return '';
+
+    try {
+      final parsedTime = DateFormat("HH:mm").parse(time);
+
+      final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+
+      return DateFormat(
+        isArabic ? "h:mm a" : "h:mm a",
+        isArabic ? "ar" : "en",
+      ).format(parsedTime);
+    } catch (e) {
+      return time;
     }
+  }
+
+  String _getFormattedTime(BuildContext context) {
+    final shift =
+        widget.appointment.shiftMorning ?? widget.appointment.shiftEvening;
+
+    if (shift != null) {
+      final start = _formatTime(shift.start, context);
+      final end = _formatTime(shift.end, context);
+      return "$start - $end";
+    }
+
     return AppStrings.unknown;
   }
 

@@ -23,9 +23,9 @@ class AppointmentModel {
   @JsonKey(name: 'user_id')
   final String? userId;
   final int? status;
-  @JsonKey(name: 'shift_morning_id')
+  @JsonKey(name: 'appointment_morning_shift_id')
   final int? shiftMorningId;
-  @JsonKey(name: 'shift_evening_id')
+  @JsonKey(name: 'appointment_evening_shift_id')
   final int? shiftEveningId;
   @JsonKey(name: 'shifts_morning')
   final ShiftModel? shiftMorning;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -44,6 +46,8 @@ class _AppointmentBookingScreenState
 
   @override
   Widget build(BuildContext context) {
+    log("-=-----------$selectedShiftEveningId");
+
     return Scaffold(
       appBar: AppBarWidget(title: AppStrings.bookingInquiry),
       body: Padding(
@@ -108,6 +112,8 @@ class _AppointmentBookingScreenState
                           TitleTextField(text: AppStrings.periodLabel),
                           DropDownShiftsStates(
                             onSelected: ({shiftEveningId, shiftMorningId}) {
+                              log("--------- ev $shiftEveningId");
+                              log("--------- mo $shiftMorningId");
                               selectedShiftMorningId = shiftMorningId;
                               selectedShiftEveningId = shiftEveningId;
                             },

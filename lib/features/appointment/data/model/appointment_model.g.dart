@@ -11,8 +11,8 @@ AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num?)?.toInt(),
       createdAt: json['created_at'] as String?,
       appointmentDate: json['appointment_date'] as String?,
-      shiftMorningId: (json['shift_morning_id'] as num?)?.toInt(),
-      shiftEveningId: (json['shift_evening_id'] as num?)?.toInt(),
+      shiftMorningId: (json['appointment_morning_shift_id'] as num?)?.toInt(),
+      shiftEveningId: (json['appointment_evening_shift_id'] as num?)?.toInt(),
       shiftEvening: json['shift_evening'] == null
           ? null
           : ShiftModel.fromJson(json['shift_evening'] as Map<String, dynamic>),
@@ -51,8 +51,8 @@ Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
       'doctor_id': instance.doctorId,
       'user_id': instance.userId,
       'status': instance.status,
-      'shift_morning_id': instance.shiftMorningId,
-      'shift_evening_id': instance.shiftEveningId,
+      'appointment_morning_shift_id': instance.shiftMorningId,
+      'appointment_evening_shift_id': instance.shiftEveningId,
       'shifts_morning': instance.shiftMorning?.toJson(),
       'shift_evening': instance.shiftEvening?.toJson(),
       'phone': instance.phone,
