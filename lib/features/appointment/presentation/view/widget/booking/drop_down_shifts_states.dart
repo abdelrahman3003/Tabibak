@@ -16,17 +16,34 @@ class DropDownShiftsStates extends ConsumerStatefulWidget {
 }
 
 class _DropDownShiftsStatesState extends ConsumerState<DropDownShiftsStates> {
+  String? _selectedValue;
+  DayShiftsModel? _previousDayShiftsModel;
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(appointmentBookingNotifierProvider);
     final shiftMap = _buildShiftMap(state.dayShiftsModel);
+
+    // Reset selection only when the dayShiftsModel reference changes (new date picked)
+    if (!identical(state.dayShiftsModel, _previousDayShiftsModel)) {
+      _previousDayShiftsModel = state.dayShiftsModel;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            _selectedValue = null;
+          });
+          widget.onSelected?.call(shiftMorningId: null, shiftEveningId: null);
+        }
+      });
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppDropdown<String>(
           hint: AppStrings.selectPeriod,
           items: shiftMap.keys.toList(),
-          value: null,
+          value: shiftMap.containsKey(_selectedValue) ? _selectedValue : null,
           labelBuilder: (item) => item == 'morning'
               ? AppStrings.morningShift
               : AppStrings.eveningShift,
@@ -34,6 +51,7 @@ class _DropDownShiftsStatesState extends ConsumerState<DropDownShiftsStates> {
             if (value == null) return;
             final id = shiftMap[value];
             if (id == null) return;
+            setState(() => _selectedValue = value);
             final isMorning = value == 'morning';
             widget.onSelected?.call(
               shiftMorningId: isMorning ? id : null,

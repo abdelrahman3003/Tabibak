@@ -20,9 +20,15 @@ class BookingButtonStates extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(appointmentBookingNotifierProvider);
     if (state.isSuccess && state.appointmentModel != null) {
+      final model = state.dayShiftsModel;
+      final isMorning = state.appointmentModel!.shiftMorningId != null;
+      final timeString = isMorning
+          ? "${model?.morning?.start ?? ''} - ${model?.morning?.end ?? ''}"
+          : "${model?.evening?.start ?? ''} - ${model?.evening?.end ?? ''}";
       final arg = AppointmentSuccessArg(
         appointmentModel: state.appointmentModel!,
         doctorModel: doctorModel,
+        timeString: timeString,
       );
       WidgetsBinding.instance.addPostFrameCallback((_) {
         context.pushReplacementNamed(
