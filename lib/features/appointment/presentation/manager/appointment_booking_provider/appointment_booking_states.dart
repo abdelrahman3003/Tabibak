@@ -28,7 +28,7 @@ class AppointmentBookingStates {
   }) {
     return AppointmentBookingStates(
       isLoading: isLoading ?? false,
-      dayShiftsModel: dayShiftsModel,
+      dayShiftsModel: dayShiftsModel ?? this.dayShiftsModel,
       emptyShift: emptyShift,
       errorMessage: errorMessage,
       isSuccess: isSuccess ?? false,

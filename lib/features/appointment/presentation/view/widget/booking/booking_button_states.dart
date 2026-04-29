@@ -26,8 +26,8 @@ class BookingButtonStates extends ConsumerWidget {
           ? "${model?.morning?.start ?? ''} - ${model?.morning?.end ?? ''}"
           : "${model?.evening?.start ?? ''} - ${model?.evening?.end ?? ''}";
       final arg = AppointmentSuccessArg(
-        appointmentModel: state.appointmentModel!,
         doctorModel: doctorModel,
+        appointmentDate: state.appointmentModel!.appointmentDate ?? '',
         timeString: timeString,
       );
       WidgetsBinding.instance.addPostFrameCallback((_) {
