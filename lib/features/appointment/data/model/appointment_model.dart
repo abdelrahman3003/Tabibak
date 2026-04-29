@@ -23,9 +23,9 @@ class AppointmentModel {
   @JsonKey(name: 'user_id')
   final String? userId;
   final int? status;
-  @JsonKey(name: 'appointment_morning_shift_id')
+  @JsonKey(name: 'shift_morning_id')
   final int? shiftMorningId;
-  @JsonKey(name: 'appointment_evening_shift_id')
+  @JsonKey(name: 'shift_evening_id')
   final int? shiftEveningId;
   @JsonKey(name: 'shifts_morning')
   final ShiftModel? shiftMorning;
@@ -35,6 +35,8 @@ class AppointmentModel {
   final String? name;
   final String? description;
   final String? fcmToken;
+  @JsonKey(name: 'appointment_time')
+  final String? appointmentTime;
   final UserModel? users;
 
   @JsonKey(name: 'appointments_status')
@@ -44,6 +46,7 @@ class AppointmentModel {
     this.id,
     this.createdAt,
     this.appointmentDate,
+    this.appointmentTime,
     this.shiftMorningId,
     this.shiftEveningId,
     this.shiftEvening,

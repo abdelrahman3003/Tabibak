@@ -16,26 +16,21 @@ class DropDownShiftsStates extends ConsumerStatefulWidget {
 }
 
 class _DropDownShiftsStatesState extends ConsumerState<DropDownShiftsStates> {
-  String? _selectedValue;
-  DayShiftsModel? _previousDayShiftsModel;
+  String? _selectedValue; // only field needed
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(appointmentBookingNotifierProvider);
     final shiftMap = _buildShiftMap(state.dayShiftsModel);
 
-    // Reset selection only when the dayShiftsModel reference changes (new date picked)
-    if (!identical(state.dayShiftsModel, _previousDayShiftsModel)) {
-      _previousDayShiftsModel = state.dayShiftsModel;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          setState(() {
-            _selectedValue = null;
-          });
-          widget.onSelected?.call(shiftMorningId: null, shiftEveningId: null);
-        }
-      });
-    }
+    ref.listen(
+      appointmentBookingNotifierProvider.select((s) => s.dayShiftsModel),
+      (previous, next) {
+        // ✅ fires correctly now because dayShiftsModel is truly null when cleared
+        setState(() => _selectedValue = null);
+        widget.onSelected?.call(shiftMorningId: null, shiftEveningId: null);
+      },
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +56,7 @@ class _DropDownShiftsStatesState extends ConsumerState<DropDownShiftsStates> {
         ),
         if (state.emptyShift != null)
           Text(
-            state.emptyShift ?? "",
+            state.emptyShift!,
             style: Theme.of(context)
                 .textTheme
                 .labelMedium

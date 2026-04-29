@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class AppDropdown<T> extends StatelessWidget {
@@ -29,7 +27,7 @@ class AppDropdown<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
       isExpanded: true,
-      value: value,
+      initialValue: value,
       validator: validator,
       padding: EdgeInsets.zero,
       icon: suffixIcon ??

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
@@ -18,7 +20,7 @@ class AppointmentBookingProvider
   final Ref ref;
   final AppointmentsRepos appointmentsRepos;
   Future<void> getSHift({required String dayEn, required int clinicId}) async {
-    state = state.copyWith(isShiftLoading: true);
+    state = state.copyWith(isLoading: true);
     final result =
         await appointmentsRepos.getDayShift(dayEn: dayEn, clinicId: clinicId);
     result.when(
@@ -26,21 +28,28 @@ class AppointmentBookingProvider
         if (dayShiftsModel?.evening == null &&
             dayShiftsModel?.morning == null) {
           state = state.copyWith(
-              emptyShift: AppStrings.thisDayNotAvailable, dayShiftsModel: null);
+            emptyShift: AppStrings.thisDayNotAvailable,
+            clearDayShifts: true, // ✅ actually clears old model
+          );
         } else {
-          state =
-              state.copyWith(dayShiftsModel: dayShiftsModel, emptyShift: null);
+          state = state.copyWith(
+            dayShiftsModel: dayShiftsModel,
+            emptyShift: null,
+          );
         }
       },
       failure: (apiErrorModel) {
         state = state.copyWith(
           errorMessage: apiErrorModel.errors,
+          clearDayShifts: true, // ✅ clear stale shifts on error too
         );
       },
     );
   }
 
   Future<void> addAppointment(AppointmentModel appointment) async {
+    log("--------- shift provider  ---- ${appointment.shiftMorningId}");
+
     state = state.copyWith(isLoading: true, appointmentModel: appointment);
     final result = await appointmentsRepos.addAppointment(appointment);
 

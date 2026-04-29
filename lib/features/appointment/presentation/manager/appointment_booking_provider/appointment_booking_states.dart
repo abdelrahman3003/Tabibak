@@ -23,12 +23,14 @@ class AppointmentBookingStates {
     String? errorMessage,
     String? emptyShift,
     DayShiftsModel? dayShiftsModel,
+    bool clearDayShifts = false,
     bool? isSuccess,
     AppointmentModel? appointmentModel,
   }) {
     return AppointmentBookingStates(
       isLoading: isLoading ?? false,
-      dayShiftsModel: dayShiftsModel ?? this.dayShiftsModel,
+      dayShiftsModel:
+          clearDayShifts ? null : dayShiftsModel ?? this.dayShiftsModel,
       emptyShift: emptyShift,
       errorMessage: errorMessage,
       isSuccess: isSuccess ?? false,

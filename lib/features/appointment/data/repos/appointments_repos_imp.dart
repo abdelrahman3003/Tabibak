@@ -13,11 +13,12 @@ class AppointmentsReposImp implements AppointmentsRepos {
   AppointmentsReposImp({required this.appointmentsRemoteData});
   @override
   Future<ApiResult<void>> addAppointment(AppointmentModel appointment) async {
+    log("--------- shift repo ---- ${appointment.shiftEveningId}");
+
     try {
       final result = await appointmentsRemoteData.addAppointment(appointment);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("----------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

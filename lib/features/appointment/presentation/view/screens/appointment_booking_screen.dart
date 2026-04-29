@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -108,6 +110,9 @@ class _AppointmentBookingScreenState
                           TitleTextField(text: AppStrings.periodLabel),
                           DropDownShiftsStates(
                             onSelected: ({shiftEveningId, shiftMorningId}) {
+                              log("--------- shift eve ---- $shiftEveningId");
+                              log("--------- shift mor ---- $shiftMorningId");
+
                               selectedShiftMorningId = shiftMorningId;
                               selectedShiftEveningId = shiftEveningId;
                             },
