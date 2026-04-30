@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/home/data/model/day_shift_model.dart';
@@ -10,7 +8,6 @@ class AppointmentsRemoteData {
   AppointmentsRemoteData({required this.supabase});
 
   Future<void> addAppointment(AppointmentModel appointment) async {
-    log("--------- shift remote ---- ${appointment.shiftMorningId}");
     await supabase.client.functions
         .invoke("bright-responder", body: appointment.toJsonForInsert());
   }
@@ -30,7 +27,7 @@ class AppointmentsRemoteData {
     final response = await supabase.client
         .from('appointments')
         .select(
-            "*,users(*),appointments_status(*),doctors(*,clinic_data(*),specialties(*)),shift_evening(*),shifts_morning(*)")
+            "*,users(*),appointments_status(*),appointment_types(*),doctors(*,clinic_data(*),specialties(*)),shift_evening(*),shifts_morning(*)")
         .eq("user_id", supabase.client.auth.currentUser!.id);
     return response.map((e) => AppointmentModel.fromJson(e)).toList();
   }

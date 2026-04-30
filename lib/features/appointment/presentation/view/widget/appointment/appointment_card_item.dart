@@ -4,11 +4,13 @@ import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/function/formate_date.dart';
+import 'package:tabibak/core/function/language_state.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 
 class AppointmentCardItem extends StatelessWidget {
   const AppointmentCardItem({super.key, required this.appointment, this.onTap});
+
   final AppointmentModel appointment;
   final VoidCallback? onTap;
 
@@ -74,9 +76,18 @@ class AppointmentCardItem extends StatelessWidget {
         5.hBox,
         _buildIconTextRow(
           icon: Icons.local_fire_department_outlined,
-          text: context.locale.languageCode == 'ar'
+          text: isArabic(context)
               ? appointment.doctor?.specialty?.nameAr ?? ""
               : appointment.doctor?.specialty?.nameEn ?? "",
+          textStyle: Theme.of(context).textTheme.bodyMedium,
+          iconSize: 16,
+        ),
+        5.hBox,
+        _buildIconTextRow(
+          icon: Icons.medical_services_outlined,
+          text: isArabic(context)
+              ? appointment.appointmentTypeModel?.appointmentTypeAr ?? ""
+              : appointment.appointmentTypeModel?.appointmentTypeEn ?? "",
           textStyle: Theme.of(context).textTheme.bodyMedium,
           iconSize: 16,
         ),
@@ -140,12 +151,16 @@ class AppointmentCardItem extends StatelessWidget {
 
   Color _getColor(int index) {
     switch (index) {
+      case 1:
+        return AppColors.orange;
       case 2:
         return AppColors.green;
       case 3:
         return AppColors.red;
+      case 4:
+        return AppColors.primary;
       default:
-        return AppColors.orange;
+        return AppColors.primary;
     }
   }
 }

@@ -48,7 +48,6 @@ class AppointmentBookingProvider
   }
 
   Future<void> addAppointment(AppointmentModel appointment) async {
-    log("--------- shift provider  ---- ${appointment.shiftMorningId}");
 
     state = state.copyWith(isLoading: true, appointmentModel: appointment);
     final result = await appointmentsRepos.addAppointment(appointment);

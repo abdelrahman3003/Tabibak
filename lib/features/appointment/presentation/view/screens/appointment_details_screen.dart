@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/function/language_state.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/presentation/manager/appointment_details_provider/appointment_details_provider.dart';
@@ -13,7 +14,6 @@ import 'package:tabibak/features/home/presentation/views/widget/specialist_scree
 
 class AppointmentDetailsScreen extends ConsumerStatefulWidget {
   final AppointmentModel appointment;
-
   const AppointmentDetailsScreen({super.key, required this.appointment});
 
   @override
@@ -36,7 +36,6 @@ class _AppointmentDetailsScreenState
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(appointmentDetailsNotifier);
-
     return Scaffold(
       appBar: AppBarWidget(title: AppStrings.appointmentDetailsTitle),
       body: Padding(
@@ -76,6 +75,26 @@ class _AppointmentDetailsScreenState
                           "${widget.appointment.doctor?.clinic?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}",
                       icon: Icons.monetization_on_outlined,
                     ),
+                    AppointmentInfoCard(
+                      title: AppStrings.appointmentType,
+                      value: context.locale.languageCode == 'ar'
+                          ? widget.appointment.appointmentTypeModel
+                                  ?.appointmentTypeAr ??
+                              AppStrings.unknown
+                          : widget.appointment.appointmentTypeModel
+                                  ?.appointmentTypeEn ??
+                              AppStrings.unknown,
+                      icon: Icons.medical_services_outlined,
+                    ),
+                    if (widget.appointment.followUpDate != null)
+                      AppointmentInfoCard(
+                        title: AppStrings.followUpDate,
+                        value: DateFormat(
+                          'dd/MM/yyyy',
+                          isArabic(context) ? 'ar' : 'en',
+                        ).format(widget.appointment.followUpDate!),
+                        icon: Icons.event_repeat_outlined,
+                      ),
                     if (state.appointmentQueue != null)
                       AppointmentInfoCard(
                         title: AppStrings.queuePosition,
@@ -127,12 +146,9 @@ class _AppointmentDetailsScreenState
 
   String _formatTime(String? time, BuildContext context) {
     if (time == null || time.isEmpty) return '';
-
     try {
       final parsedTime = DateFormat("HH:mm").parse(time);
-
       final isArabic = Localizations.localeOf(context).languageCode == 'ar';
-
       return DateFormat(
         isArabic ? "h:mm a" : "h:mm a",
         isArabic ? "ar" : "en",
@@ -145,13 +161,11 @@ class _AppointmentDetailsScreenState
   String _getFormattedTime(BuildContext context) {
     final shift =
         widget.appointment.shiftMorning ?? widget.appointment.shiftEvening;
-
     if (shift != null) {
       final start = _formatTime(shift.start, context);
       final end = _formatTime(shift.end, context);
       return "$start - $end";
     }
-
     return AppStrings.unknown;
   }
 

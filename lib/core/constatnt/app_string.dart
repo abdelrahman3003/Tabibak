@@ -207,4 +207,6 @@ class AppStrings {
   static String get ourTeam => "Our Team".tr();
   static String get availableOffers => "Available Offers".tr();
   static String get noOffersAvailable => "No offers available".tr();
+  static String get followUpDate => "Follow-up Date".tr();
+  static String get appointmentType => "appointment_type".tr();
 }

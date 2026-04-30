@@ -43,9 +43,9 @@ final class AppointmentProvider extends StateNotifier<AppointmentStates> {
 
     final filteredAppointments = allAppointments.where((appointment) {
       if (statusToFilter == 1) {
-        return appointment.status == 1;
+        return appointment.status == 1 || appointment.status == 5;
       } else {
-        return appointment.status != 1;
+        return appointment.status == 2 || appointment.status == 3;
       }
     }).toList();
 
