@@ -40,7 +40,6 @@ class HomeRemoteData {
         .select(ApiConstants.getDoctors)
         .eq("status", 2)
         .limit(5);
-
     return response.map((doctor) => DoctorModel.fromJson(doctor)).toList();
   }
 

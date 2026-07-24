@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
@@ -28,10 +29,18 @@ class ClinicInfoSection extends StatelessWidget {
                 clinic?.consultationFee?.toString() ?? AppStrings.unknown),
         12.hBox,
         ClinicItemInfo(
-            icon: "assets/images/location_on.png",
-            title: AppStrings.address,
-            subtitle:
-                clinic?.clinicAddressModel?.address ?? AppStrings.unknown),
+          icon: "assets/images/location_on.png",
+          title: AppStrings.address,
+          subtitle: context.locale.languageCode == "en"
+              ? clinic?.clinicAddresses?.isNotEmpty == true
+                  ? clinic!.clinicAddresses!.first.city?.nameEn ??
+                      AppStrings.unknown
+                  : AppStrings.unknown
+              : clinic?.clinicAddresses?.isNotEmpty == true
+                  ? clinic!.clinicAddresses!.first.city?.nameAr ??
+                      AppStrings.unknown
+                  : AppStrings.unknown,
+        ),
         12.hBox,
         ClinicItemInfo(
             icon: "assets/images/call.png",

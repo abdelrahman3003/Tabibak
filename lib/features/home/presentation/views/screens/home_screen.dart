@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                     10.hBox,
-                    Flexible(child: CategoriesListStates()),
+                    Expanded(child: CategoriesListStates()),
                   ],
                 ),
               ),

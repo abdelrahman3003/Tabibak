@@ -41,8 +41,9 @@ class HomeRepoImp extends HomeRepo {
     try {
       final result = await homeRemoteData.getTopDoctors();
       return ApiResult.sucess(result);
-    } catch (e) {
-      return ApiResult.failure(ErrorHandler.handle(e));
+    } catch (error) {
+      log("------------$error");
+      return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
 
@@ -53,7 +54,6 @@ class HomeRepoImp extends HomeRepo {
 
       return ApiResult.sucess(result);
     } catch (error) {
-      log("Error fetching doctor by ID: $id - $error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

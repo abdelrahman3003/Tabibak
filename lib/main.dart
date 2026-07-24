@@ -13,9 +13,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await EasyLocalization.ensureInitialized();
-
   await AppService.init();
-
   runApp(ProviderScope(
     child: EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar')],

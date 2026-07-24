@@ -19,7 +19,7 @@ class AppointmentListStates extends ConsumerWidget {
       return Center(child: Text(state.errorMessage!));
     }
 
-    if (state.appointments!.isEmpty) {
+    if (state.appointments == null || state.appointments!.isEmpty) {
       return const EmptyWidget();
     }
 

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,9 @@ class SearchCard extends ConsumerWidget {
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         subtitle: Text(
-          doctorSummary.clinic?.clinicAddressModel?.address ?? "",
+          context.locale.languageCode == 'ar'
+              ? doctorSummary.clinic?.clinicAddresses?.first.city?.nameAr ?? ""
+              : doctorSummary.clinic?.clinicAddresses?.first.city?.nameAr ?? "",
           style: Theme.of(context).textTheme.bodySmall,
         ),
         trailing: IconButton(

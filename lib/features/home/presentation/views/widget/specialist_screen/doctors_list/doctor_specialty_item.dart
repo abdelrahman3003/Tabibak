@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
@@ -52,8 +53,13 @@ class DoctorSpecialtyItem extends StatelessWidget {
                   ),
                   5.hBox,
                   Text(
-                    doctorSummary.clinic?.clinicAddressModel?.address ??
-                        "مكان غير معروف",
+                    context.locale.languageCode == "en"
+                        ? doctorSummary
+                                .clinic?.clinicAddresses?.first.city?.nameAr ??
+                            ""
+                        : doctorSummary
+                                .clinic?.clinicAddresses?.first.city?.nameAr ??
+                            "",
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium

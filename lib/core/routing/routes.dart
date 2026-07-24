@@ -29,6 +29,5 @@ class Routes {
       "/notificationScreen"; // fixed extra space
 
   // ==================== offers ====================
-  static const String pharmacyDetailsScreen =
-      "/PharmacyDetailsScreen"; // fixed naming (camelCase)
+  static const String pharmacyDetailsScreen = "/PharmacyDetailsScreen";
 }
