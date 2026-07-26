@@ -19,78 +19,96 @@ class SigninBody extends ConsumerWidget {
   final Animation<Offset> googleAnimation;
   final TextEditingController emailController;
   final TextEditingController passwordController;
-  const SigninBody(
-      {super.key,
-      required this.signinKey,
-      required this.emailAnimation,
-      required this.passwordAnimation,
-      required this.signinAnimation,
-      required this.googleAnimation,
-      required this.emailController,
-      required this.passwordController});
+
+  const SigninBody({
+    super.key,
+    required this.signinKey,
+    required this.emailAnimation,
+    required this.passwordAnimation,
+    required this.signinAnimation,
+    required this.googleAnimation,
+    required this.emailController,
+    required this.passwordController,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Form(
       key: signinKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SlideTransition(
-              position: emailAnimation,
-              child: TextFormField(
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  hintText: AppStrings.email,
-                  prefixIcon: const Icon(Icons.email_outlined),
+      child: Center(
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SlideTransition(
+                position: emailAnimation,
+                child: TextFormField(
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                    hintText: AppStrings.email,
+                    prefixIcon: Icon(
+                      Icons.email_outlined,
+                    ),
+                  ),
+                  controller: emailController,
+                  validator: (value) {
+                    return Validation.validateEmail(value);
+                  },
                 ),
-                controller: emailController,
-                validator: (value) {
-                  return Validation.validateEmail(value);
+              ),
+              30.hBox,
+              SlideTransition(
+                position: passwordAnimation,
+                child: PasswordTextFiled(
+                  validator: (value) {
+                    return Validation.validatePassword(value);
+                  },
+                  controller: passwordController,
+                ),
+              ),
+              20.hBox,
+              Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: () {
+                    context.pushNamed(
+                      Routes.forgetPasswordScreen,
+                    );
+                  },
+                  child: Text(
+                    AppStrings.forgotPassword,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: AppColors.primary,
+                        ),
+                  ),
+                ),
+              ),
+              30.hBox,
+              SignInButtonStates(
+                animation: signinAnimation,
+                signinKey: signinKey,
+                emailController: emailController,
+                passwordController: passwordController,
+              ),
+              20.hBox,
+              GoogleSignInButton(
+                animation: googleAnimation,
+              ),
+              50.hBox,
+              DoHaveAccount(
+                title: AppStrings.noAccount,
+                subtitle: AppStrings.createAccount,
+                onTap: () {
+                  context.pop();
+                  context.pushNamed(
+                    Routes.singUpScreen,
+                  );
                 },
-              )),
-          30.hBox,
-          SlideTransition(
-            position: passwordAnimation,
-            child: PasswordTextFiled(
-                validator: (value) {
-                  return Validation.validatePassword(value);
-                },
-                controller: passwordController),
+              ),
+            ],
           ),
-          20.hBox,
-          InkWell(
-            onTap: () {
-              context.pushNamed(Routes.forgetPasswordScreen);
-            },
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(AppStrings.forgotPassword,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.copyWith(color: AppColors.primary)),
-            ),
-          ),
-          30.hBox,
-          SignInButtonStates(
-            animation: signinAnimation,
-            signinKey: signinKey,
-            emailController: emailController,
-            passwordController: passwordController,
-          ),
-          20.hBox,
-          GoogleSignInButton(animation: googleAnimation),
-          50.hBox,
-          DoHaveAccount(
-            title: AppStrings.noAccount,
-            subtitle: AppStrings.createAccount,
-            onTap: () {
-              context.pop();
-              context.pushNamed(Routes.singUpScreen);
-            },
-          )
-        ],
+        ),
       ),
     );
   }

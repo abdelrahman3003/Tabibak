@@ -31,7 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<ApiResult<void>> signIn(
+  Future<ApiResult<bool>> signIn(
       {required String email, required String password}) async {
     try {
       final result = await remoteDatasource.login(email, password);

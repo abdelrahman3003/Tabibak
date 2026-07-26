@@ -27,13 +27,13 @@ class AuthRemoteDatasource {
     );
   }
 
-  Future<void> login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     final response = await supabase.auth
         .signInWithPassword(email: email, password: password);
-
     final user = response.user;
-
-    if (user == null) throw const AuthException('Login failed');
+    if (user == null) {
+      throw const AuthException('Login failed');
+    }
     if (user.emailConfirmedAt == null) {
       await supabase.auth.signOut();
       throw const AuthException('email_not_confirmed');
@@ -41,13 +41,24 @@ class AuthRemoteDatasource {
     final exitUser = await getUserById(user.id);
     final fcmToken = await PushNotificationService.getToken();
     if (exitUser == null) {
-      addUserData(UserModel(
+      await addUserData(
+        UserModel(
           userId: user.id,
           email: user.email ?? '',
           name: user.userMetadata?['name'] ?? '',
           image: user.userMetadata?['avatar_url'],
-          fcmToken: fcmToken));
+          fcmToken: fcmToken,
+        ),
+      );
+
+      return false;
     }
+
+    await supabase.from('users').update({
+      'fcm_token': fcmToken,
+    }).eq('user_id', user.id);
+
+    return exitUser.cityId != null;
   }
 
   Future<void> sendOtp(String email) async {

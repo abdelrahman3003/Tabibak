@@ -4,7 +4,7 @@ import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/model/clinic_model.dart';
 
 abstract class AuthRepository {
-  Future<ApiResult<void>> signIn(
+  Future<ApiResult<bool>> signIn(
       {required String email, required String password});
   Future<ApiResult<bool>> nativeGoogleSignIn();
   Future<ApiResult<void>> signUp(

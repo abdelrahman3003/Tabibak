@@ -14,11 +14,17 @@ class SignInProvider extends StateNotifier<SignInStates> {
   Future<void> signIn({required String email, required String password}) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     final result = await authRepo.signIn(email: email, password: password);
-    result.when(sucess: (_) async {
-      state = state.copyWith(isLoggedIn: true);
-    }, failure: (error) {
-      state = state.copyWith(errorMessage: error.message);
-    });
+    result.when(
+      sucess: (isProfileCompleted) {
+        state = state.copyWith(
+            isLoading: false,
+            isLoggedIn: true,
+            isProfileCompleted: isProfileCompleted);
+      },
+      failure: (error) {
+        state = state.copyWith(isLoading: false, errorMessage: error.message);
+      },
+    );
   }
 
   Future<void> nativeGoogleSignIn() async {

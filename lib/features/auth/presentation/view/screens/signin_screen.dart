@@ -28,71 +28,66 @@ class _SigninScreenState extends ConsumerState<SigninScreen>
   late Animation<Offset> signinWithGoogleAnimation;
 
   final signinKey = GlobalKey<FormState>();
+
   late TextEditingController emailController;
   late TextEditingController passwordController;
 
   @override
   void initState() {
     super.initState();
+
     emailController = TextEditingController();
     passwordController = TextEditingController();
 
-    emailAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    emailAnimation = Tween<Offset>(
-      begin: const Offset(1, 0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-        parent: emailAnimationController, curve: Curves.easeOut));
+    emailAnimationController = _createController();
+    passwordAnimationController = _createController();
+    signinAnimationController = _createController();
+    signinWithGoogleAnimationController = _createController();
 
-    passwordAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    passwordAnimation = Tween<Offset>(
-      begin: const Offset(1, 0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-        parent: passwordAnimationController, curve: Curves.easeOut));
-
-    signinAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    signinAnimation = Tween<Offset>(
-      begin: const Offset(1, 0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-        parent: signinAnimationController, curve: Curves.easeOut));
-
-    signinWithGoogleAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    signinWithGoogleAnimation = Tween<Offset>(
-      begin: const Offset(1, 0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-        parent: signinWithGoogleAnimationController, curve: Curves.easeOut));
+    emailAnimation = _createAnimation(emailAnimationController);
+    passwordAnimation = _createAnimation(passwordAnimationController);
+    signinAnimation = _createAnimation(signinAnimationController);
+    signinWithGoogleAnimation =
+        _createAnimation(signinWithGoogleAnimationController);
 
     emailAnimationController.forward();
+
     emailAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         passwordAnimationController.forward();
       }
     });
+
     passwordAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         signinAnimationController.forward();
       }
     });
+
     signinAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         signinWithGoogleAnimationController.forward();
       }
     });
+  }
+
+  AnimationController _createController() {
+    return AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+  }
+
+  Animation<Offset> _createAnimation(AnimationController controller) {
+    return Tween<Offset>(
+      begin: const Offset(0.3, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Curves.easeOut,
+      ),
+    );
   }
 
   @override
@@ -101,8 +96,10 @@ class _SigninScreenState extends ConsumerState<SigninScreen>
     passwordAnimationController.dispose();
     signinAnimationController.dispose();
     signinWithGoogleAnimationController.dispose();
+
     emailController.dispose();
     passwordController.dispose();
+
     super.dispose();
   }
 
@@ -127,17 +124,21 @@ class _SigninScreenState extends ConsumerState<SigninScreen>
     });
 
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SigninBody(
-        signinKey: signinKey,
-        emailController: emailController,
-        passwordController: passwordController,
-        emailAnimation: emailAnimation,
-        passwordAnimation: passwordAnimation,
-        signinAnimation: signinAnimation,
-        googleAnimation: signinWithGoogleAnimation,
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SigninBody(
+            signinKey: signinKey,
+            emailController: emailController,
+            passwordController: passwordController,
+            emailAnimation: emailAnimation,
+            passwordAnimation: passwordAnimation,
+            signinAnimation: signinAnimation,
+            googleAnimation: signinWithGoogleAnimation,
+          ),
+        ),
       ),
-    ));
+    );
   }
 }
