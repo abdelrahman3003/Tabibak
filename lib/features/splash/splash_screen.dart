@@ -32,19 +32,55 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateNext() async {
-    bool isOnboarding =
+    final isOnboarding =
         SharedPrefsService.prefs.getBool(SharedPrefKeys.isOnboarding) ?? false;
-    final user = getIt<Supabase>().client.auth.currentUser;
+
+    final supabase = getIt<Supabase>().client;
+    final user = supabase.auth.currentUser;
+
     if (user != null) {
-      context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
+      final userData = await supabase
+          .from('users')
+          .select('city_id')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+      if (userData == null) {
+        context.pushNamedAndRemoveUntil(
+          Routes.selectCityScreen,
+          (route) => false,
+        );
+        return;
+      }
+
+      final cityId = userData['city_id'];
+
+      if (cityId == null) {
+        context.pushNamedAndRemoveUntil(
+          Routes.selectCityScreen,
+          (route) => false,
+        );
+        return;
+      }
+
+      context.pushNamedAndRemoveUntil(
+        Routes.layoutScreen,
+        (route) => false,
+      );
+
       return;
     }
+
     if (isOnboarding) {
-      context.pushNamedAndRemoveUntil(Routes.singInScreen, (route) => false);
-      return;
+      context.pushNamedAndRemoveUntil(
+        Routes.singInScreen,
+        (route) => false,
+      );
     } else {
       context.pushNamedAndRemoveUntil(
-          Routes.onboardingScreen, (route) => false);
+        Routes.onboardingScreen,
+        (route) => false,
+      );
     }
   }
 

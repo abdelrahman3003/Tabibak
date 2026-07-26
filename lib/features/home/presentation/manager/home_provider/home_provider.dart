@@ -10,7 +10,7 @@ final homeRepoProvider = StateProvider<HomeRepo>(
 final buttonLoadingProvider = StateProvider<bool>((ref) => false);
 
 final homeControllerProvider =
-    StateNotifierProvider.autoDispose<HomeController, HomeStates>(
+    StateNotifierProvider<HomeController, HomeStates>(
         (ref) => HomeController(ref));
 
 class HomeController extends StateNotifier<HomeStates> {

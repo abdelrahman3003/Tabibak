@@ -6,6 +6,7 @@ import 'package:tabibak/features/appointment/presentation/view/screens/appointme
 import 'package:tabibak/features/appointment/presentation/view/screens/booking_success_screen.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/booking/appointment_success_arg.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
+import 'package:tabibak/features/auth/presentation/view/screens/city_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/email_verification_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/forget_password_screen.dart';
 import 'package:tabibak/features/auth/presentation/view/screens/otp_verification_screen.dart';
@@ -67,6 +68,8 @@ class AppRouter {
         return _buildSlideRoute(
           EmailVerificationScreen(email: email),
         );
+      case Routes.selectCityScreen:
+        return _buildSlideRoute(SelectCityScreen());
 
       // ==================== Main Layout ====================
       case Routes.layoutScreen:

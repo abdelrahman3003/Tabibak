@@ -110,7 +110,17 @@ class _SigninScreenState extends ConsumerState<SigninScreen>
   Widget build(BuildContext context) {
     ref.listen(signInNotifierProvider, (previous, next) {
       if (next.isLoggedIn) {
-        context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => false);
+        if (next.isProfileCompleted) {
+          context.pushNamedAndRemoveUntil(
+            Routes.layoutScreen,
+            (route) => false,
+          );
+        } else {
+          context.pushNamedAndRemoveUntil(
+            Routes.selectCityScreen,
+            (route) => false,
+          );
+        }
       } else if (next.errorMessage != null) {
         showErrorSnackBar(next.errorMessage!);
       }

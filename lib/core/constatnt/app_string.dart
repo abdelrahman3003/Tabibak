@@ -209,4 +209,7 @@ class AppStrings {
   static String get noOffersAvailable => "No offers available".tr();
   static String get followUpDate => "Follow-up Date".tr();
   static String get appointmentType => "appointment_type".tr();
+  static String get selectCity => "selectCity".tr();
+  static String get city => "city".tr();
+  static String get pleaseSelectCity => "pleaseSelectCity".tr();
 }

@@ -22,6 +22,9 @@ class UserModel {
   @JsonKey(name: 'fcm_token')
   final String? fcmToken;
 
+  @JsonKey(name: 'city_id')
+  final int? cityId;
+
   @JsonKey(name: 'is_doctor', includeToJson: false)
   final bool? isDoctor;
 
@@ -36,6 +39,7 @@ class UserModel {
     this.image,
     this.userId,
     this.fcmToken,
+    this.cityId,
     this.isDoctor,
     this.createdAt,
   });

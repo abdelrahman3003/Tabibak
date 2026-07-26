@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/auth/data/data_source/auth_remote_data.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/auth/data/repo/auth_repo.dart';
+import 'package:tabibak/features/home/data/model/clinic_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDatasource remoteDatasource;
@@ -11,13 +14,15 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this.remoteDatasource);
 
   @override
-  Future<ApiResult<void>> signUp(
-      {required String name,
-      required String email,
-      required String password}) async {
+  Future<ApiResult<void>> signUp({
+    required String name,
+    required String email,
+    required String password,
+    required int cityId,
+  }) async {
     try {
       final result = await remoteDatasource.signUp(
-          name: name, email: email, password: password);
+          name: name, email: email, password: password, cityId: cityId);
 
       return ApiResult.sucess(result);
     } catch (error) {
@@ -37,7 +42,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<ApiResult<void>> nativeGoogleSignIn() async {
+  Future<ApiResult<bool>> nativeGoogleSignIn() async {
     try {
       final result = await remoteDatasource.nativeGoogleSignIn();
       return ApiResult.sucess(result);
@@ -86,6 +91,34 @@ class AuthRepositoryImpl implements AuthRepository {
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<CityModel>>> getCities() async {
+    try {
+      final result = await remoteDatasource.getCities();
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> updateUserCity({
+    required int cityId,
+  }) async {
+    try {
+      final result = await remoteDatasource.updateUserCity(
+        cityId: cityId,
+      );
+
+      return ApiResult.sucess(result);
+    } catch (error) {
+      log("-----$error");
+      return ApiResult.failure(
+        ErrorHandler.handle(error),
+      );
     }
   }
 }

@@ -22,12 +22,26 @@ class SignInProvider extends StateNotifier<SignInStates> {
   }
 
   Future<void> nativeGoogleSignIn() async {
-    state = state.copyWith(isGoogleLoading: true, errorMessage: null);
+    state = state.copyWith(
+      isGoogleLoading: true,
+      errorMessage: null,
+    );
+
     final result = await authRepo.nativeGoogleSignIn();
-    result.when(sucess: (_) async {
-      state = state.copyWith(isLoggedIn: true);
-    }, failure: (error) {
-      state = state.copyWith(errorMessage: error.message);
-    });
+    result.when(
+      sucess: (isProfileCompleted) {
+        state = state.copyWith(
+          isGoogleLoading: false,
+          isLoggedIn: true,
+          isProfileCompleted: isProfileCompleted,
+        );
+      },
+      failure: (error) {
+        state = state.copyWith(
+          isGoogleLoading: false,
+          errorMessage: error.message,
+        );
+      },
+    );
   }
 }

@@ -37,6 +37,9 @@ class _SignupViewState extends ConsumerState<SignupView>
   @override
   void initState() {
     super.initState();
+    Future.microtask(() {
+      ref.read(signUpNotifierProvider.notifier).getCities();
+    });
     nameController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();

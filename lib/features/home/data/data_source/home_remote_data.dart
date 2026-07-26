@@ -10,11 +10,12 @@ class HomeRemoteData {
 
   HomeRemoteData({required this.supabase});
   Future<UserModel> getUserData() async {
-    final response = await supabase
-        .from('users')
-        .select()
-        .eq('user_id', supabase.auth.currentUser!.id)
-        .single();
+    final user = supabase.auth.currentUser;
+    if (user == null) {
+      throw const AuthException('User not logged in');
+    }
+    final response =
+        await supabase.from('users').select().eq('user_id', user.id).single();
 
     return UserModel.fromJson(response);
   }

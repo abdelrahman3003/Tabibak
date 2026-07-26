@@ -5,6 +5,7 @@ class Routes {
   static const String forgetPasswordScreen = "/forgetPassword";
   static const String oTPVerificationScreen = "/oTPVerificationScreen";
   static const String resetPasswordScreen = "/resetPasswordScreen";
+  static const String selectCityScreen = "/selectCityScreen";
   static const String resetPasswordSuccessScreen =
       "/resetPasswordSuccessScreen";
   static const String emailVerificationScreen = "/emailVerificationScreen";

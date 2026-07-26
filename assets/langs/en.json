@@ -194,5 +194,8 @@
     "Available Offers": "Available Offers",
     "No offers available": "No offers available",
     "Follow-up Date": "Follow-up Date",
-    "appointment_type": "Appointment Type"
+    "appointment_type": "Appointment Type",
+    "selectCity": "Select city",
+    "pleaseSelectCity": "Please select a city",
+    "city": "City"
 }

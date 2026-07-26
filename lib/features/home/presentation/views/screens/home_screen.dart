@@ -79,5 +79,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-// ── Pharmacy Offers Widget ──────────────────────────────────────────────────

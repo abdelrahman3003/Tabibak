@@ -184,5 +184,8 @@
     "Available Offers": "العروض المتاحة",
     "No offers available": "لا توجد عروض متاحة",
     "Follow-up Date": "تاريخ المتابعة",
-    "appointment_type": "نوع الموعد"
+    "appointment_type": "نوع الموعد",
+    "selectCity": "اختر المدينة",
+    "pleaseSelectCity": "يرجى اختيار المدينة",
+    "city": "المدينة"
 }
