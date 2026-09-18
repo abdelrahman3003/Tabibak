@@ -187,5 +187,15 @@
     "appointment_type": "نوع الموعد",
     "selectCity": "اختر المدينة",
     "pleaseSelectCity": "يرجى اختيار المدينة",
-    "city": "المدينة"
+    "city": "المدينة",
+    "Notifications": "الإشعارات",
+    "Mark all read": "قراءة الكل",
+    "All": "الكل",
+    "Unread": "غير مقروءة",
+    "Today": "اليوم",
+    "Earlier": "سابقاً",
+    "No notifications": "لا توجد إشعارات",
+    "Empty notifications message": "ستظهر هنا جميع الإشعارات المتعلقة\nبمواعيدك وعياداتك",
+    "Retry": "إعادة المحاولة",
+    "Appointment": "موعد"
 }

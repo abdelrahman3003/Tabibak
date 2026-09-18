@@ -12,8 +12,10 @@ AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
       createdAt: json['created_at'] as String?,
       appointmentDate: json['appointment_date'] as String?,
       appointmentTime: json['appointment_time'] as String?,
-      shiftMorningId: (json['shift_morning_id'] as num?)?.toInt(),
-      shiftEveningId: (json['shift_evening_id'] as num?)?.toInt(),
+      shiftMorningId:
+          (json['appointment_morning_shift_id'] as num?)?.toInt(),
+      shiftEveningId:
+          (json['appointment_evening_shift_id'] as num?)?.toInt(),
       shiftEvening: json['shift_evening'] == null
           ? null
           : ShiftModel.fromJson(json['shift_evening'] as Map<String, dynamic>),
@@ -39,7 +41,8 @@ AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
       doctor: json['doctors'] == null
           ? null
           : DoctorModel.fromJson(json['doctors'] as Map<String, dynamic>),
-      fcmToken: json['fcmToken'] as String?,
+      fcmToken: json['fcm_token'] as String?,
+      appointmentTypeId: (json['appointment_type'] as num?)?.toInt(),
       appointmentTypeModel: json['appointment_types'] == null
           ? null
           : AppointmentTypeModel.fromJson(
@@ -59,16 +62,17 @@ Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
       'doctor_id': instance.doctorId,
       'user_id': instance.userId,
       'status': instance.status,
-      'shift_morning_id': instance.shiftMorningId,
-      'shift_evening_id': instance.shiftEveningId,
+      'appointment_morning_shift_id': instance.shiftMorningId,
+      'appointment_evening_shift_id': instance.shiftEveningId,
       'shifts_morning': instance.shiftMorning?.toJson(),
       'shift_evening': instance.shiftEvening?.toJson(),
       'phone': instance.phone,
       'name': instance.name,
       'description': instance.description,
-      'fcmToken': instance.fcmToken,
+      'fcm_token': instance.fcmToken,
       'appointment_time': instance.appointmentTime,
       'users': instance.users?.toJson(),
+      'appointment_type': instance.appointmentTypeId,
       'appointment_types': instance.appointmentTypeModel?.toJson(),
       'appointments_status': instance.appointmentsStatus?.toJson(),
       'follow_up_date': instance.followUpDate?.toIso8601String(),

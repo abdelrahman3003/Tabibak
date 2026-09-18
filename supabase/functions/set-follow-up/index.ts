@@ -47,11 +47,37 @@ serve(async (req) => {
 
     const user = (await userRes.json())?.[0];
     let notification_sent = false;
+    let notification_id: number | null = null;
+
+    const message = `✅ تم تحديد موعد إعادة الكشف بتاريخ ${follow_up_date}`;
+
+    // 2a. Persist to inbox
+    const insertRes = await fetch(`${supabaseUrl}/rest/v1/notifications`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify({
+        user_id: updated.user_id,
+        title: "موعد متابعة",
+        body: message,
+        type: "reminder",
+        data: {
+          appointment_id: String(appointment_id),
+          type: "follow_up",
+        },
+      }),
+    });
+    if (insertRes.ok) {
+      notification_id = (await insertRes.json())?.[0]?.id ?? null;
+    }
 
     // 3. Send notification
     if (user?.fcm_token) {
       const accessToken = await getAccessToken();
-      const message = `✅ تم تحديد موعد إعادة الكشف بتاريخ ${follow_up_date}`;
 
       const fcmRes = await fetch(
         `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`,
@@ -71,6 +97,8 @@ serve(async (req) => {
               data: {
                 appointment_id: String(appointment_id),
                 type: "follow_up",
+                notification_id:
+                  notification_id != null ? String(notification_id) : "",
               },
             },
           }),
@@ -81,12 +109,17 @@ serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, data: updated, notification_sent }),
+      JSON.stringify({
+        success: true,
+        data: updated,
+        notification_sent,
+        notification_id,
+      }),
       { status: 200 }
     );
-  } catch (err) {
+  } catch (err: any) {
     return new Response(
-      JSON.stringify({ success: false, error: err.message }),
+      JSON.stringify({ success: false, error: err?.message ?? String(err) }),
       { status: 500 }
     );
   }

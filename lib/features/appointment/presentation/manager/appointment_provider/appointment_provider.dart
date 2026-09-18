@@ -25,12 +25,20 @@ final class AppointmentProvider extends StateNotifier<AppointmentStates> {
   List<AppointmentModel> allAppointments = [];
   final AppointmentsRepos appointmentsRepos;
   getAppointments() async {
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true, clearError: true);
     final result = await appointmentsRepos.getAppointments();
     result.when(
       sucess: (appointments) {
-        state = state.copyWith(appointments: appointments);
+        // Sort: upcoming first by date, keep stable order.
+        appointments.sort((a, b) =>
+            (a.appointmentDate ?? '').compareTo(b.appointmentDate ?? ''));
         allAppointments = appointments;
+        // Re-apply active filter so refresh keeps the selected tab.
+        final filtered = _applyFilter(appointments, state.selectedFilter);
+        state = state.copyWith(
+          appointments: filtered,
+          clearError: true,
+        );
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);
@@ -38,17 +46,27 @@ final class AppointmentProvider extends StateNotifier<AppointmentStates> {
     );
   }
 
-  filterAppointmentsByStatus(int statusToFilter) {
-    if (state.appointments == null) return;
-
-    final filteredAppointments = allAppointments.where((appointment) {
-      if (statusToFilter == 1) {
-        return appointment.status == 1 || appointment.status == 5;
+  /// Status codes (DB truth): 1 pending, 2 confirmed → upcoming;
+  /// 3 completed, 4 cancelled → previous.
+  List<AppointmentModel> _applyFilter(
+      List<AppointmentModel> source, int filterIndex) {
+    return source.where((appointment) {
+      if (filterIndex == 0) {
+        return appointment.status == 1 || appointment.status == 2;
       } else {
-        return appointment.status == 2 || appointment.status == 3;
+        return appointment.status == 3 || appointment.status == 4;
       }
     }).toList();
+  }
 
-    state = state.copyWith(appointments: filteredAppointments);
+  filterAppointmentsByStatus(int statusToFilter) {
+    // statusToFilter comes from UI as index+1 (1 upcoming, 2 previous).
+    final filterIndex = statusToFilter - 1;
+    final filtered = _applyFilter(allAppointments, filterIndex);
+    state = state.copyWith(
+      appointments: filtered,
+      selectedFilter: filterIndex,
+      clearError: true,
+    );
   }
 }

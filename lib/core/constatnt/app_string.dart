@@ -212,4 +212,15 @@ class AppStrings {
   static String get selectCity => "selectCity".tr();
   static String get city => "city".tr();
   static String get pleaseSelectCity => "pleaseSelectCity".tr();
+  static String get notifications => "Notifications".tr();
+  static String get markAllRead => "Mark all read".tr();
+  static String get all => "All".tr();
+  static String get unread => "Unread".tr();
+  static String get today => "Today".tr();
+  static String get earlier => "Earlier".tr();
+  static String get noNotifications => "No notifications".tr();
+  static String get emptyNotificationsMessage =>
+      "Empty notifications message".tr();
+  static String get retry => "Retry".tr();
+  static String get appointment => "Appointment".tr();
 }

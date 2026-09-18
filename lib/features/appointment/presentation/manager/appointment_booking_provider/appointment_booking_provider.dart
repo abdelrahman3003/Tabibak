@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
@@ -20,7 +18,11 @@ class AppointmentBookingProvider
   final Ref ref;
   final AppointmentsRepos appointmentsRepos;
   Future<void> getSHift({required String dayEn, required int clinicId}) async {
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(
+      isShiftLoading: true,
+      clearError: true,
+      clearEmptyShift: true,
+    );
     final result =
         await appointmentsRepos.getDayShift(dayEn: dayEn, clinicId: clinicId);
     result.when(
@@ -28,37 +30,63 @@ class AppointmentBookingProvider
         if (dayShiftsModel?.evening == null &&
             dayShiftsModel?.morning == null) {
           state = state.copyWith(
+            isShiftLoading: false,
             emptyShift: AppStrings.thisDayNotAvailable,
-            clearDayShifts: true, // ✅ actually clears old model
+            clearDayShifts: true,
+            clearError: true,
           );
         } else {
           state = state.copyWith(
+            isShiftLoading: false,
             dayShiftsModel: dayShiftsModel,
-            emptyShift: null,
+            clearEmptyShift: true,
+            clearError: true,
           );
         }
       },
       failure: (apiErrorModel) {
         state = state.copyWith(
+          isShiftLoading: false,
           errorMessage: apiErrorModel.errors,
-          clearDayShifts: true, // ✅ clear stale shifts on error too
+          clearDayShifts: true,
         );
       },
     );
   }
 
   Future<void> addAppointment(AppointmentModel appointment) async {
-
-    state = state.copyWith(isLoading: true, appointmentModel: appointment);
+    if (appointment.shiftMorningId == null &&
+        appointment.shiftEveningId == null) {
+      state = state.copyWith(
+        errorMessage: 'Please select a period (morning/evening)',
+      );
+      return;
+    }
+    state = state.copyWith(
+      isLoading: true,
+      appointmentModel: appointment,
+      clearError: true,
+    );
     final result = await appointmentsRepos.addAppointment(appointment);
 
     result.when(
       sucess: (commentList) {
-        state = state.copyWith(isSuccess: true);
+        state = state.copyWith(isLoading: false, isSuccess: true);
       },
       failure: (apiErrorModel) {
-        state = state.copyWith(errorMessage: apiErrorModel.errors);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: apiErrorModel.errors,
+        );
       },
     );
+  }
+
+  void consumeSuccess() {
+    state = state.copyWith(clearAppointment: true);
+  }
+
+  void clearError() {
+    state = state.copyWith(clearError: true);
   }
 }

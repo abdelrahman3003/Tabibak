@@ -19,29 +19,37 @@ class BookingButtonStates extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(appointmentBookingNotifierProvider);
-    if (state.isSuccess && state.appointmentModel != null) {
-      final model = state.dayShiftsModel;
-      final isMorning = state.appointmentModel!.shiftMorningId != null;
-      final timeString = isMorning
-          ? "${model?.morning?.start ?? ''} - ${model?.morning?.end ?? ''}"
-          : "${model?.evening?.start ?? ''} - ${model?.evening?.end ?? ''}";
-      final arg = AppointmentSuccessArg(
-        doctorModel: doctorModel,
-        appointmentDate: state.appointmentModel!.appointmentDate ?? '',
-        timeString: timeString,
-      );
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.pushReplacementNamed(
-          Routes.bookingSuccessScreen,
-          arguments: arg,
+    ref.listen(appointmentBookingNotifierProvider, (prev, next) {
+      if (next.errorMessage != null &&
+          next.errorMessage != prev?.errorMessage) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.errorMessage!)),
         );
-      });
-    }
-    if (state.errorMessage != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(state.errorMessage!)),
-      );
-    }
+        ref
+            .read(appointmentBookingNotifierProvider.notifier)
+            .clearError();
+      }
+      if (next.isSuccess && next.appointmentModel != null) {
+        final model = next.dayShiftsModel;
+        final isMorning = next.appointmentModel!.shiftMorningId != null;
+        final timeString = isMorning
+            ? "${model?.morning?.start ?? ''} - ${model?.morning?.end ?? ''}"
+            : "${model?.evening?.start ?? ''} - ${model?.evening?.end ?? ''}";
+        final arg = AppointmentSuccessArg(
+          doctorModel: doctorModel,
+          appointmentDate: next.appointmentModel!.appointmentDate ?? '',
+          timeString: timeString,
+        );
+        // Consume before navigating so rebuilds don't re-navigate.
+        ref.read(appointmentBookingNotifierProvider.notifier).consumeSuccess();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.pushReplacementNamed(
+            Routes.bookingSuccessScreen,
+            arguments: arg,
+          );
+        });
+      }
+    });
     return AppButton(
       isDisabled: state.isLoading,
       isLoading: state.isLoading,

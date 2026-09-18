@@ -106,7 +106,9 @@ class _AppointmentDetailsScreenState
                 ),
               ),
             ),
-            DeleteButtonStates(appointmentId: widget.appointment.id!),
+            if (widget.appointment.status == 1 ||
+                widget.appointment.status == 2)
+              DeleteButtonStates(appointmentId: widget.appointment.id!),
           ],
         ),
       ),
@@ -170,15 +172,16 @@ class _AppointmentDetailsScreenState
   }
 
   Color _getStatusColor(int? status) {
+    // DB truth: 1 pending, 2 confirmed, 3 completed, 4 cancelled.
     switch (status) {
       case 1:
         return AppColors.orange;
       case 2:
         return AppColors.green;
       case 3:
-        return AppColors.red;
-      case 4:
         return AppColors.primary;
+      case 4:
+        return AppColors.red;
       default:
         return AppColors.primary;
     }

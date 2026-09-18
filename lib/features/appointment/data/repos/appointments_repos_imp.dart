@@ -38,7 +38,6 @@ class AppointmentsReposImp implements AppointmentsRepos {
   Future<ApiResult<List<AppointmentModel>>> getAppointments() async {
     try {
       final result = await appointmentsRemoteData.getAppointments();
-      log("------ type is ${result[0].appointmentTypeModel?.appointmentTypeAr}");
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

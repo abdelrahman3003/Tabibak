@@ -25,26 +25,39 @@ class DeleteButtonStates extends StatelessWidget {
             context: context,
             builder: (context) => Consumer(
                   builder: (context, ref, child) {
-                    final state = ref.watch(appointmentDetailsNotifier);
-                    if (state.isDeleted) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) async {
+                    final messenger = ScaffoldMessenger.of(context);
+                    ref.listen(appointmentDetailsNotifier, (prev, next) async {
+                      if (next.isDeleted) {
+                        ref
+                            .read(appointmentDetailsNotifier.notifier)
+                            .consumeDeleted();
                         await ref
                             .read(appointsProviderNotifier.notifier)
                             .getAppointments();
-                        context.pushReplacementNamed(Routes.layoutScreen);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content:
-                                  Text("Appointment deleted successfully")),
-                        );
-                      });
-                    }
-                    if (state.errorMessage != null) {
-                      context.pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.errorMessage!)),
-                      );
-                    }
+                        if (context.mounted) {
+                          context.pushReplacementNamed(Routes.layoutScreen);
+                          messenger.showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    "Appointment cancelled successfully")),
+                          );
+                        }
+                      }
+                      if (next.errorMessage != null &&
+                          next.errorMessage != prev?.errorMessage) {
+                        final msg = next.errorMessage!;
+                        ref
+                            .read(appointmentDetailsNotifier.notifier)
+                            .consumeDeleted();
+                        if (context.mounted) {
+                          Navigator.of(context, rootNavigator: true).maybePop();
+                          messenger.showSnackBar(
+                            SnackBar(content: Text(msg)),
+                          );
+                        }
+                      }
+                    });
+                    final state = ref.watch(appointmentDetailsNotifier);
                     return AlertWidget(
                       context: context,
                       isLoading: state.isDeleting,

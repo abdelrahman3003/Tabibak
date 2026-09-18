@@ -124,6 +124,14 @@ class AuthRemoteDatasource {
 
     await Future.delayed(const Duration(milliseconds: 300));
 
+    // Keep the stored FCM token fresh for existing Google users too.
+    final currentToken = await PushNotificationService.getToken();
+    if (currentToken != null && currentToken != existingUser.fcmToken) {
+      await supabase.from('users').update({
+        'fcm_token': currentToken,
+      }).eq('user_id', user.id);
+    }
+
     return existingUser.cityId != null;
   }
 
@@ -168,6 +176,16 @@ class AuthRemoteDatasource {
   }
 
   Future<void> signOut() async {
+    try {
+      final userId = supabase.auth.currentUser?.id;
+      if (userId != null) {
+        // Best-effort: detach this device so it stops receiving pushes.
+        await supabase
+            .from('users')
+            .update({'fcm_token': null}).eq('user_id', userId);
+      }
+    } catch (_) {}
+    await PushNotificationService.unsubscribe();
     return await supabase.auth.signOut();
   }
 }

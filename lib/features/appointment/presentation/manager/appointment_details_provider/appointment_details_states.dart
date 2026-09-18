@@ -15,13 +15,14 @@ class AppointmentDetailsStates {
     final bool? isLoading,
     final bool? isDeleting,
     final String? errorMessage,
+    final bool clearError = false,
     final bool? isDeleted,
     final int? appointmentQueue,
   }) {
     return AppointmentDetailsStates(
       isLoading: isLoading ?? false,
       isDeleting: isDeleting ?? false,
-      errorMessage: errorMessage,
+      errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
       isDeleted: isDeleted ?? false,
       appointmentQueue: appointmentQueue ?? this.appointmentQueue,
     );

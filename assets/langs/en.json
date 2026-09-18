@@ -197,5 +197,15 @@
     "appointment_type": "Appointment Type",
     "selectCity": "Select city",
     "pleaseSelectCity": "Please select a city",
-    "city": "City"
+    "city": "City",
+    "Notifications": "Notifications",
+    "Mark all read": "Mark all read",
+    "All": "All",
+    "Unread": "Unread",
+    "Today": "Today",
+    "Earlier": "Earlier",
+    "No notifications": "No notifications",
+    "Empty notifications message": "All notifications about\n your appointments will appear here",
+    "Retry": "Retry",
+    "Appointment": "Appointment"
 }

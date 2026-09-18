@@ -22,10 +22,13 @@ class AppointmentsScreen extends StatelessWidget {
             TitleText(title: AppStrings.appointments),
             20.hBox,
             Consumer(builder: (context, ref, _) {
+              final selected =
+                  ref.watch(appointsProviderNotifier.select((s) => s.selectedFilter));
               return SizedBox(
                   height: 40,
                   child: FilterList(
                     filters: [AppStrings.upcoming, AppStrings.previous],
+                    initialIndex: selected,
                     onFilterSelected: (index) {
                       ref
                           .read(appointsProviderNotifier.notifier)

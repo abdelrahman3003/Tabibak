@@ -150,15 +150,16 @@ class AppointmentCardItem extends StatelessWidget {
   }
 
   Color _getColor(int index) {
+    // DB truth: 1 pending, 2 confirmed, 3 completed, 4 cancelled.
     switch (index) {
       case 1:
         return AppColors.orange;
       case 2:
         return AppColors.green;
       case 3:
-        return AppColors.red;
-      case 4:
         return AppColors.primary;
+      case 4:
+        return AppColors.red;
       default:
         return AppColors.primary;
     }

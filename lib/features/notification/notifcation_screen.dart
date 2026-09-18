@@ -1,190 +1,75 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/features/notification/data/model/notification_model.dart';
+import 'package:tabibak/features/notification/presentation/manager/notification_provider/notification_provider.dart';
 
 // ─────────────────────────────────────────────
-// Data Models
+// Notification Screen (real data via Supabase)
 // ─────────────────────────────────────────────
 
-enum NotificationType { appointment, reminder, cancellation, result, promotion }
-
-class NotificationItem {
-  final String id;
-  final NotificationType type;
-  final String title;
-  final String body;
-  final String time;
-  final String? doctorName;
-  final String? doctorSpecialty;
-  final String? avatarInitials;
-  final Color? avatarColor;
-  bool isRead;
-
-  NotificationItem({
-    required this.id,
-    required this.type,
-    required this.title,
-    required this.body,
-    required this.time,
-    this.doctorName,
-    this.doctorSpecialty,
-    this.avatarInitials,
-    this.avatarColor,
-    this.isRead = false,
-  });
-}
-
-// ─────────────────────────────────────────────
-// Notification Screen
-// ─────────────────────────────────────────────
-
-class NotificationScreen extends StatefulWidget {
+class NotificationScreen extends ConsumerStatefulWidget {
   const NotificationScreen({super.key});
 
   @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
+  ConsumerState<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _NotificationScreenState extends State<NotificationScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  final List<NotificationItem> _allNotifications = [
-    NotificationItem(
-      id: '1',
-      type: NotificationType.reminder,
-      title: 'تذكير بموعدك',
-      body: 'لديك موعد مع د. أحمد السيد غداً الساعة 10:00 صباحاً',
-      time: 'منذ 5 دقائق',
-      doctorName: 'د. أحمد السيد',
-      doctorSpecialty: 'طب القلب',
-      avatarInitials: 'أس',
-      avatarColor: AppColors.primary,
-      isRead: false,
-    ),
-    NotificationItem(
-      id: '2',
-      type: NotificationType.appointment,
-      title: 'تأكيد الحجز',
-      body: 'تم تأكيد حجزك في عيادة النور للأسنان بنجاح',
-      time: 'منذ ساعة',
-      doctorName: 'د. سارة محمود',
-      doctorSpecialty: 'طب الأسنان',
-      avatarInitials: 'سم',
-      avatarColor: AppColors.green,
-      isRead: false,
-    ),
-    NotificationItem(
-      id: '3',
-      type: NotificationType.cancellation,
-      title: 'إلغاء الموعد',
-      body:
-          'تم إلغاء موعدك مع د. خالد عمر بسبب ظرف طارئ. يمكنك إعادة الحجز الآن',
-      time: 'منذ 3 ساعات',
-      doctorName: 'د. خالد عمر',
-      doctorSpecialty: 'الجراحة العامة',
-      avatarInitials: 'خع',
-      avatarColor: AppColors.orange,
-      isRead: true,
-    ),
-    NotificationItem(
-      id: '4',
-      type: NotificationType.result,
-      title: 'نتائج التحاليل جاهزة',
-      body: 'نتائج تحاليل الدم الخاصة بك أصبحت متاحة. اضغط لعرضها',
-      time: 'أمس',
-      avatarInitials: '🧪',
-      avatarColor: AppColors.primaryLight30,
-      isRead: true,
-    ),
-    NotificationItem(
-      id: '5',
-      type: NotificationType.promotion,
-      title: 'عرض خاص لك',
-      body: 'احصل على خصم 20% على أول استشارة عبر الإنترنت مع أي طبيب',
-      time: 'منذ يومين',
-      avatarInitials: '🎁',
-      avatarColor: AppColors.lightGreen,
-      isRead: true,
-    ),
-    NotificationItem(
-      id: '6',
-      type: NotificationType.appointment,
-      title: 'موعد جديد مضاف',
-      body: 'تم إضافة موعد جديد مع د. منى حسن في عيادة الأطفال',
-      time: 'منذ 3 أيام',
-      doctorName: 'د. منى حسن',
-      doctorSpecialty: 'طب الأطفال',
-      avatarInitials: 'مح',
-      avatarColor: Color(0xFF7B61FF),
-      isRead: true,
-    ),
-  ];
-
-  List<NotificationItem> get _unreadNotifications =>
-      _allNotifications.where((n) => !n.isRead).toList();
-
-  int get _unreadCount => _unreadNotifications.length;
+class _NotificationScreenState extends ConsumerState<NotificationScreen> {
+  bool _handledInitialArgs = false;
 
   @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  void _markAllAsRead() {
-    setState(() {
-      for (var n in _allNotifications) {
-        n.isRead = true;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_handledInitialArgs) return;
+    _handledInitialArgs = true;
+    // Only when opened from a push/local notification tap (notification_id
+    // present) mark THAT specific notification as read. Opening the screen
+    // normally never changes unread state.
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is Map && args['notification_id'] != null) {
+      final id = int.tryParse(args['notification_id'].toString());
+      if (id != null) {
+        Future.microtask(
+          () => ref
+              .read(notificationProviderNotifier.notifier)
+              .markAsRead(id),
+        );
       }
-    });
-  }
-
-  void _markAsRead(String id) {
-    setState(() {
-      _allNotifications.firstWhere((n) => n.id == id).isRead = true;
-    });
-  }
-
-  void _deleteNotification(String id) {
-    setState(() {
-      _allNotifications.removeWhere((n) => n.id == id);
-    });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.scaffoldBG,
-        appBar: _buildAppBar(),
-        body: Column(
-          children: [
-            _buildTabBar(),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildNotificationList(_allNotifications),
-                  _buildNotificationList(_unreadNotifications),
-                ],
-              ),
-            ),
-          ],
-        ),
+    final state = ref.watch(notificationProviderNotifier);
+    final notifier = ref.read(notificationProviderNotifier.notifier);
+    final all = state.notifications ?? [];
+
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBG,
+      appBar: _buildAppBar(
+        unreadCount: state.unreadCount,
+        onMarkAll: all.isEmpty ? null : notifier.markAllAsRead,
+      ),
+      body: _buildBody(
+        isLoading: state.isLoading && all.isEmpty,
+        error: state.errorMessage,
+        notifications: all,
+        onRetry: notifier.fetchNotifications,
+        onRefresh: notifier.fetchNotifications,
+        onTap: (n) => notifier.markAsRead(n.id),
+        onDelete: (n) => notifier.deleteNotification(n.id),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar({
+    required int unreadCount,
+    required VoidCallback? onMarkAll,
+  }) {
     return AppBar(
       backgroundColor: AppColors.scaffoldBG,
       elevation: 0,
@@ -195,7 +80,7 @@ class _NotificationScreenState extends State<NotificationScreen>
         onPressed: () => Navigator.of(context).maybePop(),
       ),
       title: Text(
-        'الإشعارات',
+        'Notifications'.tr(),
         style: TextStyle(
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
@@ -204,11 +89,11 @@ class _NotificationScreenState extends State<NotificationScreen>
         ),
       ),
       actions: [
-        if (_unreadCount > 0)
+        if (unreadCount > 0)
           TextButton(
-            onPressed: _markAllAsRead,
+            onPressed: onMarkAll,
             child: Text(
-              'قراءة الكل',
+              'Mark all read'.tr(),
               style: TextStyle(
                 fontSize: 13.sp,
                 color: AppColors.primary,
@@ -221,97 +106,61 @@ class _NotificationScreenState extends State<NotificationScreen>
     );
   }
 
-  Widget _buildTabBar() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      padding: EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: AppColors.second,
-        borderRadius: AppRadius.radius12,
-      ),
-      child: TabBar(
-        controller: _tabController,
-        indicator: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: AppRadius.radius8,
-        ),
-        indicatorSize: TabBarIndicatorSize.tab,
-        labelColor: Colors.white,
-        unselectedLabelColor: AppColors.subtextColor,
-        dividerColor: Colors.transparent,
-        labelStyle: TextStyle(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'Tajawal',
-        ),
-        unselectedLabelStyle: TextStyle(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w500,
-          fontFamily: 'Tajawal',
-        ),
-        tabs: [
-          Tab(text: 'الكل'),
-          Tab(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('غير مقروءة'),
-                if (_unreadCount > 0) ...[
-                  SizedBox(width: 6.w),
-                  _UnreadBadge(count: _unreadCount),
-                ]
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNotificationList(List<NotificationItem> notifications) {
+  Widget _buildBody({
+    required bool isLoading,
+    required String? error,
+    required List<NotificationModel> notifications,
+    required VoidCallback onRetry,
+    required Future<void> Function() onRefresh,
+    required void Function(NotificationModel) onTap,
+    required void Function(NotificationModel) onDelete,
+  }) {
+    if (isLoading) {
+      return _buildShimmer();
+    }
+    if (error != null && notifications.isEmpty) {
+      return _buildErrorState(error, onRetry);
+    }
     if (notifications.isEmpty) {
       return _buildEmptyState();
     }
 
-    // Group by date label
-    final today = <NotificationItem>[];
-    final earlier = <NotificationItem>[];
-
-    for (final n in notifications) {
-      if (n.time.contains('دقيقة') ||
-          n.time.contains('ساعة') ||
-          n.time.contains('ساعات')) {
-        today.add(n);
-      } else {
-        earlier.add(n);
-      }
-    }
-
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-      children: [
-        if (today.isNotEmpty) ...[
-          _SectionHeader(title: 'اليوم'),
-          ...today.map((n) => _buildDismissibleTile(n)),
-        ],
-        if (earlier.isNotEmpty) ...[
-          _SectionHeader(title: 'سابقاً'),
-          ...earlier.map((n) => _buildDismissibleTile(n)),
-        ],
-        SizedBox(height: 20.h),
-      ],
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+        children: _buildNotificationTiles(notifications, onTap, onDelete),
+      ),
     );
   }
 
-  Widget _buildDismissibleTile(NotificationItem notification) {
+  List<Widget> _buildNotificationTiles(
+      List<NotificationModel> notifications,
+      void Function(NotificationModel) onTap,
+      void Function(NotificationModel) onDelete,
+      ) {
+    final tiles = <Widget>[];
+
+    for (final n in notifications) {
+      tiles.add(_buildDismissibleTile(n, onTap, onDelete));
+    }
+
+    return tiles;
+  }
+
+  Dismissible _buildDismissibleTile(
+      NotificationModel notification,
+      void Function(NotificationModel) onTap,
+      void Function(NotificationModel) onDelete,
+      ) {
     return Dismissible(
-      key: Key(notification.id),
+      key: ValueKey('notif-${notification.id}'),
       direction: DismissDirection.startToEnd,
       background: _buildDismissBackground(),
-      onDismissed: (_) => _deleteNotification(notification.id),
+      onDismissed: (_) => onDelete(notification),
       child: _NotificationTile(
         notification: notification,
-        onTap: () => _markAsRead(notification.id),
+        onTap: () => onTap(notification),
       ),
     );
   }
@@ -325,7 +174,32 @@ class _NotificationScreenState extends State<NotificationScreen>
       ),
       alignment: Alignment.centerLeft,
       padding: EdgeInsets.only(left: 20.w),
-      child: Icon(Icons.delete_outline_rounded, color: Colors.white, size: 26),
+      child: const Icon(Icons.delete_outline_rounded,
+          color: Colors.white, size: 26),
+    );
+  }
+
+  Widget _buildShimmer() {
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+      itemCount: 6,
+      itemBuilder: (_, __) => const _NotificationShimmer(),
+    );
+  }
+
+  Widget _buildErrorState(String error, VoidCallback onRetry) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(error, textAlign: TextAlign.center),
+          SizedBox(height: 12.h),
+          ElevatedButton(
+            onPressed: onRetry,
+            child: Text('Retry'.tr()),
+          ),
+        ],
+      ),
     );
   }
 
@@ -337,7 +211,7 @@ class _NotificationScreenState extends State<NotificationScreen>
           Container(
             width: 100.w,
             height: 100.w,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.primaryLight,
               shape: BoxShape.circle,
             ),
@@ -349,7 +223,7 @@ class _NotificationScreenState extends State<NotificationScreen>
           ),
           SizedBox(height: 20.h),
           Text(
-            'لا توجد إشعارات',
+            'No notifications'.tr(),
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
@@ -359,7 +233,7 @@ class _NotificationScreenState extends State<NotificationScreen>
           ),
           SizedBox(height: 8.h),
           Text(
-            'ستظهر هنا جميع الإشعارات المتعلقة\nبمواعيدك وعياداتك',
+            'Empty notifications message'.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14.sp,
@@ -379,7 +253,7 @@ class _NotificationScreenState extends State<NotificationScreen>
 // ─────────────────────────────────────────────
 
 class _NotificationTile extends StatelessWidget {
-  final NotificationItem notification;
+  final NotificationModel notification;
   final VoidCallback onTap;
 
   const _NotificationTile({
@@ -406,7 +280,7 @@ class _NotificationTile extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -419,7 +293,7 @@ class _NotificationTile extends StatelessWidget {
             SizedBox(width: 12.w),
             Expanded(child: _buildContent()),
             SizedBox(width: 8.w),
-            _buildRightSection(),
+            _buildRightSection(context),
           ],
         ),
       ),
@@ -427,35 +301,27 @@ class _NotificationTile extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    final bool isEmoji = notification.avatarInitials != null &&
-        notification.avatarInitials!.length <= 2 &&
-        !RegExp(r'^[\u0600-\u06FF]+$').hasMatch(notification.avatarInitials!);
-
+    final initials = _initials(notification.title);
+    final color = _typeColor();
     return Stack(
       children: [
         Container(
           width: 50.w,
           height: 50.w,
           decoration: BoxDecoration(
-            color: (notification.avatarColor ?? AppColors.primary)
-                .withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
             shape: BoxShape.circle,
           ),
           child: Center(
-            child: isEmoji
-                ? Text(
-                    notification.avatarInitials ?? '',
-                    style: TextStyle(fontSize: 22.sp),
-                  )
-                : Text(
-                    notification.avatarInitials ?? '',
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w700,
-                      color: notification.avatarColor ?? AppColors.primary,
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
+            child: Text(
+              initials,
+              style: TextStyle(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w700,
+                color: color,
+                fontFamily: 'Tajawal',
+              ),
+            ),
           ),
         ),
         Positioned(
@@ -465,7 +331,7 @@ class _NotificationTile extends StatelessWidget {
             width: 18.w,
             height: 18.w,
             decoration: BoxDecoration(
-              color: _typeColor(),
+              color: color,
               shape: BoxShape.circle,
               border: Border.all(color: Colors.white, width: 2),
             ),
@@ -480,7 +346,24 @@ class _NotificationTile extends StatelessWidget {
     );
   }
 
+  String _initials(String title) {
+    final words =
+        title.trim().split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+    if (words.isEmpty) return '•';
+    if (words.length == 1) {
+      final w = words.first;
+      return w.length >= 2 ? w.substring(0, 2) : w;
+    }
+    return '${words[0].substring(0, 1)}${words[1].substring(0, 1)}';
+  }
+
   Widget _buildContent() {
+    final doctorName = notification.data['doctor_name']?.toString();
+    final appointmentId = notification.data['appointment_id']?.toString();
+    final subtitle = doctorName ??
+        (appointmentId != null
+            ? '${'Appointment'.tr()} #$appointmentId'
+            : null);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -488,7 +371,8 @@ class _NotificationTile extends StatelessWidget {
           notification.title,
           style: TextStyle(
             fontSize: 14.sp,
-            fontWeight: notification.isRead ? FontWeight.w500 : FontWeight.w700,
+            fontWeight:
+                notification.isRead ? FontWeight.w500 : FontWeight.w700,
             color: AppColors.textDark,
             fontFamily: 'Tajawal',
           ),
@@ -505,23 +389,20 @@ class _NotificationTile extends StatelessWidget {
             height: 1.5,
           ),
         ),
-        if (notification.doctorName != null) ...[
+        if (subtitle != null)...[
           SizedBox(height: 8.h),
-          _DoctorChip(
-            name: notification.doctorName!,
-            specialty: notification.doctorSpecialty!,
-          ),
+          _MetaChip(text: subtitle),
         ],
       ],
     );
   }
 
-  Widget _buildRightSection() {
+  Widget _buildRightSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          notification.time,
+          _relativeTime(context, notification.createdAt),
           style: TextStyle(
             fontSize: 11.sp,
             color: AppColors.subtextColor,
@@ -542,33 +423,54 @@ class _NotificationTile extends StatelessWidget {
     );
   }
 
+  String _relativeTime(BuildContext context, DateTime date) {
+    final locale = context.locale.languageCode;
+    final diff = DateTime.now().difference(date);
+    final ar = locale == 'ar';
+    if (diff.inMinutes < 1) return ar ? 'الآن' : 'now';
+    if (diff.inMinutes < 60) {
+      return ar ? 'منذ ${diff.inMinutes} د' : '${diff.inMinutes}m ago';
+    }
+    if (diff.inHours < 24) {
+      return ar ? 'منذ ${diff.inHours} س' : '${diff.inHours}h ago';
+    }
+    if (diff.inDays < 7) {
+      return ar ? 'منذ ${diff.inDays} يوم' : '${diff.inDays}d ago';
+    }
+    return DateFormat('dd/MM/yyyy', locale).format(date);
+  }
+
   Color _typeColor() {
     switch (notification.type) {
-      case NotificationType.appointment:
+      case AppNotificationType.appointment:
         return AppColors.primary;
-      case NotificationType.reminder:
+      case AppNotificationType.reminder:
         return AppColors.orange;
-      case NotificationType.cancellation:
+      case AppNotificationType.cancellation:
         return AppColors.red;
-      case NotificationType.result:
+      case AppNotificationType.result:
         return AppColors.green;
-      case NotificationType.promotion:
+      case AppNotificationType.promotion:
         return AppColors.primaryLight30;
+      case AppNotificationType.general:
+        return AppColors.primary;
     }
   }
 
   IconData _typeIcon() {
     switch (notification.type) {
-      case NotificationType.appointment:
+      case AppNotificationType.appointment:
         return Icons.calendar_today_rounded;
-      case NotificationType.reminder:
+      case AppNotificationType.reminder:
         return Icons.access_time_rounded;
-      case NotificationType.cancellation:
+      case AppNotificationType.cancellation:
         return Icons.cancel_outlined;
-      case NotificationType.result:
+      case AppNotificationType.result:
         return Icons.science_outlined;
-      case NotificationType.promotion:
+      case AppNotificationType.promotion:
         return Icons.local_offer_outlined;
+      case AppNotificationType.general:
+        return Icons.notifications_outlined;
     }
   }
 }
@@ -577,11 +479,10 @@ class _NotificationTile extends StatelessWidget {
 // Supporting Widgets
 // ─────────────────────────────────────────────
 
-class _DoctorChip extends StatelessWidget {
-  final String name;
-  final String specialty;
+class _MetaChip extends StatelessWidget {
+  final String text;
 
-  const _DoctorChip({required this.name, required this.specialty});
+  const _MetaChip({required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -598,13 +499,16 @@ class _DoctorChip extends StatelessWidget {
           Icon(Icons.person_outline_rounded,
               size: 13.sp, color: AppColors.primary),
           SizedBox(width: 4.w),
-          Text(
-            '$name • $specialty',
-            style: TextStyle(
-              fontSize: 11.sp,
-              color: AppColors.primary,
-              fontFamily: 'Tajawal',
-              fontWeight: FontWeight.w500,
+          Flexible(
+            child: Text(
+              text,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 11.sp,
+                color: AppColors.primary,
+                fontFamily: 'Tajawal',
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],
@@ -613,50 +517,54 @@ class _DoctorChip extends StatelessWidget {
   }
 }
 
-class _SectionHeader extends StatelessWidget {
-  final String title;
-
-  const _SectionHeader({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 8.h, bottom: 10.h, right: 4.w),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 13.sp,
-          fontWeight: FontWeight.w600,
-          color: AppColors.subtextColor,
-          fontFamily: 'Tajawal',
-          letterSpacing: 0.3,
-        ),
-      ),
-    );
-  }
-}
-
-class _UnreadBadge extends StatelessWidget {
-  final int count;
-
-  const _UnreadBadge({required this.count});
+class _NotificationShimmer extends StatelessWidget {
+  const _NotificationShimmer();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 2.h),
+      margin: EdgeInsets.only(bottom: 10.h),
+      padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
-        color: AppColors.red,
-        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
+        borderRadius: AppRadius.radius16,
+        border: Border.all(color: AppColors.borderLight),
       ),
-      child: Text(
-        count.toString(),
-        style: TextStyle(
-          fontSize: 10.sp,
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
-          fontFamily: 'Tajawal',
-        ),
+      child: Row(
+        children: [
+          Container(
+            width: 50.w,
+            height: 50.w,
+            decoration: BoxDecoration(
+              color: AppColors.scaffoldBG,
+              shape: BoxShape.circle,
+            ),
+          ),
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 12.h,
+                  width: 120.w,
+                  decoration: BoxDecoration(
+                    color: AppColors.scaffoldBG,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Container(
+                  height: 10.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.scaffoldBG,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

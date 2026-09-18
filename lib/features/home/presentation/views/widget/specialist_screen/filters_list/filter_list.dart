@@ -3,16 +3,26 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/filters_list/filter_item.dart';
 
 class FilterList extends StatefulWidget {
-  const FilterList({super.key, required this.filters, this.onFilterSelected});
+  const FilterList(
+      {super.key,
+      required this.filters,
+      this.onFilterSelected,
+      this.initialIndex = 0});
   final List<String> filters;
   final void Function(int index)? onFilterSelected;
+  final int initialIndex;
 
   @override
   State<FilterList> createState() => _FilterListState();
 }
 
 class _FilterListState extends State<FilterList> {
-  int? selectIndex;
+  late int selectIndex;
+  @override
+  void initState() {
+    super.initState();
+    selectIndex = widget.initialIndex;
+  }
   @override
   Widget build(BuildContext context) {
     return ListView.separated(

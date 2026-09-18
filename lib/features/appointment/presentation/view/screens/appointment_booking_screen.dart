@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/helper/validation.dart';
-import 'package:tabibak/core/services/push_notification_service.dart';
 import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_provider.dart';
@@ -40,6 +40,7 @@ class _AppointmentBookingScreenState
     patientNameController.dispose();
     phonePhoneController.dispose();
     descriptionController.dispose();
+    dateController.dispose();
     super.dispose();
   }
 
@@ -124,22 +125,41 @@ class _AppointmentBookingScreenState
                     if (!_formState.currentState!.validate()) {
                       return;
                     }
-                    final fcmToken = await PushNotificationService.getToken();
+                    if (selectedShiftMorningId == null &&
+                        selectedShiftEveningId == null) {
+                      showErrorSnackBar(
+                        'Please select a period (morning/evening)',
+                      );
+                      return;
+                    }
+                    if (dateController.text.isEmpty) {
+                      showErrorSnackBar(
+                        'Please select a date',
+                      );
+                      return;
+                    }
+                    final userId =
+                        Supabase.instance.client.auth.currentUser?.id;
+                    if (userId == null) {
+                      showErrorSnackBar(
+                        'Please login first',
+                      );
+                      return;
+                    }
                     ref
                         .read(appointmentBookingNotifierProvider.notifier)
                         .addAppointment(
                           AppointmentModel(
-                              userId:
-                                  Supabase.instance.client.auth.currentUser!.id,
+                              userId: userId,
                               doctorId: widget.doctorModel.doctorId,
-                              name: patientNameController.text,
-                              phone: phonePhoneController.text,
-                              description: descriptionController.text,
+                              name: patientNameController.text.trim(),
+                              phone: phonePhoneController.text.trim(),
+                              description: descriptionController.text.trim(),
                               appointmentDate: dateController.text,
                               shiftMorningId: selectedShiftMorningId,
                               shiftEveningId: selectedShiftEveningId,
                               status: 1,
-                              fcmToken: fcmToken),
+                              appointmentTypeId: 1),
                         );
                   },
                 ),
