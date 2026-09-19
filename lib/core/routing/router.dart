@@ -3,6 +3,7 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/presentation/view/screens/appointment_booking_screen.dart';
 import 'package:tabibak/features/appointment/presentation/view/screens/appointment_details_screen.dart';
+import 'package:tabibak/features/appointment/presentation/view/screens/booking_confirm_screen.dart';
 import 'package:tabibak/features/appointment/presentation/view/screens/booking_success_screen.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/booking/appointment_success_arg.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
@@ -96,6 +97,15 @@ class AppRouter {
         final appointment = setting.arguments as AppointmentModel;
         return _buildSlideRoute(
           AppointmentDetailsScreen(appointmentId: appointment.id!),
+        );
+
+      case Routes.bookingConfirmScreen:
+        final args = setting.arguments as Map<String, dynamic>;
+        return _buildSlideRoute(
+          BookingConfirmScreen(
+            doctorModel: args['doctorModel'] as DoctorModel,
+            appointmentModel: args['appointmentModel'] as AppointmentModel,
+          ),
         );
 
       case Routes.bookingSuccessScreen:

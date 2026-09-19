@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/helper/validation.dart';
 import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
-import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/booking/booking_button_states.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/booking/booking_date.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/booking/drop_down_shifts_states.dart';
@@ -146,21 +147,21 @@ class _AppointmentBookingScreenState
                       );
                       return;
                     }
-                    ref
-                        .read(appointmentBookingNotifierProvider.notifier)
-                        .addAppointment(
-                          AppointmentModel(
-                              userId: userId,
-                              doctorId: widget.doctorModel.doctorId,
-                              name: patientNameController.text.trim(),
-                              phone: phonePhoneController.text.trim(),
-                              description: descriptionController.text.trim(),
-                              appointmentDate: dateController.text,
-                              shiftMorningId: selectedShiftMorningId,
-                              shiftEveningId: selectedShiftEveningId,
-                              status: 1,
-                              appointmentTypeId: 1),
-                        );
+                    final appointmentModel = AppointmentModel(
+                        userId: userId,
+                        doctorId: widget.doctorModel.doctorId,
+                        name: patientNameController.text.trim(),
+                        phone: phonePhoneController.text.trim(),
+                        description: descriptionController.text.trim(),
+                        appointmentDate: dateController.text,
+                        shiftMorningId: selectedShiftMorningId,
+                        shiftEveningId: selectedShiftEveningId,
+                        status: 1,
+                        appointmentTypeId: 1);
+                  context.pushNamed(Routes.bookingConfirmScreen, arguments: {
+                    'doctorModel': widget.doctorModel,
+                    'appointmentModel': appointmentModel,
+                  });
                   },
                 ),
                 20.hBox,

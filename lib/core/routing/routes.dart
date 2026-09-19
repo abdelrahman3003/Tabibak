@@ -23,6 +23,7 @@ class Routes {
   // ==================== Appointments ====================
   static const String appointmentBookingScreen = "/appointmentBookingScreen";
   static const String appointmentDetailsScreen = "/appointmentDetailsScreen";
+  static const String bookingConfirmScreen = "/bookingConfirmScreen";
   static const String bookingSuccessScreen = "/bookingSuccessScreen";
 
   // ==================== Notifications ====================
