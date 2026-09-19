@@ -30,7 +30,7 @@ class NotificationModel {
   final int id;
   final String userId;
   final String title;
-  final String body;
+  final String message;
   final AppNotificationType type;
   final Map<String, dynamic> data;
   final bool isRead;
@@ -40,7 +40,7 @@ class NotificationModel {
     required this.id,
     required this.userId,
     required this.title,
-    required this.body,
+    required this.message,
     required this.type,
     required this.data,
     required this.isRead,
@@ -52,7 +52,7 @@ class NotificationModel {
       id: (json['id'] as num).toInt(),
       userId: json['user_id'] as String? ?? '',
       title: json['title'] as String? ?? '',
-      body: json['body'] as String? ?? '',
+      message: json['message'] as String? ?? '',
       type: AppNotificationType.fromString(json['type'] as String?),
       data: (json['data'] as Map?)?.map(
             (k, v) => MapEntry(k.toString(), v),
@@ -69,7 +69,7 @@ class NotificationModel {
       'id': id,
       'user_id': userId,
       'title': title,
-      'body': body,
+      'message': message,
       'type': type.value,
       'data': data,
       'is_read': isRead,
@@ -82,7 +82,7 @@ class NotificationModel {
       id: id,
       userId: userId,
       title: title,
-      body: body,
+      message: message,
       type: type,
       data: data,
       isRead: isRead ?? this.isRead,

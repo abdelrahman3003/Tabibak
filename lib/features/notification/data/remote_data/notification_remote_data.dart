@@ -8,77 +8,40 @@ class NotificationRemoteData {
 
   String get _userId {
     final user = supabase.client.auth.currentUser;
-    if (user == null) throw const AuthException('User not logged in');
+    if (user == null) {
+      throw const AuthException('User not logged in');
+    }
     return user.id;
   }
 
-  Future<List<NotificationModel>> getNotifications({int limit = 100}) async {
+  Future<List<NotificationModel>> getNotifications({
+    int limit = 100,
+  }) async {
     final response = await supabase.client
         .from('notifications')
         .select()
         .eq('user_id', _userId)
         .order('created_at', ascending: false)
         .limit(limit);
+
     return (response as List)
-        .map((e) => NotificationModel.fromJson(e as Map<String, dynamic>))
+        .map(
+          (e) => NotificationModel.fromJson(
+            e as Map<String, dynamic>,
+          ),
+        )
         .toList();
   }
 
-  Future<int> getUnreadCount() async {
+  Future<Map<String, dynamic>?> getAppointmentDetails(
+    int appointmentId,
+  ) async {
     final response = await supabase.client
-        .from('notifications')
-        .select('id')
-        .eq('user_id', _userId)
-        .eq('is_read', false);
-    return (response as List).length;
-  }
+        .from('appointments')
+        .select()
+        .eq('id', appointmentId)
+        .maybeSingle();
 
-  Future<void> markAsRead(int id) async {
-    await supabase.client
-        .from('notifications')
-        .update({'is_read': true})
-        .eq('id', id)
-        .eq('user_id', _userId);
-  }
-
-  Future<void> markAllAsRead() async {
-    await supabase.client
-        .from('notifications')
-        .update({'is_read': true})
-        .eq('user_id', _userId)
-        .eq('is_read', false);
-  }
-
-  Future<void> deleteNotification(int id) async {
-    await supabase.client
-        .from('notifications')
-        .delete()
-        .eq('id', id)
-        .eq('user_id', _userId);
-  }
-
-  RealtimeChannel subscribeToNotifications(
-    void Function(NotificationModel) onInsert,
-  ) {
-    return supabase.client
-        .channel('notifications-$_userId')
-        .onPostgresChanges(
-          event: PostgresChangeEvent.insert,
-          schema: 'public',
-          table: 'notifications',
-          filter: PostgresChangeFilter(
-            type: PostgresChangeFilterType.eq,
-            column: 'user_id',
-            value: _userId,
-          ),
-          callback: (payload) {
-            onInsert(
-              NotificationModel.fromJson(
-                payload.newRecord,
-              ),
-            );
-          },
-        )
-        .subscribe();
+    return response;
   }
 }

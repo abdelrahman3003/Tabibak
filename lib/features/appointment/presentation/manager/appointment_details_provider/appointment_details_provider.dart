@@ -8,24 +8,71 @@ import 'package:tabibak/features/appointment/presentation/manager/appointment_de
 final appointmentDetailsNotifier = StateNotifierProvider.autoDispose<
     AppointmentDetailsProvider, AppointmentDetailsStates>(
   (ref) => AppointmentDetailsProvider(
-      ref,
-      AppointmentsReposImp(
-          appointmentsRemoteData:
-              AppointmentsRemoteData(supabase: Supabase.instance))),
+    ref,
+    AppointmentsReposImp(
+      appointmentsRemoteData: AppointmentsRemoteData(
+        supabase: Supabase.instance,
+      ),
+    ),
+  ),
 );
 
 class AppointmentDetailsProvider
     extends StateNotifier<AppointmentDetailsStates> {
-  AppointmentDetailsProvider(this.ref, this.appointmentsRepos)
-      : super(AppointmentDetailsStates());
+  AppointmentDetailsProvider(
+    this.ref,
+    this.appointmentsRepos,
+  ) : super(AppointmentDetailsStates());
+
   final Ref ref;
   final AppointmentsRepos appointmentsRepos;
-  deleteAppointment(int appointmentId) async {
-    state = state.copyWith(isDeleting: true, clearError: true);
-    final result = await appointmentsRepos.deleteAppointment(appointmentId);
+
+  Future<void> getAppointmentDetails(
+    int appointmentId,
+  ) async {
+    state = state.copyWith(
+      isLoading: true,
+      clearError: true,
+    );
+
+    final result = await appointmentsRepos.getAppointmentDetails(
+      appointmentId,
+    );
+
+    result.when(
+      sucess: (appointment) {
+        state = state.copyWith(
+          isLoading: false,
+          appointment: appointment,
+        );
+      },
+      failure: (apiErrorModel) {
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: apiErrorModel.errors,
+        );
+      },
+    );
+  }
+
+  Future<void> deleteAppointment(
+    int appointmentId,
+  ) async {
+    state = state.copyWith(
+      isDeleting: true,
+      clearError: true,
+    );
+
+    final result = await appointmentsRepos.deleteAppointment(
+      appointmentId,
+    );
+
     result.when(
       sucess: (data) {
-        state = state.copyWith(isDeleting: false, isDeleted: true);
+        state = state.copyWith(
+          isDeleting: false,
+          isDeleted: true,
+        );
       },
       failure: (apiErrorModel) {
         state = state.copyWith(
@@ -37,22 +84,9 @@ class AppointmentDetailsProvider
   }
 
   void consumeDeleted() {
-    state = state.copyWith(clearError: true);
-  }
-
-  getAppointmentsQueue(int appointmentId) async {
-    state = state.copyWith(isLoading: true, clearError: true);
-    final result = await appointmentsRepos.getAppointmentsQueue(appointmentId);
-    result.when(
-      sucess: (queue) {
-        state = state.copyWith(isLoading: false, appointmentQueue: queue);
-      },
-      failure: (apiErrorModel) {
-        state = state.copyWith(
-          isLoading: false,
-          errorMessage: apiErrorModel.errors,
-        );
-      },
+    state = state.copyWith(
+      isDeleted: false,
+      clearError: true,
     );
   }
 }

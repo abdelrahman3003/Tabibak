@@ -4,29 +4,31 @@ class NotificationStates {
   final List<NotificationModel>? notifications;
   final bool isLoading;
   final String? errorMessage;
-  final int unreadCount;
+
+  final Map<String, dynamic>? appointment;
+  final bool isAppointmentLoading;
 
   NotificationStates({
     this.notifications,
     this.isLoading = false,
     this.errorMessage,
-    this.unreadCount = 0,
+    this.appointment,
+    this.isAppointmentLoading = false,
   });
-
-  List<NotificationModel> get unread =>
-      (notifications ?? []).where((n) => !n.isRead).toList();
 
   NotificationStates copyWith({
     List<NotificationModel>? notifications,
     bool? isLoading,
     String? errorMessage,
-    int? unreadCount,
+    Map<String, dynamic>? appointment,
+    bool? isAppointmentLoading,
   }) {
     return NotificationStates(
       notifications: notifications ?? this.notifications,
       isLoading: isLoading ?? false,
-      errorMessage: errorMessage ?? this.errorMessage,
-      unreadCount: unreadCount ?? this.unreadCount,
+      errorMessage: errorMessage,
+      appointment: appointment ?? this.appointment,
+      isAppointmentLoading: isAppointmentLoading ?? false,
     );
   }
 }

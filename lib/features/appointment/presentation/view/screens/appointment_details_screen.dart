@@ -5,7 +5,6 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/function/language_state.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/presentation/manager/appointment_details_provider/appointment_details_provider.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/appointment_details/appointment_info_card.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/appointment_details/delete_button_states.dart';
@@ -13,8 +12,12 @@ import 'package:tabibak/features/appointment/presentation/view/widget/appointmen
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class AppointmentDetailsScreen extends ConsumerStatefulWidget {
-  final AppointmentModel appointment;
-  const AppointmentDetailsScreen({super.key, required this.appointment});
+  final int appointmentId;
+
+  const AppointmentDetailsScreen({
+    super.key,
+    required this.appointmentId,
+  });
 
   @override
   ConsumerState<AppointmentDetailsScreen> createState() =>
@@ -26,102 +29,136 @@ class _AppointmentDetailsScreenState
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      final appointmentId = widget.appointmentId;
       ref
           .read(appointmentDetailsNotifier.notifier)
-          .getAppointmentsQueue(widget.appointment.id!);
+          .getAppointmentDetails(appointmentId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(appointmentDetailsNotifier);
+    final appointment = state.appointment;
+
     return Scaffold(
-      appBar: AppBarWidget(title: AppStrings.appointmentDetailsTitle),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DoctorHeaderWidget(appointment: widget.appointment),
-                    24.hBox,
-                    _buildStatusBadge(context),
-                    32.hBox,
-                    Text(
-                      AppStrings.appointmentDetails,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+      appBar: AppBarWidget(
+        title: AppStrings.appointmentDetailsTitle,
+      ),
+      body: state.isLoading || appointment == null
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DoctorHeaderWidget(
+                            appointment: appointment,
                           ),
-                    ),
-                    16.hBox,
-                    AppointmentInfoCard(
-                      title: AppStrings.date,
-                      value: widget.appointment.appointmentDate ??
-                          AppStrings.unknown,
-                      icon: Icons.calendar_today,
-                    ),
-                    AppointmentInfoCard(
-                      title: AppStrings.time,
-                      value: _getFormattedTime(context),
-                      icon: Icons.access_time,
-                    ),
-                    AppointmentInfoCard(
-                      title: AppStrings.price,
-                      value:
-                          "${widget.appointment.doctor?.clinic?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}",
-                      icon: Icons.monetization_on_outlined,
-                    ),
-                    AppointmentInfoCard(
-                      title: AppStrings.appointmentType,
-                      value: context.locale.languageCode == 'ar'
-                          ? widget.appointment.appointmentTypeModel
-                                  ?.appointmentTypeAr ??
-                              AppStrings.unknown
-                          : widget.appointment.appointmentTypeModel
-                                  ?.appointmentTypeEn ??
-                              AppStrings.unknown,
-                      icon: Icons.medical_services_outlined,
-                    ),
-                    if (widget.appointment.followUpDate != null)
-                      AppointmentInfoCard(
-                        title: AppStrings.followUpDate,
-                        value: DateFormat(
-                          'dd/MM/yyyy',
-                          isArabic(context) ? 'ar' : 'en',
-                        ).format(widget.appointment.followUpDate!),
-                        icon: Icons.event_repeat_outlined,
+                          24.hBox,
+                          _buildStatusBadge(
+                            context,
+                            appointment,
+                          ),
+                          32.hBox,
+                          Text(
+                            AppStrings.appointmentDetails,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          16.hBox,
+                          AppointmentInfoCard(
+                            title: AppStrings.date,
+                            value: appointment.appointmentDate ??
+                                AppStrings.unknown,
+                            icon: Icons.calendar_today,
+                          ),
+                          AppointmentInfoCard(
+                            title: AppStrings.time,
+                            value: _getFormattedTime(
+                              context,
+                              appointment,
+                            ),
+                            icon: Icons.access_time,
+                          ),
+                          AppointmentInfoCard(
+                            title: AppStrings.price,
+                            value:
+                                "${appointment.doctor?.clinic?.consultationFee ?? AppStrings.unknown} ${AppStrings.egp}",
+                            icon: Icons.monetization_on_outlined,
+                          ),
+                          AppointmentInfoCard(
+                            title: AppStrings.appointmentType,
+                            value: context.locale.languageCode == 'ar'
+                                ? appointment.appointmentTypeModel
+                                        ?.appointmentTypeAr ??
+                                    AppStrings.unknown
+                                : appointment.appointmentTypeModel
+                                        ?.appointmentTypeEn ??
+                                    AppStrings.unknown,
+                            icon: Icons.medical_services_outlined,
+                          ),
+                          if (appointment.followUpDate != null)
+                            AppointmentInfoCard(
+                              title: AppStrings.followUpDate,
+                              value: DateFormat(
+                                'dd/MM/yyyy',
+                                isArabic(context) ? 'ar' : 'en',
+                              ).format(
+                                appointment.followUpDate!,
+                              ),
+                              icon: Icons.event_repeat_outlined,
+                            ),
+                          if (state.appointment?.queueNumber != null)
+                            AppointmentInfoCard(
+                              title: AppStrings.queuePosition,
+                              value: state.appointment!.queueNumber.toString(),
+                              icon: Icons.format_list_numbered,
+                            ),
+                          16.hBox,
+                        ],
                       ),
-                    if (state.appointmentQueue != null)
-                      AppointmentInfoCard(
-                        title: AppStrings.queuePosition,
-                        value: state.appointmentQueue.toString(),
-                        icon: Icons.format_list_numbered,
-                      ),
-                    16.hBox,
-                  ],
-                ),
+                    ),
+                  ),
+                  if (appointment.status == 1 || appointment.status == 2)
+                    DeleteButtonStates(
+                      appointmentId: appointment.id!,
+                    ),
+                ],
               ),
             ),
-            if (widget.appointment.status == 1 ||
-                widget.appointment.status == 2)
-              DeleteButtonStates(appointmentId: widget.appointment.id!),
-          ],
-        ),
-      ),
     );
   }
 
-  Widget _buildStatusBadge(BuildContext context) {
+  Widget _buildStatusBadge(
+    BuildContext context,
+    appointment,
+  ) {
+    final statusColor = _getStatusColor(appointment.status);
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ),
       decoration: BoxDecoration(
-        color: _getStatusColor(widget.appointment.status).withOpacity(0.1),
+        color: statusColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: _getStatusColor(widget.appointment.status)),
+        border: Border.all(
+          color: statusColor,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -129,15 +166,15 @@ class _AppointmentDetailsScreenState
           Icon(
             Icons.circle,
             size: 10,
-            color: _getStatusColor(widget.appointment.status),
+            color: statusColor,
           ),
           8.wBox,
           Text(
             context.locale.languageCode == 'ar'
-                ? widget.appointment.appointmentsStatus?.statusAr ?? ""
-                : widget.appointment.appointmentsStatus?.statusEn ?? "",
+                ? appointment.appointmentsStatus?.statusAr ?? ""
+                : appointment.appointmentsStatus?.statusEn ?? "",
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: _getStatusColor(widget.appointment.status),
+                  color: statusColor,
                   fontWeight: FontWeight.bold,
                 ),
           ),
@@ -146,13 +183,21 @@ class _AppointmentDetailsScreenState
     );
   }
 
-  String _formatTime(String? time, BuildContext context) {
-    if (time == null || time.isEmpty) return '';
+  String _formatTime(
+    String? time,
+    BuildContext context,
+  ) {
+    if (time == null || time.isEmpty) {
+      return '';
+    }
+
     try {
       final parsedTime = DateFormat("HH:mm").parse(time);
+
       final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+
       return DateFormat(
-        isArabic ? "h:mm a" : "h:mm a",
+        "h:mm a",
         isArabic ? "ar" : "en",
       ).format(parsedTime);
     } catch (e) {
@@ -160,19 +205,30 @@ class _AppointmentDetailsScreenState
     }
   }
 
-  String _getFormattedTime(BuildContext context) {
-    final shift =
-        widget.appointment.shiftMorning ?? widget.appointment.shiftEvening;
+  String _getFormattedTime(
+    BuildContext context,
+    appointment,
+  ) {
+    final shift = appointment.shiftMorning ?? appointment.shiftEvening;
+
     if (shift != null) {
-      final start = _formatTime(shift.start, context);
-      final end = _formatTime(shift.end, context);
+      final start = _formatTime(
+        shift.start,
+        context,
+      );
+
+      final end = _formatTime(
+        shift.end,
+        context,
+      );
+
       return "$start - $end";
     }
+
     return AppStrings.unknown;
   }
 
   Color _getStatusColor(int? status) {
-    // DB truth: 1 pending, 2 confirmed, 3 completed, 4 cancelled.
     switch (status) {
       case 1:
         return AppColors.orange;

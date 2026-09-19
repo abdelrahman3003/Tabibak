@@ -7,7 +7,6 @@ abstract class AppointmentsRepos {
   Future<ApiResult<DayShiftsModel?>> getDayShift(
       {required String dayEn, required int clinicId});
   Future<ApiResult<List<AppointmentModel>>> getAppointments();
+  Future<ApiResult<AppointmentModel>> getAppointmentDetails(int appointmentId);
   Future<ApiResult<void>> deleteAppointment(int appointmentId);
-
-  Future<ApiResult<int?>> getAppointmentsQueue(int appointmentId);
 }

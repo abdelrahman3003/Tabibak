@@ -95,7 +95,7 @@ class AppRouter {
       case Routes.appointmentDetailsScreen:
         final appointment = setting.arguments as AppointmentModel;
         return _buildSlideRoute(
-          AppointmentDetailsScreen(appointment: appointment),
+          AppointmentDetailsScreen(appointmentId: appointment.id!),
         );
 
       case Routes.bookingSuccessScreen:

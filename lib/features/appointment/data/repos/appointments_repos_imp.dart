@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
@@ -56,13 +54,13 @@ class AppointmentsReposImp implements AppointmentsRepos {
   }
 
   @override
-  Future<ApiResult<int?>> getAppointmentsQueue(int appointmentId) async {
+  Future<ApiResult<AppointmentModel>> getAppointmentDetails(
+      int appointmentId) async {
     try {
       final result =
-          await appointmentsRemoteData.getAppointmentQueueById(appointmentId);
+          await appointmentsRemoteData.getAppointmentById(appointmentId);
       return ApiResult.sucess(result);
     } catch (error) {
-      log("----------$error");
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }

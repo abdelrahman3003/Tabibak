@@ -12,7 +12,6 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/services/local_notification_services.dart';
 import 'package:tabibak/core/services/push_notification_service.dart';
 import 'package:tabibak/core/theme/app_theme.dart';
-import 'package:tabibak/features/notification/data/model/notification_model.dart';
 import 'package:tabibak/features/notification/presentation/manager/notification_provider/notification_provider.dart';
 import 'package:tabibak/features/profile/presentation/manager/profile_provider.dart';
 
@@ -37,9 +36,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         final payload = response.payload;
         if (payload != null && payload.isNotEmpty) {
           try {
-            data = Map<String, dynamic>.from(
-              jsonDecode(payload) as Map,
-            );
+            data = Map<String, dynamic>.from(jsonDecode(payload) as Map);
           } catch (_) {}
         }
         AppNavigator.pushNamed(
@@ -48,39 +45,11 @@ class _MyAppState extends ConsumerState<MyApp> {
         );
       },
     );
-    // Foreground FCM -> update inbox immediately (realtime fallback).
+    // Foreground FCM -> just refresh the notifications list from Supabase.
     _fgSub = PushNotificationService.foregroundMessages.stream.listen((msg) {
       try {
-        final data = msg.data;
-        final idRaw = data['notification_id']?.toString();
-        final id = idRaw != null ? int.tryParse(idRaw) : null;
-        final notifier = ref.read(notificationProviderNotifier.notifier);
-        if (id != null) {
-          final title =
-              msg.notification?.title ?? data['title']?.toString() ?? '';
-          final body =
-              msg.notification?.body ?? data['body']?.toString() ?? '';
-          notifier.handleRemoteInsert(
-            NotificationModel(
-              id: id,
-              userId: '',
-              title: title,
-              body: body,
-              type: AppNotificationType.fromString(data['type']?.toString()),
-              data: Map<String, dynamic>.from(data),
-              isRead: false,
-              createdAt: DateTime.now(),
-            ),
-          );
-        } else {
-          // No id (e.g. doctor-side or legacy payload): just refresh counts.
-          notifier.fetchNotifications();
-        }
-      } catch (_) {
-        try {
-          ref.read(notificationProviderNotifier.notifier).fetchNotifications();
-        } catch (_) {}
-      }
+        ref.read(notificationProviderNotifier.notifier).fetchNotifications();
+      } catch (_) {}
     });
   }
 

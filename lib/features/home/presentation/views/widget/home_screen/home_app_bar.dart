@@ -42,8 +42,7 @@ class HomeAppBar extends StatelessWidget {
         Consumer(
           builder: (context, ref, _) {
             final unreadCount = ref.watch(
-              notificationProviderNotifier
-                  .select((state) => state.unreadCount),
+              notificationProviderNotifier.select((state) => 2),
             );
             return Stack(
               clipBehavior: Clip.none,

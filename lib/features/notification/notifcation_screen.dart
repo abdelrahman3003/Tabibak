@@ -2,81 +2,48 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
+import 'package:tabibak/features/appointment/presentation/view/screens/appointment_details_screen.dart';
 import 'package:tabibak/features/notification/data/model/notification_model.dart';
 import 'package:tabibak/features/notification/presentation/manager/notification_provider/notification_provider.dart';
 
-// ─────────────────────────────────────────────
-// Notification Screen (real data via Supabase)
-// ─────────────────────────────────────────────
-
-class NotificationScreen extends ConsumerStatefulWidget {
+class NotificationScreen extends ConsumerWidget {
   const NotificationScreen({super.key});
 
   @override
-  ConsumerState<NotificationScreen> createState() => _NotificationScreenState();
-}
-
-class _NotificationScreenState extends ConsumerState<NotificationScreen> {
-  bool _handledInitialArgs = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_handledInitialArgs) return;
-    _handledInitialArgs = true;
-    // Only when opened from a push/local notification tap (notification_id
-    // present) mark THAT specific notification as read. Opening the screen
-    // normally never changes unread state.
-    final args = ModalRoute.of(context)?.settings.arguments;
-    if (args is Map && args['notification_id'] != null) {
-      final id = int.tryParse(args['notification_id'].toString());
-      if (id != null) {
-        Future.microtask(
-          () => ref
-              .read(notificationProviderNotifier.notifier)
-              .markAsRead(id),
-        );
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(notificationProviderNotifier);
     final notifier = ref.read(notificationProviderNotifier.notifier);
     final all = state.notifications ?? [];
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBG,
-      appBar: _buildAppBar(
-        unreadCount: state.unreadCount,
-        onMarkAll: all.isEmpty ? null : notifier.markAllAsRead,
-      ),
+      appBar: _buildAppBar(context),
       body: _buildBody(
+        context: context,
         isLoading: state.isLoading && all.isEmpty,
         error: state.errorMessage,
         notifications: all,
         onRetry: notifier.fetchNotifications,
         onRefresh: notifier.fetchNotifications,
-        onTap: (n) => notifier.markAsRead(n.id),
-        onDelete: (n) => notifier.deleteNotification(n.id),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar({
-    required int unreadCount,
-    required VoidCallback? onMarkAll,
-  }) {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.scaffoldBG,
       elevation: 0,
       centerTitle: true,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios_new_rounded,
-            color: AppColors.textDark, size: 20),
+        icon: Icon(
+          Icons.arrow_back_ios_new_rounded,
+          color: AppColors.textDark,
+          size: 20,
+        ),
         onPressed: () => Navigator.of(context).maybePop(),
       ),
       title: Text(
@@ -88,111 +55,162 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           fontFamily: 'Tajawal',
         ),
       ),
-      actions: [
-        if (unreadCount > 0)
-          TextButton(
-            onPressed: onMarkAll,
-            child: Text(
-              'Mark all read'.tr(),
-              style: TextStyle(
-                fontSize: 13.sp,
-                color: AppColors.primary,
-                fontFamily: 'Tajawal',
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-      ],
     );
   }
 
   Widget _buildBody({
+    required BuildContext context,
     required bool isLoading,
     required String? error,
     required List<NotificationModel> notifications,
     required VoidCallback onRetry,
     required Future<void> Function() onRefresh,
-    required void Function(NotificationModel) onTap,
-    required void Function(NotificationModel) onDelete,
   }) {
     if (isLoading) {
       return _buildShimmer();
     }
+
     if (error != null && notifications.isEmpty) {
       return _buildErrorState(error, onRetry);
     }
+
     if (notifications.isEmpty) {
       return _buildEmptyState();
     }
 
     return RefreshIndicator(
       onRefresh: onRefresh,
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-        children: _buildNotificationTiles(notifications, onTap, onDelete),
+      child: ListView.builder(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 4.h,
+        ),
+        itemCount: notifications.length,
+        itemBuilder: (_, i) {
+          final notification = notifications[i];
+
+          return _NotificationTile(
+            notification: notification,
+            onTap: () => _handleNotificationTap(
+              context,
+              notification,
+            ),
+          );
+        },
       ),
     );
   }
 
-  List<Widget> _buildNotificationTiles(
-      List<NotificationModel> notifications,
-      void Function(NotificationModel) onTap,
-      void Function(NotificationModel) onDelete,
-      ) {
-    final tiles = <Widget>[];
-
-    for (final n in notifications) {
-      tiles.add(_buildDismissibleTile(n, onTap, onDelete));
+  Future<void> _handleNotificationTap(
+    BuildContext context,
+    NotificationModel notification,
+  ) async {
+    if (notification.type != AppNotificationType.appointment) {
+      return;
     }
 
-    return tiles;
-  }
-
-  Dismissible _buildDismissibleTile(
-      NotificationModel notification,
-      void Function(NotificationModel) onTap,
-      void Function(NotificationModel) onDelete,
-      ) {
-    return Dismissible(
-      key: ValueKey('notif-${notification.id}'),
-      direction: DismissDirection.startToEnd,
-      background: _buildDismissBackground(),
-      onDismissed: (_) => onDelete(notification),
-      child: _NotificationTile(
-        notification: notification,
-        onTap: () => onTap(notification),
-      ),
+    final appointmentId = int.tryParse(
+      '${notification.data['appointment_id']}',
     );
-  }
 
-  Widget _buildDismissBackground() {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10.h),
-      decoration: BoxDecoration(
-        color: AppColors.red,
-        borderRadius: AppRadius.radius16,
-      ),
-      alignment: Alignment.centerLeft,
-      padding: EdgeInsets.only(left: 20.w),
-      child: const Icon(Icons.delete_outline_rounded,
-          color: Colors.white, size: 26),
+    if (appointmentId == null) {
+      return;
+    }
+
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
+
+    try {
+      final response =
+          await Supabase.instance.client.from('appointments').select('''
+            *,
+            doctors(*, clinic_data(*)),
+            shifts_morning(*),
+            shift_evening(*),
+            appointment_types(*),
+            appointments_status(*)
+          ''').eq('id', appointmentId).maybeSingle();
+
+      if (!context.mounted) return;
+
+      Navigator.of(context).pop();
+
+      if (response == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Appointment not found'.tr(),
+              style: const TextStyle(
+                fontFamily: 'Tajawal',
+              ),
+            ),
+          ),
+        );
+        return;
+      }
+
+      final appointment = AppointmentModel.fromJson(
+        Map<String, dynamic>.from(response),
+      );
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => AppointmentDetailsScreen(
+            appointmentId: appointment.id!,
+          ),
+        ),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+
+      Navigator.of(context).pop();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Something went wrong'.tr(),
+            style: const TextStyle(
+              fontFamily: 'Tajawal',
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   Widget _buildShimmer() {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16.w,
+        vertical: 4.h,
+      ),
       itemCount: 6,
       itemBuilder: (_, __) => const _NotificationShimmer(),
     );
   }
 
-  Widget _buildErrorState(String error, VoidCallback onRetry) {
+  Widget _buildErrorState(
+    String error,
+    VoidCallback onRetry,
+  ) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(error, textAlign: TextAlign.center),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: Text(
+              error,
+              textAlign: TextAlign.center,
+            ),
+          ),
           SizedBox(height: 12.h),
           ElevatedButton(
             onPressed: onRetry,
@@ -248,10 +266,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   }
 }
 
-// ─────────────────────────────────────────────
-// Notification Tile
-// ─────────────────────────────────────────────
-
 class _NotificationTile extends StatelessWidget {
   final NotificationModel notification;
   final VoidCallback onTap;
@@ -263,38 +277,56 @@ class _NotificationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        margin: EdgeInsets.only(bottom: 10.h),
-        padding: EdgeInsets.all(14.w),
-        decoration: BoxDecoration(
-          color: notification.isRead ? Colors.white : AppColors.primaryLight,
-          borderRadius: AppRadius.radius16,
-          border: Border.all(
-            color: notification.isRead
-                ? AppColors.borderLight
-                : AppColors.primaryLight30,
-            width: 1,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+    return Container(
+      margin: EdgeInsets.only(bottom: 10.h),
+      decoration: BoxDecoration(
+        color: notification.isRead
+            ? Colors.white
+            : AppColors.primary.withValues(alpha: 0.05),
+        borderRadius: AppRadius.radius16,
+        border: Border.all(
+          color: notification.isRead
+              ? AppColors.borderLight
+              : AppColors.primary.withValues(alpha: 0.25),
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildAvatar(),
-            SizedBox(width: 12.w),
-            Expanded(child: _buildContent()),
-            SizedBox(width: 8.w),
-            _buildRightSection(context),
-          ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: AppRadius.radius16,
+          child: Padding(
+            padding: EdgeInsets.all(14.w),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildAvatar(),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: _buildContent(),
+                ),
+                SizedBox(width: 8.w),
+                Text(
+                  _relativeTime(
+                    context,
+                    notification.createdAt,
+                  ),
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                    color: AppColors.subtextColor,
+                    fontFamily: 'Tajawal',
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -302,68 +334,43 @@ class _NotificationTile extends StatelessWidget {
 
   Widget _buildAvatar() {
     final initials = _initials(notification.title);
-    final color = _typeColor();
-    return Stack(
-      children: [
-        Container(
-          width: 50.w,
-          height: 50.w,
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.15),
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Text(
-              initials,
-              style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w700,
-                color: color,
-                fontFamily: 'Tajawal',
-              ),
-            ),
+
+    return Container(
+      width: 44.w,
+      height: 44.w,
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.15),
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          initials,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primary,
+            fontFamily: 'Tajawal',
           ),
         ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          child: Container(
-            width: 18.w,
-            height: 18.w,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
-            ),
-            child: Icon(
-              _typeIcon(),
-              size: 9.sp,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
   String _initials(String title) {
     final words =
         title.trim().split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+
     if (words.isEmpty) return '•';
+
     if (words.length == 1) {
-      final w = words.first;
-      return w.length >= 2 ? w.substring(0, 2) : w;
+      final word = words.first;
+      return word.length >= 2 ? word.substring(0, 2) : word;
     }
+
     return '${words[0].substring(0, 1)}${words[1].substring(0, 1)}';
   }
 
   Widget _buildContent() {
-    final doctorName = notification.data['doctor_name']?.toString();
-    final appointmentId = notification.data['appointment_id']?.toString();
-    final subtitle = doctorName ??
-        (appointmentId != null
-            ? '${'Appointment'.tr()} #$appointmentId'
-            : null);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -371,15 +378,14 @@ class _NotificationTile extends StatelessWidget {
           notification.title,
           style: TextStyle(
             fontSize: 14.sp,
-            fontWeight:
-                notification.isRead ? FontWeight.w500 : FontWeight.w700,
+            fontWeight: FontWeight.w700,
             color: AppColors.textDark,
             fontFamily: 'Tajawal',
           ),
         ),
         SizedBox(height: 4.h),
         Text(
-          notification.body,
+          notification.message,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
@@ -389,131 +395,41 @@ class _NotificationTile extends StatelessWidget {
             height: 1.5,
           ),
         ),
-        if (subtitle != null)...[
-          SizedBox(height: 8.h),
-          _MetaChip(text: subtitle),
-        ],
       ],
     );
   }
 
-  Widget _buildRightSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(
-          _relativeTime(context, notification.createdAt),
-          style: TextStyle(
-            fontSize: 11.sp,
-            color: AppColors.subtextColor,
-            fontFamily: 'Tajawal',
-          ),
-        ),
-        SizedBox(height: 6.h),
-        if (!notification.isRead)
-          Container(
-            width: 8.w,
-            height: 8.w,
-            decoration: const BoxDecoration(
-              color: AppColors.primary,
-              shape: BoxShape.circle,
-            ),
-          ),
-      ],
-    );
-  }
-
-  String _relativeTime(BuildContext context, DateTime date) {
+  String _relativeTime(
+    BuildContext context,
+    DateTime date,
+  ) {
     final locale = context.locale.languageCode;
-    final diff = DateTime.now().difference(date);
+    final diff = DateTime.now().toUtc().difference(
+          date.toUtc(),
+        );
+
     final ar = locale == 'ar';
-    if (diff.inMinutes < 1) return ar ? 'الآن' : 'now';
+
+    if (diff.inMinutes < 1) {
+      return ar ? 'الآن' : 'now';
+    }
+
     if (diff.inMinutes < 60) {
       return ar ? 'منذ ${diff.inMinutes} د' : '${diff.inMinutes}m ago';
     }
+
     if (diff.inHours < 24) {
       return ar ? 'منذ ${diff.inHours} س' : '${diff.inHours}h ago';
     }
+
     if (diff.inDays < 7) {
       return ar ? 'منذ ${diff.inDays} يوم' : '${diff.inDays}d ago';
     }
-    return DateFormat('dd/MM/yyyy', locale).format(date);
-  }
 
-  Color _typeColor() {
-    switch (notification.type) {
-      case AppNotificationType.appointment:
-        return AppColors.primary;
-      case AppNotificationType.reminder:
-        return AppColors.orange;
-      case AppNotificationType.cancellation:
-        return AppColors.red;
-      case AppNotificationType.result:
-        return AppColors.green;
-      case AppNotificationType.promotion:
-        return AppColors.primaryLight30;
-      case AppNotificationType.general:
-        return AppColors.primary;
-    }
-  }
-
-  IconData _typeIcon() {
-    switch (notification.type) {
-      case AppNotificationType.appointment:
-        return Icons.calendar_today_rounded;
-      case AppNotificationType.reminder:
-        return Icons.access_time_rounded;
-      case AppNotificationType.cancellation:
-        return Icons.cancel_outlined;
-      case AppNotificationType.result:
-        return Icons.science_outlined;
-      case AppNotificationType.promotion:
-        return Icons.local_offer_outlined;
-      case AppNotificationType.general:
-        return Icons.notifications_outlined;
-    }
-  }
-}
-
-// ─────────────────────────────────────────────
-// Supporting Widgets
-// ─────────────────────────────────────────────
-
-class _MetaChip extends StatelessWidget {
-  final String text;
-
-  const _MetaChip({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-      decoration: BoxDecoration(
-        color: AppColors.scaffoldBG,
-        borderRadius: AppRadius.radius8,
-        border: Border.all(color: AppColors.borderLight),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.person_outline_rounded,
-              size: 13.sp, color: AppColors.primary),
-          SizedBox(width: 4.w),
-          Flexible(
-            child: Text(
-              text,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: AppColors.primary,
-                fontFamily: 'Tajawal',
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    return DateFormat(
+      'dd/MM/yyyy',
+      locale,
+    ).format(date);
   }
 }
 
@@ -528,13 +444,15 @@ class _NotificationShimmer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: AppRadius.radius16,
-        border: Border.all(color: AppColors.borderLight),
+        border: Border.all(
+          color: AppColors.borderLight,
+        ),
       ),
       child: Row(
         children: [
           Container(
-            width: 50.w,
-            height: 50.w,
+            width: 44.w,
+            height: 44.w,
             decoration: BoxDecoration(
               color: AppColors.scaffoldBG,
               shape: BoxShape.circle,
