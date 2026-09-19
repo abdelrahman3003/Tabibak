@@ -97,10 +97,10 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Image.asset(
-                "assets/images/app_logo.png",
+                "assets/images/splash.png",
                 color: AppColors.white,
                 height: 150.h,
-                width: 220.w,
+                width: 250.w,
                 fit: BoxFit.cover,
               ),
               Text(
