@@ -7,4 +7,8 @@ abstract class NotificationRepo {
   Future<ApiResult<Map<String, dynamic>?>> getAppointmentDetails(
     int appointmentId,
   );
+
+  Future<ApiResult<void>> markAsRead(int notificationId);
+
+  Future<ApiResult<void>> markAllAsRead();
 }

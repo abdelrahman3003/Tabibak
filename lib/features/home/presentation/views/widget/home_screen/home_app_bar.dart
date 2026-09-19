@@ -41,14 +41,15 @@ class HomeAppBar extends StatelessWidget {
         ),
         Consumer(
           builder: (context, ref, _) {
-            final unreadCount = ref.watch(
-              notificationProviderNotifier.select((state) => 2),
+            final badgeCount = ref.watch(
+              notificationProviderNotifier.select((state) => state.badgeCount),
             );
             return Stack(
               clipBehavior: Clip.none,
               children: [
                 IconButton(
                   onPressed: () {
+                    ref.read(notificationProviderNotifier.notifier).clearBadge();
                     context.pushNamed(Routes.notificationScreen);
                   },
                   icon: Icon(
@@ -63,7 +64,7 @@ class HomeAppBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (unreadCount > 0)
+                if (badgeCount > 0)
                   Positioned(
                     top: 4,
                     left: 4,
@@ -82,7 +83,7 @@ class HomeAppBar extends StatelessWidget {
                         minHeight: 18.w,
                       ),
                       child: Text(
-                        unreadCount > 99 ? '99+' : unreadCount.toString(),
+                        badgeCount > 99 ? '99+' : badgeCount.toString(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 10.sp,

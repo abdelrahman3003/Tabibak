@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
@@ -50,7 +51,7 @@ class _AppointmentBookingScreenState
     return Scaffold(
       appBar: AppBarWidget(title: AppStrings.bookingInquiry),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.w),
         child: Form(
           key: _formState,
           child: SingleChildScrollView(
@@ -88,34 +89,18 @@ class _AppointmentBookingScreenState
                   maxLines: 3,
                 ),
                 30.hBox,
-                Row(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleTextField(text: AppStrings.dateLabel),
-                          BookingDate(
-                              clinicID: widget.doctorModel.clinic!.id!,
-                              dateController: dateController),
-                        ],
-                      ),
-                    ),
-                    12.wBox,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleTextField(text: AppStrings.periodLabel),
-                          DropDownShiftsStates(
-                            onSelected: ({shiftEveningId, shiftMorningId}) {
-                              selectedShiftMorningId = shiftMorningId;
-                              selectedShiftEveningId = shiftEveningId;
-                            },
-                          ),
-                        ],
-                      ),
+                    BookingDate(
+                        clinicID: widget.doctorModel.clinic!.id!,
+                        dateController: dateController),
+                    16.hBox,
+                    DropDownShiftsStates(
+                      onSelected: ({shiftEveningId, shiftMorningId}) {
+                        selectedShiftMorningId = shiftMorningId;
+                        selectedShiftEveningId = shiftEveningId;
+                      },
                     ),
                   ],
                 ),

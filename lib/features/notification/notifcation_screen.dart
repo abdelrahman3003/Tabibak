@@ -21,9 +21,10 @@ class NotificationScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBG,
-      appBar: _buildAppBar(context),
+      appBar: _buildAppBar(context, ref),
       body: _buildBody(
         context: context,
+        ref: ref,
         isLoading: state.isLoading && all.isEmpty,
         error: state.errorMessage,
         notifications: all,
@@ -33,7 +34,12 @@ class NotificationScreen extends ConsumerWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(notificationProviderNotifier.notifier);
+    final unreadCount = ref.watch(
+      notificationProviderNotifier.select((state) => state.unreadCount),
+    );
+
     return AppBar(
       backgroundColor: AppColors.scaffoldBG,
       elevation: 0,
@@ -55,11 +61,28 @@ class NotificationScreen extends ConsumerWidget {
           fontFamily: 'Tajawal',
         ),
       ),
+      actions: [
+        if (unreadCount > 0)
+          TextButton.icon(
+            onPressed: () => notifier.markAllAsRead(),
+            icon: Icon(Icons.done_all, size: 18.sp, color: AppColors.primary),
+            label: Text(
+              'Mark all read'.tr(),
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.primary,
+                fontFamily: 'Tajawal',
+              ),
+            ),
+          ),
+      ],
     );
   }
 
   Widget _buildBody({
     required BuildContext context,
+    required WidgetRef ref,
     required bool isLoading,
     required String? error,
     required List<NotificationModel> notifications,
@@ -78,6 +101,8 @@ class NotificationScreen extends ConsumerWidget {
       return _buildEmptyState();
     }
 
+    final notifier = ref.read(notificationProviderNotifier.notifier);
+
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: ListView.builder(
@@ -91,10 +116,15 @@ class NotificationScreen extends ConsumerWidget {
 
           return _NotificationTile(
             notification: notification,
-            onTap: () => _handleNotificationTap(
-              context,
-              notification,
-            ),
+            onTap: () {
+              if (!notification.isRead) {
+                notifier.markAsRead(notification.id);
+              }
+              _handleNotificationTap(
+                context,
+                notification,
+              );
+            },
           );
         },
       ),
@@ -313,16 +343,37 @@ class _NotificationTile extends StatelessWidget {
                   child: _buildContent(),
                 ),
                 SizedBox(width: 8.w),
-                Text(
-                  _relativeTime(
-                    context,
-                    notification.createdAt,
-                  ),
-                  style: TextStyle(
-                    fontSize: 11.sp,
-                    color: AppColors.subtextColor,
-                    fontFamily: 'Tajawal',
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      _relativeTime(
+                        context,
+                        notification.createdAt,
+                      ),
+                      style: TextStyle(
+                        fontSize: 11.sp,
+                        color: notification.isRead
+                            ? AppColors.subtextColor
+                            : AppColors.primary,
+                        fontWeight: notification.isRead
+                            ? FontWeight.normal
+                            : FontWeight.w600,
+                        fontFamily: 'Tajawal',
+                      ),
+                    ),
+                    if (!notification.isRead) ...[
+                      SizedBox(height: 8.h),
+                      Container(
+                        width: 8.w,
+                        height: 8.w,
+                        decoration: const BoxDecoration(
+                          color: AppColors.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ],
             ),

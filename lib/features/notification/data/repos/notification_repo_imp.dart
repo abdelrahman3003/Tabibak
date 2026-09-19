@@ -38,4 +38,28 @@ class NotificationRepoImp implements NotificationRepo {
       );
     }
   }
+
+  @override
+  Future<ApiResult<void>> markAsRead(int notificationId) async {
+    try {
+      await remoteData.markAsRead(notificationId);
+      return const ApiResult.sucess(null);
+    } catch (e) {
+      return ApiResult.failure(
+        ApiErrorModel(message: e.toString()),
+      );
+    }
+  }
+
+  @override
+  Future<ApiResult<void>> markAllAsRead() async {
+    try {
+      await remoteData.markAllAsRead();
+      return const ApiResult.sucess(null);
+    } catch (e) {
+      return ApiResult.failure(
+        ApiErrorModel(message: e.toString()),
+      );
+    }
+  }
 }

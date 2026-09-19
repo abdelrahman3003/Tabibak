@@ -204,7 +204,7 @@ _buildStepCircle(
               color: AppColors.primaryLight,
             ),
             child: Icon(
-              Icons.local_hospital_outlined,
+              Icons.local_hospital,
               color: AppColors.primary,
               size: 28.r,
             ),
