@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tabibak/core/constatnt/app_padding.dart';
-import 'package:tabibak/core/constatnt/app_redius.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
@@ -8,7 +7,6 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/booking/appointment_success_arg.dart';
-import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
 class BookingSuccessScreen extends StatelessWidget {
   const BookingSuccessScreen({super.key, required this.appointmentSuccessArg});
@@ -20,110 +18,54 @@ class BookingSuccessScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: AppPadding.all16,
+            padding: const EdgeInsets.all(24),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildHeader(context),
-                20.hBox,
-                _buildDoctorInfo(context),
-                10.hBox,
-                _buildDateInfo(context),
-                20.hBox,
-                _buildTimeInfo(context),
-                Spacer(),
-                _buildButton(context)
+                Container(
+                  width: 80.r,
+                  height: 80.r,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.green.withOpacity(0.1),
+                  ),
+                  child: Icon(
+                    Icons.check_circle_outline,
+                    size: 48.r,
+                    color: AppColors.green,
+                  ),
+                ),
+                24.hBox,
+                Text(
+                  AppStrings.bookingConfirmed,
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textDark,
+                  ),
+                ),
+                8.hBox,
+                Text(
+                  AppStrings.appointmentBookedSuccessfully,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: AppColors.subtextColor,
+                  ),
+                ),
+                40.hBox,
+                AppButton(
+                  title: AppStrings.goBack,
+                  onPressed: () {
+                    context.pushNamedAndRemoveUntil(
+                        Routes.layoutScreen, (route) => true);
+                  },
+                ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          AppStrings.bookingConfirmed,
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge
-              ?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        20.hBox,
-        Text(
-          AppStrings.bookingSuccessful,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(),
-        ),
-        40.hBox,
-        Text(
-          AppStrings.appointmentBookedSuccessfully,
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDoctorInfo(BuildContext context) {
-    return Row(
-      children: [
-        ImageCircle(
-          radius: 28,
-          urlImage: appointmentSuccessArg.doctorModel.image,
-        ),
-        12.wBox,
-        Text(appointmentSuccessArg.doctorModel.name ?? "",
-            style: Theme.of(context).textTheme.bodyLarge),
-      ],
-    );
-  }
-
-  Widget _buildDateInfo(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-            padding: AppPadding.all16,
-            decoration: BoxDecoration(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white.withOpacity(0.1)
-                    : AppColors.borderLight,
-                borderRadius: AppRadius.radius8),
-            child: const Icon(Icons.date_range_outlined)),
-        12.wBox,
-        Text(appointmentSuccessArg.appointmentDate,
-            style: Theme.of(context).textTheme.bodyLarge),
-      ],
-    );
-  }
-
-  Widget _buildTimeInfo(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-            padding: AppPadding.all16,
-            decoration: BoxDecoration(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white.withOpacity(0.1)
-                    : AppColors.borderLight,
-                borderRadius: AppRadius.radius8),
-            child: const Icon(Icons.timelapse)),
-        12.wBox,
-        Text(appointmentSuccessArg.timeString,
-            style: Theme.of(context).textTheme.bodyLarge),
-      ],
-    );
-  }
-
-  AppButton _buildButton(BuildContext context) {
-    return AppButton(
-      title: AppStrings.goBack,
-      onPressed: () {
-        context.pushNamedAndRemoveUntil(Routes.layoutScreen, (route) => true);
-      },
     );
   }
 }
