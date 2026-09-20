@@ -5,15 +5,14 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/routing/routes.dart';
-import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/theme/appTextStyles.dart';
+import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_provider.dart';
-import 'package:tabibak/features/appointment/presentation/view/widget/booking/appointment_success_arg.dart';
-import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_provider.dart';
 import 'package:tabibak/features/home/data/model/day_shift_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
 class BookingConfirmScreen extends ConsumerStatefulWidget {
   final DoctorModel doctorModel;
@@ -30,8 +29,7 @@ class BookingConfirmScreen extends ConsumerStatefulWidget {
       _BookingConfirmScreenState();
 }
 
-class _BookingConfirmScreenState
-    extends ConsumerState<BookingConfirmScreen> {
+class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(appointmentBookingNotifierProvider);
@@ -41,25 +39,15 @@ class _BookingConfirmScreenState
       widget.appointmentModel.shiftMorningId,
       widget.appointmentModel.shiftEveningId,
     );
-    final periodLabel =
-        widget.appointmentModel.shiftMorningId != null
-            ? AppStrings.morningShift
-            : AppStrings.eveningShift;
+    final periodLabel = widget.appointmentModel.shiftMorningId != null
+        ? AppStrings.morningShift
+        : AppStrings.eveningShift;
 
     ref.listen(appointmentBookingNotifierProvider, (prev, next) {
       if (next.isSuccess && next.appointmentModel != null) {
-        final model = next.dayShiftsModel;
-        final timeStr = widget.appointmentModel.shiftMorningId != null
-            ? "${model?.morning?.start ?? ''} - ${model?.morning?.end ?? ''}"
-            : "${model?.evening?.start ?? ''} - ${model?.evening?.end ?? ''}";
-        final arg = AppointmentSuccessArg(
-          doctorModel: widget.doctorModel,
-          appointmentDate: next.appointmentModel!.appointmentDate ?? '',
-          timeString: timeStr,
-        );
         ref.read(appointmentBookingNotifierProvider.notifier).consumeSuccess();
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          context.pushReplacementNamed(Routes.bookingSuccessScreen, arguments: arg);
+          context.pushReplacementNamed(Routes.layoutScreen);
         });
       }
     });
@@ -75,8 +63,6 @@ class _BookingConfirmScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildStepIndicator(),
-                  20.hBox,
                   _buildDoctorCard(context),
                   12.hBox,
                   _buildInfoSection(timeString, periodLabel),
@@ -86,96 +72,6 @@ class _BookingConfirmScreenState
           ),
           _buildConfirmButton(isLoading),
         ],
-      ),
-    );
-  }
-
-  Widget _buildStepIndicator() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-_buildStepCircle(
-           1,
-           AppStrings.bookingInquiry,
-           true,
-           onTap: () => Navigator.pop(context),
-           isClickable: true,
-         ),
-        _buildStepLine(true),
-_buildStepCircle(
-           2,
-           AppStrings.confirmBooking,
-           true,
-           isClickable: true,
-         ),
-        _buildStepLine(false),
-        _buildStepCircle(3, AppStrings.bookingSuccess, false),
-      ],
-    );
-  }
-
-  Widget _buildStepCircle(
-    int number,
-    String label,
-    bool isActive, {
-    VoidCallback? onTap,
-    bool isClickable = false,
-  }) {
-    return GestureDetector(
-      onTap: isClickable ? onTap : null,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 36.r,
-            height: 36.r,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isActive ? AppColors.primary : AppColors.borderLight,
-              border: isActive
-                  ? null
-                  : Border.all(color: AppColors.primaryLight, width: 2),
-              boxShadow: isActive
-                  ? [
-                      BoxShadow(
-                        color: AppColors.primary.withOpacity(0.3),
-                        blurRadius: 8,
-                        spreadRadius: 1,
-                      ),
-                    ]
-                  : [],
-            ),
-            child: Center(
-              child: Text(
-                '$number',
-                style: TextStyle(
-                  color: isActive ? AppColors.white : AppColors.subtextColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.sp,
-                ),
-              ),
-            ),
-          ),
-          4.hBox,
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11.sp,
-              color: isActive ? AppColors.primary : AppColors.subtextColor,
-              fontWeight: isActive ? FontWeight.bold : FontWeight.w400,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStepLine(bool isActive) {
-    return Expanded(
-      child: Container(
-        height: 2,
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        color: isActive ? AppColors.primary : AppColors.borderLight,
       ),
     );
   }
@@ -268,8 +164,8 @@ _buildStepCircle(
           _buildInfoRow(Icons.calendar_today_outlined, AppStrings.date,
               widget.appointmentModel.appointmentDate ?? ''),
           _buildDivider(),
-          _buildInfoRow(Icons.access_time_outlined, AppStrings.periodLabel,
-              periodLabel),
+          _buildInfoRow(
+              Icons.access_time_outlined, AppStrings.periodLabel, periodLabel),
           _buildDivider(),
           _buildInfoRow(Icons.timelapse_outlined, AppStrings.time, timeString),
           _buildDivider(),
@@ -281,7 +177,8 @@ _buildStepCircle(
           if (widget.appointmentModel.description != null &&
               widget.appointmentModel.description!.isNotEmpty) ...[
             _buildDivider(),
-            _buildInfoRow(Icons.description_outlined,
+            _buildInfoRow(
+                Icons.description_outlined,
                 AppStrings.conditionDescription,
                 widget.appointmentModel.description!),
           ],
@@ -321,7 +218,8 @@ _buildStepCircle(
   }
 
   Widget _buildDivider() {
-    return const Divider(height: 1, thickness: 0.5, color: AppColors.borderLight);
+    return const Divider(
+        height: 1, thickness: 0.5, color: AppColors.borderLight);
   }
 
   Widget _buildConfirmButton(bool isLoading) {

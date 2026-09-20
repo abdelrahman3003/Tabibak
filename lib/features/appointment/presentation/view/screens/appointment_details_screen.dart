@@ -9,7 +9,6 @@ import 'package:tabibak/core/function/language_state.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/appointment/presentation/manager/appointment_details_provider/appointment_details_provider.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/appointment_details/appointment_info_card.dart';
-import 'package:tabibak/features/appointment/presentation/view/widget/appointment_details/delete_button_states.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/appointment_details/doctor_header_widget.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
@@ -134,10 +133,6 @@ class _AppointmentDetailsScreenState
                       ),
                     ),
                   ),
-                  if (appointment.status == 1 || appointment.status == 2)
-                    DeleteButtonStates(
-                      appointmentId: appointment.id!,
-                    ),
                 ],
               ),
             ),
