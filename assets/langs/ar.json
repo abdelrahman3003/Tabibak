@@ -197,5 +197,6 @@
     "No notifications": "لا توجد إشعارات",
     "Empty notifications message": "ستظهر هنا جميع الإشعارات المتعلقة\nبمواعيدك وعياداتك",
     "Retry": "إعادة المحاولة",
-    "Appointment": "موعد"
+    "Appointment": "موعد",
+    "appName": "طبيبك"
 }

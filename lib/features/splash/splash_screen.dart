@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
@@ -104,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 fit: BoxFit.cover,
               ),
               Text(
-                " طبيبك",
+                AppStrings.appName,
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       fontWeight: FontWeight.w800,
                       color: AppColors.white,

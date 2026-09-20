@@ -207,5 +207,6 @@
     "No notifications": "No notifications",
     "Empty notifications message": "All notifications about\n your appointments will appear here",
     "Retry": "Retry",
-    "Appointment": "Appointment"
+    "Appointment": "Appointment",
+    "appName": "Tabibak"
 }
