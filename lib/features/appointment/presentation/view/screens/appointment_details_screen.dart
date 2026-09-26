@@ -128,6 +128,12 @@ class _AppointmentDetailsScreenState
                               value: state.appointment!.queueNumber.toString(),
                               icon: Icons.format_list_numbered,
                             ),
+                          if (state.appointment?.waitingList != null)
+                            AppointmentInfoCard(
+                              title: 'waitingListNumber'.tr(),
+                              value: state.appointment!.waitingList.toString(),
+                              icon: Icons.hourglass_top,
+                            ),
                           16.hBox,
                         ],
                       ),

@@ -49,6 +49,7 @@ AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['follow_up_date'] as String),
       queueNumber: (json['queue_number'] as num?)?.toInt(),
+      waitingList: (json['waiting_list'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
@@ -76,4 +77,5 @@ Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
       'appointments_status': instance.appointmentsStatus?.toJson(),
       'follow_up_date': instance.followUpDate?.toIso8601String(),
       'queue_number': instance.queueNumber,
+      'waiting_list': instance.waitingList,
     };

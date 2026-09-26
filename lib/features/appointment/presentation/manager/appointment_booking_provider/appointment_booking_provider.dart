@@ -4,6 +4,7 @@ import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/data/repos/appointments_repos.dart';
 import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_states.dart';
+import 'package:tabibak/features/appointment/presentation/manager/appointment_provider/appointment_provider.dart';
 
 final appointmentBookingNotifierProvider = StateNotifierProvider.autoDispose<
     AppointmentBookingProvider, AppointmentBookingStates>(
@@ -71,6 +72,7 @@ class AppointmentBookingProvider
 
     result.when(
       sucess: (commentList) {
+        ref.invalidate(appointsProviderNotifier);
         state = state.copyWith(isLoading: false, isSuccess: true);
       },
       failure: (apiErrorModel) {

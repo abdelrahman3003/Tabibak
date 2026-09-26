@@ -211,5 +211,6 @@
     "appName": "Tabibak",
     "updateRequiredTitle": "Update required",
     "updateRequiredMessage": "Please update Tabibak to continue using the app.",
-    "updateNow": "Update now"
+    "updateNow": "Update now",
+    "waitingListNumber": "Waiting list number"
 }

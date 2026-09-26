@@ -47,7 +47,7 @@ class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
       if (next.isSuccess && next.appointmentModel != null) {
         ref.read(appointmentBookingNotifierProvider.notifier).consumeSuccess();
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          context.pushReplacementNamed(Routes.layoutScreen);
+          context.pushReplacementNamed(Routes.layoutScreen, arguments: 1);
         });
       }
     });
@@ -70,7 +70,7 @@ class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
               ),
             ),
           ),
-          _buildConfirmButton(isLoading),
+          _buildConfirmButton(isLoading, state.errorMessage),
         ],
       ),
     );
@@ -222,7 +222,7 @@ class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
         height: 1, thickness: 0.5, color: AppColors.borderLight);
   }
 
-  Widget _buildConfirmButton(bool isLoading) {
+  Widget _buildConfirmButton(bool isLoading, String? errorMessage) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
@@ -235,17 +235,31 @@ class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
           ),
         ],
       ),
-      child: AppButton(
-        title: AppStrings.confirmBooking,
-        isLoading: isLoading,
-        color: AppColors.primary,
-        onPressed: isLoading
-            ? null
-            : () async {
-                ref
-                    .read(appointmentBookingNotifierProvider.notifier)
-                    .addAppointment(widget.appointmentModel);
-              },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (errorMessage != null)
+            Padding(
+              padding: EdgeInsets.only(bottom: 10.h),
+              child: Text(
+                errorMessage,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: AppColors.red),
+              ),
+            ),
+          AppButton(
+            title: AppStrings.confirmBooking,
+            isLoading: isLoading,
+            color: AppColors.primary,
+            onPressed: isLoading
+                ? null
+                : () async {
+                    ref
+                        .read(appointmentBookingNotifierProvider.notifier)
+                        .addAppointment(widget.appointmentModel);
+                  },
+          ),
+        ],
       ),
     );
   }

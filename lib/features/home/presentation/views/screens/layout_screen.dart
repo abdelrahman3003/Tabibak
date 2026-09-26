@@ -13,11 +13,28 @@ final indexScreenProvider = StateProvider.autoDispose<int>((ref) {
   return 0;
 });
 
-class LayoutScreen extends ConsumerWidget {
-  const LayoutScreen({super.key});
+class LayoutScreen extends ConsumerStatefulWidget {
+  const LayoutScreen({super.key, this.initialIndex = 0});
+
+  final int initialIndex;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LayoutScreen> createState() => _LayoutScreenState();
+}
+
+class _LayoutScreenState extends ConsumerState<LayoutScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        ref.read(indexScreenProvider.notifier).state = widget.initialIndex;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final selectedIndex = ref.watch(indexScreenProvider);
     final textStyle = Theme.of(context)
         .textTheme

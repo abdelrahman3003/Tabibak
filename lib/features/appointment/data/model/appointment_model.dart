@@ -71,6 +71,9 @@ class AppointmentModel {
   @JsonKey(name: 'queue_number')
   final int? queueNumber;
 
+  @JsonKey(name: 'waiting_list')
+  final int? waitingList;
+
   AppointmentModel({
     this.id,
     this.createdAt,
@@ -95,6 +98,7 @@ class AppointmentModel {
     this.appointmentsStatus,
     this.followUpDate,
     this.queueNumber,
+    this.waitingList,
   });
 
   factory AppointmentModel.fromJson(

@@ -74,7 +74,9 @@ class AppRouter {
 
       // ==================== Main Layout ====================
       case Routes.layoutScreen:
-        return _buildSlideRoute(const LayoutScreen());
+        return _buildSlideRoute(LayoutScreen(
+          initialIndex: setting.arguments as int? ?? 0,
+        ));
 
       // ==================== Doctors & Specialties ====================
       case Routes.specialistScreen:

@@ -134,23 +134,26 @@ serve(async (req) => {
       Authorization: `Bearer ${supabaseKey}`,
     };
 
-    // 1. INSERT APPOINTMENT (DB truth columns)
-    const insertRes = await fetch(`${supabaseUrl}/rest/v1/appointments`, {
-      method: "POST",
-      headers: { ...rest, Prefer: "return=representation" },
-      body: JSON.stringify({
-        appointment_date,
-        doctor_id,
-        user_id,
-        status,
-        phone,
-        name,
-        description: description ?? null,
-        appointment_morning_shift_id: shift_morning_id ?? null,
-        appointment_evening_shift_id: shift_evening_id ?? null,
-        appointment_type,
-      }),
-    });
+    // 1. Insert and allocate the waiting-list number atomically in Postgres.
+    const insertRes = await fetch(
+      `${supabaseUrl}/rest/v1/rpc/add_appointment_with_waiting_list`,
+      {
+        method: "POST",
+        headers: rest,
+        body: JSON.stringify({
+          p_appointment_date: appointment_date,
+          p_doctor_id: doctor_id,
+          p_user_id: user_id,
+          p_status: status,
+          p_phone: phone,
+          p_name: name,
+          p_description: description ?? null,
+          p_shift_morning_id: shift_morning_id ?? null,
+          p_shift_evening_id: shift_evening_id ?? null,
+          p_appointment_type: appointment_type,
+        }),
+      },
+    );
     const inserted = await insertRes.json();
     if (!insertRes.ok) {
       return new Response(
@@ -164,8 +167,9 @@ serve(async (req) => {
     // 2. INBOX for patient (so notifications screen works even if FCM fails)
     let patientNotificationId: number | null = null;
     const patientTitle = "تم استلام طلب الحجز";
-    const patientBody =
-      `تم حجز موعدك بتاريخ ${appointment_date} وهو الآن قيد الانتظار`;
+    const patientBody = appointment?.waiting_list != null
+      ? `تم استلام طلب حجزك بتاريخ ${appointment_date}. رقمك في قائمة الانتظار: ${appointment.waiting_list}`
+      : `تم حجز موعدك بتاريخ ${appointment_date} وهو الآن قيد الانتظار`;
     try {
       const inboxRes = await fetch(`${supabaseUrl}/rest/v1/notifications`, {
         method: "POST",
