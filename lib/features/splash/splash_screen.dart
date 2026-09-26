@@ -1,11 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
+import 'package:tabibak/core/services/force_update_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,6 +19,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   double opacity = 0;
+  bool _updateRequired = false;
 
   @override
   void initState() {
@@ -32,6 +36,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateNext() async {
+    final updateRequired = await ForceUpdateService.isUpdateRequired();
+    if (!mounted) return;
+    if (updateRequired) {
+      setState(() => _updateRequired = true);
+      return;
+    }
+
     final isOnboarding =
         SharedPrefsService.prefs.getBool(SharedPrefKeys.isOnboarding) ?? false;
 
@@ -84,8 +95,48 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  Future<void> _openStore() async {
+    final storeUrl = ForceUpdateService.storeUrl;
+    final uri = Uri.tryParse(storeUrl);
+    if (uri != null && uri.hasScheme) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_updateRequired) {
+      return PopScope(
+        canPop: false,
+        child: Scaffold(
+          backgroundColor: AppColors.primary,
+          body: SafeArea(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.all(28.w),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.system_update_alt, size: 72.sp, color: AppColors.white),
+                    SizedBox(height: 24.h),
+                    Text('updateRequiredTitle'.tr(), textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppColors.white, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 12.h),
+                    Text('updateRequiredMessage'.tr(), textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.white)),
+                    SizedBox(height: 28.h),
+                    SizedBox(width: double.infinity, child: FilledButton(
+                      onPressed: _openStore,
+                      child: Text('updateNow'.tr()),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Center(

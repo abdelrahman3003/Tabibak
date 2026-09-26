@@ -198,5 +198,8 @@
     "Empty notifications message": "ستظهر هنا جميع الإشعارات المتعلقة\nبمواعيدك وعياداتك",
     "Retry": "إعادة المحاولة",
     "Appointment": "موعد",
-    "appName": "طبيبك"
+    "appName": "طبيبك",
+    "updateRequiredTitle": "التحديث مطلوب",
+    "updateRequiredMessage": "يرجى تحديث تطبيق طبيبك لمتابعة الاستخدام.",
+    "updateNow": "حدّث الآن"
 }

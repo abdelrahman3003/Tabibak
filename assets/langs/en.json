@@ -208,5 +208,8 @@
     "Empty notifications message": "All notifications about\n your appointments will appear here",
     "Retry": "Retry",
     "Appointment": "Appointment",
-    "appName": "Tabibak"
+    "appName": "Tabibak",
+    "updateRequiredTitle": "Update required",
+    "updateRequiredMessage": "Please update Tabibak to continue using the app.",
+    "updateNow": "Update now"
 }
