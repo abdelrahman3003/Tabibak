@@ -46,6 +46,20 @@ serve(async (req) => {
     );
 
     const user = (await userRes.json())?.[0];
+    const devicesRes = await fetch(
+      `${supabaseUrl}/rest/v1/user_devices?user_id=eq.${updated.user_id}&is_active=eq.true&select=fcm_token`,
+      {
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+        },
+      },
+    );
+    const devices = devicesRes.ok ? await devicesRes.json() : [];
+    const tokens = [...new Set([
+      ...(Array.isArray(devices) ? devices.map((device: { fcm_token?: string | null }) => device.fcm_token) : []),
+      user?.fcm_token,
+    ].filter((token): token is string => typeof token === 'string' && token.trim().length > 0))];
     let notification_sent = false;
     let notification_id: number | null = null;
 
@@ -63,7 +77,7 @@ serve(async (req) => {
       body: JSON.stringify({
         user_id: updated.user_id,
         title: "موعد متابعة",
-        body: message,
+        message,
         type: "reminder",
         data: {
           appointment_id: String(appointment_id),
@@ -76,36 +90,38 @@ serve(async (req) => {
     }
 
     // 3. Send notification
-    if (user?.fcm_token) {
+    if (tokens.length > 0) {
       const accessToken = await getAccessToken();
 
-      const fcmRes = await fetch(
-        `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify({
-            message: {
-              token: user.fcm_token,
-              notification: {
-                title: "موعد متابعة",  // ✅ عربي
-                body: message,
-              },
-              data: {
-                appointment_id: String(appointment_id),
-                type: "follow_up",
-                notification_id:
-                  notification_id != null ? String(notification_id) : "",
-              },
+      const results = await Promise.all(tokens.map(async (token) => {
+        const fcmRes = await fetch(
+          `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
             },
-          }),
-        }
-      );
-
-      notification_sent = fcmRes.ok;
+            body: JSON.stringify({
+              message: {
+                token,
+                notification: {
+                  title: "موعد متابعة",
+                  body: message,
+                },
+                data: {
+                  appointment_id: String(appointment_id),
+                  type: "follow_up",
+                  notification_id:
+                    notification_id != null ? String(notification_id) : "",
+                },
+              },
+            }),
+          }
+        );
+        return fcmRes.ok;
+      }));
+      notification_sent = results.some((sent) => sent);
     }
 
     return new Response(

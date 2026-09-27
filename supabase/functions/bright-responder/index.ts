@@ -88,6 +88,23 @@ async function sendFcm(
   }
 }
 
+async function recipientTokens(
+  supabaseUrl: string,
+  rest: Record<string, string>,
+  userId: string,
+  legacyToken?: string | null,
+): Promise<string[]> {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/user_devices?user_id=eq.${userId}&is_active=eq.true&select=fcm_token`,
+    { headers: rest },
+  );
+  const devices = response.ok ? await response.json() : [];
+  return [...new Set([
+    ...(Array.isArray(devices) ? devices.map((device: { fcm_token?: string | null }) => device.fcm_token) : []),
+    legacyToken,
+  ].filter((token): token is string => typeof token === "string" && token.trim().length > 0))];
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -166,6 +183,7 @@ serve(async (req) => {
 
     // 2. INBOX for patient (so notifications screen works even if FCM fails)
     let patientNotificationId: number | null = null;
+    let doctorNotificationId: number | null = null;
     const patientTitle = "تم استلام طلب الحجز";
     const patientBody = appointment?.waiting_list != null
       ? `تم استلام طلب حجزك بتاريخ ${appointment_date}. رقمك في قائمة الانتظار: ${appointment.waiting_list}`
@@ -177,7 +195,7 @@ serve(async (req) => {
         body: JSON.stringify({
           user_id,
           title: patientTitle,
-          body: patientBody,
+          message: patientBody,
           type: "appointment",
           data: {
             appointment_id: String(appointmentId ?? ""),
@@ -191,6 +209,34 @@ serve(async (req) => {
       }
     } catch (_) { /* inbox best-effort */ }
 
+    // Give the doctor an inbox notification too, so the booking remains
+    // visible after the push is dismissed. The doctor must also have a users
+    // row because notifications.user_id references public.users(user_id).
+    if (doctor_id !== user_id) {
+      const doctorNotification = doctorText(name, status);
+      try {
+        const inboxRes = await fetch(`${supabaseUrl}/rest/v1/notifications`, {
+          method: "POST",
+          headers: { ...rest, Prefer: "return=representation" },
+          body: JSON.stringify({
+            user_id: doctor_id,
+            title: doctorNotification.title,
+            message: doctorNotification.body,
+            type: "appointment",
+            data: {
+              appointment_id: String(appointmentId ?? ""),
+              doctor_id: String(doctor_id),
+              user_id: String(user_id),
+              status: String(status),
+            },
+          }),
+        });
+        if (inboxRes.ok) {
+          doctorNotificationId = (await inboxRes.json())?.[0]?.id ?? null;
+        }
+      } catch (_) { /* inbox best-effort */ }
+    }
+
     // 3. TOKENS
     const [doctorJson, userJson] = await Promise.all([
       fetch(
@@ -202,8 +248,10 @@ serve(async (req) => {
         { headers: rest },
       ).then((r) => r.json()).catch(() => []),
     ]);
-    const doctorToken = doctorJson?.[0]?.fcm_token;
-    const patientToken = userJson?.[0]?.fcm_token;
+    const [doctorTokens, patientTokens] = await Promise.all([
+      recipientTokens(supabaseUrl, rest, doctor_id, doctorJson?.[0]?.fcm_token),
+      recipientTokens(supabaseUrl, rest, user_id, userJson?.[0]?.fcm_token),
+    ]);
 
     let accessToken: string | null = null;
     try {
@@ -216,30 +264,37 @@ serve(async (req) => {
     let patientSent = false;
 
     if (accessToken) {
-      if (doctorToken) {
+      if (doctorTokens.length > 0) {
         const { title, body } = doctorText(name, status);
-        const r = await sendFcm(projectId, accessToken, doctorToken, title, body, {
-          appointment_id: String(appointmentId ?? ""),
-          type: "appointment",
-        });
-        doctorSent = r.ok;
-      }
-      if (patientToken) {
-        const r = await sendFcm(
-          projectId,
-          accessToken,
-          patientToken,
-          patientTitle,
-          patientBody,
-          {
+        const results = await Promise.all(doctorTokens.map((token) =>
+          sendFcm(projectId, accessToken!, token, title, body, {
             appointment_id: String(appointmentId ?? ""),
             type: "appointment",
-            notification_id: patientNotificationId != null
-              ? String(patientNotificationId)
+            notification_id: doctorNotificationId != null
+              ? String(doctorNotificationId)
               : "",
-          },
-        );
-        patientSent = r.ok;
+          })
+        ));
+        doctorSent = results.some((r) => r.ok);
+      }
+      if (patientTokens.length > 0) {
+        const results = await Promise.all(patientTokens.map((token) =>
+          sendFcm(
+            projectId,
+            accessToken!,
+            token,
+            patientTitle,
+            patientBody,
+            {
+              appointment_id: String(appointmentId ?? ""),
+              type: "appointment",
+              notification_id: patientNotificationId != null
+                ? String(patientNotificationId)
+                : "",
+            },
+          )
+        ));
+        patientSent = results.some((r) => r.ok);
       }
     }
 
@@ -248,6 +303,7 @@ serve(async (req) => {
         success: true,
         data: appointment,
         notification_id: patientNotificationId,
+        doctor_notification_id: doctorNotificationId,
         fcm: { doctor_sent: doctorSent, patient_sent: patientSent },
       }),
       { headers: corsHeaders },

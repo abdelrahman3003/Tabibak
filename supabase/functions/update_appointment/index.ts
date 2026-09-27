@@ -79,12 +79,21 @@ serve(async (req) => {
     }
     const updated = (await updateRes.json())?.[0];
 
-    // 3. Get user
+    // 3. Get user and registered device tokens
     const userRes = await fetch(
       `${supabaseUrl}/rest/v1/users?user_id=eq.${appointment.user_id}&select=fcm_token,name`,
       { headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` } },
     );
     const user = (await userRes.json())?.[0];
+    const deviceRes = await fetch(
+      `${supabaseUrl}/rest/v1/user_devices?user_id=eq.${appointment.user_id}&is_active=eq.true&select=fcm_token`,
+      { headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` } },
+    );
+    const devices = deviceRes.ok ? await deviceRes.json() : [];
+    const tokens = [...new Set([
+      ...(Array.isArray(devices) ? devices.map((device: { fcm_token?: string | null }) => device.fcm_token) : []),
+      user?.fcm_token,
+    ].filter((token): token is string => typeof token === 'string' && token.trim().length > 0))];
 
     const meta = STATUS_TEXT[status];
     const message: string = meta.body;
@@ -98,7 +107,7 @@ serve(async (req) => {
       body: JSON.stringify({
         user_id: appointment.user_id,
         title: "تحديث الموعد",
-        body: message,
+        message,
         type: notificationType,
         data: {
           appointment_id: String(appointment_id),
@@ -113,41 +122,42 @@ serve(async (req) => {
     let notification_sent = false;
     let fcm_result: any = null;
 
-    if (user?.fcm_token) {
+    if (tokens.length > 0) {
       try {
         const accessToken = await getAccessToken();
-        const fcmRes = await fetch(
-          `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify({
-              message: {
-                token: user.fcm_token,
-                notification: { title: "تحديث الموعد", body: message },
-                data: {
-                  appointment_id: String(appointment_id),
-                  status: String(status),
-                  type: notificationType,
-                  notification_id:
-                    notification_id != null ? String(notification_id) : "",
-                },
-                android: { priority: "high" },
-                apns: { payload: { aps: { sound: "default" } } },
+        const results = await Promise.all(tokens.map(async (token) => {
+          const fcmRes = await fetch(
+            `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
               },
-            }),
-          },
-        );
-        const fcmText = await fcmRes.text();
-        try {
-          fcm_result = JSON.parse(fcmText);
-        } catch {
-          fcm_result = fcmText;
-        }
-        notification_sent = fcmRes.ok;
+              body: JSON.stringify({
+                message: {
+                  token,
+                  notification: { title: "تحديث الموعد", body: message },
+                  data: {
+                    appointment_id: String(appointment_id),
+                    status: String(status),
+                    type: notificationType,
+                    notification_id:
+                      notification_id != null ? String(notification_id) : "",
+                  },
+                  android: { priority: "high" },
+                  apns: { payload: { aps: { sound: "default" } } },
+                },
+              }),
+            },
+          );
+          const fcmText = await fcmRes.text();
+          let result: any;
+          try { result = JSON.parse(fcmText); } catch { result = fcmText; }
+          return { ok: fcmRes.ok, result };
+        }));
+        notification_sent = results.some((result) => result.ok);
+        fcm_result = results.map(({ ok, result }) => ({ ok, result }));
       } catch (e: any) {
         fcm_result = e?.message ?? String(e);
       }

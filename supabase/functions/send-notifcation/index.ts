@@ -54,7 +54,7 @@ serve(async (req) => {
       body: JSON.stringify({
         user_id,
         title,
-        body,
+        message: body,
         type: notificationType,
         data,
       }),
@@ -71,15 +71,24 @@ serve(async (req) => {
     const inserted = (await insertRes.json())?.[0];
     const notificationId = inserted?.id ?? null;
 
-    // 2. Get user FCM token
+    // 2. Get all active device tokens. Keep users.fcm_token as a fallback
+    // while older app installs migrate to the per-device registry.
+    const devicesRes = await fetch(
+      `${supabaseUrl}/rest/v1/user_devices?user_id=eq.${user_id}&is_active=eq.true&select=fcm_token`,
+      { headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` } }
+    );
+    const devices = devicesRes.ok ? await devicesRes.json() : [];
     const userRes = await fetch(
       `${supabaseUrl}/rest/v1/users?user_id=eq.${user_id}&select=fcm_token`,
       { headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` } }
     );
-
     const user = (await userRes.json())?.[0];
+    const tokens = [...new Set([
+      ...(Array.isArray(devices) ? devices.map((device: { fcm_token?: string | null }) => device.fcm_token) : []),
+      user?.fcm_token,
+    ].filter((token): token is string => typeof token === 'string' && token.trim().length > 0))];
 
-    if (!user?.fcm_token) {
+    if (tokens.length === 0) {
       return new Response(
         JSON.stringify({
           success: true,
@@ -103,41 +112,41 @@ serve(async (req) => {
       payloadData["notification_id"] = String(notificationId);
     }
 
-    const fcmRes = await fetch(
-      `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          message: {
-            token: user.fcm_token,
-            notification: { title, body },
-            data: payloadData,
-            android: { priority: "high" },
-            apns: { payload: { aps: { sound: "default" } } },
+    const results = await Promise.all(tokens.map(async (token) => {
+      const fcmRes = await fetch(
+        `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
           },
-        }),
-      }
-    );
-
-    const resultText = await fcmRes.text();
-
-    let result;
-    try {
-      result = JSON.parse(resultText);
-    } catch {
-      result = resultText;
-    }
+          body: JSON.stringify({
+            message: {
+              token,
+              notification: { title, body },
+              data: payloadData,
+              android: { priority: "high" },
+              apns: { payload: { aps: { sound: "default" } } },
+            },
+          }),
+        }
+      );
+      const resultText = await fcmRes.text();
+      let result;
+      try { result = JSON.parse(resultText); } catch { result = resultText; }
+      return { ok: fcmRes.ok, result };
+    }));
+    const sentCount = results.filter((result) => result.ok).length;
 
     return new Response(
       JSON.stringify({
-        success: fcmRes.ok,
+        success: sentCount > 0,
         notification_id: notificationId,
-        fcm_sent: fcmRes.ok,
-        result,
+        fcm_sent: sentCount > 0,
+        devices_targeted: tokens.length,
+        devices_sent: sentCount,
+        results,
       }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/services/env_service.dart';
@@ -39,7 +41,6 @@ class AuthRemoteDatasource {
       throw const AuthException('email_not_confirmed');
     }
     final exitUser = await getUserById(user.id);
-    final fcmToken = await PushNotificationService.getToken();
     if (exitUser == null) {
       await addUserData(
         UserModel(
@@ -47,16 +48,14 @@ class AuthRemoteDatasource {
           email: user.email ?? '',
           name: user.userMetadata?['name'] ?? '',
           image: user.userMetadata?['avatar_url'],
-          fcmToken: fcmToken,
+          fcmToken: null,
         ),
       );
-
+      await _registerDeviceAfterLogin();
       return false;
     }
 
-    await supabase.from('users').update({
-      'fcm_token': fcmToken,
-    }).eq('user_id', user.id);
+    await _registerDeviceAfterLogin();
 
     return exitUser.cityId != null;
   }
@@ -106,8 +105,6 @@ class AuthRemoteDatasource {
     }
     final existingUser = await getUserById(user.id);
 
-    final fcmToken = await PushNotificationService.getToken();
-
     if (existingUser == null) {
       await addUserData(
         UserModel(
@@ -115,22 +112,14 @@ class AuthRemoteDatasource {
           email: user.email ?? '',
           name: user.userMetadata?['name'] ?? '',
           image: user.userMetadata?['avatar_url'],
-          fcmToken: fcmToken,
+          fcmToken: null,
         ),
       );
-
+      await _registerDeviceAfterLogin();
       return false;
     }
 
-    await Future.delayed(const Duration(milliseconds: 300));
-
-    // Keep the stored FCM token fresh for existing Google users too.
-    final currentToken = await PushNotificationService.getToken();
-    if (currentToken != null && currentToken != existingUser.fcmToken) {
-      await supabase.from('users').update({
-        'fcm_token': currentToken,
-      }).eq('user_id', user.id);
-    }
+    await _registerDeviceAfterLogin();
 
     return existingUser.cityId != null;
   }
@@ -139,6 +128,15 @@ class AuthRemoteDatasource {
     await supabase
         .from('users')
         .upsert(userModel.toJson(), onConflict: 'user_id');
+  }
+
+  Future<void> _registerDeviceAfterLogin() async {
+    try {
+      await PushNotificationService.syncCurrentToken();
+    } catch (error) {
+      // Notification registration must never block account sign-in.
+      log('------- device registration failed: $error');
+    }
   }
 
   Future<UserModel?> getUserById(String userId) async {
