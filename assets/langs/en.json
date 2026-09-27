@@ -213,5 +213,9 @@
     "updateRequiredMessage": "Please update Tabibak to continue using the app.",
     "updateNow": "Update now",
     "waitingListNumber": "Waiting list number",
-    "chooseLanguage": "Choose language"
+    "chooseLanguage": "Choose language",
+    "exitDialogTitle": "Exit Tabibak?",
+    "exitDialogMessage": "Do you want to close the app?",
+    "stayInApp": "Stay",
+    "exitApp": "Exit"
 }

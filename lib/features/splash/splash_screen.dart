@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
@@ -19,7 +20,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   double opacity = 0;
-  bool _updateRequired = false;
+  bool _exitDialogOpen = false;
+  bool _forceUpdateDialogOpen = false;
 
   @override
   void initState() {
@@ -39,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final updateRequired = await ForceUpdateService.isUpdateRequired();
     if (!mounted) return;
     if (updateRequired) {
-      setState(() => _updateRequired = true);
+      await _showForceUpdateDialog();
       return;
     }
 
@@ -103,65 +105,102 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (_updateRequired) {
-      return PopScope(
-        canPop: false,
-        child: Scaffold(
-          backgroundColor: AppColors.primary,
-          body: SafeArea(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.all(28.w),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.system_update_alt, size: 72.sp, color: AppColors.white),
-                    SizedBox(height: 24.h),
-                    Text('updateRequiredTitle'.tr(), textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppColors.white, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 12.h),
-                    Text('updateRequiredMessage'.tr(), textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: AppColors.white)),
-                    SizedBox(height: 28.h),
-                    SizedBox(width: double.infinity, child: FilledButton(
-                      onPressed: _openStore,
-                      child: Text('updateNow'.tr()),
-                    )),
-                  ],
+  Future<void> _showForceUpdateDialog() async {
+    _forceUpdateDialogOpen = true;
+    try {
+      await showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            icon: Icon(
+              Icons.system_update_alt,
+              size: 44.sp,
+              color: AppColors.primary,
+            ),
+            title: Text(
+              'updateRequiredTitle'.tr(),
+              textAlign: TextAlign.center,
+            ),
+            content: Text(
+              'updateRequiredMessage'.tr(),
+              textAlign: TextAlign.center,
+            ),
+            actions: [
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: _openStore,
+                  child: Text('updateNow'.tr()),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       );
+    } finally {
+      _forceUpdateDialogOpen = false;
     }
-    return Scaffold(
-      backgroundColor: AppColors.primary,
-      body: Center(
-        child: AnimatedOpacity(
-          opacity: opacity,
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.easeInOut,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                "assets/images/splash.png",
-                color: AppColors.white,
-                height: 150.h,
-                width: 250.w,
-                fit: BoxFit.cover,
-              ),
-              Text(
-                "طبيبك",
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.white,
-                    ),
-              ),
-            ],
+  }
+
+  Future<void> _confirmExit() async {
+    if (_exitDialogOpen || _forceUpdateDialogOpen || !mounted) return;
+    _exitDialogOpen = true;
+    final shouldExit = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text('exitDialogTitle'.tr()),
+        content: Text('exitDialogMessage'.tr()),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text('stayInApp'.tr()),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text('exitApp'.tr()),
+          ),
+        ],
+      ),
+    );
+    _exitDialogOpen = false;
+    if (shouldExit == true) await SystemNavigator.pop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop) _confirmExit();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.primary,
+        body: Center(
+          child: AnimatedOpacity(
+            opacity: opacity,
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeInOut,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  "assets/images/splash.png",
+                  color: AppColors.white,
+                  height: 150.h,
+                  width: 250.w,
+                  fit: BoxFit.cover,
+                ),
+                Text(
+                  "طبيبك",
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.white,
+                      ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

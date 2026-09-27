@@ -203,5 +203,9 @@
     "updateRequiredMessage": "يرجى تحديث تطبيق طبيبك لمتابعة الاستخدام.",
     "updateNow": "حدّث الآن",
     "waitingListNumber": "رقم قائمة الانتظار",
-    "chooseLanguage": "اختر اللغة"
+    "chooseLanguage": "اختر اللغة",
+    "exitDialogTitle": "الخروج من طبيبك؟",
+    "exitDialogMessage": "هل تريد إغلاق التطبيق؟",
+    "stayInApp": "البقاء",
+    "exitApp": "خروج"
 }
