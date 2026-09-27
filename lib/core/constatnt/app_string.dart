@@ -84,6 +84,7 @@ class AppStrings {
   static String get recentSearches => "Recent searches".tr();
   static String get searchResults => "Search Results".tr();
   static String get appointments => "Appointments".tr();
+  static String get completedVisits => "Completed Visits".tr();
   static String get codeLanguage => "Code Language".tr();
   static String get selectDate => "Select Date".tr();
   static String get selectTime => "Select Time".tr();

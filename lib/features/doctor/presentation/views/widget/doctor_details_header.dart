@@ -65,6 +65,22 @@ class DoctorDetailsHeader extends StatelessWidget {
           ratingCount: displayedRatingCount,
         ),
         4.hBox,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.event_available,
+                size: 16, color: AppColors.subtextColor),
+            6.wBox,
+            Text(
+              '${doctor.visitsCount ?? 0} ${AppStrings.completedVisits}',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: AppColors.subtextColor),
+            ),
+          ],
+        ),
+        4.hBox,
         TextButton.icon(
           onPressed: () => showRatingDialog(
             context,

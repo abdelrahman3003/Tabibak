@@ -28,25 +28,32 @@ class ClinicInfoSection extends StatelessWidget {
             subtitle:
                 clinic?.consultationFee?.toString() ?? AppStrings.unknown),
         12.hBox,
-        ClinicItemInfo(
-          icon: "assets/images/location_on.png",
-          title: AppStrings.address,
-          subtitle: context.locale.languageCode == "en"
-              ? clinic?.clinicAddresses?.isNotEmpty == true
-                  ? clinic!.clinicAddresses!.first.city?.nameEn ??
-                      AppStrings.unknown
-                  : AppStrings.unknown
-              : clinic?.clinicAddresses?.isNotEmpty == true
-                  ? clinic!.clinicAddresses!.first.city?.nameAr ??
-                      AppStrings.unknown
-                  : AppStrings.unknown,
-        ),
-        12.hBox,
+        if (clinic?.clinicAddresses?.isNotEmpty == true) ...[
+          ClinicItemInfo(
+            icon: "assets/images/location_on.png",
+            title: AppStrings.address,
+            subtitle: _address(context, clinic!.clinicAddresses!.first),
+          ),
+          12.hBox,
+        ],
         ClinicItemInfo(
             icon: "assets/images/call.png",
             title: AppStrings.phone,
             subtitle: clinic?.phoneNumber ?? AppStrings.unknown),
       ],
     );
+  }
+
+  String _address(BuildContext context, ClinicAddressModel address) {
+    final languageCode = context.locale.languageCode;
+    final localizedCity = languageCode == 'ar'
+        ? address.city?.nameAr?.trim()
+        : address.city?.nameEn?.trim();
+    final street = address.street?.trim();
+    final parts = [
+      if (localizedCity?.isNotEmpty == true) localizedCity,
+      if (street?.isNotEmpty == true) street,
+    ];
+    return parts.isEmpty ? AppStrings.unknown : parts.join(', ');
   }
 }

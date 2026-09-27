@@ -92,6 +92,8 @@ class DoctorItem extends StatelessWidget {
         _buildSpecialty(context),
         5.hBox,
         _buildRating(context),
+        4.hBox,
+        _buildVisits(context),
         8.hBox,
         _buildPriceAndButton(context, isShowBooking),
       ],
@@ -141,6 +143,23 @@ class DoctorItem extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: AppColors.subtextColor,
               ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildVisits(BuildContext context) {
+    return Row(
+      children: [
+        const Icon(Icons.event_available,
+            size: 12, color: AppColors.subtextColor),
+        const SizedBox(width: 4),
+        Text(
+          '${doctorSummary.visitsCount ?? 0} ${AppStrings.completedVisits}',
+          style: Theme.of(context)
+              .textTheme
+              .labelSmall
+              ?.copyWith(color: AppColors.subtextColor),
         ),
       ],
     );
