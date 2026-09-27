@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
+import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/core/routing/routes.dart';
@@ -11,6 +12,10 @@ import 'package:tabibak/core/widgets/alert_widget.dart';
 import 'package:tabibak/features/profile/presentation/manager/profile_provider.dart';
 import 'package:tabibak/features/profile/presentation/manager/profile_states.dart';
 import 'package:tabibak/features/profile/presentation/view/widget/profile_menu_tile.dart';
+import 'package:tabibak/features/profile/presentation/view/widget/report_problem_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+const _contactPhoneNumber = '01032970717';
 
 class AccountSection extends StatelessWidget {
   const AccountSection({super.key});
@@ -19,37 +24,64 @@ class AccountSection extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    return ProfileMenuTile(
-      title: AppStrings.logout.tr(),
-      icon: Icons.logout,
-      iconColor: Colors.red,
-      onTap: () {
-        showDialog(
+    return Column(
+      children: [
+        ProfileMenuTile(
+          title: AppStrings.reportProblem,
+          icon: Icons.report_problem_outlined,
+          onTap: () => showDialog<void>(
             context: context,
-            builder: (context) {
-              return Consumer(builder: (context, ref, child) {
-                ref.listen(profileProviderController, (previous, next) async {
-                  await _navigateLogout(next, ref, context);
+            builder: (_) => const ReportProblemDialog(),
+          ),
+        ),
+        10.hBox,
+        ProfileMenuTile(
+          title: AppStrings.contactUs,
+          icon: Icons.phone_outlined,
+          onTap: () async {
+            final opened = await launchUrl(
+              Uri(scheme: 'tel', path: _contactPhoneNumber),
+              mode: LaunchMode.externalApplication,
+            );
+            if (!opened) showErrorSnackBar(AppStrings.contactCallError);
+          },
+        ),
+        10.hBox,
+        ProfileMenuTile(
+          title: AppStrings.logout.tr(),
+          icon: Icons.logout,
+          iconColor: Colors.red,
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return Consumer(builder: (context, ref, child) {
+                    ref.listen(profileProviderController,
+                        (previous, next) async {
+                      await _navigateLogout(next, ref, context);
+                    });
+                    final isLoading = ref.watch(
+                      profileProviderController
+                          .select((s) => s.isLogOutLoading),
+                    );
+                    return AlertWidget(
+                      context: context,
+                      title: AppStrings.confirmSignOut,
+                      subtitle: AppStrings.signOutMessage,
+                      confirmString: AppStrings.logout,
+                      confirmColor: AppColors.red,
+                      isLoading: isLoading,
+                      onPressed: () {
+                        ref
+                            .watch(profileProviderController.notifier)
+                            .logOut(context);
+                      },
+                    );
+                  });
                 });
-                final isLoading = ref.watch(
-                  profileProviderController.select((s) => s.isLogOutLoading),
-                );
-                return AlertWidget(
-                  context: context,
-                  title: AppStrings.confirmSignOut,
-                  subtitle: AppStrings.signOutMessage,
-                  confirmString: AppStrings.logout,
-                  confirmColor: AppColors.red,
-                  isLoading: isLoading,
-                  onPressed: () {
-                    ref
-                        .watch(profileProviderController.notifier)
-                        .logOut(context);
-                  },
-                );
-              });
-            });
-      },
+          },
+        ),
+      ],
     );
   }
 

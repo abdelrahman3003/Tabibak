@@ -79,6 +79,19 @@ class AppStrings {
   static String get writeCommentHere => "Write Comment Here".tr();
   static String get send => "Send".tr();
   static String get comments => "Comments".tr();
+  static String get reportProblem => "Report a problem".tr();
+  static String get contactUs => "Contact us".tr();
+  static String get contactCallError => "Couldn't open the phone app".tr();
+  static String get reportProblemDetails =>
+      "Describe the problem you encountered".tr();
+  static String get reportType => "Report type".tr();
+  static String get bugReport => "Bug".tr();
+  static String get suggestionReport => "Suggestion".tr();
+  static String get otherReport => "Other".tr();
+  static String get reportMessage => "Your message".tr();
+  static String get reportMessageRequired => "Please describe the problem".tr();
+  static String get reportSubmitted => "Report submitted successfully".tr();
+  static String get signInToReport => "Please sign in to report a problem".tr();
   static String get appLang => "App Language".tr();
   static String get codeLange => "Code Language".tr();
   static String get recentSearches => "Recent searches".tr();

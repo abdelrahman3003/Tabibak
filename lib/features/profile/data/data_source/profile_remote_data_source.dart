@@ -29,4 +29,25 @@ class ProfileRemoteDataSource {
         "user_id", supabase.client.auth.currentUser!.id);
     return ApiResult.sucess(null);
   }
+
+  Future<void> submitProblemReport({
+    required String reportType,
+    required String message,
+  }) async {
+    final userId = supabase.client.auth.currentUser?.id;
+    if (userId == null) {
+      throw const AuthException('Sign in to report a problem.');
+    }
+
+    final trimmedMessage = message.trim();
+    if (trimmedMessage.isEmpty || trimmedMessage.length > 1000) {
+      throw ArgumentError('Report message must be 1 to 1000 characters.');
+    }
+
+    await supabase.client.from('support_reports').insert({
+      'doctor_id': userId,
+      'report_type': reportType,
+      'message': trimmedMessage,
+    });
+  }
 }
