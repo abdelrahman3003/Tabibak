@@ -207,5 +207,9 @@
     "exitDialogTitle": "الخروج من طبيبك؟",
     "exitDialogMessage": "هل تريد إغلاق التطبيق؟",
     "stayInApp": "البقاء",
-    "exitApp": "خروج"
+    "exitApp": "خروج",
+    "writeReviewOptional": "اكتب مراجعتك (اختياري)",
+    "ratingRequired": "اختر عدد النجوم قبل الإرسال.",
+    "loginBeforeReview": "يرجى تسجيل الدخول قبل إرسال التقييم أو المراجعة.",
+    "reviewTextRequired": "اكتب مراجعتك قبل الإرسال."
 }

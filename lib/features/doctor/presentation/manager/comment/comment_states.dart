@@ -16,12 +16,13 @@ class CommentStates {
     final String? errorMessage,
     final bool? isSended,
     final List<CommentModel>? commentList,
+    final bool clearError = false,
   }) {
     return CommentStates(
       isLoading: isLoading ?? false,
       isSended: isSended ?? false,
       commentList: commentList ?? this.commentList,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
     );
   }
 }

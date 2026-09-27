@@ -12,11 +12,12 @@ class RatingStates {
     final bool? isSuccess,
     final bool? isLoading,
     final String? errorMessage,
+    final bool clearError = false,
   }) {
     return RatingStates(
       isLoading: isLoading ?? false,
       isSuccess: isSuccess ?? false,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
     );
   }
 }

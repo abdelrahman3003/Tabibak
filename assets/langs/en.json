@@ -217,5 +217,9 @@
     "exitDialogTitle": "Exit Tabibak?",
     "exitDialogMessage": "Do you want to close the app?",
     "stayInApp": "Stay",
-    "exitApp": "Exit"
+    "exitApp": "Exit",
+    "writeReviewOptional": "Write a review (optional)",
+    "ratingRequired": "Choose a star rating before submitting.",
+    "loginBeforeReview": "Please sign in before submitting a rating or review.",
+    "reviewTextRequired": "Write a review before sending."
 }

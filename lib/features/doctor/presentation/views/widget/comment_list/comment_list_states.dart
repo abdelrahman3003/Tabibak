@@ -36,22 +36,23 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
     final commentList = ref.watch(commentNotifierProvider.select(
       (s) => s.commentList,
     ));
+    final comments = commentList ?? widget.initialComments;
+
+    if (comments.isEmpty) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleText(
           title: AppStrings.comments,
-          subtitle: commentList == null || commentList.isEmpty
-              ? AppStrings.addComment
-              : AppStrings.allComments,
+          subtitle: AppStrings.allComments,
           onTap: () {
             showCommentsBottomSheet(context);
           },
         ),
         10.hBox,
         CommentListView(
-          doctorCommentModelList: _getRecentComments(commentList),
+          doctorCommentModelList: _getRecentComments(comments),
         ),
       ],
     );

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/features/doctor/data/repo/doctor_repo.dart';
+import 'package:tabibak/features/doctor/presentation/manager/comment/comment_provider.dart';
 import 'package:tabibak/features/doctor/presentation/manager/doctor/doctor_states.dart';
 
 final doctorIdProvider = StateProvider<String?>((ref) => null);
@@ -24,6 +25,7 @@ class DoctorProvider extends StateNotifier<DoctorStates> {
     result.when(
       sucess: (doctor) {
         state = state.copyWith(doctorModel: doctor);
+        ref.read(commentNotifierProvider.notifier).init(doctor.comments ?? []);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(

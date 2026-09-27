@@ -38,11 +38,17 @@ class DoctorRepoImpl implements DoctorRepo {
   }
 
   @override
-  Future<ApiResult<void>> addRate(
-      {required double rate, required String doctorId}) async {
+  Future<ApiResult<void>> addRate({
+    required int rate,
+    required String doctorId,
+    required String? review,
+  }) async {
     try {
-      final result =
-          await doctorRemoteData.addRate(rate: rate, doctorId: doctorId);
+      final result = await doctorRemoteData.addRate(
+        rate: rate,
+        doctorId: doctorId,
+        review: review,
+      );
 
       return ApiResult.sucess(result);
     } catch (error) {

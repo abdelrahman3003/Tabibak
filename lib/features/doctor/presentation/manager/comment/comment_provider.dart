@@ -17,18 +17,20 @@ class CommentProvider extends StateNotifier<CommentStates> {
   final Ref ref;
 
   void init(List<CommentModel>? initialComments) {
-    if (state.commentList == null || state.commentList!.isEmpty) {
-      state = state.copyWith(commentList: initialComments);
-    }
+    state = state.copyWith(commentList: initialComments);
   }
 
   Future<void> addComment(CommentModel commentModel) async {
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true, isSended: false, clearError: true);
     final result = await ref.read(doctorRepoProvider).addComment(commentModel);
 
     result.when(
       sucess: (commentList) {
-        state = state.copyWith(commentList: commentList, isSended: true);
+        state = state.copyWith(
+          commentList: commentList,
+          isSended: true,
+          clearError: true,
+        );
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.errors);

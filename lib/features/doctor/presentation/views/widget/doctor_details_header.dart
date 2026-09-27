@@ -18,6 +18,14 @@ class DoctorDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context).languageCode;
+    final ratings = doctor.ratings ?? const [];
+    final submittedRates =
+        ratings.map((rating) => rating.rate).whereType<int>().toList();
+    final displayedRating = submittedRates.isNotEmpty
+        ? submittedRates.reduce((a, b) => a + b) / submittedRates.length
+        : doctor.avrRating;
+    final displayedRatingCount =
+        submittedRates.isNotEmpty ? submittedRates.length : doctor.ratingsCount;
     return Column(
       children: [
         Stack(
@@ -53,12 +61,15 @@ class DoctorDetailsHeader extends StatelessWidget {
                 ?.copyWith(color: AppColors.subtextColor)),
         4.hBox,
         RatingsRow(
-          rate: doctor.avrRating,
-          ratingCount: doctor.ratingsCount,
+          rate: displayedRating,
+          ratingCount: displayedRatingCount,
         ),
         4.hBox,
         TextButton.icon(
-          onPressed: () => showRatingDialog(context),
+          onPressed: () => showRatingDialog(
+            context,
+            doctorId: doctor.doctorId,
+          ),
           label: Text(AppStrings.rateDoctor,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: AppColors.primary, fontWeight: FontWeight.bold)),

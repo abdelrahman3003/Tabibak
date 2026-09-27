@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -65,6 +66,14 @@ class _ReviewSendButtonState extends ConsumerState<ReviewSendButton> {
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                     onPressed: () async {
+                      if (commentController.text.trim().isEmpty) {
+                        showErrorSnackBar('reviewTextRequired'.tr());
+                        return;
+                      }
+                      if (Supabase.instance.client.auth.currentUser == null) {
+                        showErrorSnackBar('loginBeforeReview'.tr());
+                        return;
+                      }
                       await ref
                           .read(commentNotifierProvider.notifier)
                           .addComment(
@@ -75,7 +84,6 @@ class _ReviewSendButtonState extends ConsumerState<ReviewSendButton> {
                                   Supabase.instance.client.auth.currentUser?.id,
                             ),
                           );
-                      commentController.clear();
                     },
                     icon: const Icon(
                       Icons.send,
