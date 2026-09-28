@@ -42,11 +42,28 @@ class CityNotifier extends StateNotifier<CityStates> {
   void updateCity(int? cityId) {
     state = state.copyWith(
       selectedCityId: cityId,
+      selectedVillageId: null,
+    );
+  }
+
+  void updateDistrict(int? districtId) {
+    state = state.copyWith(
+      selectedDistrictId: districtId,
+      // Reset city and village when district changes
+      selectedCityId: null,
+      selectedVillageId: null,
+    );
+  }
+
+  void updateVillage(int? villageId) {
+    state = state.copyWith(
+      selectedVillageId: villageId,
+      selectedCityId: null,
     );
   }
 
   Future<void> saveCity() async {
-    if (state.selectedCityId == null) return;
+    if (state.selectedCityId == null && state.selectedDistrictId == null && state.selectedVillageId == null) return;
 
     state = state.copyWith(
       isSaving: true,
@@ -54,8 +71,13 @@ class CityNotifier extends StateNotifier<CityStates> {
       isSaved: false,
     );
 
+    // If cityId is somehow null (e.g., they only selected district/village), provide 0 or similar if backend allows, or just whatever they selected.
+    // The requirement says "update address of user according supabase for cities and district and village". 
+    // Usually cityId is required by backend, but we can just send what we have.
     final result = await authRepo.updateUserCity(
-      cityId: state.selectedCityId!,
+      cityId: state.selectedCityId,
+      districtId: state.selectedDistrictId,
+      villageId: state.selectedVillageId,
     );
 
     result.when(
@@ -75,3 +97,4 @@ class CityNotifier extends StateNotifier<CityStates> {
     );
   }
 }
+

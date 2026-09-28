@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +41,6 @@ class _AppointmentDetailsScreenState
   Widget build(BuildContext context) {
     final state = ref.watch(appointmentDetailsNotifier);
     final appointment = state.appointment;
-    log("------------${state.appointment?.queueNumber}");
     return Scaffold(
       appBar: AppBarWidget(
         title: AppStrings.appointmentDetailsTitle,

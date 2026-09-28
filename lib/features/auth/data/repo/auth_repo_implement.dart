@@ -18,11 +18,13 @@ class AuthRepositoryImpl implements AuthRepository {
     required String name,
     required String email,
     required String password,
-    required int cityId,
+    int? cityId,
+    int? districtId,
+    int? villageId,
   }) async {
     try {
       final result = await remoteDatasource.signUp(
-          name: name, email: email, password: password, cityId: cityId);
+          name: name, email: email, password: password, cityId: cityId, districtId: districtId, villageId: villageId);
 
       return ApiResult.sucess(result);
     } catch (error) {
@@ -106,11 +108,15 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<ApiResult<void>> updateUserCity({
-    required int cityId,
+    int? cityId,
+    int? districtId,
+    int? villageId,
   }) async {
     try {
       final result = await remoteDatasource.updateUserCity(
         cityId: cityId,
+        districtId: districtId,
+        villageId: villageId,
       );
 
       return ApiResult.sucess(result);

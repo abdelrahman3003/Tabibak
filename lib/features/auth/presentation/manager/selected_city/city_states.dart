@@ -6,6 +6,8 @@ class CityStates {
   final bool isSaving;
   final String? errorMessage;
   final int? selectedCityId;
+  final int? selectedDistrictId;
+  final int? selectedVillageId;
   final bool isSaved;
 
   const CityStates({
@@ -14,6 +16,8 @@ class CityStates {
     this.isSaving = false,
     this.errorMessage,
     this.selectedCityId,
+    this.selectedDistrictId,
+    this.selectedVillageId,
     this.isSaved = false,
   });
 
@@ -23,6 +27,8 @@ class CityStates {
     bool? isSaving,
     String? errorMessage,
     int? selectedCityId,
+    int? selectedDistrictId,
+    int? selectedVillageId,
     bool? isSaved,
   }) {
     return CityStates(
@@ -31,7 +37,10 @@ class CityStates {
       isSaving: isSaving ?? this.isSaving,
       errorMessage: errorMessage,
       selectedCityId: selectedCityId ?? this.selectedCityId,
+      selectedDistrictId: selectedDistrictId ?? this.selectedDistrictId,
+      selectedVillageId: selectedVillageId ?? this.selectedVillageId,
       isSaved: isSaved ?? this.isSaved,
     );
   }
 }
+

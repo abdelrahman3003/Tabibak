@@ -11,12 +11,14 @@ abstract class AuthRepository {
       {required String name,
       required String email,
       required String password,
-      required int cityId});
+      int? cityId,
+      int? districtId,
+      int? villageId});
   Future<ApiResult<void>> sendOtp({required String email});
   Future<ApiResult<void>> verifyOtpCode(
       {required UserModel userModel, required String otp});
   Future<ApiResult<UserResponse>> resetPassword({required String newPassword});
   Future<ApiResult<List<CityModel>>> getCities();
-  Future<ApiResult<void>> updateUserCity({required int cityId});
+  Future<ApiResult<void>> updateUserCity({int? cityId, int? districtId, int? villageId});
   Future<ApiResult<void>> signOut();
 }

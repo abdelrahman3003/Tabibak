@@ -16,15 +16,22 @@ class AuthRemoteDatasource {
     required String name,
     required String email,
     required String password,
-    required int cityId,
+    int? cityId,
+    int? districtId,
+    int? villageId,
   }) async {
+    final Map<String, dynamic> data = {
+      "name": name,
+    };
+    if (cityId != null) data["city_id"] = cityId;
+    if (districtId != null) data["district_id"] = districtId;
+    if (villageId != null) data["village_id"] = villageId;
+
     await supabase.auth.signUp(
       email: email,
       password: password,
-      data: {
-        "name": name,
-        "city_id": cityId,
-      },
+      data: data,
+
       emailRedirectTo: "myapp://auth-callback",
     );
   }
@@ -151,7 +158,7 @@ class AuthRemoteDatasource {
   Future<List<CityModel>> getCities() async {
     final response = await supabase
         .from('city')
-        .select('id, name_ar, name_en')
+        .select('id, name_ar, name_en, type, parent_id')
         .order('name_ar');
 
     return (response as List)
@@ -159,8 +166,11 @@ class AuthRemoteDatasource {
         .toList();
   }
 
+
   Future<void> updateUserCity({
-    required int cityId,
+    int? cityId,
+    int? districtId,
+    int? villageId,
   }) async {
     final user = supabase.auth.currentUser;
 
@@ -170,8 +180,12 @@ class AuthRemoteDatasource {
 
     await supabase.from('users').update({
       'city_id': cityId,
+      'district_id': districtId,
+      'village_id': villageId,
     }).eq('user_id', user.id);
   }
+
+
 
   Future<void> signOut() async {
     try {

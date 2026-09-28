@@ -13,26 +13,55 @@ class CityDropdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(signUpNotifierProvider);
 
-    return AppDropdown<CityModel>(
-      items: state.cities,
-      value: state.cities
-          .where((e) => e.id == state.cityId)
-          .cast<CityModel?>()
-          .firstOrNull,
-      hint: AppStrings.selectCity,
-      labelBuilder: (city) => context.locale.languageCode == "en"
-          ? city.nameEn ?? ""
-          : city.nameAr ?? "",
-      prefixIcon: const Icon(Icons.location_city_outlined),
-      onChanged: (city) {
-        ref.read(signUpNotifierProvider.notifier).onCityChanged(city?.id);
-      },
-      validator: (value) {
-        if (value == null) {
-          return AppStrings.pleaseSelectCity;
-        }
-        return null;
-      },
+    return Column(
+      children: [
+        AppDropdown<CityModel>(
+          items: state.cities.where((e) => e.type == 'markaz').toList(),
+          value: state.cities.where((e) => e.id == state.districtId).firstOrNull,
+          hint: "Select District", // AppStrings.selectDistrict
+          labelBuilder: (city) => context.locale.languageCode == "en"
+              ? city.nameEn ?? city.nameAr ?? ''
+              : city.nameAr ?? city.nameEn ?? '',
+          prefixIcon: const Icon(Icons.location_city_outlined),
+          onChanged: (city) {
+            ref.read(signUpNotifierProvider.notifier).onDistrictChanged(city?.id);
+          },
+          validator: (value) {
+            if (value == null) {
+              return "Please select district";
+            }
+            return null;
+          },
+        ),
+        const SizedBox(height: 16),
+        if (state.districtId != null) ...[
+          AppDropdown<CityModel>(
+            items: state.cities.where((e) => e.type == 'city' && e.parentId == state.districtId).toList(),
+            value: state.cities.where((e) => e.id == state.cityId).firstOrNull,
+            hint: AppStrings.selectCity,
+            labelBuilder: (city) => context.locale.languageCode == "en"
+                ? city.nameEn ?? city.nameAr ?? ''
+                : city.nameAr ?? city.nameEn ?? '',
+            prefixIcon: const Icon(Icons.location_city_outlined),
+            onChanged: (city) {
+              ref.read(signUpNotifierProvider.notifier).onCityChanged(city?.id);
+            },
+          ),
+          const SizedBox(height: 16),
+          AppDropdown<CityModel>(
+            items: state.cities.where((e) => e.type == 'village' && e.parentId == state.districtId).toList(),
+            value: state.cities.where((e) => e.id == state.villageId).firstOrNull,
+            hint: "Select Village",
+            labelBuilder: (village) => context.locale.languageCode == "en"
+                ? village.nameEn ?? village.nameAr ?? ''
+                : village.nameAr ?? village.nameEn ?? '',
+            prefixIcon: const Icon(Icons.landscape_outlined),
+            onChanged: (village) {
+              ref.read(signUpNotifierProvider.notifier).onVillageChanged(village?.id);
+            },
+          ),
+        ],
+      ],
     );
   }
 }

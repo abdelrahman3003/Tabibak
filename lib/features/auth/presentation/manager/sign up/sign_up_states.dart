@@ -9,6 +9,8 @@ class SignUpStates {
   final List<CityModel> cities;
   final bool isCitiesLoading;
   final int? cityId;
+  final int? districtId;
+  final int? villageId;
 
   SignUpStates({
     this.isLoading = false,
@@ -18,6 +20,8 @@ class SignUpStates {
     this.cities = const [],
     this.isCitiesLoading = false,
     this.cityId,
+    this.districtId,
+    this.villageId,
   });
 
   SignUpStates copyWith({
@@ -28,6 +32,8 @@ class SignUpStates {
     List<CityModel>? cities,
     bool? isCitiesLoading,
     int? cityId,
+    int? districtId,
+    int? villageId,
   }) {
     return SignUpStates(
       isLoading: isLoading ?? this.isLoading,
@@ -37,6 +43,9 @@ class SignUpStates {
       cities: cities ?? this.cities,
       isCitiesLoading: isCitiesLoading ?? this.isCitiesLoading,
       cityId: cityId ?? this.cityId,
+      districtId: districtId ?? this.districtId,
+      villageId: villageId ?? this.villageId,
     );
   }
 }
+

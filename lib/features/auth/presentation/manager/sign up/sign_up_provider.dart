@@ -33,7 +33,13 @@ class SignUpProvider extends StateNotifier<SignUpStates> {
     );
 
     final result = await authRepo.signUp(
-        name: name, email: email, password: password, cityId: state.cityId!);
+      name: name,
+      email: email,
+      password: password,
+      cityId: state.cityId,
+      districtId: state.districtId,
+      villageId: state.villageId,
+    );
 
     result.when(
       sucess: (_) {
@@ -68,6 +74,15 @@ class SignUpProvider extends StateNotifier<SignUpStates> {
   }
 
   void onCityChanged(int? cityId) {
-    state = state.copyWith(cityId: cityId);
+    state = state.copyWith(cityId: cityId, villageId: null);
+  }
+
+  void onDistrictChanged(int? districtId) {
+    state = state.copyWith(districtId: districtId, cityId: null, villageId: null);
+  }
+
+  void onVillageChanged(int? villageId) {
+    state = state.copyWith(villageId: villageId, cityId: null);
   }
 }
+

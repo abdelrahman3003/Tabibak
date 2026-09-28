@@ -25,6 +25,12 @@ class UserModel {
   @JsonKey(name: 'city_id')
   final int? cityId;
 
+  @JsonKey(name: 'district_id')
+  final int? districtId;
+
+  @JsonKey(name: 'village_id')
+  final int? villageId;
+
   @JsonKey(name: 'is_doctor', includeToJson: false)
   final bool? isDoctor;
 
@@ -40,6 +46,8 @@ class UserModel {
     this.userId,
     this.fcmToken,
     this.cityId,
+    this.districtId,
+    this.villageId,
     this.isDoctor,
     this.createdAt,
   });
