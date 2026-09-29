@@ -26,14 +26,22 @@ class DoctorSpecialtyItem extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: AppColors.second,
-                  image: doctorSummary.image == null
-                      ? null
-                      : DecorationImage(
+                  image: (doctorSummary.image != null && doctorSummary.image!.isNotEmpty)
+                      ? DecorationImage(
                           image:
                               CachedNetworkImageProvider(doctorSummary.image!),
                           fit: BoxFit.cover,
-                        )),
+                        )
+                      : null,
             ),
+            child: (doctorSummary.image == null || doctorSummary.image!.isEmpty)
+                ? Icon(
+                    Icons.person,
+                    size: 50.w,
+                    color: AppColors.primary.withValues(alpha: 0.5),
+                  )
+                : null,
+          ),
             SizedBox(width: 16),
             Expanded(
               child: Column(
