@@ -86,7 +86,8 @@ class AppRouter {
         return _buildSlideRoute(const AllSpecialtiesScreen());
 
       case Routes.doctorDetailsScreen:
-        return _buildSlideRoute(const DoctorDetailsScreen());
+        final doctorId = setting.arguments as String?;
+        return _buildSlideRoute(DoctorDetailsScreen(doctorId: doctorId));
 
       // ==================== Appointments ====================
       case Routes.appointmentBookingScreen:

@@ -203,6 +203,15 @@ class PushNotificationService {
 
   static void _handleMessageOpenedApp(RemoteMessage message) {
     log("---- opened from notification ${message.data}");
+    
+    if (message.data['type'] == 'promotion' && message.data['doctor_id'] != null) {
+      AppNavigator.pushNamed(
+        Routes.doctorDetailsScreen,
+        arguments: message.data['doctor_id'].toString(),
+      );
+      return;
+    }
+
     // Refresh inbox first; NotificationScreen marks notification_id as read.
     AppNavigator.pushNamed(
       Routes.notificationScreen,

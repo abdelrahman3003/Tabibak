@@ -6,10 +6,25 @@ import 'package:tabibak/features/doctor/presentation/views/widget/doctor_details
 import 'package:tabibak/features/doctor/presentation/views/widget/doctor_details_shimmer.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
 
-class DoctorDetailsScreen extends ConsumerWidget {
-  const DoctorDetailsScreen({super.key});
+class DoctorDetailsScreen extends ConsumerStatefulWidget {
+  final String? doctorId;
+  const DoctorDetailsScreen({super.key, this.doctorId});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DoctorDetailsScreen> createState() => _DoctorDetailsScreenState();
+}
+
+class _DoctorDetailsScreenState extends ConsumerState<DoctorDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.doctorId != null) {
+      ref.read(doctorIdProvider.notifier).state = widget.doctorId;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(doctorNotifierProvider);
     return Scaffold(
         appBar: AppBarWidget(title: AppStrings.doctorDetails),

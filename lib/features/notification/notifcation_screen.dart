@@ -9,6 +9,8 @@ import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/presentation/view/screens/appointment_details_screen.dart';
 import 'package:tabibak/features/notification/data/model/notification_model.dart';
 import 'package:tabibak/features/notification/presentation/manager/notification_provider/notification_provider.dart';
+import 'package:tabibak/core/extenstion/naviagation.dart';
+import 'package:tabibak/core/routing/routes.dart';
 
 class NotificationScreen extends ConsumerWidget {
   const NotificationScreen({super.key});
@@ -135,6 +137,17 @@ class NotificationScreen extends ConsumerWidget {
     BuildContext context,
     NotificationModel notification,
   ) async {
+    if (notification.type == AppNotificationType.promotion) {
+      final doctorId = notification.data['doctor_id']?.toString();
+      if (doctorId != null) {
+        context.pushNamed(
+          Routes.doctorDetailsScreen,
+          arguments: doctorId,
+        );
+      }
+      return;
+    }
+
     if (notification.type != AppNotificationType.appointment) {
       return;
     }
