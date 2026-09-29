@@ -64,7 +64,7 @@ class AuthRemoteDatasource {
 
     await _registerDeviceAfterLogin();
 
-    return exitUser.cityId != null;
+    return exitUser.districtId != null;
   }
 
   Future<void> sendOtp(String email) async {
@@ -128,7 +128,7 @@ class AuthRemoteDatasource {
 
     await _registerDeviceAfterLogin();
 
-    return existingUser.cityId != null;
+    return existingUser.districtId != null;
   }
 
   Future<void> addUserData(UserModel userModel) async {

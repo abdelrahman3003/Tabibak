@@ -42,5 +42,18 @@ class CityStates {
       isSaved: isSaved ?? this.isSaved,
     );
   }
+
+  CityStates clearSelections({bool clearDistrict = false, bool clearCity = false, bool clearVillage = false}) {
+    return CityStates(
+      cities: cities,
+      isLoading: isLoading,
+      isSaving: isSaving,
+      errorMessage: errorMessage,
+      isSaved: isSaved,
+      selectedDistrictId: clearDistrict ? null : selectedDistrictId,
+      selectedCityId: clearCity ? null : selectedCityId,
+      selectedVillageId: clearVillage ? null : selectedVillageId,
+    );
+  }
 }
 

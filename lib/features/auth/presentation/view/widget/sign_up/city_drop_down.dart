@@ -18,7 +18,7 @@ class CityDropdown extends ConsumerWidget {
         AppDropdown<CityModel>(
           items: state.cities.where((e) => e.type == 'markaz').toList(),
           value: state.cities.where((e) => e.id == state.districtId).firstOrNull,
-          hint: "Select District", // AppStrings.selectDistrict
+          hint: AppStrings.selectDistrict,
           labelBuilder: (city) => context.locale.languageCode == "en"
               ? city.nameEn ?? city.nameAr ?? ''
               : city.nameAr ?? city.nameEn ?? '',
@@ -28,30 +28,17 @@ class CityDropdown extends ConsumerWidget {
           },
           validator: (value) {
             if (value == null) {
-              return "Please select district";
+              return AppStrings.pleaseSelectDistrict;
             }
             return null;
           },
         ),
         const SizedBox(height: 16),
-        if (state.districtId != null) ...[
+        if (state.districtId != null)
           AppDropdown<CityModel>(
-            items: state.cities.where((e) => e.type == 'city' && e.parentId == state.districtId).toList(),
-            value: state.cities.where((e) => e.id == state.cityId).firstOrNull,
-            hint: AppStrings.selectCity,
-            labelBuilder: (city) => context.locale.languageCode == "en"
-                ? city.nameEn ?? city.nameAr ?? ''
-                : city.nameAr ?? city.nameEn ?? '',
-            prefixIcon: const Icon(Icons.location_city_outlined),
-            onChanged: (city) {
-              ref.read(signUpNotifierProvider.notifier).onCityChanged(city?.id);
-            },
-          ),
-          const SizedBox(height: 16),
-          AppDropdown<CityModel>(
-            items: state.cities.where((e) => e.type == 'village' && e.parentId == state.districtId).toList(),
+            items: state.cities.where((e) => e.parentId == state.districtId).toList(),
             value: state.cities.where((e) => e.id == state.villageId).firstOrNull,
-            hint: "Select Village",
+            hint: AppStrings.selectVillage,
             labelBuilder: (village) => context.locale.languageCode == "en"
                 ? village.nameEn ?? village.nameAr ?? ''
                 : village.nameAr ?? village.nameEn ?? '',
@@ -60,7 +47,6 @@ class CityDropdown extends ConsumerWidget {
               ref.read(signUpNotifierProvider.notifier).onVillageChanged(village?.id);
             },
           ),
-        ],
       ],
     );
   }

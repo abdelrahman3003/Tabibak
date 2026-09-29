@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (user != null) {
       final userData = await supabase
           .from('users')
-          .select('city_id')
+          .select('district_id')
           .eq('user_id', user.id)
           .maybeSingle();
 
@@ -66,9 +66,9 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
       }
 
-      final cityId = userData['city_id'];
+      final districtId = userData['district_id'];
 
-      if (cityId == null) {
+      if (districtId == null) {
         context.pushNamedAndRemoveUntil(
           Routes.selectCityScreen,
           (route) => false,

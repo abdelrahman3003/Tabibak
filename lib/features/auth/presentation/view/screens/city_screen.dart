@@ -62,7 +62,7 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppStrings.city, // We can reuse strings or just hardcode for now
+              AppStrings.city,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 12),
@@ -75,7 +75,7 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                       AppDropdown<CityModel>(
                         items: state.cities.where((e) => e.type == 'markaz').toList(),
                         value: state.cities.where((e) => e.id == state.selectedDistrictId).firstOrNull,
-                        hint: "Select District", // Or AppStrings.selectDistrict
+                        hint: AppStrings.selectDistrict,
                         labelBuilder: (city) {
                           return context.locale.languageCode == "en"
                               ? city.nameEn ?? city.nameAr ?? ''
@@ -90,35 +90,17 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                         },
                         validator: (value) {
                           if (value == null) {
-                            return "Please select district";
+                            return AppStrings.pleaseSelectDistrict;
                           }
                           return null;
                         },
                       ),
                       const SizedBox(height: 16),
-                      if (state.selectedDistrictId != null) ...[
+                      if (state.selectedDistrictId != null)
                         AppDropdown<CityModel>(
-                          items: state.cities.where((e) => e.type == 'city' && e.parentId == state.selectedDistrictId).toList(),
-                          value: state.cities.where((e) => e.id == state.selectedCityId).firstOrNull,
-                          hint: AppStrings.selectCity,
-                          labelBuilder: (city) {
-                            return context.locale.languageCode == "en"
-                                ? city.nameEn ?? city.nameAr ?? ''
-                                : city.nameAr ?? city.nameEn ?? '';
-                          },
-                          prefixIcon: const Icon(
-                            Icons.location_city_outlined,
-                            color: AppColors.primary,
-                          ),
-                          onChanged: (city) {
-                            ref.read(cityProvider.notifier).updateCity(city?.id);
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        AppDropdown<CityModel>(
-                          items: state.cities.where((e) => e.type == 'village' && e.parentId == state.selectedDistrictId).toList(),
+                          items: state.cities.where((e) => e.parentId == state.selectedDistrictId).toList(),
                           value: state.cities.where((e) => e.id == state.selectedVillageId).firstOrNull,
-                          hint: "Select Village",
+                          hint: AppStrings.selectVillage,
                           labelBuilder: (village) {
                             return context.locale.languageCode == "en"
                                 ? village.nameEn ?? village.nameAr ?? ''
@@ -132,7 +114,6 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                             ref.read(cityProvider.notifier).updateVillage(village?.id);
                           },
                         ),
-                      ],
                     ],
                   ),
             const Spacer(),
@@ -142,7 +123,7 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
               child: AppButton(
                 title: AppStrings.confirm,
                 isLoading: state.isSaving,
-                onPressed: (state.selectedDistrictId == null || (state.selectedCityId == null && state.selectedVillageId == null) || state.isSaving)
+                onPressed: (state.selectedDistrictId == null || state.selectedVillageId == null || state.isSaving)
                     ? null
                     : () async {
                         await ref.read(cityProvider.notifier).saveCity();

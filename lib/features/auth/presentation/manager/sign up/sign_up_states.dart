@@ -47,5 +47,19 @@ class SignUpStates {
       villageId: villageId ?? this.villageId,
     );
   }
+
+  SignUpStates clearSelections({bool clearDistrict = false, bool clearCity = false, bool clearVillage = false}) {
+    return SignUpStates(
+      isLoading: isLoading,
+      errorMessage: errorMessage,
+      isSignedUp: isSignedUp,
+      specialtyId: specialtyId,
+      cities: cities,
+      isCitiesLoading: isCitiesLoading,
+      districtId: clearDistrict ? null : districtId,
+      cityId: clearCity ? null : cityId,
+      villageId: clearVillage ? null : villageId,
+    );
+  }
 }
 

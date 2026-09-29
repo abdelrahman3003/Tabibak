@@ -63,10 +63,14 @@ CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
       id: (json['id'] as num?)?.toInt(),
       nameAr: json['name_ar'] as String?,
       nameEn: json['name_en'] as String?,
+      type: json['type'] as String?,
+      parentId: (json['parent_id'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
       'id': instance.id,
       'name_ar': instance.nameAr,
       'name_en': instance.nameEn,
+      'type': instance.type,
+      'parent_id': instance.parentId,
     };

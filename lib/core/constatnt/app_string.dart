@@ -225,6 +225,14 @@ class AppStrings {
   static String get selectCity => "selectCity".tr();
   static String get city => "city".tr();
   static String get pleaseSelectCity => "pleaseSelectCity".tr();
+
+  static String get selectDistrict => "selectDistrict".tr();
+  static String get district => "district".tr();
+  static String get pleaseSelectDistrict => "pleaseSelectDistrict".tr();
+
+  static String get selectVillage => "selectVillage".tr();
+  static String get village => "village".tr();
+  static String get pleaseSelectVillage => "pleaseSelectVillage".tr();
   static String get notifications => "Notifications".tr();
   static String get markAllRead => "Mark all read".tr();
   static String get all => "All".tr();
