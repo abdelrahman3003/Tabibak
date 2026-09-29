@@ -181,33 +181,8 @@ serve(async (req) => {
     const appointment = Array.isArray(inserted) ? inserted[0] : inserted;
     const appointmentId = appointment?.id;
 
-    // 2. INBOX for patient (so notifications screen works even if FCM fails)
-    let patientNotificationId: number | null = null;
+    // 2. INBOX for doctor (so notifications screen works even if FCM fails)
     let doctorNotificationId: number | null = null;
-    const patientTitle = "تم استلام طلب الحجز";
-    const patientBody = appointment?.waiting_list != null
-      ? `تم استلام طلب حجزك بتاريخ ${appointment_date}. رقمك في قائمة الانتظار: ${appointment.waiting_list}`
-      : `تم حجز موعدك بتاريخ ${appointment_date} وهو الآن قيد الانتظار`;
-    try {
-      const inboxRes = await fetch(`${supabaseUrl}/rest/v1/notifications`, {
-        method: "POST",
-        headers: { ...rest, Prefer: "return=representation" },
-        body: JSON.stringify({
-          user_id,
-          title: patientTitle,
-          message: patientBody,
-          type: "appointment",
-          data: {
-            appointment_id: String(appointmentId ?? ""),
-            doctor_id: String(doctor_id ?? ""),
-            status: String(status),
-          },
-        }),
-      });
-      if (inboxRes.ok) {
-        patientNotificationId = (await inboxRes.json())?.[0]?.id ?? null;
-      }
-    } catch (_) { /* inbox best-effort */ }
 
     // Give the doctor an inbox notification too, so the booking remains
     // visible after the push is dismissed. The doctor must also have a users
@@ -238,19 +213,14 @@ serve(async (req) => {
     }
 
     // 3. TOKENS
-    const [doctorJson, userJson] = await Promise.all([
+    const [doctorJson] = await Promise.all([
       fetch(
         `${supabaseUrl}/rest/v1/doctors?doctor_id=eq.${doctor_id}&select=fcm_token`,
         { headers: rest },
       ).then((r) => r.json()).catch(() => []),
-      fetch(
-        `${supabaseUrl}/rest/v1/users?user_id=eq.${user_id}&select=fcm_token`,
-        { headers: rest },
-      ).then((r) => r.json()).catch(() => []),
     ]);
-    const [doctorTokens, patientTokens] = await Promise.all([
+    const [doctorTokens] = await Promise.all([
       recipientTokens(supabaseUrl, rest, doctor_id, doctorJson?.[0]?.fcm_token),
-      recipientTokens(supabaseUrl, rest, user_id, userJson?.[0]?.fcm_token),
     ]);
 
     let accessToken: string | null = null;
@@ -277,32 +247,12 @@ serve(async (req) => {
         ));
         doctorSent = results.some((r) => r.ok);
       }
-      if (patientTokens.length > 0) {
-        const results = await Promise.all(patientTokens.map((token) =>
-          sendFcm(
-            projectId,
-            accessToken!,
-            token,
-            patientTitle,
-            patientBody,
-            {
-              appointment_id: String(appointmentId ?? ""),
-              type: "appointment",
-              notification_id: patientNotificationId != null
-                ? String(patientNotificationId)
-                : "",
-            },
-          )
-        ));
-        patientSent = results.some((r) => r.ok);
-      }
     }
 
     return new Response(
       JSON.stringify({
         success: true,
         data: appointment,
-        notification_id: patientNotificationId,
         doctor_notification_id: doctorNotificationId,
         fcm: { doctor_sent: doctorSent, patient_sent: patientSent },
       }),
