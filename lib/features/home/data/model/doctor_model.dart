@@ -28,6 +28,8 @@ class DoctorModel {
   final EducationModel? education;
   @JsonKey(name: 'clinic_data')
   final ClinicModel? clinic;
+  @JsonKey(name: 'clinic_data')
+  final List<ClinicModel>? clinicList;
   final List<CommentModel>? comments;
   final List<RatingModel>? ratings;
   DoctorModel({
@@ -42,6 +44,7 @@ class DoctorModel {
     this.phone,
     this.email,
     this.clinic,
+    this.clinicList,
     this.comments,
     this.education,
     this.ratings,

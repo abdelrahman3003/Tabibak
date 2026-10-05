@@ -18,6 +18,8 @@ class ApiConstants {
   static const String addAppointment = "status";
   static const String getDoctors =
       "*,specialties(*),education(*),clinic_data(*,clinic_address(*,city!clinic_address_city_id_fkey(*)),working_day(*,shifts_morning(*),shift_evening(*),days(*))),comments(*,users(*)),ratings(*)";
+  static const String getDoctorProfile =
+      "*,specialties(*),education(*),clinic_data(*,clinic_address(*,city!clinic_address_city_id_fkey(*)),working_day(*,days(*),shifts_morning(*),shift_evening(*))),ratings(*)";
 }
 
 class ApiErrors {

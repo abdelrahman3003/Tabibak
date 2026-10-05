@@ -45,12 +45,28 @@ class DoctorDetailsBody extends StatelessWidget {
               ],
             ),
           20.hBox,
-          ClinicInfoSection(clinic: doctorModel.clinic),
-          10.hBox,
-          ScheduleSection(
-            workingDayList: doctorModel.clinic?.workingDays,
-          ),
-          40.hBox,
+          if (doctorModel.clinicList != null &&
+              doctorModel.clinicList!.isNotEmpty)
+            ...doctorModel.clinicList!.take(2).map((clinic) => Column(
+                  children: [
+                    ClinicInfoSection(clinic: clinic),
+                    10.hBox,
+                    ScheduleSection(workingDayList: clinic.workingDays),
+                    20.hBox,
+                  ],
+                ))
+          else if (doctorModel.clinic != null)
+            Column(
+              children: [
+                ClinicInfoSection(clinic: doctorModel.clinic),
+                10.hBox,
+                ScheduleSection(
+                  workingDayList: doctorModel.clinic?.workingDays,
+                ),
+                20.hBox,
+              ],
+            ),
+          20.hBox,
           CommentListStates(
               doctorId: doctorModel.doctorId,
               initialComments: doctorModel.comments ?? []),
@@ -59,15 +75,18 @@ class DoctorDetailsBody extends StatelessWidget {
             title: AppStrings.bookingInquiry,
             borderRadius: AppRadius.radius8,
             onPressed: () {
-              final isBooked = doctorModel.clinic!.isBooking;
-              if (isBooked != null && isBooked) {
+              final clinicToCheck = doctorModel.clinicList?.isNotEmpty == true 
+                  ? doctorModel.clinicList!.first 
+                  : doctorModel.clinic;
+              final isBooked = clinicToCheck?.isBooking ?? false;
+              if (isBooked) {
                 context.pushNamed(Routes.appointmentBookingScreen,
                     arguments: doctorModel);
               } else {
                 showDialog(
                   context: context,
                   builder: (context) => BookingDialogInjury(
-                    isBooked: isBooked!,
+                    isBooked: isBooked,
                   ),
                 );
               }

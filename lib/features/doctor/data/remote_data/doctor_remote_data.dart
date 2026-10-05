@@ -11,7 +11,7 @@ class DoctorRemoteData {
   Future<DoctorModel> getDoctor(String doctorId) async {
     final response = await supabase.client
         .from('doctors')
-        .select(ApiConstants.getDoctors)
+        .select(ApiConstants.getDoctorProfile)
         .eq("doctor_id", doctorId)
         .single();
     return DoctorModel.fromJson(response);
