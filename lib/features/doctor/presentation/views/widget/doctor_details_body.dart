@@ -9,6 +9,8 @@ import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/bio_text.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/booking_dialog_injury.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/doctor_review_section.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/clinic_info_section.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/schedule_section.dart';
 import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
@@ -202,6 +204,43 @@ class _ClinicsSection extends StatelessWidget {
           10.hBox,
           Text('No clinic information'.tr(),
               style: Theme.of(context).textTheme.bodyMedium),
+        ],
+      );
+    }
+
+    if (clinics.length == 1) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerLow,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.14),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+                  blurRadius: 18,
+                  offset: const Offset(0, 7),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClinicInfoSection(clinic: clinics.first),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: Divider(height: 1, thickness: 1),
+                ),
+                ScheduleSection(workingDayList: clinics.first.workingDays),
+              ],
+            ),
+          ),
         ],
       );
     }
