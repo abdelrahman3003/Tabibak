@@ -1214,9 +1214,19 @@ String _clinicAddress(ClinicModel clinic, String locale) {
   if (addresses.isEmpty) return '';
 
   final address = addresses.first;
-  final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
 
-  return city ?? '';
+  String getCityName(CityModel? city) {
+    if (city == null) return '';
+    return (locale == 'ar' ? city.nameAr : city.nameEn) ??
+        city.nameAr ??
+        city.nameEn ??
+        '';
+  }
+
+  return [
+    getCityName(address.governorate),
+    getCityName(address.markaz),
+  ].where((p) => p.isNotEmpty).join(', ');
 }
 
 /// Morning / evening shifts of a working day as "start–end" strings.

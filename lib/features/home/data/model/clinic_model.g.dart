@@ -43,6 +43,18 @@ ClinicAddressModel _$ClinicAddressModelFromJson(Map<String, dynamic> json) =>
       city: json['city'] == null
           ? null
           : CityModel.fromJson(json['city'] as Map<String, dynamic>),
+      markazId: (json['markaz_id'] as num?)?.toInt(),
+      markaz: json['markaz'] == null
+          ? null
+          : CityModel.fromJson(json['markaz'] as Map<String, dynamic>),
+      villageId: (json['village_id'] as num?)?.toInt(),
+      village: json['village'] == null
+          ? null
+          : CityModel.fromJson(json['village'] as Map<String, dynamic>),
+      governorateId: (json['governorate_id'] as num?)?.toInt(),
+      governorate: json['governorate'] == null
+          ? null
+          : CityModel.fromJson(json['governorate'] as Map<String, dynamic>),
       floor: json['floor'] as String?,
       street: json['street'] as String?,
       department: json['department'] as String?,
@@ -54,6 +66,12 @@ Map<String, dynamic> _$ClinicAddressModelToJson(ClinicAddressModel instance) =>
       'clinic_id': instance.clinicId,
       'city_id': instance.cityId,
       'city': instance.city,
+      'markaz_id': instance.markazId,
+      'markaz': instance.markaz,
+      'village_id': instance.villageId,
+      'village': instance.village,
+      'governorate_id': instance.governorateId,
+      'governorate': instance.governorate,
       'floor': instance.floor,
       'street': instance.street,
       'department': instance.department,

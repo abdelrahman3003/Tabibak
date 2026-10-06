@@ -49,7 +49,23 @@ class ClinicAddressModel {
   @JsonKey(name: 'city_id')
   final int? cityId;
 
+  // The main city/neighbourhood record (FK: clinic_address_city_id_fkey)
   final CityModel? city;
+
+  // Markaz (district) – FK: clinic_address_markaz_id_fkey
+  @JsonKey(name: 'markaz_id')
+  final int? markazId;
+  final CityModel? markaz;
+
+  // Village – FK: clinic_address_village_id_fkey
+  @JsonKey(name: 'village_id')
+  final int? villageId;
+  final CityModel? village;
+
+  // Governorate raw ID (no FK relationship in Supabase schema)
+  @JsonKey(name: 'governorate_id')
+  final int? governorateId;
+  final CityModel? governorate;
 
   final String? floor;
   final String? street;
@@ -60,6 +76,12 @@ class ClinicAddressModel {
     this.clinicId,
     this.cityId,
     this.city,
+    this.markazId,
+    this.markaz,
+    this.villageId,
+    this.village,
+    this.governorateId,
+    this.governorate,
     this.floor,
     this.street,
     this.department,

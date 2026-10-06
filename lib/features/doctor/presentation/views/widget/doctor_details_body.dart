@@ -131,14 +131,21 @@ class DoctorDetailsBody extends StatelessWidget {
                             const SizedBox(height: 12),
                             ...clinics.map((clinic) {
                               final locale = context.locale.languageCode;
-                              final city =
-                                  clinic.clinicAddresses?.isNotEmpty == true
-                                      ? (locale == 'ar'
-                                          ? clinic.clinicAddresses!.first.city
-                                              ?.nameAr
-                                          : clinic.clinicAddresses!.first.city
-                                              ?.nameEn)
-                                      : '';
+                              String getCityName(CityModel? cityModel) {
+                                if (cityModel == null) return '';
+                                return (locale == 'ar' ? cityModel.nameAr : cityModel.nameEn) ??
+                                    cityModel.nameAr ??
+                                    cityModel.nameEn ??
+                                    '';
+                              }
+
+                              final addressList = clinic.clinicAddresses?.isNotEmpty == true
+                                  ? [
+                                      getCityName(clinic.clinicAddresses!.first.governorate),
+                                      getCityName(clinic.clinicAddresses!.first.markaz),
+                                    ].where((p) => p.isNotEmpty).join(', ')
+                                  : '';
+                              final city = addressList;
                               return ListTile(
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 20),
@@ -155,8 +162,8 @@ class DoctorDetailsBody extends StatelessWidget {
                                 title: Text(clinic.clinicName ?? 'Clinic'.tr(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w600)),
-                                subtitle: city?.isNotEmpty == true
-                                    ? Text(city!)
+                                subtitle: city.isNotEmpty
+                                    ? Text(city)
                                     : null,
                                 onTap: () {
                                   Navigator.pop(context);
@@ -352,9 +359,19 @@ class _ClinicCard extends StatelessWidget {
     if (addresses == null || addresses.isEmpty) return '';
 
     final address = addresses.first;
-    final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
 
-    return city ?? '';
+    String name(CityModel? city) {
+      if (city == null) return '';
+      return (locale == 'ar' ? city.nameAr : city.nameEn) ??
+          city.nameAr ??
+          city.nameEn ??
+          '';
+    }
+
+    return [
+      name(address.governorate),
+      name(address.markaz),
+    ].where((p) => p.isNotEmpty).join(', ');
   }
 }
 

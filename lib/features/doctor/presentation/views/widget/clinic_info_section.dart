@@ -10,49 +10,89 @@ class ClinicInfoSection extends StatelessWidget {
   const ClinicInfoSection({super.key, required this.clinic});
 
   final ClinicModel? clinic;
+
+  String _name(CityModel? city, String locale) {
+    if (city == null) return '';
+    return (locale == 'ar' ? city.nameAr : city.nameEn) ??
+        city.nameAr ??
+        city.nameEn ??
+        '';
+  }
+
+  String _buildAddressString(
+      ClinicAddressModel address, String locale) {
+    final parts = <String>[
+      _name(address.markaz, locale),
+      _name(address.village, locale),
+      _name(address.city, locale),
+      address.street?.trim() ?? '',
+      address.department?.trim() ?? '',
+      address.floor?.trim() ?? '',
+    ].where((p) => p.isNotEmpty).toList();
+
+    return parts.join(', ');
+  }
+
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale.languageCode;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleText(title: 'Clinic Information'.tr()),
         16.hBox,
+
+        // Clinic Name
         ClinicItemInfo(
-            icon: "assets/images/medical_services.png",
-            title: AppStrings.clinicNameLabel,
-            subtitle: clinic?.clinicName ?? AppStrings.unknown),
-        16.hBox,
-        ClinicItemInfo(
-            icon: "assets/images/payments.png",
-            title: AppStrings.consultationFee,
-            subtitle:
-                clinic?.consultationFee?.toString() ?? AppStrings.unknown),
-        16.hBox,
-        ClinicItemInfo(
-          icon: "assets/images/location_on.png",
-          title: AppStrings.address,
-          subtitle: () {
-            final addresses = clinic?.clinicAddresses;
-            if (addresses == null || addresses.isEmpty) {
-              return AppStrings.unknown;
-            }
-            final address = addresses.first;
-            final locale = context.locale.languageCode;
-            final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
-            final governorate = locale == 'ar' ? address.city?.parent?.nameAr : address.city?.parent?.nameEn;
-            
-            final parts = [governorate, city, address.street, address.department, address.floor]
-                .where((part) => part?.trim().isNotEmpty == true)
-                .join(', ');
-                
-            return parts.isNotEmpty ? parts : AppStrings.unknown;
-          }(),
+          icon: "assets/images/medical_services.png",
+          title: AppStrings.clinicNameLabel,
+          subtitle: clinic?.clinicName ?? AppStrings.unknown,
         ),
         16.hBox,
+
+        // Consultation Fee
         ClinicItemInfo(
-            icon: "assets/images/call.png",
-            title: AppStrings.phone,
-            subtitle: clinic?.phoneNumber ?? AppStrings.unknown),
+          icon: "assets/images/payments.png",
+          title: AppStrings.consultationFee,
+          subtitle: clinic?.consultationFee?.toString() ?? AppStrings.unknown,
+        ),
+        16.hBox,
+
+        // Address — all fields in one row per address entry
+        ...() {
+          final addresses = clinic?.clinicAddresses;
+          if (addresses == null || addresses.isEmpty) {
+            return [
+              ClinicItemInfo(
+                icon: "assets/images/location_on.png",
+                title: AppStrings.address,
+                subtitle: AppStrings.unknown,
+              ),
+            ];
+          }
+
+          final List<Widget> rows = [];
+          for (int i = 0; i < addresses.length; i++) {
+            if (i > 0) rows.add(16.hBox);
+            final subtitle = _buildAddressString(addresses[i], locale);
+            rows.add(ClinicItemInfo(
+              icon: "assets/images/location_on.png",
+              title: AppStrings.address,
+              subtitle: subtitle.isNotEmpty ? subtitle : AppStrings.unknown,
+            ));
+          }
+          return rows;
+        }(),
+
+        16.hBox,
+
+        // Phone
+        ClinicItemInfo(
+          icon: "assets/images/call.png",
+          title: AppStrings.phone,
+          subtitle: clinic?.phoneNumber ?? AppStrings.unknown,
+        ),
       ],
     );
   }

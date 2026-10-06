@@ -233,6 +233,11 @@ class AppStrings {
   static String get selectVillage => "selectVillage".tr();
   static String get village => "village".tr();
   static String get pleaseSelectVillage => "pleaseSelectVillage".tr();
+  static String get governorate => "governorate".tr();
+  static String get markaz => "markaz".tr();
+  static String get street => "street".tr();
+  static String get floor => "floor".tr();
+  static String get department => "department".tr();
   static String get notifications => "Notifications".tr();
   static String get markAllRead => "Mark all read".tr();
   static String get all => "All".tr();
