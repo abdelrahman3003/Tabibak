@@ -61,6 +61,31 @@ class DoctorHeaderWidget extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+                if (appointment.clinic?.clinicName != null &&
+                    appointment.clinic!.clinicName!.isNotEmpty) ...[
+                  6.hBox,
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.business_outlined,
+                        size: 16,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      6.wBox,
+                      Expanded(
+                        child: Text(
+                          appointment.clinic!.clinicName!,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w500,
+                              ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

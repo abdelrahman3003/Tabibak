@@ -15,19 +15,19 @@ class ClinicInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleText(title: AppStrings.clinicDetails),
-        10.hBox,
+        TitleText(title: 'Clinic Information'.tr()),
+        16.hBox,
         ClinicItemInfo(
             icon: "assets/images/medical_services.png",
             title: AppStrings.clinicNameLabel,
             subtitle: clinic?.clinicName ?? AppStrings.unknown),
-        12.hBox,
+        16.hBox,
         ClinicItemInfo(
             icon: "assets/images/payments.png",
             title: AppStrings.consultationFee,
             subtitle:
                 clinic?.consultationFee?.toString() ?? AppStrings.unknown),
-        12.hBox,
+        16.hBox,
         ClinicItemInfo(
           icon: "assets/images/location_on.png",
           title: AppStrings.address,
@@ -41,7 +41,7 @@ class ClinicInfoSection extends StatelessWidget {
                       AppStrings.unknown
                   : AppStrings.unknown,
         ),
-        12.hBox,
+        16.hBox,
         ClinicItemInfo(
             icon: "assets/images/call.png",
             title: AppStrings.phone,

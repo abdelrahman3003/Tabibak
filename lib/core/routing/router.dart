@@ -1,3 +1,4 @@
+import 'package:tabibak/features/doctor/presentation/views/screens/clinic_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
@@ -84,6 +85,15 @@ class AppRouter {
 
       case Routes.allSpecialtiesScreen:
         return _buildSlideRoute(const AllSpecialtiesScreen());
+
+            case Routes.clinicDetailsScreen:
+        final args = setting.arguments as Map<String, dynamic>;
+        return _buildSlideRoute(
+          ClinicDetailsScreen(
+            clinic: args['clinic'],
+            doctorModel: args['doctorModel'],
+          ),
+        );
 
       case Routes.doctorDetailsScreen:
         final doctorId = setting.arguments as String?;

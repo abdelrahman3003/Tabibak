@@ -120,7 +120,16 @@
     "Date": "Date",
     "Price": "Price",
     "Consultation": "Consultation",
-    "Appointment Details": "At {time} on {dayName}, dated {date}",
+    "Appointment Details": "At {time,
+    "No biography available for this doctor.": "No biography available for this doctor.",
+    "Clinics Details": "Clinics Details",
+    "Check Booking": "Check Booking",
+    "Clinic Information": "Clinic Information"
+,
+    "No reviews yet": "No reviews yet"
+,
+    "Select a Clinic": "Select a Clinic"
+} on {dayName}, dated {date}",
     "Doctor": "Doctor",
     "Time": "Time",
     "Booking Time": "Booking Time",
@@ -240,4 +249,13 @@
     "ratingRequired": "Choose a star rating before submitting.",
     "loginBeforeReview": "Please sign in before submitting a rating or review.",
     "reviewTextRequired": "Write a review before sending."
+,
+    "No biography available for this doctor.": "No biography available for this doctor.",
+    "Clinics Details": "Clinics Details",
+    "Check Booking": "Check Booking",
+    "Clinic Information": "Clinic Information"
+,
+    "No reviews yet": "No reviews yet"
+,
+    "Select a Clinic": "Select a Clinic"
 }

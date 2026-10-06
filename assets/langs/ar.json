@@ -230,4 +230,13 @@
     "ratingRequired": "اختر عدد النجوم قبل الإرسال.",
     "loginBeforeReview": "يرجى تسجيل الدخول قبل إرسال التقييم أو المراجعة.",
     "reviewTextRequired": "اكتب مراجعتك قبل الإرسال."
+,
+    "No biography available for this doctor.": "لا توجد سيرة ذاتية متاحة لهذا الطبيب.",
+    "Clinics Details": "تفاصيل العيادات",
+    "Check Booking": "تحقق من الحجز",
+    "Clinic Information": "معلومات العيادة"
+,
+    "No reviews yet": "لا توجد تقييمات بعد"
+,
+    "Select a Clinic": "اختر عيادة"
 }

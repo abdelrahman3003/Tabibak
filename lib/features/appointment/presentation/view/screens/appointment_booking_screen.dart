@@ -5,9 +5,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/helper/app_snack_bar.dart';
 import 'package:tabibak/core/helper/validation.dart';
+import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_text_formfiled.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/presentation/view/widget/booking/booking_button_states.dart';
@@ -143,10 +143,10 @@ class _AppointmentBookingScreenState
                         shiftEveningId: selectedShiftEveningId,
                         status: 1,
                         appointmentTypeId: 1);
-                  context.pushNamed(Routes.bookingConfirmScreen, arguments: {
-                    'doctorModel': widget.doctorModel,
-                    'appointmentModel': appointmentModel,
-                  });
+                    context.pushNamed(Routes.bookingConfirmScreen, arguments: {
+                      'doctorModel': widget.doctorModel,
+                      'appointmentModel': appointmentModel,
+                    });
                   },
                 ),
                 20.hBox,
