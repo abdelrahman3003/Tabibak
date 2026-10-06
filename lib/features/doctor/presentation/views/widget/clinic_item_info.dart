@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
@@ -41,10 +42,8 @@ class ClinicItemInfo extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: AppColors.subtextColor),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.subtextColor, fontSize: 14.sp),
                 ),
                 SizedBox(height: 4),
                 Text(
@@ -52,7 +51,7 @@ class ClinicItemInfo extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold),
+                      ?.copyWith(fontWeight: FontWeight.bold, fontSize: 16.sp),
                 )
               ],
             ),

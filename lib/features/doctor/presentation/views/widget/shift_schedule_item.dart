@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
@@ -23,16 +24,20 @@ class ShiftScheduleItem extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white70
-                    : const Color(0xff64748B)), // Slightly darker/bigger for readability
+                    : const Color(
+                        0xff64748B)), // Slightly darker/bigger for readability
           ),
           SizedBox(height: 6),
           FittedBox(
             child: Text(
               subtitle,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.primary, fontWeight: FontWeight.bold),
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp),
             ),
           )
         ],

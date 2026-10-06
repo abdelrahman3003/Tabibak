@@ -162,7 +162,7 @@ class DoctorItem extends StatelessWidget {
             maxLines: 1,
           ),
         ),
-        if (doctorSummary.visitsCount != null && doctorSummary.visitsCount! > 0)
+        if (doctorSummary.visitsCount != null && doctorSummary.visitsCount! > 1)
           Row(
             children: [
               const Icon(Icons.group, size: 14, color: AppColors.primary),

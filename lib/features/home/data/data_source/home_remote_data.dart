@@ -83,8 +83,10 @@ class HomeRemoteData {
 
   Future<List<DoctorModel>> searchDoctor(String search,
       {int? specialtyId}) async {
-    var query =
-        supabase.from('doctors').select('*, specialty(*)').eq('status', 2);
+    var query = supabase
+        .from('doctors')
+        .select(ApiConstants.getDoctors)
+        .eq('status', 2);
     if (specialtyId != null) {
       query = query.eq('specialty', specialtyId);
     }
