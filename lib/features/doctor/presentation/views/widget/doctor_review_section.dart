@@ -14,7 +14,6 @@ class DoctorReviewSection extends StatelessWidget {
             doctorId: doctorModel.doctorId,
             initialComments: doctorModel.comments ?? []),
         10.hBox,
-        //  ReviewSendButton(doctorId: doctorModel.doctorId),
       ],
     );
   }

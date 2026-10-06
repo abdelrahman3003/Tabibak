@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
@@ -37,25 +36,9 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
     final commentList = ref.watch(commentNotifierProvider.select(
       (s) => s.commentList,
     ));
-    final comments = (commentList ?? widget.initialComments)
-        .where((c) => c.doctorId == widget.doctorId)
-        .toList();
+    final comments = commentList ?? widget.initialComments;
 
-    if (comments.isEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TitleText(title: AppStrings.comments),
-          10.hBox,
-          Text('No reviews yet'.tr(),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.grey
-                        : const Color(0xff94A3B8),
-                  )),
-        ],
-      );
-    }
+    if (comments.isEmpty) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
