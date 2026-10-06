@@ -1216,12 +1216,7 @@ String _clinicAddress(ClinicModel clinic, String locale) {
   final address = addresses.first;
   final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
 
-  return [
-    address.street,
-    address.department,
-    address.floor,
-    city,
-  ].where(_present).join(', ');
+  return city ?? '';
 }
 
 /// Morning / evening shifts of a working day as "start–end" strings.

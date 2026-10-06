@@ -65,6 +65,9 @@ CityModel _$CityModelFromJson(Map<String, dynamic> json) => CityModel(
       nameEn: json['name_en'] as String?,
       type: json['type'] as String?,
       parentId: (json['parent_id'] as num?)?.toInt(),
+      parent: json['parent'] == null
+          ? null
+          : CityModel.fromJson(json['parent'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
@@ -73,4 +76,5 @@ Map<String, dynamic> _$CityModelToJson(CityModel instance) => <String, dynamic>{
       'name_en': instance.nameEn,
       'type': instance.type,
       'parent_id': instance.parentId,
+      'parent': instance.parent,
     };

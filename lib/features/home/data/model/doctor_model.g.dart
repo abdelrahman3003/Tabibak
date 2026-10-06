@@ -20,10 +20,11 @@ DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
               json['specialties'] as Map<String, dynamic>),
       phone: json['phone'] as String?,
       email: json['email'] as String?,
-      clinic: json['clinic_data'] is Map<String, dynamic>
-          ? ClinicModel.fromJson(json['clinic_data'] as Map<String, dynamic>)
-          : null,
-      clinicList: (json['clinic_data'] as List<dynamic>?)
+      clinic: _readClinic(json, 'clinic') == null
+          ? null
+          : ClinicModel.fromJson(
+              _readClinic(json, 'clinic') as Map<String, dynamic>),
+      clinicList: (_readClinicList(json, 'clinicList') as List<dynamic>?)
           ?.map((e) => ClinicModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       comments: (json['comments'] as List<dynamic>?)
@@ -50,7 +51,8 @@ Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
       'email': instance.email,
       'specialties': instance.specialty?.toJson(),
       'education': instance.education?.toJson(),
-      'clinic_data': instance.clinicList?.map((e) => e.toJson()).toList() ?? instance.clinic?.toJson(),
+      'clinic': instance.clinic?.toJson(),
+      'clinicList': instance.clinicList?.map((e) => e.toJson()).toList(),
       'comments': instance.comments?.map((e) => e.toJson()).toList(),
       'ratings': instance.ratings?.map((e) => e.toJson()).toList(),
     };

@@ -354,9 +354,7 @@ class _ClinicCard extends StatelessWidget {
     final address = addresses.first;
     final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
 
-    return [address.street, address.department, address.floor, city]
-        .where((part) => part?.trim().isNotEmpty == true)
-        .join(', ');
+    return city ?? '';
   }
 }
 

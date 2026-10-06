@@ -39,8 +39,9 @@ class ClinicInfoSection extends StatelessWidget {
             final address = addresses.first;
             final locale = context.locale.languageCode;
             final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
+            final governorate = locale == 'ar' ? address.city?.parent?.nameAr : address.city?.parent?.nameEn;
             
-            final parts = [address.street, address.department, address.floor, city]
+            final parts = [governorate, city, address.street, address.department, address.floor]
                 .where((part) => part?.trim().isNotEmpty == true)
                 .join(', ');
                 

@@ -10,6 +10,7 @@ import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/appointment/data/model/appointment_model.dart';
 import 'package:tabibak/features/appointment/presentation/manager/appointment_booking_provider/appointment_booking_provider.dart';
+import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/data/model/day_shift_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/specialist_screen/app_bar_widget.dart';
@@ -296,8 +297,6 @@ class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
     final locale = Localizations.localeOf(context).languageCode;
     final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
 
-    return [address.street, address.department, address.floor, city]
-        .where((part) => part?.trim().isNotEmpty == true)
-        .join(', ');
+    return city ?? '';
   }
 }

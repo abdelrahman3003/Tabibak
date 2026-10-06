@@ -86,12 +86,15 @@ class CityModel {
   @JsonKey(name: 'parent_id')
   final int? parentId;
 
+  final CityModel? parent;
+
   CityModel({
     this.id,
     this.nameAr,
     this.nameEn,
     this.type,
     this.parentId,
+    this.parent,
   });
 
   factory CityModel.fromJson(Map<String, dynamic> json) =>

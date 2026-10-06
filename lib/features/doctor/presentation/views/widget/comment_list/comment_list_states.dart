@@ -41,7 +41,7 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
         .where((c) => c.doctorId == widget.doctorId)
         .toList();
 
-        if (comments.isEmpty) {
+    if (comments.isEmpty) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -56,7 +56,6 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
         ],
       );
     }
-
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
