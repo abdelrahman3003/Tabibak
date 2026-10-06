@@ -37,7 +37,9 @@ class _CommentListStatesState extends ConsumerState<CommentListStates> {
     final commentList = ref.watch(commentNotifierProvider.select(
       (s) => s.commentList,
     ));
-    final comments = commentList ?? widget.initialComments;
+    final comments = (commentList ?? widget.initialComments)
+        .where((c) => c.doctorId == widget.doctorId)
+        .toList();
 
         if (comments.isEmpty) {
       return Column(

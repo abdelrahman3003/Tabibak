@@ -18,7 +18,9 @@ class DoctorDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = Localizations.localeOf(context).languageCode;
-    final ratings = doctor.ratings ?? const [];
+    final ratings = (doctor.ratings ?? const [])
+        .where((r) => r.doctorId == doctor.doctorId)
+        .toList();
     final submittedRates =
         ratings.map((rating) => rating.rate).whereType<int>().toList();
     final displayedRating = submittedRates.isNotEmpty

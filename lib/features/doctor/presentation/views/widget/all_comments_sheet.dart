@@ -33,7 +33,9 @@ class AllCommentsSheet extends StatelessWidget {
               12.hBox,
               Expanded(child: Consumer(builder: (context, ref, _) {
                 final state = ref.watch(commentNotifierProvider);
-                final comments = state.commentList ?? [];
+                final comments = (state.commentList ?? [])
+                    .where((c) => c.doctorId == doctorId)
+                    .toList();
                 return comments.isEmpty
                     ? EmptyWidget()
                     : ListView.separated(
