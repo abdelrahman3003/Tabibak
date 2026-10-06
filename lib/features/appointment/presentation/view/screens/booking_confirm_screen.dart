@@ -123,6 +123,16 @@ class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
                     color: AppColors.subtextColor,
                   ),
                 ),
+                if (widget.doctorModel.clinic != null) ...[
+                  4.hBox,
+                  Text(
+                    _getClinicAddress(widget.doctorModel.clinic!),
+                    style: Apptextstyles.font14BlackReqular.copyWith(
+                      color: AppColors.subtextColor,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
@@ -276,5 +286,18 @@ class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
       return "${model?.morning?.start ?? ''} - ${model?.morning?.end ?? ''}";
     }
     return "${model?.evening?.start ?? ''} - ${model?.evening?.end ?? ''}";
+  }
+
+  String _getClinicAddress(ClinicModel clinic) {
+    final addresses = clinic.clinicAddresses;
+    if (addresses == null || addresses.isEmpty) return '';
+
+    final address = addresses.first;
+    final locale = Localizations.localeOf(context).languageCode;
+    final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
+
+    return [address.street, address.department, address.floor, city]
+        .where((part) => part?.trim().isNotEmpty == true)
+        .join(', ');
   }
 }

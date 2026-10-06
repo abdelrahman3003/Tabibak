@@ -329,7 +329,7 @@ class _ClinicCard extends StatelessWidget {
                   text: address.isNotEmpty
                       ? address
                       : 'Address not available'.tr(),
-                  maxLines: 2,
+                  maxLines: 4,
                   prominent: true,
                 ),
                 const SizedBox(height: 8),
@@ -386,8 +386,7 @@ class _ClinicDetailRow extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            maxLines: maxLines,
-            overflow: TextOverflow.ellipsis,
+            maxLines: maxLines > 1 ? maxLines : null,
             style: (prominent
                     ? theme.textTheme.titleMedium
                     : theme.textTheme.bodyLarge)

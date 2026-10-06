@@ -569,7 +569,7 @@ class _ClinicCard extends StatelessWidget {
                         address.isNotEmpty
                             ? address
                             : 'Address not available'.tr(),
-                        maxLines: 2,
+                        maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         style:
                             theme.textTheme.bodySmall?.copyWith(height: 1.35),
