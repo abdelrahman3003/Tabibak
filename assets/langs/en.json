@@ -1,4 +1,5 @@
 {
+    "Visits": "Visits",
     "Email": "Email",
     "Forgot Password": "Forgot Password",
     "Create Account": "Create Account",
@@ -120,7 +121,7 @@
     "Date": "Date",
     "Price": "Price",
     "Consultation": "Consultation",
-    "Appointment Details": "At {time,
+    "Appointment Details": "Appointment Details",
     "No biography available for this doctor.": "No biography available for this doctor.",
     "Clinics Details": "Clinics Details",
     "Check Booking": "Check Booking",
@@ -128,8 +129,8 @@
 ,
     "No reviews yet": "No reviews yet"
 ,
-    "Select a Clinic": "Select a Clinic"
-} on {dayName}, dated {date}",
+    "Select a Clinic": "Select a Clinic",
+
     "Doctor": "Doctor",
     "Time": "Time",
     "Booking Time": "Booking Time",

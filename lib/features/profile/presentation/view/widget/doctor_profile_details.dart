@@ -318,7 +318,7 @@ class _DoctorHero extends StatelessWidget {
               ),
             ),
           ],
-          if (doctor.avrRating != null) ...[
+          if (doctor.avrRating != null || doctor.visitsCount != null) ...[
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -329,26 +329,44 @@ class _DoctorHero extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
-                    Icons.star_rounded,
-                    size: 18,
-                    color: Colors.amber,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    '${doctor.avrRating}',
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      color: theme.colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
+                  if (doctor.avrRating != null) ...[
+                    const Icon(
+                      Icons.star_rounded,
+                      size: 18,
+                      color: Colors.amber,
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    '(${doctor.ratingsCount ?? 0} ${'Reviews'.tr()})',
-                    style: theme.textTheme.labelMedium?.copyWith(
-                      color: theme.colorScheme.onPrimary.withValues(alpha: .85),
+                    const SizedBox(width: 4),
+                    Text(
+                      '${doctor.avrRating}',
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: theme.colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
+                    const SizedBox(width: 5),
+                    Text(
+                      '(${doctor.ratingsCount ?? 0} ${'Reviews'.tr()})',
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: theme.colorScheme.onPrimary.withValues(alpha: .85),
+                      ),
+                    ),
+                  ],
+                  if (doctor.avrRating != null && doctor.visitsCount != null)
+                    const SizedBox(width: 12),
+                  if (doctor.visitsCount != null) ...[
+                    Icon(
+                      Icons.visibility_outlined,
+                      size: 18,
+                      color: theme.colorScheme.onPrimary.withValues(alpha: .9),
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      '${doctor.visitsCount} ${'Visits'.tr()}',
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: theme.colorScheme.onPrimary.withValues(alpha: .85),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

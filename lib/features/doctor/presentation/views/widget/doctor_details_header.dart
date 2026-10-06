@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_padding.dart';
@@ -78,6 +79,17 @@ class DoctorDetailsHeader extends StatelessWidget {
           rate: displayedRating,
           ratingCount: displayedRatingCount,
         ),
+        if (doctor.visitsCount != null) ...[
+          4.hBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.visibility_outlined, size: 16, color: AppColors.subtextColor),
+              4.wBox,
+              Text('${doctor.visitsCount} ${'Visits'.tr()}', style: Theme.of(context).textTheme.titleSmall?.copyWith(color: AppColors.subtextColor)),
+            ],
+          ),
+        ],
         4.hBox,
         TextButton.icon(
           onPressed: () => showRatingDialog(
