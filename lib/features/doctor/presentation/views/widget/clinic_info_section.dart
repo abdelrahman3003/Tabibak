@@ -31,15 +31,21 @@ class ClinicInfoSection extends StatelessWidget {
         ClinicItemInfo(
           icon: "assets/images/location_on.png",
           title: AppStrings.address,
-          subtitle: context.locale.languageCode == "en"
-              ? clinic?.clinicAddresses?.isNotEmpty == true
-                  ? clinic!.clinicAddresses!.first.city?.nameEn ??
-                      AppStrings.unknown
-                  : AppStrings.unknown
-              : clinic?.clinicAddresses?.isNotEmpty == true
-                  ? clinic!.clinicAddresses!.first.city?.nameAr ??
-                      AppStrings.unknown
-                  : AppStrings.unknown,
+          subtitle: () {
+            final addresses = clinic?.clinicAddresses;
+            if (addresses == null || addresses.isEmpty) {
+              return AppStrings.unknown;
+            }
+            final address = addresses.first;
+            final locale = context.locale.languageCode;
+            final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
+            
+            final parts = [address.street, address.department, address.floor, city]
+                .where((part) => part?.trim().isNotEmpty == true)
+                .join(', ');
+                
+            return parts.isNotEmpty ? parts : AppStrings.unknown;
+          }(),
         ),
         16.hBox,
         ClinicItemInfo(

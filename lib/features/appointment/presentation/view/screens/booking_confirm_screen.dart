@@ -92,17 +92,19 @@ class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
       ),
       child: Row(
         children: [
-          Container(
-            width: 50.r,
-            height: 50.r,
+          DecoratedBox(
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.primaryLight,
+              color: Theme.of(context).colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(14),
             ),
-            child: Icon(
-              Icons.local_hospital,
-              color: AppColors.primary,
-              size: 28.r,
+            child: SizedBox(
+              width: 50.r,
+              height: 50.r,
+              child: Icon(
+                Icons.local_hospital_outlined,
+                size: 26.r,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
           ),
           12.wBox,

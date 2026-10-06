@@ -71,13 +71,5 @@ class DoctorRemoteData {
           .eq('id', existingRating['id']);
     }
 
-    final normalizedReview = review?.trim();
-    if (normalizedReview != null && normalizedReview.isNotEmpty) {
-      await supabase.client.from('comments').insert({
-        'doctor_id': doctorId,
-        'user_id': userId,
-        'comment': normalizedReview,
-      });
-    }
   }
 }

@@ -99,6 +99,7 @@ class _AppointmentBookingScreenState
                     DropDownShiftsStates(
                       onSelected: ({shiftEveningId, shiftMorningId}) {
                         selectedShiftMorningId = shiftMorningId;
+
                         selectedShiftEveningId = shiftEveningId;
                       },
                     ),

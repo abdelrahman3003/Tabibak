@@ -11,6 +11,7 @@ import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/doctor/presentation/manager/doctor/doctor_provider.dart';
 import 'package:tabibak/features/doctor/presentation/manager/comment/comment_provider.dart';
 import 'package:tabibak/features/doctor/presentation/manager/rating/rating_provider.dart';
+import 'package:tabibak/features/home/data/model/comment_model.dart';
 
 void showRatingDialog(BuildContext context, {required String doctorId}) {
   showDialog<void>(
@@ -45,7 +46,6 @@ class _RatingReviewDialogState extends ConsumerState<_RatingReviewDialog> {
     final state = ref.watch(ratingNotifierProvider);
     ref.listen(ratingNotifierProvider, (previous, next) {
       if (next.isSuccess) {
-        ref.invalidate(commentNotifierProvider);
         ref.invalidate(doctorNotifierProvider);
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) context.pop();
@@ -159,10 +159,23 @@ class _RatingReviewDialogState extends ConsumerState<_RatingReviewDialog> {
     }
 
     setState(() => _validationMessage = null);
+    
+    final reviewText = _reviewController.text.trim();
+    
     ref.read(ratingNotifierProvider.notifier).addRate(
           rate: _rating,
           doctorId: widget.doctorId,
-          review: _reviewController.text,
+          review: null, 
         );
+        
+    if (reviewText.isNotEmpty) {
+      ref.read(commentNotifierProvider.notifier).addComment(
+        CommentModel(
+          comment: reviewText,
+          doctorId: widget.doctorId,
+          userId: Supabase.instance.client.auth.currentUser?.id,
+        ),
+      );
+    }
   }
 }

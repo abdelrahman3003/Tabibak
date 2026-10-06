@@ -8,7 +8,7 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/widgets/app_button.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/bio_text.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/booking_dialog_injury.dart';
-import 'package:tabibak/features/doctor/presentation/views/widget/comment_list/comment_list_states.dart';
+import 'package:tabibak/features/doctor/presentation/views/widget/doctor_review_section.dart';
 import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
@@ -24,7 +24,7 @@ class DoctorDetailsBody extends StatelessWidget {
     final bioText = context.locale.languageCode == 'ar'
         ? doctorModel.bioAr
         : doctorModel.bioEn;
-    
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -54,22 +54,22 @@ class DoctorDetailsBody extends StatelessWidget {
                 : (doctorModel.clinic != null ? [doctorModel.clinic!] : []),
           ),
           40.hBox,
-          CommentListStates(
-              doctorId: doctorModel.doctorId,
-              initialComments: doctorModel.comments ?? []),
+          DoctorReviewSection(doctorModel: doctorModel),
           20.hBox,
-                    AppButton(
+          AppButton(
             title: AppStrings.bookingInquiry,
             borderRadius: AppRadius.radius8,
             onPressed: () {
               final clinics = doctorModel.clinicList?.isNotEmpty == true
                   ? doctorModel.clinicList!
-                  : (doctorModel.clinic != null ? [doctorModel.clinic!] : <ClinicModel>[]);
-              
+                  : (doctorModel.clinic != null
+                      ? [doctorModel.clinic!]
+                      : <ClinicModel>[]);
+
               if (clinics.isEmpty) {
                 return;
               }
-              
+
               void navigateToBooking(ClinicModel clinic) {
                 if (clinic.isBooking == true) {
                   final selectedDoctor = DoctorModel(
@@ -89,7 +89,8 @@ class DoctorDetailsBody extends StatelessWidget {
                     ratings: doctorModel.ratings,
                     clinic: clinic,
                   );
-                  context.pushNamed(Routes.appointmentBookingScreen, arguments: selectedDoctor);
+                  context.pushNamed(Routes.appointmentBookingScreen,
+                      arguments: selectedDoctor);
                 } else {
                   showDialog(
                     context: context,
@@ -105,7 +106,8 @@ class DoctorDetailsBody extends StatelessWidget {
                   context: context,
                   backgroundColor: Theme.of(context).colorScheme.surface,
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
                   ),
                   builder: (context) {
                     return SafeArea(
@@ -116,32 +118,52 @@ class DoctorDetailsBody extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
                               child: Text(
                                 'Select a Clinic'.tr(),
-                                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                             ),
                             const SizedBox(height: 12),
                             ...clinics.map((clinic) {
                               final locale = context.locale.languageCode;
-                              final city = clinic.clinicAddresses?.isNotEmpty == true
-                                  ? (locale == 'ar' ? clinic.clinicAddresses!.first.city?.nameAr : clinic.clinicAddresses!.first.city?.nameEn)
-                                  : '';
+                              final city =
+                                  clinic.clinicAddresses?.isNotEmpty == true
+                                      ? (locale == 'ar'
+                                          ? clinic.clinicAddresses!.first.city
+                                              ?.nameAr
+                                          : clinic.clinicAddresses!.first.city
+                                              ?.nameEn)
+                                      : '';
                               return ListTile(
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
                                 leading: CircleAvatar(
-                                  backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-                                  child: Icon(Icons.local_hospital_outlined, color: Theme.of(context).colorScheme.primary),
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withValues(alpha: 0.1),
+                                  child: Icon(Icons.local_hospital_outlined,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
                                 ),
-                                title: Text(clinic.clinicName ?? 'Clinic'.tr(), style: const TextStyle(fontWeight: FontWeight.w600)),
-                                subtitle: city?.isNotEmpty == true ? Text(city!) : null,
+                                title: Text(clinic.clinicName ?? 'Clinic'.tr(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w600)),
+                                subtitle: city?.isNotEmpty == true
+                                    ? Text(city!)
+                                    : null,
                                 onTap: () {
                                   Navigator.pop(context);
                                   navigateToBooking(clinic);
                                 },
                               );
-                            }).toList(),
+                            }),
                           ],
                         ),
                       ),
@@ -151,7 +173,6 @@ class DoctorDetailsBody extends StatelessWidget {
               }
             },
           )
-
         ],
       ),
     );
@@ -250,10 +271,8 @@ class _ClinicCard extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            context.pushNamed(Routes.clinicDetailsScreen, arguments: {
-              'clinic': clinic,
-              'doctorModel': doctorModel
-            });
+            context.pushNamed(Routes.clinicDetailsScreen,
+                arguments: {'clinic': clinic, 'doctorModel': doctorModel});
           },
           child: Padding(
             padding: const EdgeInsets.all(14),
