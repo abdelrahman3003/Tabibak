@@ -8,11 +8,17 @@ import 'package:tabibak/features/home/data/model/specialty_model.dart';
 part 'doctor_model.g.dart';
 
 Object? _readClinic(Map json, String key) {
-  return json['clinic_data'] is Map ? json['clinic_data'] : null;
+  if (json['clinic_data'] is Map) return json['clinic_data'];
+  if (json['clinic_data'] is List && (json['clinic_data'] as List).isNotEmpty) {
+    return (json['clinic_data'] as List).first;
+  }
+  return null;
 }
 
 Object? _readClinicList(Map json, String key) {
-  return json['clinic_data'] is List ? json['clinic_data'] : null;
+  if (json['clinic_data'] is List) return json['clinic_data'];
+  if (json['clinic_data'] is Map) return [json['clinic_data']];
+  return null;
 }
 
 @JsonSerializable(explicitToJson: true)

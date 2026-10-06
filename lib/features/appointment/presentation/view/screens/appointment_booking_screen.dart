@@ -60,7 +60,6 @@ class _AppointmentBookingScreenState
               children: [
                 DoctorItem(
                   doctorSummary: widget.doctorModel,
-                  isShowBooking: false,
                 ),
                 20.hBox,
                 TitleTextField(text: AppStrings.enterFullName),

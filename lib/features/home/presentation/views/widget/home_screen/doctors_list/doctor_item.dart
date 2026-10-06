@@ -4,12 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_redius.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
-import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
-import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
-import 'package:tabibak/core/widgets/app_button.dart';
-import 'package:tabibak/features/doctor/presentation/views/widget/booking_dialog_injury.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class DoctorItem extends StatelessWidget {
@@ -17,12 +13,10 @@ class DoctorItem extends StatelessWidget {
     super.key,
     this.onTap,
     required this.doctorSummary,
-    this.isShowBooking = true,
   });
 
   final Function()? onTap;
   final DoctorModel doctorSummary;
-  final bool isShowBooking;
   @override
   Widget build(BuildContext context) {
     return _buildRoot(context);
@@ -40,7 +34,7 @@ class DoctorItem extends StatelessWidget {
           children: [
             _buildImage(),
             16.wBox,
-            Expanded(child: _buildInfo(context, isShowBooking)),
+            Expanded(child: _buildInfo(context)),
           ],
         ),
       ),
@@ -91,7 +85,7 @@ class DoctorItem extends StatelessWidget {
     );
   }
 
-  Widget _buildInfo(BuildContext context, bool isShowBooking) {
+  Widget _buildInfo(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -100,7 +94,7 @@ class DoctorItem extends StatelessWidget {
         5.hBox,
         _buildRating(context),
         8.hBox,
-        _buildPriceAndButton(context, isShowBooking),
+        _buildPriceAndButton(context),
       ],
     );
   }
@@ -153,7 +147,7 @@ class DoctorItem extends StatelessWidget {
     );
   }
 
-  Widget _buildPriceAndButton(BuildContext context, bool isShow) {
+  Widget _buildPriceAndButton(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -168,29 +162,19 @@ class DoctorItem extends StatelessWidget {
             maxLines: 1,
           ),
         ),
-        const SizedBox(width: 40),
-        if (isShow)
-          AppButton(
-            width: 100.w,
-            title: AppStrings.bookNow,
-            onPressed: () {
-              final isBooked = doctorSummary.clinic!.isBooking;
-              if (isBooked != null && isBooked) {
-                context.pushNamed(Routes.appointmentBookingScreen,
-                    arguments: doctorSummary);
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (context) => BookingDialogInjury(
-                    isBooked: isBooked!,
-                  ),
-                );
-              }
-            },
-            padding: const EdgeInsets.symmetric(
-              horizontal: 14,
-            ),
-            fontSize: 11.sp,
+        if (doctorSummary.visitsCount != null && doctorSummary.visitsCount! > 0)
+          Row(
+            children: [
+              const Icon(Icons.group, size: 14, color: AppColors.primary),
+              const SizedBox(width: 4),
+              Text(
+                "${doctorSummary.visitsCount} ${"Visits".tr()}",
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ],
           ),
       ],
     );
