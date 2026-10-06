@@ -31,7 +31,7 @@ class ShiftScheduleItem extends StatelessWidget {
           FittedBox(
             child: Text(
               subtitle,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 18, 
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: AppColors.primary, fontWeight: FontWeight.bold),
             ),
           )

@@ -45,7 +45,7 @@ class ClinicWorkDayCard extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold, height: 20 / 25),
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
