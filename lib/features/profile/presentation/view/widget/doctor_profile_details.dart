@@ -715,7 +715,7 @@ class _ClinicDetailsContent extends StatelessWidget {
         if (clinic.consultationFee != null)
           _SheetLine(
             Icons.payments_outlined,
-            '${'Consultation fee'.tr()}: ${clinic.consultationFee}',
+            '${'Consultation fee'.tr()}: ${clinic.consultationFee} ${'EGP'.tr()}',
           ),
         if (clinic.isBooking != null)
           _SheetLine(
@@ -731,12 +731,12 @@ class _ClinicDetailsContent extends StatelessWidget {
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
-          for (final day in workingDays)
-            _HoursRow(
-              day: locale == 'ar' ? day.day.dayAr : day.day.dayEn,
-              hours: _shifts(day).join(' · '),
-              isToday: identical(day, todayEntry),
-            ),
+          ..._buildWorkingHours(
+            workingDays: workingDays,
+            locale: locale,
+            todayEntry: todayEntry,
+            theme: theme,
+          ),
         ],
         if (addresses.isEmpty &&
             !_present(clinic.phoneNumber) &&
@@ -1296,4 +1296,150 @@ Future<void> _launch(Uri uri) async {
   } catch (_) {
     // Device may not support the scheme (e.g. tablet without telephony).
   }
+}
+
+/// Groups working days by schedule and returns either a single summary row
+/// or individual day rows depending on how uniform the schedule is.
+List<Widget> _buildWorkingHours({
+  required List<dynamic> workingDays,
+  required String locale,
+  required dynamic todayEntry,
+  required ThemeData theme,
+}) {
+  // All 7 canonical day keys in calendar order.
+  const allDayKeys = [
+    'saturday',
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+  ];
+
+  // ── Step 1: Deduplicate by day name, keep first non-empty hours. ──
+  final dayHours = <String, String>{}; // dayKey → raw hours string
+  final dayModels = <String, dynamic>{}; // dayKey → original WorkingDay model
+
+  for (final day in workingDays) {
+    final enName = ((day.day.dayEn as String?) ?? '').trim().toLowerCase();
+    if (enName.isEmpty) continue;
+
+    final hours = _shifts(day).join(' · ');
+
+    // Keep the first entry that has actual hours; skip duplicates.
+    if (!dayHours.containsKey(enName) || dayHours[enName]!.isEmpty) {
+      dayHours[enName] = hours;
+      dayModels[enName] = day;
+    }
+  }
+
+  // ── Step 2: Separate open days from closed/missing days. ──
+  final openDays = <String, String>{}; // dayKey → hours (non-empty only)
+  for (final entry in dayHours.entries) {
+    if (entry.value.isNotEmpty) {
+      openDays[entry.key] = entry.value;
+    }
+  }
+
+  // ── Step 3: Group open days by their hours string. ──
+  final hoursToDays = <String, List<String>>{};
+  for (final entry in openDays.entries) {
+    hoursToDays.putIfAbsent(entry.value, () => []).add(entry.key);
+  }
+
+  // ── Step 4: Check if all open days share the SAME hours. ──
+  if (hoursToDays.length == 1) {
+    final commonHours = hoursToDays.keys.first;
+    final openDayKeys = hoursToDays.values.first.toSet();
+    final missingDays = allDayKeys.where((d) => !openDayKeys.contains(d)).toList();
+
+    // Localized day name helper.
+    String localizedDay(String enKey) {
+      if (locale == 'ar') {
+        const map = {
+          'saturday': 'السبت',
+          'sunday': 'الأحد',
+          'monday': 'الاثنين',
+          'tuesday': 'الثلاثاء',
+          'wednesday': 'الأربعاء',
+          'thursday': 'الخميس',
+          'friday': 'الجمعة',
+        };
+        return map[enKey] ?? enKey;
+      }
+      // Capitalize for English display.
+      return '${enKey[0].toUpperCase()}${enKey.substring(1)}';
+    }
+
+    // Build a themed summary container that matches _HoursRow styling.
+    Widget summaryRow(String text) {
+      return Container(
+        margin: const EdgeInsets.only(bottom: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: todayEntry != null
+              ? theme.colorScheme.primaryContainer.withValues(alpha: .6)
+              : null,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text(
+          text,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight:
+                todayEntry != null ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+      );
+    }
+
+    // Rule 1 — all 7 days open with same hours.
+    if (missingDays.isEmpty) {
+      return [
+        summaryRow('${'Open every day from'.tr()} $commonHours'),
+      ];
+    }
+
+    // Rule 2 — 6 days open, 1 day off.
+    if (missingDays.length == 1) {
+      final off = localizedDay(missingDays[0]);
+      return [
+        summaryRow(
+          '${'Open every day except'.tr()} $off ${'from'.tr()} $commonHours',
+        ),
+      ];
+    }
+
+    // Rule 3 — 5 days open, 2 days off.
+    if (missingDays.length == 2) {
+      final off1 = localizedDay(missingDays[0]);
+      final off2 = localizedDay(missingDays[1]);
+      return [
+        summaryRow(
+          '${'Open every day except'.tr()} $off1 ${'and'.tr()} $off2 ${'from'.tr()} $commonHours',
+        ),
+      ];
+    }
+  }
+
+  // ── Rule 4 — fallback: show each working day individually. ──
+  final result = <Widget>[];
+  for (final dayKey in allDayKeys) {
+    final model = dayModels[dayKey];
+    if (model == null) continue;
+
+    final hours = dayHours[dayKey] ?? '';
+    final isToday = todayEntry != null &&
+        ((todayEntry.day.dayEn as String?) ?? '').trim().toLowerCase() ==
+            dayKey;
+
+    result.add(
+      _HoursRow(
+        day: locale == 'ar' ? model.day.dayAr : model.day.dayEn,
+        hours: hours.isEmpty ? '' : hours,
+        isToday: isToday,
+      ),
+    );
+  }
+  return result;
 }

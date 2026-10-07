@@ -230,14 +230,15 @@
     "writeReviewOptional": "اكتب مراجعتك (اختياري)",
     "ratingRequired": "اختر عدد النجوم قبل الإرسال.",
     "loginBeforeReview": "يرجى تسجيل الدخول قبل إرسال التقييم أو المراجعة.",
-    "reviewTextRequired": "اكتب مراجعتك قبل الإرسال."
-,
+    "reviewTextRequired": "اكتب مراجعتك قبل الإرسال.",
     "No biography available for this doctor.": "لا توجد سيرة ذاتية متاحة لهذا الطبيب.",
     "Clinics Details": "تفاصيل العيادات",
     "Check Booking": "تحقق من الحجز",
-    "Clinic Information": "معلومات العيادة"
-,
-    "No reviews yet": "لا توجد تقييمات بعد"
-,
-    "Select a Clinic": "اختر عيادة"
+    "Clinic Information": "معلومات العيادة",
+    "No reviews yet": "لا توجد تقييمات بعد",
+    "Select a Clinic": "اختر عيادة",
+    "Open every day from": "مفتوح كل يوم من",
+    "Open every day except": "مفتوح كل يوم ما عدا",
+    "and": "و",
+    "from": "من"
 }

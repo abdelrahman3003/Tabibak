@@ -54,7 +54,9 @@ class ClinicInfoSection extends StatelessWidget {
         ClinicItemInfo(
           icon: "assets/images/payments.png",
           title: AppStrings.consultationFee,
-          subtitle: clinic?.consultationFee?.toString() ?? AppStrings.unknown,
+          subtitle: clinic?.consultationFee != null
+              ? '${clinic!.consultationFee} ${AppStrings.egp}'
+              : AppStrings.unknown,
         ),
         16.hBox,
 
