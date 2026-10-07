@@ -69,7 +69,7 @@ class ProfileHeader extends StatelessWidget {
             userModel.name ?? "",
             style: Apptextstyles.font18blackBold.copyWith(
               color: Colors.white,
-              fontSize: 22.sp,
+              fontSize: 18.sp,
             ),
           ),
           const SizedBox(height: 8),

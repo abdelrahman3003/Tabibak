@@ -43,10 +43,7 @@ class ClinicWorkDayCard extends StatelessWidget {
                 context.locale.languageCode == 'ar'
                     ? workingDay.day.dayAr ?? ""
                     : workingDay.day.dayEn ?? "",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),

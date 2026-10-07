@@ -42,9 +42,7 @@ class ClinicItemInfo extends StatelessWidget {
                 SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 )
               ],
             ),

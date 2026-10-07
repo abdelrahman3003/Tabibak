@@ -31,7 +31,7 @@ class ProfileScreen extends ConsumerWidget {
               children: [
                 Text(
                   AppStrings.settings.tr(),
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                 ),
@@ -40,7 +40,7 @@ class ProfileScreen extends ConsumerWidget {
                 24.hBox,
                 Text(
                   AppStrings.account.tr(),
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                 ),

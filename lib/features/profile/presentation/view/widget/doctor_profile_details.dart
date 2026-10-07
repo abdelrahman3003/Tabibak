@@ -288,7 +288,7 @@ class _DoctorHero extends StatelessWidget {
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.titleLarge?.copyWith(
+            style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.onPrimary,
               fontWeight: FontWeight.bold,
             ),
@@ -298,7 +298,7 @@ class _DoctorHero extends StatelessWidget {
             Text(
               specialty!,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(
+              style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onPrimary.withValues(alpha: .88),
               ),
             ),
@@ -403,7 +403,7 @@ class _ClinicsSection extends StatelessWidget {
           children: [
             Text(
               'Clinics'.tr(),
-              style: theme.textTheme.titleMedium?.copyWith(
+              style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -686,7 +686,7 @@ class _ClinicDetailsContent extends StatelessWidget {
             Expanded(
               child: Text(
                 name,
-                style: theme.textTheme.titleLarge
+                style: theme.textTheme.titleMedium
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
