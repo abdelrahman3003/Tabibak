@@ -56,7 +56,6 @@ class NotificationRemoteData {
   Future<void> markAllAsRead() async {
     await supabase.client
         .from('notifications')
-        .update({'is_read': true})
-        .eq('user_id', _userId);
+        .update({'is_read': true}).eq('user_id', _userId);
   }
 }

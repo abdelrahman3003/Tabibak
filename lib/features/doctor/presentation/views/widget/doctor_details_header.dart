@@ -66,13 +66,13 @@ class DoctorDetailsHeader extends StatelessWidget {
         Text(doctor.name ?? AppStrings.nameNotFound,
             style: Theme.of(context)
                 .textTheme
-                .headlineSmall
+                .titleLarge
                 ?.copyWith(fontWeight: FontWeight.bold)),
         Text(
             "${locale == 'ar' ? doctor.specialty?.nameAr : doctor.specialty?.nameEn ?? ""} - ${doctor.education?.university ?? ""}",
             style: Theme.of(context)
                 .textTheme
-                .titleMedium
+                .titleSmall
                 ?.copyWith(color: AppColors.subtextColor)),
         4.hBox,
         RatingsRow(
@@ -84,9 +84,14 @@ class DoctorDetailsHeader extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.visibility_outlined, size: 16, color: AppColors.subtextColor),
+              const Icon(Icons.visibility_outlined,
+                  size: 16, color: AppColors.subtextColor),
               4.wBox,
-              Text('${doctor.visitsCount} ${'Visits'.tr()}', style: Theme.of(context).textTheme.titleSmall?.copyWith(color: AppColors.subtextColor)),
+              Text('${doctor.visitsCount} ${'Visits'.tr()}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(color: AppColors.subtextColor)),
             ],
           ),
         ],

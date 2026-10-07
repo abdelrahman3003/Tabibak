@@ -13,7 +13,8 @@ import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 
 class ClinicDetailsScreen extends StatelessWidget {
-  const ClinicDetailsScreen({super.key, required this.clinic, this.doctorModel});
+  const ClinicDetailsScreen(
+      {super.key, required this.clinic, this.doctorModel});
 
   final ClinicModel clinic;
   final DoctorModel? doctorModel;
@@ -24,7 +25,10 @@ class ClinicDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           AppStrings.clinicDetails,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -38,13 +42,12 @@ class ClinicDetailsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainerLow,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.14),
-                  width: 1,
-                ),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary
+                        .withValues(alpha: 0.08),
                     blurRadius: 18,
                     offset: const Offset(0, 7),
                   ),
@@ -63,42 +66,42 @@ class ClinicDetailsScreen extends StatelessWidget {
               ),
             ),
             24.hBox,
-                          if (doctorModel != null)
-                AppButton(
-                  title: 'Check Booking'.tr(),
-                  borderRadius: AppRadius.radius8,
-                  onPressed: () {
-                    final isBooked = clinic.isBooking ?? false;
-                    if (isBooked) {
-                      final selectedDoctor = DoctorModel(
-                        doctorId: doctorModel!.doctorId,
-                        name: doctorModel!.name,
-                        image: doctorModel!.image,
-                        bioAr: doctorModel!.bioAr,
-                        bioEn: doctorModel!.bioEn,
-                        avrRating: doctorModel!.avrRating,
-                        ratingsCount: doctorModel!.ratingsCount,
-                        specialty: doctorModel!.specialty,
-                        phone: doctorModel!.phone,
-                        email: doctorModel!.email,
-                        clinicList: doctorModel!.clinicList,
-                        comments: doctorModel!.comments,
-                        education: doctorModel!.education,
-                        ratings: doctorModel!.ratings,
-                        clinic: clinic, // Inject the exact clinic!
-                      );
-                      context.pushNamed(Routes.appointmentBookingScreen, arguments: selectedDoctor);
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) => BookingDialogInjury(
-                          isBooked: isBooked,
-                        ),
-                      );
-                    }
-                  },
-                ),
-
+            if (doctorModel != null)
+              AppButton(
+                title: 'Check Booking'.tr(),
+                borderRadius: AppRadius.radius8,
+                onPressed: () {
+                  final isBooked = clinic.isBooking ?? false;
+                  if (isBooked) {
+                    final selectedDoctor = DoctorModel(
+                      doctorId: doctorModel!.doctorId,
+                      name: doctorModel!.name,
+                      image: doctorModel!.image,
+                      bioAr: doctorModel!.bioAr,
+                      bioEn: doctorModel!.bioEn,
+                      avrRating: doctorModel!.avrRating,
+                      ratingsCount: doctorModel!.ratingsCount,
+                      specialty: doctorModel!.specialty,
+                      phone: doctorModel!.phone,
+                      email: doctorModel!.email,
+                      clinicList: doctorModel!.clinicList,
+                      comments: doctorModel!.comments,
+                      education: doctorModel!.education,
+                      ratings: doctorModel!.ratings,
+                      clinic: clinic, // Inject the exact clinic!
+                    );
+                    context.pushNamed(Routes.appointmentBookingScreen,
+                        arguments: selectedDoctor);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) => BookingDialogInjury(
+                        isBooked: isBooked,
+                      ),
+                    );
+                  }
+                },
+              ),
           ],
         ),
       ),

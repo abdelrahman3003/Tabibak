@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 
 class AppTextFormFiled extends StatelessWidget {
-  const AppTextFormFiled({
-    super.key,
-    this.hint,
-    this.prefixIcon,
-    this.controller,
-    this.validator,
-    this.suffixIcon,
-    this.hintStyle,
-    this.obscureText = false,
-    this.errorText,
-    this.onTap,
-    this.readOnly = false,
-    this.keyboardType,
-    this.maxLines,
-    this.contentPadding});
+  const AppTextFormFiled(
+      {super.key,
+      this.hint,
+      this.prefixIcon,
+      this.controller,
+      this.validator,
+      this.suffixIcon,
+      this.hintStyle,
+      this.obscureText = false,
+      this.errorText,
+      this.onTap,
+      this.readOnly = false,
+      this.keyboardType,
+      this.maxLines,
+      this.contentPadding});
   final String? hint;
   final Widget? prefixIcon;
   final Widget? suffixIcon;

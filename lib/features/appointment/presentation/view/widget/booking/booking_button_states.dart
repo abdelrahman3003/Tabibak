@@ -22,9 +22,7 @@ class BookingButtonStates extends ConsumerWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(next.errorMessage!)),
         );
-        ref
-            .read(appointmentBookingNotifierProvider.notifier)
-            .clearError();
+        ref.read(appointmentBookingNotifierProvider.notifier).clearError();
       }
     });
     return AppButton(

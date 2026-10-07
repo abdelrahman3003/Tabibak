@@ -33,7 +33,7 @@ class WelcomePanner extends StatelessWidget {
                     "${AppStrings.welcome.tr()}, ${userModel != null ? userModel.name : ""} 👋",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18.sp,
+                        fontSize: 16.sp,
                         color: AppColors.white),
                   ),
                   5.hBox,

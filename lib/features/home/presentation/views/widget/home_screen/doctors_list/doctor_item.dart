@@ -106,7 +106,7 @@ class DoctorItem extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: Theme.of(context)
           .textTheme
-          .titleLarge
+          .titleMedium
           ?.copyWith(fontWeight: FontWeight.bold),
     );
   }

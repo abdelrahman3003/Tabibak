@@ -124,4 +124,3 @@ class CityModel {
 
   Map<String, dynamic> toJson() => _$CityModelToJson(this);
 }
-

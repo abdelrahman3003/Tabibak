@@ -347,7 +347,8 @@ class _DoctorHero extends StatelessWidget {
                     Text(
                       '(${doctor.ratingsCount ?? 0} ${'Reviews'.tr()})',
                       style: theme.textTheme.labelMedium?.copyWith(
-                        color: theme.colorScheme.onPrimary.withValues(alpha: .85),
+                        color:
+                            theme.colorScheme.onPrimary.withValues(alpha: .85),
                       ),
                     ),
                   ],
@@ -363,7 +364,8 @@ class _DoctorHero extends StatelessWidget {
                     Text(
                       '${doctor.visitsCount} ${'Visits'.tr()}',
                       style: theme.textTheme.labelMedium?.copyWith(
-                        color: theme.colorScheme.onPrimary.withValues(alpha: .85),
+                        color:
+                            theme.colorScheme.onPrimary.withValues(alpha: .85),
                       ),
                     ),
                   ],

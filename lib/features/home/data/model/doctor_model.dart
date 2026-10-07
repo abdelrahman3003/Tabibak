@@ -42,10 +42,10 @@ class DoctorModel {
   @JsonKey(name: 'specialties')
   final SpecialtyModel? specialty;
   final EducationModel? education;
-  
+
   @JsonKey(name: 'clinic', readValue: _readClinic)
   final ClinicModel? clinic;
-  
+
   @JsonKey(name: 'clinicList', readValue: _readClinicList)
   final List<ClinicModel>? clinicList;
   final List<CommentModel>? comments;

@@ -70,6 +70,5 @@ class DoctorRemoteData {
           .update(ratingValues)
           .eq('id', existingRating['id']);
     }
-
   }
 }

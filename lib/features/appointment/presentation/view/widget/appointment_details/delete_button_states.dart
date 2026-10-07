@@ -38,8 +38,8 @@ class DeleteButtonStates extends StatelessWidget {
                           context.pushReplacementNamed(Routes.layoutScreen);
                           messenger.showSnackBar(
                             const SnackBar(
-                                content: Text(
-                                    "Appointment cancelled successfully")),
+                                content:
+                                    Text("Appointment cancelled successfully")),
                           );
                         }
                       }

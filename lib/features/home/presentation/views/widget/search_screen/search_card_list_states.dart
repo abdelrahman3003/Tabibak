@@ -19,19 +19,20 @@ class SearchCardListStates extends ConsumerWidget {
         ? AppCircleIndicator()
         : state.errorMessage != null
             ? Center(child: Text(state.errorMessage!))
-            : state.searchDoctorsList == null || state.searchDoctorsList!.isEmpty
+            : state.searchDoctorsList == null ||
+                    state.searchDoctorsList!.isEmpty
                 ? const EmptyWidget()
-            : SearchCardListView(
-                searchDoctorList: state.searchDoctorsList!,
-                onItemTap: (index) {
-                  ref.read(doctorIdProvider.notifier).state =
-                      state.searchDoctorsList![index].doctorId;
-                  ref
-                      .read(searchProviderNotifier.notifier)
-                      .saveDoctorSearch(state.searchDoctorsList![index]);
+                : SearchCardListView(
+                    searchDoctorList: state.searchDoctorsList!,
+                    onItemTap: (index) {
+                      ref.read(doctorIdProvider.notifier).state =
+                          state.searchDoctorsList![index].doctorId;
+                      ref
+                          .read(searchProviderNotifier.notifier)
+                          .saveDoctorSearch(state.searchDoctorsList![index]);
 
-                  context.pushNamed(Routes.doctorDetailsScreen);
-                },
-              );
+                      context.pushNamed(Routes.doctorDetailsScreen);
+                    },
+                  );
   }
 }

@@ -9,10 +9,10 @@ class AppointmentsRemoteData {
 
   Future<List<String>> getAvailableDates({required int clinicId}) async {
     final now = DateTime.now();
-    final startOfMonth = '${now.year}-${now.month.toString().padLeft(2, '0')}-01';
-    final endOfMonth = DateTime(now.year, now.month + 1, 0)
-        .toString()
-        .split(' ')[0];
+    final startOfMonth =
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-01';
+    final endOfMonth =
+        DateTime(now.year, now.month + 1, 0).toString().split(' ')[0];
 
     final response = await supabase.client
         .from('working_day')
@@ -24,7 +24,15 @@ class AppointmentsRemoteData {
 
     if (response == null || response.isEmpty) return [];
 
-    final dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    final dayNames = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ];
     return (response as List)
         .map((e) => dayNames[(e['day_id'] as int) - 1])
         .cast<String>()

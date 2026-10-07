@@ -50,7 +50,6 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<PharmacyRepository>(() => PharmacyRepository(
       PharmacyRemoteDataSource(supabase: getIt<Supabase>())));
   getIt.registerLazySingleton<NotificationRepo>(() => NotificationRepoImp(
-        remoteData:
-            NotificationRemoteData(supabase: getIt<Supabase>()),
+        remoteData: NotificationRemoteData(supabase: getIt<Supabase>()),
       ));
 }

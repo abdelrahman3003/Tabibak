@@ -135,18 +135,23 @@ class DoctorDetailsBody extends StatelessWidget {
                               final locale = context.locale.languageCode;
                               String getCityName(CityModel? cityModel) {
                                 if (cityModel == null) return '';
-                                return (locale == 'ar' ? cityModel.nameAr : cityModel.nameEn) ??
+                                return (locale == 'ar'
+                                        ? cityModel.nameAr
+                                        : cityModel.nameEn) ??
                                     cityModel.nameAr ??
                                     cityModel.nameEn ??
                                     '';
                               }
 
-                              final addressList = clinic.clinicAddresses?.isNotEmpty == true
-                                  ? [
-                                      getCityName(clinic.clinicAddresses!.first.governorate),
-                                      getCityName(clinic.clinicAddresses!.first.markaz),
-                                    ].where((p) => p.isNotEmpty).join(', ')
-                                  : '';
+                              final addressList =
+                                  clinic.clinicAddresses?.isNotEmpty == true
+                                      ? [
+                                          getCityName(clinic.clinicAddresses!
+                                              .first.governorate),
+                                          getCityName(clinic
+                                              .clinicAddresses!.first.markaz),
+                                        ].where((p) => p.isNotEmpty).join(', ')
+                                      : '';
                               final city = addressList;
                               return ListTile(
                                 contentPadding:
@@ -164,9 +169,7 @@ class DoctorDetailsBody extends StatelessWidget {
                                 title: Text(clinic.clinicName ?? 'Clinic'.tr(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w600)),
-                                subtitle: city.isNotEmpty
-                                    ? Text(city)
-                                    : null,
+                                subtitle: city.isNotEmpty ? Text(city) : null,
                                 onTap: () {
                                   Navigator.pop(context);
                                   navigateToBooking(clinic);
@@ -217,13 +220,12 @@ class _ClinicsSection extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceContainerLow,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.14),
-                width: 1,
-              ),
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withValues(alpha: 0.08),
                   blurRadius: 18,
                   offset: const Offset(0, 7),
                 ),
@@ -350,7 +352,7 @@ class _ClinicCard extends StatelessWidget {
                         titleText,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.titleLarge?.copyWith(
+                        style: theme.textTheme.titleMedium?.copyWith(
                           color: colors.onSurface,
                           fontWeight: FontWeight.bold,
                           height: 1.25,
@@ -442,8 +444,8 @@ class _ClinicDetailRow extends StatelessWidget {
             text,
             maxLines: maxLines > 1 ? maxLines : null,
             style: (prominent
-                    ? theme.textTheme.titleMedium
-                    : theme.textTheme.bodyLarge)
+                    ? theme.textTheme.titleSmall
+                    : theme.textTheme.bodyMedium)
                 ?.copyWith(
               color: colors.onSurfaceVariant,
               height: prominent ? 1.3 : 1.2,

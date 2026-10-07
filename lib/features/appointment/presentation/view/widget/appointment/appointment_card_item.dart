@@ -47,11 +47,13 @@ class AppointmentCardItem extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                (appointment.doctor?.image != null && appointment.doctor!.image!.isNotEmpty)
+                (appointment.doctor?.image != null &&
+                        appointment.doctor!.image!.isNotEmpty)
                     ? CircleAvatar(
                         radius: 22,
                         backgroundColor: Colors.transparent,
-                        backgroundImage: CachedNetworkImageProvider(appointment.doctor!.image!),
+                        backgroundImage: CachedNetworkImageProvider(
+                            appointment.doctor!.image!),
                       )
                     : const Icon(
                         Icons.local_hospital_outlined,
@@ -78,7 +80,8 @@ class AppointmentCardItem extends StatelessWidget {
                             ? appointment.doctor?.specialty?.nameAr ?? ""
                             : appointment.doctor?.specialty?.nameEn ?? "",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).brightness == Brightness.dark
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
                                   ? Colors.grey
                                   : const Color(0xff94A3B8),
                             ),
@@ -115,8 +118,10 @@ class AppointmentCardItem extends StatelessWidget {
                 _buildIconTextRow(
                   icon: Icons.medical_services_outlined,
                   text: isArabic(context)
-                      ? appointment.appointmentTypeModel?.appointmentTypeAr ?? ""
-                      : appointment.appointmentTypeModel?.appointmentTypeEn ?? "",
+                      ? appointment.appointmentTypeModel?.appointmentTypeAr ??
+                          ""
+                      : appointment.appointmentTypeModel?.appointmentTypeEn ??
+                          "",
                   textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),

@@ -12,10 +12,10 @@ import 'package:tabibak/features/home/presentation/manager/home_provider/home_pr
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(homeControllerProvider.select((state) => state.userModel));
+    final user =
+        ref.watch(homeControllerProvider.select((state) => state.userModel));
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

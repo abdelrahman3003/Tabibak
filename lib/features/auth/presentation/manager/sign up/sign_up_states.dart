@@ -48,7 +48,10 @@ class SignUpStates {
     );
   }
 
-  SignUpStates clearSelections({bool clearDistrict = false, bool clearCity = false, bool clearVillage = false}) {
+  SignUpStates clearSelections(
+      {bool clearDistrict = false,
+      bool clearCity = false,
+      bool clearVillage = false}) {
     return SignUpStates(
       isLoading: isLoading,
       errorMessage: errorMessage,
@@ -62,4 +65,3 @@ class SignUpStates {
     );
   }
 }
-

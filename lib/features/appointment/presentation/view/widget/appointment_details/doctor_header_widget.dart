@@ -75,7 +75,10 @@ class DoctorHeaderWidget extends StatelessWidget {
                       Expanded(
                         child: Text(
                           appointment.clinic!.clinicName!,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.w500,
                               ),

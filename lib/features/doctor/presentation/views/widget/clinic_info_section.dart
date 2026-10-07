@@ -19,8 +19,7 @@ class ClinicInfoSection extends StatelessWidget {
         '';
   }
 
-  String _buildAddressString(
-      ClinicAddressModel address, String locale) {
+  String _buildAddressString(ClinicAddressModel address, String locale) {
     final parts = <String>[
       _name(address.markaz, locale),
       _name(address.village, locale),

@@ -43,7 +43,10 @@ class CityStates {
     );
   }
 
-  CityStates clearSelections({bool clearDistrict = false, bool clearCity = false, bool clearVillage = false}) {
+  CityStates clearSelections(
+      {bool clearDistrict = false,
+      bool clearCity = false,
+      bool clearVillage = false}) {
     return CityStates(
       cities: cities,
       isLoading: isLoading,
@@ -56,4 +59,3 @@ class CityStates {
     );
   }
 }
-

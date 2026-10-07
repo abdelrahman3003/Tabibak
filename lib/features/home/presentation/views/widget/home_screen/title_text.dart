@@ -16,13 +16,13 @@ class TitleText extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
-                  ?.copyWith(fontSize: 18.sp, fontWeight: FontWeight.bold)),
+                  ?.copyWith(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         ),
         if (subtitle != null)
           InkWell(
             onTap: onTap,
             child: Text(subtitle!,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w500, color: AppColors.primary)),
           ),
       ],

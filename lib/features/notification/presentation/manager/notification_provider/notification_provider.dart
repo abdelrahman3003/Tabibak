@@ -40,7 +40,8 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
   StreamSubscription? _fgSubscription;
 
   void _setupForegroundMessageListener() {
-    _fgSubscription = PushNotificationService.foregroundMessages.stream.listen((_) {
+    _fgSubscription =
+        PushNotificationService.foregroundMessages.stream.listen((_) {
       fetchNotifications();
     });
   }
@@ -66,7 +67,8 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
               final newRecord = payload.newRecord;
               final oldRecord = payload.oldRecord;
 
-              final currentList = List<NotificationModel>.from(state.notifications ?? []);
+              final currentList =
+                  List<NotificationModel>.from(state.notifications ?? []);
 
               if (eventType == PostgresChangeEvent.insert) {
                 if (newRecord.isNotEmpty) {
@@ -82,7 +84,8 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
               } else if (eventType == PostgresChangeEvent.update) {
                 if (newRecord.isNotEmpty) {
                   final updatedNotif = NotificationModel.fromJson(newRecord);
-                  final index = currentList.indexWhere((n) => n.id == updatedNotif.id);
+                  final index =
+                      currentList.indexWhere((n) => n.id == updatedNotif.id);
                   if (index != -1) {
                     currentList[index] = updatedNotif;
                   } else {
@@ -93,7 +96,8 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
               } else if (eventType == PostgresChangeEvent.delete) {
                 final oldId = oldRecord['id'];
                 if (oldId != null) {
-                  currentList.removeWhere((n) => n.id.toString() == oldId.toString());
+                  currentList
+                      .removeWhere((n) => n.id.toString() == oldId.toString());
                   state = state.copyWith(notifications: currentList);
                 }
               }

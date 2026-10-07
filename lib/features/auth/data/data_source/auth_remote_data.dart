@@ -31,7 +31,6 @@ class AuthRemoteDatasource {
       email: email,
       password: password,
       data: data,
-
       emailRedirectTo: "myapp://auth-callback",
     );
   }
@@ -166,7 +165,6 @@ class AuthRemoteDatasource {
         .toList();
   }
 
-
   Future<void> updateUserCity({
     int? cityId,
     int? districtId,
@@ -184,8 +182,6 @@ class AuthRemoteDatasource {
       'village_id': villageId,
     }).eq('user_id', user.id);
   }
-
-
 
   Future<void> signOut() async {
     try {

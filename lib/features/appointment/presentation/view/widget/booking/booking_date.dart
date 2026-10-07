@@ -98,7 +98,15 @@ class _BookingDateState extends ConsumerState<BookingDate> {
   }
 
   String _weekdayToEnglish(int weekday) {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const days = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ];
     return days[weekday - 1];
   }
 }

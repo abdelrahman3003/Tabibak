@@ -86,7 +86,7 @@ class AppRouter {
       case Routes.allSpecialtiesScreen:
         return _buildSlideRoute(const AllSpecialtiesScreen());
 
-            case Routes.clinicDetailsScreen:
+      case Routes.clinicDetailsScreen:
         final args = setting.arguments as Map<String, dynamic>;
         return _buildSlideRoute(
           ClinicDetailsScreen(

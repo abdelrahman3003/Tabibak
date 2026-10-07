@@ -159,23 +159,23 @@ class _RatingReviewDialogState extends ConsumerState<_RatingReviewDialog> {
     }
 
     setState(() => _validationMessage = null);
-    
+
     final reviewText = _reviewController.text.trim();
-    
+
     ref.read(ratingNotifierProvider.notifier).addRate(
           rate: _rating,
           doctorId: widget.doctorId,
-          review: null, 
+          review: null,
         );
-        
+
     if (reviewText.isNotEmpty) {
       ref.read(commentNotifierProvider.notifier).addComment(
-        CommentModel(
-          comment: reviewText,
-          doctorId: widget.doctorId,
-          userId: Supabase.instance.client.auth.currentUser?.id,
-        ),
-      );
+            CommentModel(
+              comment: reviewText,
+              doctorId: widget.doctorId,
+              userId: Supabase.instance.client.auth.currentUser?.id,
+            ),
+          );
     }
   }
 }

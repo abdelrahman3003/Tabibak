@@ -24,7 +24,12 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       final result = await remoteDatasource.signUp(
-          name: name, email: email, password: password, cityId: cityId, districtId: districtId, villageId: villageId);
+          name: name,
+          email: email,
+          password: password,
+          cityId: cityId,
+          districtId: districtId,
+          villageId: villageId);
 
       return ApiResult.sucess(result);
     } catch (error) {

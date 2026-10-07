@@ -24,8 +24,7 @@ class NotificationStates {
   int get badgeCount =>
       badgeSeen ? 0 : (notifications?.where((n) => !n.isRead).length ?? 0);
 
-  int get unreadCount =>
-      notifications?.where((n) => !n.isRead).length ?? 0;
+  int get unreadCount => notifications?.where((n) => !n.isRead).length ?? 0;
 
   NotificationStates copyWith({
     List<NotificationModel>? notifications,

@@ -19,12 +19,6 @@ class ClinicItemInfo extends StatelessWidget {
     return Container(
       padding: AppPadding.all12,
       decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.white.withOpacity(0.1)
-              : const Color(0xff000000).withValues(alpha: 0.08),
-          width: 1,
-        ),
         borderRadius: AppRadius.radius8,
       ),
       child: Row(
@@ -50,8 +44,7 @@ class ClinicItemInfo extends StatelessWidget {
                   subtitle,
                   style: Theme.of(context)
                       .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                      .bodyMedium,
                 )
               ],
             ),
