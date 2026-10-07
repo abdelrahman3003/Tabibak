@@ -352,9 +352,9 @@ class _DoctorHero extends StatelessWidget {
                       ),
                     ),
                   ],
-                  if (doctor.avrRating != null && doctor.visitsCount != null)
+                  if (doctor.avrRating != null && doctor.visitsCount != null && doctor.visitsCount! > 0)
                     const SizedBox(width: 12),
-                  if (doctor.visitsCount != null) ...[
+                  if (doctor.visitsCount != null && doctor.visitsCount! > 0) ...[
                     Icon(
                       Icons.visibility_outlined,
                       size: 18,

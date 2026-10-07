@@ -79,7 +79,7 @@ class DoctorDetailsHeader extends StatelessWidget {
           rate: displayedRating,
           ratingCount: displayedRatingCount,
         ),
-        if (doctor.visitsCount != null) ...[
+        if (doctor.visitsCount != null && doctor.visitsCount! > 0) ...[
           4.hBox,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
