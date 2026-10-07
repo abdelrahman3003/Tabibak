@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
+import 'package:tabibak/core/widgets/app_button.dart';
 
 class BookingDialogInjury extends StatelessWidget {
   const BookingDialogInjury({super.key, required this.isBooked});
@@ -7,10 +8,6 @@ class BookingDialogInjury extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      contentPadding: const EdgeInsets.all(20),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -39,9 +36,10 @@ class BookingDialogInjury extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
+          AppButton(
+            title: AppStrings.ok,
+            width: 150,
             onPressed: () => Navigator.of(context).pop(),
-            child: Text(AppStrings.ok),
           )
         ],
       ),
