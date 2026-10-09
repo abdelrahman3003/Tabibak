@@ -20,7 +20,11 @@ class _DoctorDetailsScreenState extends ConsumerState<DoctorDetailsScreen> {
   void initState() {
     super.initState();
     if (widget.doctorId != null) {
-      ref.read(doctorIdProvider.notifier).state = widget.doctorId;
+      Future.microtask(() {
+        if (mounted) {
+          ref.read(doctorIdProvider.notifier).state = widget.doctorId;
+        }
+      });
     }
   }
 

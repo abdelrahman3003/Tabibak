@@ -11,13 +11,20 @@ final doctorRepoProvider = StateProvider<DoctorRepo>(
 
 final doctorNotifierProvider =
     StateNotifierProvider.autoDispose<DoctorProvider, DoctorStates>(
-  (ref) => DoctorProvider(ref),
+  (ref) {
+    final provider = DoctorProvider(ref);
+    final doctorId = ref.watch(doctorIdProvider);
+    if (doctorId != null) {
+      // Use microtask to avoid updating state during initialization
+      Future.microtask(() => provider.getDoctor(doctorId));
+    }
+    return provider;
+  },
 );
 
 class DoctorProvider extends StateNotifier<DoctorStates> {
-  DoctorProvider(this.ref) : super(DoctorStates()) {
-    getDoctor(ref.read(doctorIdProvider.notifier).state!);
-  }
+  DoctorProvider(this.ref) : super(DoctorStates());
+  
   final Ref ref;
   Future<void> getDoctor(String doctorId) async {
     state = state.copyWith(isLoading: true);
