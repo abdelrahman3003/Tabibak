@@ -53,9 +53,9 @@ serve(async (req) => {
 
     const doctorName = updatedDoctors[0].name || "A doctor";
 
-    // 1. Fetch the doctor's clinic village_id and clinic_name
+    // 1. Fetch the doctor's clinic markaz_id and clinic_name
     const clinicRes = await fetch(
-      `${supabaseUrl}/rest/v1/clinic_data?doctor_id=eq.${doctorId}&select=id,clinic_name,clinic_address(village_id)`,
+      `${supabaseUrl}/rest/v1/clinic_data?doctor_id=eq.${doctorId}&select=id,clinic_name,clinic_address(markaz_id)`,
       { headers }
     );
     
@@ -72,24 +72,24 @@ serve(async (req) => {
 
     const clinicName = clinicData[0].clinic_name || "عيادة";
 
-    // Extract village_id (clinic_address could be an array or single object)
-    let villageId = null;
+    // Extract markaz_id (clinic_address could be an array or single object)
+    let markazId = null;
     const addressData = clinicData[0].clinic_address;
     if (Array.isArray(addressData) && addressData.length > 0) {
-        villageId = addressData[0].village_id;
+        markazId = addressData[0].markaz_id;
     } else if (addressData && !Array.isArray(addressData)) {
-        villageId = addressData.village_id;
+        markazId = addressData.markaz_id;
     }
 
-    if (!villageId) {
-      return new Response(JSON.stringify({ success: true, message: "Doctor approved, but clinic has no village_id" }), {
+    if (!markazId) {
+      return new Response(JSON.stringify({ success: true, message: "Doctor approved, but clinic has no markaz_id" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // 2. Fetch all users from this village
+    // 2. Fetch all users from this district (markaz)
     const usersRes = await fetch(
-      `${supabaseUrl}/rest/v1/users?village_id=eq.${villageId}&select=user_id,fcm_token`,
+      `${supabaseUrl}/rest/v1/users?district_id=eq.${markazId}&select=user_id,fcm_token`,
       { headers }
     );
     
@@ -99,7 +99,7 @@ serve(async (req) => {
 
     const users = await usersRes.json();
     if (!users || users.length === 0) {
-      return new Response(JSON.stringify({ success: true, message: "Doctor approved, but no users found in this village" }), {
+      return new Response(JSON.stringify({ success: true, message: "Doctor approved, but no users found in this markaz" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
@@ -113,7 +113,7 @@ serve(async (req) => {
         }
     }
 
-    const title = "عيادة جديدة في قريتك!"; // New clinic in your village!
+    const title = "عيادة جديدة في مركزك!"; // New clinic in your markaz!
     const body = `تم إضافة عيادة جديدة: ${clinicName}، خاصة بـ ${formattedDoctorName}.`; // A new clinic has been added: [Clinic Name], owned by Dr. [Doctor Name].
     const notificationType = "promotion";
 
