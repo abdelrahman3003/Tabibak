@@ -53,9 +53,9 @@ serve(async (req) => {
 
     const doctorName = updatedDoctors[0].name || "A doctor";
 
-    // 1. Fetch the doctor's clinic village_id
+    // 1. Fetch the doctor's clinic village_id and clinic_name
     const clinicRes = await fetch(
-      `${supabaseUrl}/rest/v1/clinic_data?doctor_id=eq.${doctorId}&select=id,clinic_address(village_id)`,
+      `${supabaseUrl}/rest/v1/clinic_data?doctor_id=eq.${doctorId}&select=id,clinic_name,clinic_address(village_id)`,
       { headers }
     );
     
@@ -69,6 +69,8 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
+    const clinicName = clinicData[0].clinic_name || "عيادة";
 
     // Extract village_id (clinic_address could be an array or single object)
     let villageId = null;
@@ -102,8 +104,17 @@ serve(async (req) => {
       });
     }
 
-    const title = "دكتور جديد في قريتك!"; // New doctor in your village!
-    const body = `تم انضمام ${doctorName} إلى التطبيق. احجز موعدك الآن!`; // Joined the app. Book your appointment now!
+    let formattedDoctorName = doctorName;
+    if (!/^(د\.|dr\.|dr |د |دكتور |دكتورة )/i.test(formattedDoctorName) && formattedDoctorName !== "A doctor") {
+        if (/^[A-Za-z]/.test(formattedDoctorName)) {
+            formattedDoctorName = "Dr. " + formattedDoctorName;
+        } else {
+            formattedDoctorName = "د. " + formattedDoctorName;
+        }
+    }
+
+    const title = "عيادة جديدة في قريتك!"; // New clinic in your village!
+    const body = `تم إضافة عيادة جديدة: ${clinicName}، خاصة بـ ${formattedDoctorName}.`; // A new clinic has been added: [Clinic Name], owned by Dr. [Doctor Name].
     const notificationType = "promotion";
 
     // Prepare notifications for insertion and gather tokens
