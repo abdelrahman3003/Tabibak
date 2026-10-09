@@ -31,36 +31,9 @@ class DoctorDetailsHeader extends StatelessWidget {
         submittedRates.isNotEmpty ? submittedRates.length : doctor.ratingsCount;
     return Column(
       children: [
-        Stack(
-          children: [
-            ImageCircle(
-              urlImage: doctor.image,
-              radius: 60.r,
-            ),
-            Builder(
-              builder: (context) {
-                final clinicToCheck = doctor.clinicList?.isNotEmpty == true
-                    ? doctor.clinicList!.first
-                    : doctor.clinic;
-                final isAvailable = clinicToCheck?.isAvailable ?? false;
-                if (isAvailable) {
-                  return Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: Container(
-                      padding: AppPadding.all8,
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: Colors.white, width: 2),
-                      ),
-                    ),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ],
+        ImageCircle(
+          urlImage: doctor.image,
+          radius: 60.r,
         ),
         12.hBox,
         Text(doctor.name ?? AppStrings.nameNotFound,

@@ -256,36 +256,18 @@ class _DoctorHero extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Stack(
-            alignment: AlignmentDirectional.bottomEnd,
-            children: [
-              CircleAvatar(
-                radius: 42,
-                backgroundColor: theme.colorScheme.surface,
-                backgroundImage:
-                    _present(doctor.image) ? NetworkImage(doctor.image!) : null,
-                child: !_present(doctor.image)
-                    ? Icon(
-                        Icons.person_outline,
-                        size: 38,
-                        color: theme.colorScheme.primary,
-                      )
-                    : null,
-              ),
-              if (_isAvailable)
-                Container(
-                  width: 16,
-                  height: 16,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: theme.colorScheme.primary,
-                      width: 2,
-                    ),
-                  ),
-                ),
-            ],
+          CircleAvatar(
+            radius: 42,
+            backgroundColor: theme.colorScheme.surface,
+            backgroundImage:
+                _present(doctor.image) ? NetworkImage(doctor.image!) : null,
+            child: !_present(doctor.image)
+                ? Icon(
+                    Icons.person_outline,
+                    size: 38,
+                    color: theme.colorScheme.primary,
+                  )
+                : null,
           ),
           const SizedBox(height: 10),
           Text(
@@ -1308,6 +1290,45 @@ List<Widget> _buildWorkingHours({
   required dynamic todayEntry,
   required ThemeData theme,
 }) {
+  if (todayEntry != null) {
+    final shifts = _shifts(todayEntry);
+    if (shifts.isNotEmpty) {
+      final text = locale == 'ar' ? 'متاحة اليوم' : 'Available Today';
+      return [
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: theme.brightness == Brightness.dark
+                ? theme.cardColor.withAlpha(5)
+                : const Color(0xffEDF2F7),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: theme.brightness == Brightness.dark
+                  ? Colors.white.withAlpha(1)
+                  : const Color(0xffE2E8F0),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.event_available, size: 20, color: theme.colorScheme.primary),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  text,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ];
+    }
+  }
+
   // All 7 canonical day keys in calendar order.
   const allDayKeys = [
     'saturday',
