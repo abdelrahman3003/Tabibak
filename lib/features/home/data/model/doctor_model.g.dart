@@ -37,6 +37,9 @@ DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
       ratings: (json['ratings'] as List<dynamic>?)
           ?.map((e) => RatingModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      offers: (json['offers'] as List<dynamic>?)
+          ?.map((e) => OfferModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
@@ -57,4 +60,5 @@ Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
       'clinicList': instance.clinicList?.map((e) => e.toJson()).toList(),
       'comments': instance.comments?.map((e) => e.toJson()).toList(),
       'ratings': instance.ratings?.map((e) => e.toJson()).toList(),
+      'offers': instance.offers?.map((e) => e.toJson()).toList(),
     };

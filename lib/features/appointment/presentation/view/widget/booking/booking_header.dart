@@ -28,11 +28,6 @@ class BookingHeader extends StatelessWidget {
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Theme.of(context).colorScheme.secondary)),
-            Text(
-                doctorModel.clinic?.consultationFee == null
-                    ? AppStrings.consultationPriceNotAvailable
-                    : "${AppStrings.consultationPrice} : ${doctorModel.clinic?.consultationFee} ${AppStrings.egp}",
-                style: TextStyle(color: Colors.blue)),
           ],
         )
       ],

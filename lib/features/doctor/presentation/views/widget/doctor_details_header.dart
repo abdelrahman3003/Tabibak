@@ -69,7 +69,7 @@ class DoctorDetailsHeader extends StatelessWidget {
                 .titleLarge
                 ?.copyWith(fontWeight: FontWeight.bold)),
         Text(
-            "${locale == 'ar' ? doctor.specialty?.nameAr : doctor.specialty?.nameEn ?? ""} - ${doctor.education?.university ?? ""}",
+            "${locale == 'ar' ? doctor.specialty?.nameAr : doctor.specialty?.nameEn ?? ""}  ${doctor.education?.university ?? ""}",
             style: Theme.of(context)
                 .textTheme
                 .titleSmall

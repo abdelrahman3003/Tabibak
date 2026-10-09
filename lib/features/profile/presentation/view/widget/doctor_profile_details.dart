@@ -6,6 +6,7 @@ import 'package:tabibak/core/routing/routes.dart';
 import 'package:tabibak/features/doctor/data/repo/doctor_repo.dart';
 import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
+import 'package:tabibak/features/home/data/model/offer_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final _profileDoctorProvider =
@@ -178,6 +179,10 @@ class _DoctorProfileSummary extends StatelessWidget {
             specialty: specialty,
           ),
           const SizedBox(height: 20),
+          if (doctor.offers != null && doctor.offers!.isNotEmpty) ...[
+            _OfferSection(offer: doctor.offers!.first),
+            const SizedBox(height: 20),
+          ],
           _ClinicsSection(
             clinics: clinics,
             doctor: doctor,
@@ -352,9 +357,12 @@ class _DoctorHero extends StatelessWidget {
                       ),
                     ),
                   ],
-                  if (doctor.avrRating != null && doctor.visitsCount != null && doctor.visitsCount! > 0)
+                  if (doctor.avrRating != null &&
+                      doctor.visitsCount != null &&
+                      doctor.visitsCount! > 0)
                     const SizedBox(width: 12),
-                  if (doctor.visitsCount != null && doctor.visitsCount! > 0) ...[
+                  if (doctor.visitsCount != null &&
+                      doctor.visitsCount! > 0) ...[
                     Icon(
                       Icons.visibility_outlined,
                       size: 18,
@@ -712,11 +720,6 @@ class _ClinicDetailsContent extends StatelessWidget {
             highlight: true,
             onTap: () => _launch(Uri(scheme: 'tel', path: clinic.phoneNumber!)),
           ),
-        if (clinic.consultationFee != null)
-          _SheetLine(
-            Icons.payments_outlined,
-            '${'Consultation fee'.tr()}: ${clinic.consultationFee} ${'EGP'.tr()}',
-          ),
         if (clinic.isBooking != null)
           _SheetLine(
             Icons.event_available_outlined,
@@ -740,7 +743,6 @@ class _ClinicDetailsContent extends StatelessWidget {
         ],
         if (addresses.isEmpty &&
             !_present(clinic.phoneNumber) &&
-            clinic.consultationFee == null &&
             clinic.isBooking == null &&
             workingDays.isEmpty)
           Text('No clinic information'.tr()),
@@ -1352,7 +1354,8 @@ List<Widget> _buildWorkingHours({
   if (hoursToDays.length == 1) {
     final commonHours = hoursToDays.keys.first;
     final openDayKeys = hoursToDays.values.first.toSet();
-    final missingDays = allDayKeys.where((d) => !openDayKeys.contains(d)).toList();
+    final missingDays =
+        allDayKeys.where((d) => !openDayKeys.contains(d)).toList();
 
     // Localized day name helper.
     String localizedDay(String enKey) {
@@ -1442,4 +1445,60 @@ List<Widget> _buildWorkingHours({
     );
   }
   return result;
+}
+
+class _OfferSection extends StatelessWidget {
+  const _OfferSection({required this.offer});
+  final OfferModel offer;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final locale = context.locale.languageCode;
+    final title = locale == 'ar' ? offer.titleAr : offer.titleEn;
+    final details = locale == 'ar' ? offer.detailsAr : offer.detailsEn;
+
+    if (title == null || title.isEmpty) return const SizedBox.shrink();
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.tertiaryContainer,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.local_offer, color: theme.colorScheme.onTertiaryContainer),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: theme.colorScheme.onTertiaryContainer,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (details != null && details.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      details,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onTertiaryContainer
+                            .withValues(alpha: .8),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

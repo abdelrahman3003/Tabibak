@@ -3,13 +3,13 @@ class ApiConstants {
   static const String apiBaseUrl =
       'https://wzfdmzijnyaihssxwril.supabase.co/rest/v1';
   static const String getAllDoctors =
-      "*,university_data(*),specialties(id,name),clinic_data(*,clinic_working_day(working_day(days(day),shifts(morning(start,end),evening(start,end))))),ratings(*),comments(*)";
+      "*,university_data(*),specialties(id,name),clinic_data(*,clinic_working_day(working_day(days(day),shifts(morning(start,end),evening(start,end))))),ratings(*),comments(*),offers(*)";
   static const String getAllDoctorsSummary =
-      "id,name,image,specialties(name),clinic_data(address)";
+      "id,name,image,specialties(name),clinic_data(address),offers(*)";
   static const String getComments = "comment,users(name),doctors(id,name)";
   static const String getUser = "*";
   static const String searchDoctor =
-      "id,name,image,specialties(name),clinic_data(address)";
+      "id,name,image,specialties(name),clinic_data(address),offers(*)";
   static const String getAllAppoinments =
       "*,doctors(id,name,clinic_data(id,consultation_fee),specialties(id,name)),appointments_status(status)";
   static const String getAllAppoinmentsStatus = "status";
@@ -17,9 +17,9 @@ class ApiConstants {
       "working_day!inner(days!inner(day),shifts(morning(start,end),evening(start,end)))";
   static const String addAppointment = "status";
   static const String getDoctors =
-      "*,specialties(*),education(*),clinic_data(*,clinic_address(*,city!clinic_address_city_id_fkey(*),markaz:city!clinic_address_markaz_id_fkey(*),village:city!clinic_address_village_id_fkey(*),governorate(*)),working_day(*,shifts_morning(*),shift_evening(*),days(*))),comments(*,users(*)),ratings(*)";
+      "*,specialties(*),education(*),clinic_data(*,clinic_address(*,city!clinic_address_city_id_fkey(*),markaz:city!clinic_address_markaz_id_fkey(*),village:city!clinic_address_village_id_fkey(*),governorate(*)),working_day(*,shifts_morning(*),shift_evening(*),days(*))),comments(*,users(*)),ratings(*),offers(*)";
   static const String getDoctorProfile =
-      "*,specialties(*),education(*),clinic_data(*,clinic_address(*,city!clinic_address_city_id_fkey(*),markaz:city!clinic_address_markaz_id_fkey(*),village:city!clinic_address_village_id_fkey(*),governorate(*)),working_day(*,days(*),shifts_morning(*),shift_evening(*))),ratings(*),comments(*,users(*))";
+      "*,specialties(*),education(*),clinic_data(*,clinic_address(*,city!clinic_address_city_id_fkey(*),markaz:city!clinic_address_markaz_id_fkey(*),village:city!clinic_address_village_id_fkey(*),governorate(*)),working_day(*,days(*),shifts_morning(*),shift_evening(*))),ratings(*),comments(*,users(*)),offers(*)";
 }
 
 class ApiErrors {

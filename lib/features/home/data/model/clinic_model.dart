@@ -22,6 +22,8 @@ class ClinicModel {
   final List<ClinicAddressModel>? clinicAddresses;
   @JsonKey(name: 'working_day')
   final List<WorkingDay>? workingDays;
+  @JsonKey(name: 'offer')
+  final String? offer;
   ClinicModel({
     this.id,
     this.doctorId,
@@ -32,6 +34,7 @@ class ClinicModel {
     this.consultationFee,
     this.clinicAddresses,
     this.workingDays,
+    this.offer,
   });
 
   factory ClinicModel.fromJson(Map<String, dynamic> json) =>

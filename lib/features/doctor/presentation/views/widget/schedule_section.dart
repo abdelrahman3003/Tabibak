@@ -79,8 +79,13 @@ bool _hasTime(String? t) => t != null && t.trim().isNotEmpty;
 Widget? _tryBuildSummary(List<WorkingDay> workingDays, BuildContext context) {
   // All 7 canonical day keys in calendar order.
   const allDayKeys = [
-    'saturday', 'sunday', 'monday', 'tuesday',
-    'wednesday', 'thursday', 'friday',
+    'saturday',
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
   ];
 
   // Deduplicate by day name, keeping the first entry with non-empty hours.
@@ -143,8 +148,7 @@ Widget? _tryBuildSummary(List<WorkingDay> workingDays, BuildContext context) {
     text = '${'Open every day from'.tr()} $commonHours';
   } else if (missingDays.length == 1) {
     final off = localizedDay(missingDays[0]);
-    text =
-        '${'Open every day except'.tr()} $off ${'from'.tr()} $commonHours';
+    text = '${'Open every day except'.tr()} $off ${'from'.tr()} $commonHours';
   } else {
     final off1 = localizedDay(missingDays[0]);
     final off2 = localizedDay(missingDays[1]);

@@ -24,7 +24,7 @@ class ShiftScheduleItem extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Colors.white70
                     : const Color(
@@ -37,7 +37,7 @@ class ShiftScheduleItem extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: AppColors.primary,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16.sp),
+                  fontSize: 14.sp),
             ),
           )
         ],

@@ -16,6 +16,7 @@ import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 import 'doctor_details_header.dart';
+import 'offer_banner_widget.dart';
 
 class DoctorDetailsBody extends StatelessWidget {
   const DoctorDetailsBody({super.key, required this.doctorModel});
@@ -36,6 +37,11 @@ class DoctorDetailsBody extends StatelessWidget {
             alignment: Alignment.center,
             child: DoctorDetailsHeader(doctor: doctorModel),
           ),
+          if (doctorModel.offers != null && doctorModel.offers!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: OfferBannerWidget(offer: doctorModel.offers!.first),
+            ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

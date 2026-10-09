@@ -4,6 +4,7 @@ import 'package:tabibak/features/home/data/model/comment_model.dart';
 import 'package:tabibak/features/home/data/model/education_model.dart';
 import 'package:tabibak/features/home/data/model/rating_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
+import 'package:tabibak/features/home/data/model/offer_model.dart';
 
 part 'doctor_model.g.dart';
 
@@ -50,6 +51,7 @@ class DoctorModel {
   final List<ClinicModel>? clinicList;
   final List<CommentModel>? comments;
   final List<RatingModel>? ratings;
+  final List<OfferModel>? offers;
   DoctorModel({
     required this.doctorId,
     this.name,
@@ -67,6 +69,7 @@ class DoctorModel {
     this.comments,
     this.education,
     this.ratings,
+    this.offers,
   });
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) =>

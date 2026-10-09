@@ -13,8 +13,25 @@ import 'package:tabibak/features/home/data/model/working_day_model.dart';
 class ClinicWorkDayCard extends StatelessWidget {
   const ClinicWorkDayCard({super.key, required this.workingDay});
   final WorkingDay workingDay;
+  bool _isValidShift(dynamic shift) {
+    if (shift == null) return false;
+    final start = shift.start as String?;
+    final end = shift.end as String?;
+    return start != null &&
+        start.trim().isNotEmpty &&
+        end != null &&
+        end.trim().isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final hasMorning = _isValidShift(workingDay.shiftMorning);
+    final hasEvening = _isValidShift(workingDay.shiftEvening);
+
+    if (!hasMorning && !hasEvening) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
       width: double.infinity,
       padding: AppPadding.all12,
@@ -50,17 +67,19 @@ class ClinicWorkDayCard extends StatelessWidget {
           12.hBox,
           Row(
             children: [
-              Expanded(
-                  child: ShiftScheduleItem(
-                      title: AppStrings.morningShift,
-                      subtitle:
-                          "${formatTime(workingDay.shiftMorning?.start)} - ${formatTime(workingDay.shiftMorning?.end)} ")),
-              14.wBox,
-              Expanded(
-                  child: ShiftScheduleItem(
-                      title: AppStrings.eveningShift,
-                      subtitle:
-                          "${formatTime(workingDay.shiftEvening?.start)} - ${formatTime(workingDay.shiftEvening?.end)} ")),
+              if (hasMorning)
+                Expanded(
+                    child: ShiftScheduleItem(
+                        title: AppStrings.morningShift,
+                        subtitle:
+                            "${formatTime(workingDay.shiftMorning?.start)} - ${formatTime(workingDay.shiftMorning?.end)} ")),
+              if (hasMorning && hasEvening) 14.wBox,
+              if (hasEvening)
+                Expanded(
+                    child: ShiftScheduleItem(
+                        title: AppStrings.eveningShift,
+                        subtitle:
+                            "${formatTime(workingDay.shiftEvening?.start)} - ${formatTime(workingDay.shiftEvening?.end)} ")),
             ],
           )
         ],

@@ -50,15 +50,15 @@ class ClinicInfoSection extends StatelessWidget {
         ),
         16.hBox,
 
-        // Consultation Fee
-        ClinicItemInfo(
-          icon: "assets/images/payments.png",
-          title: AppStrings.consultationFee,
-          subtitle: clinic?.consultationFee != null
-              ? '${clinic!.consultationFee} ${AppStrings.egp}'
-              : AppStrings.unknown,
-        ),
-        16.hBox,
+        if (clinic?.offer != null && clinic!.offer!.isNotEmpty) ...[
+          // Offer
+          ClinicItemInfo(
+            icon: "assets/images/payments.png",
+            title: 'Offer'.tr(),
+            subtitle: clinic!.offer!,
+          ),
+          16.hBox,
+        ],
 
         // Address — all fields in one row per address entry
         ...() {

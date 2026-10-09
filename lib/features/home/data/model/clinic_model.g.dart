@@ -20,6 +20,7 @@ ClinicModel _$ClinicModelFromJson(Map<String, dynamic> json) => ClinicModel(
       workingDays: (json['working_day'] as List<dynamic>?)
           ?.map((e) => WorkingDay.fromJson(e as Map<String, dynamic>))
           .toList(),
+      offer: json['offer'] as String?,
     );
 
 Map<String, dynamic> _$ClinicModelToJson(ClinicModel instance) =>
@@ -33,6 +34,7 @@ Map<String, dynamic> _$ClinicModelToJson(ClinicModel instance) =>
       'consultation_fee': instance.consultationFee,
       'clinic_address': instance.clinicAddresses,
       'working_day': instance.workingDays,
+      'offer': instance.offer,
     };
 
 ClinicAddressModel _$ClinicAddressModelFromJson(Map<String, dynamic> json) =>
