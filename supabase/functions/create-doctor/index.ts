@@ -56,10 +56,14 @@ serve(async (req) => {
       let insertedWorkingDays = [];
 
       // Create a default clinic record since we need it for the address and shifts
+      const addressPayload = clinic?.clinic_address;
+      
       const clinicData = {
         doctor_id: newDoctor.doctor_id,
         is_booking: true,
-        is_available: true
+        is_available: true,
+        clinic_name: addressPayload?.clinic_name ?? null,
+        phone_number: addressPayload?.phone_number ?? null
       };
 
       const [insertedClinic] = await sql`
