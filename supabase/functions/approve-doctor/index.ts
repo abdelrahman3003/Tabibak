@@ -53,9 +53,9 @@ serve(async (req) => {
 
     const doctorName = updatedDoctors[0].name || "A doctor";
 
-    // 1. Fetch the doctor's clinic markaz_id and clinic_name
+    // 1. Fetch the doctor's clinic markaz_id, village_id and clinic_name
     const clinicRes = await fetch(
-      `${supabaseUrl}/rest/v1/clinic_data?doctor_id=eq.${doctorId}&select=id,clinic_name,clinic_address(markaz_id)`,
+      `${supabaseUrl}/rest/v1/clinic_data?doctor_id=eq.${doctorId}&select=id,clinic_name,clinic_address(markaz_id,village_id)`,
       { headers }
     );
     
@@ -72,13 +72,16 @@ serve(async (req) => {
 
     const clinicName = clinicData[0].clinic_name || "عيادة";
 
-    // Extract markaz_id (clinic_address could be an array or single object)
+    // Extract markaz_id and village_id
     let markazId = null;
+    let villageId = null;
     const addressData = clinicData[0].clinic_address;
     if (Array.isArray(addressData) && addressData.length > 0) {
         markazId = addressData[0].markaz_id;
+        villageId = addressData[0].village_id;
     } else if (addressData && !Array.isArray(addressData)) {
         markazId = addressData.markaz_id;
+        villageId = addressData.village_id;
     }
 
     if (!markazId) {
@@ -113,8 +116,25 @@ serve(async (req) => {
         }
     }
 
-    const title = "عيادة جديدة في مركزك!"; // New clinic in your markaz!
-    const body = `تم إضافة عيادة جديدة: ${clinicName}، خاصة بـ ${formattedDoctorName}.`; // A new clinic has been added: [Clinic Name], owned by Dr. [Doctor Name].
+    // Fetch name of village if villageId is not null, otherwise fetch name of markaz
+    const locationId = villageId || markazId;
+    let locationName = "";
+    if (locationId) {
+      const cityRes = await fetch(`${supabaseUrl}/rest/v1/city?id=eq.${locationId}&select=name_ar`, { headers });
+      if (cityRes.ok) {
+        const cityData = await cityRes.json();
+        if (cityData && cityData.length > 0 && cityData[0].name_ar) {
+          locationName = cityData[0].name_ar;
+        }
+      }
+    }
+
+    // If village_id is not null -> "عيادة جديدة في [اسم القرية]!", else -> "عيادة جديدة في [اسم المركز]!"
+    const title = locationName 
+      ? `عيادة جديدة في ${locationName}!`
+      : (villageId ? "عيادة جديدة في قريتك!" : "عيادة جديدة في مركزك!");
+
+    const body = `تم إضافة عيادة جديدة: ${clinicName}، خاصة بـ ${formattedDoctorName}.`;
     const notificationType = "promotion";
 
     // Prepare notifications for insertion and gather tokens

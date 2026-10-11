@@ -60,8 +60,8 @@ serve(async (req) => {
       
       const clinicData = {
         doctor_id: newDoctor.doctor_id,
-        is_booking: true,
-        is_available: true,
+        is_booking: clinic?.is_booking ?? false,
+        is_available: clinic?.is_available ?? true,
         clinic_name: addressPayload?.clinic_name ?? null,
         phone_number: addressPayload?.phone_number ?? null
       };
