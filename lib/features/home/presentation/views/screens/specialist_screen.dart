@@ -14,9 +14,8 @@ class SpecialistScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final locale = Localizations.localeOf(context).languageCode;
-    final specialtyName = locale == 'ar'
-        ? ref.read(specialtyProvider)!.nameAr
-        : ref.read(specialtyProvider)!.nameEn;
+    final specialty = ref.watch(specialtyProvider);
+    final specialtyName = specialty?.getName(locale) ?? '';
     return Scaffold(
         appBar: AppBarWidget(title: specialtyName),
         body: Padding(

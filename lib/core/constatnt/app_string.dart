@@ -250,4 +250,6 @@ class AppStrings {
   static String get retry => "Retry".tr();
   static String get appointment => "Appointment".tr();
   static String get appName => "appName".tr();
+  static String get allSpecialties => "All Specialties".tr();
+  static String get specialties => "Specialties".tr();
 }

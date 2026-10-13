@@ -26,9 +26,7 @@ class AllSpecialtiesList extends ConsumerWidget {
         return CategoryItem(
           isAllCategories: true,
           icon: specialty.icon ?? '',
-          name: context.locale.languageCode == 'ar'
-              ? specialty.nameAr ?? ""
-              : specialty.nameEn ?? "",
+          name: specialty.getName(context.locale.languageCode),
           onTap: () {
             ref
                 .read(doctorsSpecialtyProvider.notifier)

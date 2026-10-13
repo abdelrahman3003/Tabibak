@@ -177,9 +177,7 @@ class DoctorItem extends StatelessWidget {
 
   Widget _buildSpecialty(BuildContext context) {
     return Text(
-      context.locale.languageCode == 'ar'
-          ? doctorSummary.specialty?.nameAr ?? ""
-          : doctorSummary.specialty?.nameEn ?? "",
+      doctorSummary.specialty?.getName(context.locale.languageCode) ?? "",
       overflow: TextOverflow.ellipsis,
       style: Theme.of(context)
           .textTheme

@@ -21,9 +21,8 @@ class CategoriesListView extends StatelessWidget {
       itemBuilder: (context, index) => Consumer(builder: (context, ref, _) {
         return CategoryItem(
           icon: specialtiesList[index].icon!,
-          name: context.locale.languageCode == 'ar'
-              ? specialtiesList[index].nameAr ?? ""
-              : specialtiesList[index].nameEn ?? "",
+          name:
+              specialtiesList[index].getName(context.locale.languageCode),
           onTap: () {
             ref
                 .read(doctorsSpecialtyProvider.notifier)

@@ -56,9 +56,9 @@ class DoctorSpecialtyItem extends StatelessWidget {
                   ),
                   5.hBox,
                   Text(
-                    context.locale.languageCode == 'ar'
-                        ? doctorSummary.specialty?.nameAr ?? ""
-                        : doctorSummary.specialty?.nameEn ?? "",
+                    doctorSummary.specialty
+                            ?.getName(context.locale.languageCode) ??
+                        "",
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: AppColors.subtextColor,
                         ),

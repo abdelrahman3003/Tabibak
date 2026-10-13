@@ -17,6 +17,17 @@ class SpecialtyModel {
     required this.icon,
   });
 
+  String getName(String locale) {
+    if (locale == 'ar') {
+      return (nameAr != null && nameAr!.isNotEmpty)
+          ? nameAr!
+          : (nameEn ?? '');
+    }
+    return (nameEn != null && nameEn!.isNotEmpty)
+        ? nameEn!
+        : (nameAr ?? '');
+  }
+
   factory SpecialtyModel.fromJson(Map<String, dynamic> json) =>
       _$SpecialtyModelFromJson(json);
 

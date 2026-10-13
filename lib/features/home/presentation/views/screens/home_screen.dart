@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
@@ -48,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     20.hBox,
                     TitleText(
-                      title: AppStrings.doctorSpeciality.tr(),
+                      title: AppStrings.doctorSpeciality,
                       subtitle: AppStrings.viewAll,
                       onTap: () {
                         context.pushNamed(Routes.allSpecialtiesScreen);
@@ -65,7 +64,7 @@ class HomeScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: TitleText(
-                title: AppStrings.recommendationDoctor.tr(),
+                title: AppStrings.recommendationDoctor,
               ),
             ),
           ),
