@@ -145,14 +145,17 @@ class DoctorItem extends StatelessWidget {
   Widget _buildInfo(BuildContext context) {
     final clinicLocation =
         doctorSummary.getClinicLocation(context.locale.languageCode);
+    final hasRating = doctorSummary.hasRating;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildName(context),
         _buildSpecialty(context),
-        5.hBox,
-        _buildRating(context),
+        if (hasRating) ...[
+          5.hBox,
+          _buildRating(context),
+        ],
         if (clinicLocation.isNotEmpty) ...[
           5.hBox,
           _buildLocation(context, clinicLocation),
@@ -187,11 +190,13 @@ class DoctorItem extends StatelessWidget {
   }
 
   Widget _buildRating(BuildContext context) {
+    final count = doctorSummary.ratingsCount ?? 0;
+    final ratingVal = doctorSummary.avrRating ?? 0.0;
     return Row(
       children: [
         const Icon(Icons.star, color: Color(0xffEAB308), size: 12),
         Text(
-          doctorSummary.avrRating.toString(),
+          ratingVal.toString(),
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: const Color(0xffEAB308),
@@ -199,7 +204,7 @@ class DoctorItem extends StatelessWidget {
         ),
         const SizedBox(width: 3),
         Text(
-          "(${doctorSummary.ratingsCount.toString()} ${doctorSummary.ratingsCount == 1 ? AppStrings.rating : AppStrings.ratings})",
+          "($count ${count == 1 ? AppStrings.rating : AppStrings.ratings})",
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.subtextColor,

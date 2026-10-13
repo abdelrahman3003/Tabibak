@@ -212,7 +212,7 @@ String _doctorDetailsSubtitle(DoctorModel doctor) {
     parts.add(doctor.phone!);
   }
 
-  if (doctor.avrRating != null) {
+  if (doctor.hasRating && doctor.avrRating != null && doctor.avrRating! > 0) {
     parts.add('★ ${doctor.avrRating}');
   }
 
@@ -239,6 +239,12 @@ class _DoctorHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final hasRating = doctor.hasRating &&
+        doctor.avrRating != null &&
+        doctor.avrRating! > 0 &&
+        (doctor.ratingsCount ?? 0) > 0;
+    final hasVisits =
+        doctor.visitsCount != null && doctor.visitsCount! > 0;
 
     return Container(
       width: double.infinity,
@@ -305,7 +311,7 @@ class _DoctorHero extends StatelessWidget {
               ),
             ),
           ],
-          if (doctor.avrRating != null || doctor.visitsCount != null) ...[
+          if (hasRating || hasVisits) ...[
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -316,7 +322,7 @@ class _DoctorHero extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (doctor.avrRating != null) ...[
+                  if (hasRating) ...[
                     const Icon(
                       Icons.star_rounded,
                       size: 18,
@@ -339,12 +345,9 @@ class _DoctorHero extends StatelessWidget {
                       ),
                     ),
                   ],
-                  if (doctor.avrRating != null &&
-                      doctor.visitsCount != null &&
-                      doctor.visitsCount! > 0)
+                  if (hasRating && hasVisits)
                     const SizedBox(width: 12),
-                  if (doctor.visitsCount != null &&
-                      doctor.visitsCount! > 0) ...[
+                  if (hasVisits) ...[
                     Icon(
                       Icons.visibility_outlined,
                       size: 18,
@@ -708,21 +711,58 @@ class _ClinicDetailsContent extends StatelessWidget {
             (clinic.isBooking! ? 'Booking available' : 'Booking unavailable')
                 .tr(),
           ),
-        if (workingDays.isNotEmpty) ...[
-          const SizedBox(height: 14),
-          Text(
-            'Working hours'.tr(),
-            style: theme.textTheme.titleSmall
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          ..._buildWorkingHours(
-            workingDays: workingDays,
-            locale: locale,
-            todayEntry: todayEntry,
-            theme: theme,
-          ),
-        ],
+        ...() {
+          final hasWorkingDays = workingDays.isNotEmpty &&
+              workingDays.any((d) => _shifts(d).isNotEmpty);
+          return [
+            const SizedBox(height: 14),
+            Text(
+              'Working hours'.tr(),
+              style: theme.textTheme.titleSmall
+                  ?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            if (hasWorkingDays)
+              ..._buildWorkingHours(
+                workingDays: workingDays,
+                locale: locale,
+                todayEntry: todayEntry,
+                theme: theme,
+              )
+            else
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: theme.brightness == Brightness.dark
+                      ? theme.cardColor.withAlpha(5)
+                      : const Color(0xffEDF2F7),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: theme.brightness == Brightness.dark
+                        ? Colors.white.withAlpha(1)
+                        : const Color(0xffE2E8F0),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.schedule,
+                        size: 20, color: theme.colorScheme.primary),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'Working days unknown'.tr(),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ];
+        }(),
         if (addresses.isEmpty &&
             !_present(clinic.phoneNumber) &&
             clinic.isBooking == null &&
@@ -962,7 +1002,10 @@ class _DoctorDetailsContent extends StatelessWidget {
               text: bio!,
             ),
           ],
-          if (doctor.avrRating == null && doctor.ratingsCount != null)
+          if (doctor.hasRating &&
+              doctor.avrRating == null &&
+              doctor.ratingsCount != null &&
+              doctor.ratingsCount! > 0)
             _DetailLine(
               Icons.star_outline,
               'Rating'.tr(),

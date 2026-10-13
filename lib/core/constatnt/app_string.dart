@@ -64,6 +64,7 @@ class AppStrings {
   static String get aboutDoctor => "About Doctor".tr();
   static String get specialty => "Specialty".tr();
   static String get workingHours => "Working Hours".tr();
+  static String get workingDaysUnknown => "Working days unknown".tr();
   static String get bookingInquiry => "Booking Inquiry".tr();
   static String get nameNotFound => "Name Not Found".tr();
   static String get specialtyNotAvailable => "Specialty Not Available".tr();

@@ -13,7 +13,51 @@ class ScheduleSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final workingDays = _getCleanList(workingDayList);
-    if (workingDays.isEmpty) return const SizedBox();
+    final hasValidHours =
+        workingDays.any((d) => _formatDayHours(d).isNotEmpty);
+
+    if (workingDays.isEmpty || !hasValidHours) {
+      final theme = Theme.of(context);
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          30.hBox,
+          TitleText(title: AppStrings.workingHours),
+          10.hBox,
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: theme.brightness == Brightness.dark
+                  ? theme.cardColor.withAlpha(5)
+                  : const Color(0xffEDF2F7),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: theme.brightness == Brightness.dark
+                    ? Colors.white.withAlpha(1)
+                    : const Color(0xffE2E8F0),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.schedule,
+                    size: 20, color: theme.colorScheme.primary),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    AppStrings.workingDaysUnknown,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
 
     final summary = _tryBuildSummary(workingDays, context);
 
@@ -47,7 +91,7 @@ List<WorkingDay> _getCleanList(List<WorkingDay>? workingDayList) {
   List<WorkingDay> list = [];
   if (workingDayList == null) return [];
   for (var workday in workingDayList) {
-    if (workday.isSelected!) {
+    if (workday.isSelected == true) {
       list.add(workday);
     }
   }

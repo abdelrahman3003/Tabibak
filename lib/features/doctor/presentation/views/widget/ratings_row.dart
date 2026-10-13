@@ -8,9 +8,13 @@ class RatingsRow extends StatelessWidget {
   final int? ratingCount;
   @override
   Widget build(BuildContext context) {
-    return rate == null
-        ? SizedBox()
-        : Row(
+    if (rate == null ||
+        rate! <= 0 ||
+        ratingCount == null ||
+        ratingCount! <= 0) {
+      return const SizedBox.shrink();
+    }
+    return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(

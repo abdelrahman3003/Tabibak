@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabibak/core/constatnt/app_padding.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
@@ -29,6 +28,8 @@ class DoctorDetailsHeader extends StatelessWidget {
         : doctor.avrRating;
     final displayedRatingCount =
         submittedRates.isNotEmpty ? submittedRates.length : doctor.ratingsCount;
+    final hasRating = (displayedRating != null && displayedRating > 0) &&
+        (displayedRatingCount != null && displayedRatingCount > 0);
     return Column(
       children: [
         ImageCircle(
@@ -47,11 +48,13 @@ class DoctorDetailsHeader extends StatelessWidget {
                 .textTheme
                 .titleSmall
                 ?.copyWith(color: AppColors.subtextColor)),
-        4.hBox,
-        RatingsRow(
-          rate: displayedRating,
-          ratingCount: displayedRatingCount,
-        ),
+        if (hasRating) ...[
+          4.hBox,
+          RatingsRow(
+            rate: displayedRating,
+            ratingCount: displayedRatingCount,
+          ),
+        ],
         if (doctor.visitsCount != null && doctor.visitsCount! > 0) ...[
           4.hBox,
           Row(

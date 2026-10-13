@@ -194,6 +194,7 @@ class _ClinicsSection extends StatelessWidget {
           10.hBox,
           Text('No clinic information'.tr(),
               style: Theme.of(context).textTheme.bodyMedium),
+          const ScheduleSection(workingDayList: null),
         ],
       );
     }

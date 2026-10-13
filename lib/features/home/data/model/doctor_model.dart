@@ -76,6 +76,14 @@ class DoctorModel {
   List<OfferModel> get activeOffers =>
       offers?.where((o) => o.isValid).toList() ?? [];
 
+  /// Returns true if the doctor has any valid ratings or reviews.
+  bool get hasRating {
+    if (ratings != null && ratings!.isNotEmpty) return true;
+    if (ratingsCount != null && ratingsCount! > 0) return true;
+    if (avrRating != null && avrRating! > 0) return true;
+    return false;
+  }
+
   factory DoctorModel.fromJson(Map<String, dynamic> json) =>
       _$DoctorModelFromJson(json);
   Map<String, dynamic> toJson() => _$DoctorModelToJson(this);
