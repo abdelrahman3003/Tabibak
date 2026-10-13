@@ -35,7 +35,7 @@ class HomeAppBar extends StatelessWidget {
                   onPressed: () {
                     ref
                         .read(notificationProviderNotifier.notifier)
-                        .clearBadge();
+                        .onOpenNotificationScreen();
                     context.pushNamed(Routes.notificationScreen);
                   },
                   icon: Icon(

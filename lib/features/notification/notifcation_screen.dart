@@ -12,21 +12,47 @@ import 'package:tabibak/features/notification/presentation/manager/notification_
 import 'package:tabibak/core/extenstion/naviagation.dart';
 import 'package:tabibak/core/routing/routes.dart';
 
-class NotificationScreen extends ConsumerWidget {
+class NotificationScreen extends ConsumerStatefulWidget {
   const NotificationScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends ConsumerState<NotificationScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        ref
+            .read(notificationProviderNotifier.notifier)
+            .onOpenNotificationScreen();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    try {
+      ref
+          .read(notificationProviderNotifier.notifier)
+          .onCloseNotificationScreen();
+    } catch (_) {}
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(notificationProviderNotifier);
     final notifier = ref.read(notificationProviderNotifier.notifier);
     final all = state.notifications ?? [];
 
     return Scaffold(
       backgroundColor: AppColors.scaffoldBG,
-      appBar: _buildAppBar(context, ref),
+      appBar: _buildAppBar(context),
       body: _buildBody(
         context: context,
-        ref: ref,
         isLoading: state.isLoading && all.isEmpty,
         error: state.errorMessage,
         notifications: all,
@@ -36,7 +62,7 @@ class NotificationScreen extends ConsumerWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context, WidgetRef ref) {
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
     final notifier = ref.read(notificationProviderNotifier.notifier);
     final unreadCount = ref.watch(
       notificationProviderNotifier.select((state) => state.unreadCount),
@@ -84,7 +110,6 @@ class NotificationScreen extends ConsumerWidget {
 
   Widget _buildBody({
     required BuildContext context,
-    required WidgetRef ref,
     required bool isLoading,
     required String? error,
     required List<NotificationModel> notifications,
