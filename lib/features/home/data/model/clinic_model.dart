@@ -127,3 +127,88 @@ class CityModel {
 
   Map<String, dynamic> toJson() => _$CityModelToJson(this);
 }
+
+extension ClinicAddressFormatting on ClinicAddressModel {
+  /// Returns only one location according to hierarchy:
+  /// 1. village if available
+  /// 2. district/markaz (or city) if available
+  /// 3. governorate if available
+  /// Never returns full address or street.
+  String getLocation(String locale) {
+    String getCityName(CityModel? c) {
+      if (c == null) return '';
+      final name = (locale == 'ar' ? c.nameAr : c.nameEn) ??
+          c.nameAr ??
+          c.nameEn ??
+          '';
+      return name.trim();
+    }
+
+    final vlg = getCityName(village);
+    if (vlg.isNotEmpty) return vlg;
+
+    final mrk = getCityName(markaz);
+    if (mrk.isNotEmpty) return mrk;
+
+    final cty = getCityName(city);
+    if (cty.isNotEmpty) return cty;
+
+    final gov = getCityName(governorate);
+    if (gov.isNotEmpty) return gov;
+
+    return '';
+  }
+
+  String formatAddress(String locale) {
+    String getCityName(CityModel? c) {
+      if (c == null) return '';
+      return (locale == 'ar' ? c.nameAr : c.nameEn) ??
+          c.nameAr ??
+          c.nameEn ??
+          '';
+    }
+
+    final parts = <String>[];
+    final gov = getCityName(governorate);
+    final mrk = getCityName(markaz);
+    final vlg = getCityName(village);
+    final cty = getCityName(city);
+    final str = street?.trim() ?? '';
+
+    if (gov.isNotEmpty) parts.add(gov);
+    if (mrk.isNotEmpty && !parts.contains(mrk)) parts.add(mrk);
+    if (vlg.isNotEmpty && !parts.contains(vlg)) parts.add(vlg);
+    if (cty.isNotEmpty && !parts.contains(cty)) parts.add(cty);
+    if (str.isNotEmpty && !parts.contains(str)) parts.add(str);
+
+    return parts.join(locale == 'ar' ? '، ' : ', ');
+  }
+}
+
+extension ClinicFormatting on ClinicModel {
+  List<String> getLocations(String locale) {
+    final list = <String>[];
+    if (clinicAddresses != null && clinicAddresses!.isNotEmpty) {
+      for (final addr in clinicAddresses!) {
+        final loc = addr.getLocation(locale);
+        if (loc.isNotEmpty && !list.contains(loc)) {
+          list.add(loc);
+        }
+      }
+    }
+    return list;
+  }
+
+  String getLocation(String locale) {
+    final list = getLocations(locale);
+    return list.isNotEmpty ? list.first : '';
+  }
+
+  String getFormattedAddress(String locale) {
+    if (clinicAddresses != null && clinicAddresses!.isNotEmpty) {
+      final addr = clinicAddresses!.first.formatAddress(locale);
+      if (addr.isNotEmpty) return addr;
+    }
+    return clinicName?.trim() ?? '';
+  }
+}

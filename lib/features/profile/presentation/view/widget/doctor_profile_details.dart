@@ -1214,23 +1214,7 @@ bool _hasEducation(DoctorModel doctor) {
 }
 
 String _clinicAddress(ClinicModel clinic, String locale) {
-  final addresses = clinic.clinicAddresses ?? [];
-  if (addresses.isEmpty) return '';
-
-  final address = addresses.first;
-
-  String getCityName(CityModel? city) {
-    if (city == null) return '';
-    return (locale == 'ar' ? city.nameAr : city.nameEn) ??
-        city.nameAr ??
-        city.nameEn ??
-        '';
-  }
-
-  return [
-    getCityName(address.governorate),
-    getCityName(address.markaz),
-  ].where((p) => p.isNotEmpty).join(', ');
+  return clinic.getLocation(locale);
 }
 
 /// Morning / evening shifts of a working day as "start–end" strings.

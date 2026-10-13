@@ -28,9 +28,7 @@ class SearchCard extends ConsumerWidget {
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         subtitle: Text(
-          context.locale.languageCode == 'ar'
-              ? doctorSummary.clinic?.clinicAddresses?.first.city?.nameAr ?? ""
-              : doctorSummary.clinic?.clinicAddresses?.first.city?.nameAr ?? "",
+          doctorSummary.getClinicLocation(context.locale.languageCode),
           style: Theme.of(context).textTheme.bodySmall,
         ),
         trailing: IconButton(

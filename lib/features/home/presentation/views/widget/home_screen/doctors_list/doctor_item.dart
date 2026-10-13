@@ -44,7 +44,7 @@ class DoctorItem extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
             decoration: _decoration(context),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,6 +143,9 @@ class DoctorItem extends StatelessWidget {
   }
 
   Widget _buildInfo(BuildContext context) {
+    final clinicLocation =
+        doctorSummary.getClinicLocation(context.locale.languageCode);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -150,6 +153,10 @@ class DoctorItem extends StatelessWidget {
         _buildSpecialty(context),
         5.hBox,
         _buildRating(context),
+        if (clinicLocation.isNotEmpty) ...[
+          5.hBox,
+          _buildLocation(context, clinicLocation),
+        ],
         8.hBox,
         _buildPriceAndButton(context),
       ],
@@ -224,6 +231,33 @@ class DoctorItem extends StatelessWidget {
                   ),
             ),
           ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLocation(BuildContext context, String location) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 1.5),
+          child: Icon(
+            Icons.location_on_outlined,
+            size: 13.sp,
+            color: AppColors.primary,
+          ),
+        ),
+        4.wBox,
+        Expanded(
+          child: Text(
+            location,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: AppColors.subtextColor,
+                ),
+          ),
         ),
       ],
     );

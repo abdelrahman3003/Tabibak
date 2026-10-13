@@ -76,3 +76,41 @@ class DoctorModel {
       _$DoctorModelFromJson(json);
   Map<String, dynamic> toJson() => _$DoctorModelToJson(this);
 }
+
+extension DoctorAddressFormatting on DoctorModel {
+  /// Returns a list of all unique clinic locations for this doctor.
+  /// Each location follows the hierarchy:
+  /// 1. village if available
+  /// 2. district/markaz (or city) if available
+  /// 3. governorate if available
+  /// Never returns full address or street.
+  List<String> getClinicLocations(String locale) {
+    final clinics = clinicList?.isNotEmpty == true
+        ? clinicList!
+        : (clinic != null ? [clinic!] : <ClinicModel>[]);
+
+    final locations = <String>[];
+    for (final c in clinics) {
+      for (final loc in c.getLocations(locale)) {
+        if (loc.isNotEmpty && !locations.contains(loc)) {
+          locations.add(loc);
+        }
+      }
+    }
+    return locations;
+  }
+
+  /// Formatted single or multi-clinic location string (e.g. "Dishna • Qena").
+  String getClinicLocation(String locale) {
+    final locations = getClinicLocations(locale);
+    if (locations.isEmpty) return '';
+    return locations.join(' • ');
+  }
+
+  String getClinicAddress(String locale) {
+    final c = clinic ??
+        (clinicList?.isNotEmpty == true ? clinicList!.first : null);
+    if (c == null) return '';
+    return c.getFormattedAddress(locale);
+  }
+}
