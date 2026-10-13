@@ -2,6 +2,7 @@ import 'package:tabibak/core/networking/api_error_handler.dart';
 import 'package:tabibak/core/networking/api_result.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
 import 'package:tabibak/features/home/data/data_source/home_remote_data.dart';
+import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
@@ -80,11 +81,45 @@ class HomeRepoImp extends HomeRepo {
   Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist({
     int? specialtyId,
     String? sortBy,
+    int? markazId,
   }) async {
     try {
       final result = await homeRemoteData.getSpecialtyDoctors(
-          sortBy: sortBy, specialtyId: specialtyId);
+        sortBy: sortBy,
+        specialtyId: specialtyId,
+        markazId: markazId,
+      );
 
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<CityModel>>> getGovernorates() async {
+    try {
+      final result = await homeRemoteData.getGovernorates();
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<CityModel>>> getMarkazes() async {
+    try {
+      final result = await homeRemoteData.getMarkazes();
+      return ApiResult.sucess(result);
+    } catch (error) {
+      return ApiResult.failure(ErrorHandler.handle(error));
+    }
+  }
+
+  @override
+  Future<ApiResult<List<CityModel>>> getVillages({int? markazId}) async {
+    try {
+      final result = await homeRemoteData.getVillages(markazId: markazId);
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

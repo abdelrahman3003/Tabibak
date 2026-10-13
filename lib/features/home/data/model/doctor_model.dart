@@ -43,6 +43,9 @@ class DoctorModel {
   @JsonKey(name: 'specialties')
   final SpecialtyModel? specialty;
   final EducationModel? education;
+  @JsonKey(name: 'markaz_id')
+  final int? markazId;
+  final String? markaz;
 
   @JsonKey(name: 'clinic', readValue: _readClinic)
   final ClinicModel? clinic;
@@ -70,6 +73,8 @@ class DoctorModel {
     this.education,
     this.ratings,
     this.offers,
+    this.markazId,
+    this.markaz,
   });
 
   /// Returns only offers that are currently active and haven't expired.

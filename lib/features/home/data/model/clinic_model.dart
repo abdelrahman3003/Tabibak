@@ -122,14 +122,24 @@ class CityModel {
     this.parent,
   });
 
-  /// Always returns the Arabic name in both Arabic and English app languages.
-  /// Falls back to English only if Arabic is not available.
-  String get arabicName {
-    if (nameAr != null && nameAr!.trim().isNotEmpty) {
-      return nameAr!.trim();
+  /// Returns localized name based on locale ('ar' or 'en').
+  String getName([String? locale]) {
+    final lang = locale ?? 'ar';
+    if (lang == 'ar') {
+      if (nameAr != null && nameAr!.trim().isNotEmpty) {
+        return nameAr!.trim();
+      }
+      return nameEn?.trim() ?? '';
+    } else {
+      if (nameEn != null && nameEn!.trim().isNotEmpty) {
+        return nameEn!.trim();
+      }
+      return nameAr?.trim() ?? '';
     }
-    return nameEn?.trim() ?? '';
   }
+
+  /// Retain arabicName getter for backwards compatibility.
+  String get arabicName => getName('ar');
 
   factory CityModel.fromJson(Map<String, dynamic> json) =>
       _$CityModelFromJson(json);
@@ -138,16 +148,12 @@ class CityModel {
 }
 
 extension ClinicAddressFormatting on ClinicAddressModel {
-  /// Returns only one location according to hierarchy:
-  /// 1. village if available
-  /// 2. district/markaz (or city) if available
-  /// 3. governorate if available
-  /// Never returns full address or street.
-  /// Always returns in Arabic in both Arabic and English app languages.
+  /// Returns one location according to hierarchy (village, markaz, city, governorate)
+  /// Localized according to [locale].
   String getLocation([String? locale]) {
     String getCityName(CityModel? c) {
       if (c == null) return '';
-      return c.arabicName;
+      return locale != null ? c.getName(locale) : c.arabicName;
     }
 
     final vlg = getCityName(village);
@@ -168,7 +174,7 @@ extension ClinicAddressFormatting on ClinicAddressModel {
   String formatAddress(String locale) {
     String getCityName(CityModel? c) {
       if (c == null) return '';
-      return c.arabicName;
+      return c.getName(locale);
     }
 
     final parts = <String>[];

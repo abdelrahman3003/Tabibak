@@ -1,6 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:tabibak/core/networking/api_consatnt.dart';
 import 'package:tabibak/features/auth/data/models/user_model.dart';
+import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
 import 'package:tabibak/features/pharamcy/data/models/pharmacy_offer_model.dart';
@@ -58,13 +59,15 @@ class HomeRemoteData {
     int? specialtyId,
     String? sortBy,
     bool ascending = false,
+    int? markazId,
   }) async {
     final response = await supabase.rpc(
       'get_filtered_sorted_doctor_ids',
       params: {
         'spec_id': specialtyId,
         'sort_by': sortBy,
-        'ascending': false,
+        'ascending': ascending,
+        'p_markaz_id': markazId,
       },
     );
 
@@ -78,7 +81,53 @@ class HomeRemoteData {
         .eq('status', 2)
         .inFilter('doctor_id', doctorIds);
 
-    return (doctors as List).map((e) => DoctorModel.fromJson(e)).toList();
+    final list = (doctors as List).map((e) => DoctorModel.fromJson(e)).toList();
+    list.sort((a, b) =>
+        doctorIds.indexOf(a.doctorId).compareTo(doctorIds.indexOf(b.doctorId)));
+    return list;
+  }
+
+  Future<List<CityModel>> getGovernorates() async {
+    try {
+      final response = await supabase
+          .from('governorate')
+          .select('id, name_ar, name_en')
+          .order('id');
+      final list = (response as List)
+          .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
+          .toList();
+      if (list.isNotEmpty) return list;
+    } catch (_) {}
+    return [
+      CityModel(id: 1, nameAr: 'قنا', nameEn: 'Qena', type: 'governorate'),
+    ];
+  }
+
+  Future<List<CityModel>> getMarkazes() async {
+    final response = await supabase
+        .from('city')
+        .select('id, name_ar, name_en, type, parent_id')
+        .eq('type', 'markaz')
+        .order('id');
+
+    return (response as List)
+        .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<List<CityModel>> getVillages({int? markazId}) async {
+    var query = supabase
+        .from('city')
+        .select('id, name_ar, name_en, type, parent_id');
+    if (markazId != null) {
+      query = query.eq('parent_id', markazId);
+    } else {
+      query = query.not('parent_id', 'is', null);
+    }
+    final response = await query.order('name_ar');
+    return (response as List)
+        .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   Future<List<DoctorModel>> searchDoctor(String search,

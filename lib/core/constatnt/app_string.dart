@@ -253,4 +253,20 @@ class AppStrings {
   static String get appName => "appName".tr();
   static String get allSpecialties => "All Specialties".tr();
   static String get specialties => "Specialties".tr();
+  static String get selectLocation => "selectLocation".tr();
+  static String get filterByLocation => "filterByLocation".tr();
+  static String get allLocations => "allLocations".tr();
+  static String get allGovernorates => "allGovernorates".tr();
+  static String get allMarkazes => "allMarkazes".tr();
+  static String get allVillages => "allVillages".tr();
+  static String get selectMarkazFirst => "selectMarkazFirst".tr();
+  static String get searchVillage => "searchVillage".tr();
+  static String get applyFilter => "applyFilter".tr();
+  static String get clearFilter => "clearFilter".tr();
+  static String get noDoctorsInLocation => "noDoctorsInLocation".tr();
+  static String get viewAllDoctors => "viewAllDoctors".tr();
+  static String get location => "location".tr();
+  static String get filters => "filters".tr();
+  static String get filterDoctors => "filterDoctors".tr();
+  static String get topRatedSubtitle => "topRatedSubtitle".tr();
 }
