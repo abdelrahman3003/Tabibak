@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabibak/core/constatnt/app_string.dart';
@@ -20,9 +19,7 @@ class CityDropdown extends ConsumerWidget {
           value:
               state.cities.where((e) => e.id == state.districtId).firstOrNull,
           hint: AppStrings.selectDistrict,
-          labelBuilder: (city) => context.locale.languageCode == "en"
-              ? city.nameEn ?? city.nameAr ?? ''
-              : city.nameAr ?? city.nameEn ?? '',
+          labelBuilder: (city) => city.arabicName,
           prefixIcon: const Icon(Icons.location_city_outlined),
           onChanged: (city) {
             ref
@@ -45,9 +42,7 @@ class CityDropdown extends ConsumerWidget {
             value:
                 state.cities.where((e) => e.id == state.villageId).firstOrNull,
             hint: AppStrings.selectVillage,
-            labelBuilder: (village) => context.locale.languageCode == "en"
-                ? village.nameEn ?? village.nameAr ?? ''
-                : village.nameAr ?? village.nameEn ?? '',
+            labelBuilder: (village) => village.arabicName,
             prefixIcon: const Icon(Icons.landscape_outlined),
             onChanged: (village) {
               ref

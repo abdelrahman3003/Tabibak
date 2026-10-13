@@ -290,13 +290,6 @@ class _BookingConfirmScreenState extends ConsumerState<BookingConfirmScreen> {
   }
 
   String _getClinicAddress(ClinicModel clinic) {
-    final addresses = clinic.clinicAddresses;
-    if (addresses == null || addresses.isEmpty) return '';
-
-    final address = addresses.first;
-    final locale = Localizations.localeOf(context).languageCode;
-    final city = locale == 'ar' ? address.city?.nameAr : address.city?.nameEn;
-
-    return city ?? '';
+    return clinic.getLocation('ar');
   }
 }

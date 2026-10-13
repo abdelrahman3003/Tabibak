@@ -13,10 +13,7 @@ class ClinicInfoSection extends StatelessWidget {
 
   String _name(CityModel? city, String locale) {
     if (city == null) return '';
-    return (locale == 'ar' ? city.nameAr : city.nameEn) ??
-        city.nameAr ??
-        city.nameEn ??
-        '';
+    return city.arabicName;
   }
 
   String _buildAddressString(ClinicAddressModel address, String locale) {

@@ -692,7 +692,7 @@ class _ClinicDetailsContent extends StatelessWidget {
               address.street,
               address.department,
               if (address.floor != null) '${'Floor'.tr()} ${address.floor}',
-              locale == 'ar' ? address.city?.nameAr : address.city?.nameEn,
+              address.city?.arabicName,
             ].where(_present).join(', '),
           ),
         if (_present(clinic.phoneNumber))

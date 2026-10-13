@@ -122,6 +122,15 @@ class CityModel {
     this.parent,
   });
 
+  /// Always returns the Arabic name in both Arabic and English app languages.
+  /// Falls back to English only if Arabic is not available.
+  String get arabicName {
+    if (nameAr != null && nameAr!.trim().isNotEmpty) {
+      return nameAr!.trim();
+    }
+    return nameEn?.trim() ?? '';
+  }
+
   factory CityModel.fromJson(Map<String, dynamic> json) =>
       _$CityModelFromJson(json);
 
@@ -134,14 +143,11 @@ extension ClinicAddressFormatting on ClinicAddressModel {
   /// 2. district/markaz (or city) if available
   /// 3. governorate if available
   /// Never returns full address or street.
-  String getLocation(String locale) {
+  /// Always returns in Arabic in both Arabic and English app languages.
+  String getLocation([String? locale]) {
     String getCityName(CityModel? c) {
       if (c == null) return '';
-      final name = (locale == 'ar' ? c.nameAr : c.nameEn) ??
-          c.nameAr ??
-          c.nameEn ??
-          '';
-      return name.trim();
+      return c.arabicName;
     }
 
     final vlg = getCityName(village);
@@ -162,10 +168,7 @@ extension ClinicAddressFormatting on ClinicAddressModel {
   String formatAddress(String locale) {
     String getCityName(CityModel? c) {
       if (c == null) return '';
-      return (locale == 'ar' ? c.nameAr : c.nameEn) ??
-          c.nameAr ??
-          c.nameEn ??
-          '';
+      return c.arabicName;
     }
 
     final parts = <String>[];

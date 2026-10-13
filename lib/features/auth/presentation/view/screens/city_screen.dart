@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -80,11 +79,7 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                             .where((e) => e.id == state.selectedDistrictId)
                             .firstOrNull,
                         hint: AppStrings.selectDistrict,
-                        labelBuilder: (city) {
-                          return context.locale.languageCode == "en"
-                              ? city.nameEn ?? city.nameAr ?? ''
-                              : city.nameAr ?? city.nameEn ?? '';
-                        },
+                        labelBuilder: (city) => city.arabicName,
                         prefixIcon: const Icon(
                           Icons.location_city_outlined,
                           color: AppColors.primary,
@@ -112,11 +107,7 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                               .where((e) => e.id == state.selectedVillageId)
                               .firstOrNull,
                           hint: AppStrings.selectVillage,
-                          labelBuilder: (village) {
-                            return context.locale.languageCode == "en"
-                                ? village.nameEn ?? village.nameAr ?? ''
-                                : village.nameAr ?? village.nameEn ?? '';
-                          },
+                          labelBuilder: (village) => village.arabicName,
                           prefixIcon: const Icon(
                             Icons.landscape_outlined,
                             color: AppColors.primary,
