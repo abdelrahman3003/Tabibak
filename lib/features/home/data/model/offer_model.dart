@@ -18,6 +18,8 @@ class OfferModel {
   final String? startDate;
   @JsonKey(name: 'end_date')
   final String? endDate;
+  @JsonKey(name: 'expiry_date')
+  final String? expiryDate;
   @JsonKey(name: 'doctor_id')
   final String? doctorId;
   @JsonKey(name: 'clinic_id')
@@ -36,11 +38,24 @@ class OfferModel {
     this.discount,
     this.startDate,
     this.endDate,
+    this.expiryDate,
     this.doctorId,
     this.clinicId,
     this.isActive,
     this.createdAt,
   });
+
+  /// Checks whether the offer has expired based on expiry_date (or end_date fallback).
+  bool get isExpired {
+    final dateStr = expiryDate ?? endDate;
+    if (dateStr == null || dateStr.trim().isEmpty) return false;
+    final parsedDate = DateTime.tryParse(dateStr);
+    if (parsedDate == null) return false;
+    return parsedDate.isBefore(DateTime.now());
+  }
+
+  /// An offer is considered valid if it is active and not expired.
+  bool get isValid => (isActive ?? true) && !isExpired;
 
   factory OfferModel.fromJson(Map<String, dynamic> json) =>
       _$OfferModelFromJson(json);

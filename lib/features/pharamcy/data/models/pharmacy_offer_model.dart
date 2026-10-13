@@ -8,6 +8,7 @@ class PharmacyOfferModel {
   final String? descriptionEn;
   final String? startDate;
   final String? endDate;
+  final String? expiryDate;
   final int? pharmacyId;
   final String? createdAt;
   final PharmacyModel? pharmacy;
@@ -21,10 +22,23 @@ class PharmacyOfferModel {
     this.discount,
     this.startDate,
     this.endDate,
+    this.expiryDate,
     this.pharmacyId,
     this.createdAt,
     this.pharmacy,
   });
+
+  /// Checks whether the offer has expired based on expiry_date (or end_date fallback).
+  bool get isExpired {
+    final dateStr = expiryDate ?? endDate;
+    if (dateStr == null || dateStr.trim().isEmpty) return false;
+    final parsedDate = DateTime.tryParse(dateStr);
+    if (parsedDate == null) return false;
+    return parsedDate.isBefore(DateTime.now());
+  }
+
+  /// An offer is considered valid if it hasn't expired yet.
+  bool get isValid => !isExpired;
 
   factory PharmacyOfferModel.fromJson(Map<String, dynamic> json) {
     return PharmacyOfferModel(
@@ -36,6 +50,7 @@ class PharmacyOfferModel {
       descriptionEn: json['description_en'],
       startDate: json['start_date'],
       endDate: json['end_date'],
+      expiryDate: json['expiry_date'] ?? json['end_date'],
       pharmacyId: json['pharmacy_id'],
       createdAt: json['created_at'],
       pharmacy: json['pharmacies'] != null
@@ -52,6 +67,7 @@ class PharmacyOfferModel {
       'description_en': descriptionEn,
       'start_date': startDate,
       'end_date': endDate,
+      'expiry_date': expiryDate,
       'pharmacy_id': pharmacyId,
     };
   }

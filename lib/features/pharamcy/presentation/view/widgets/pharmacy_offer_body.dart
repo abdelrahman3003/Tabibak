@@ -22,6 +22,7 @@ class PharmacyOfferBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final validOffers = offers.where((o) => o.isValid).toList();
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -102,7 +103,7 @@ class PharmacyOfferBody extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
-            if (offers.isEmpty)
+            if (validOffers.isEmpty)
               Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
@@ -119,10 +120,10 @@ class PharmacyOfferBody extends StatelessWidget {
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: offers.length,
+                itemCount: validOffers.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
-                  return OfferCard(offer: offers[index]);
+                  return OfferCard(offer: validOffers[index]);
                 },
               ),
 

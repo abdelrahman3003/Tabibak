@@ -72,6 +72,10 @@ class DoctorModel {
     this.offers,
   });
 
+  /// Returns only offers that are currently active and haven't expired.
+  List<OfferModel> get activeOffers =>
+      offers?.where((o) => o.isValid).toList() ?? [];
+
   factory DoctorModel.fromJson(Map<String, dynamic> json) =>
       _$DoctorModelFromJson(json);
   Map<String, dynamic> toJson() => _$DoctorModelToJson(this);

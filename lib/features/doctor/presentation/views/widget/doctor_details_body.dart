@@ -37,10 +37,10 @@ class DoctorDetailsBody extends StatelessWidget {
             alignment: Alignment.center,
             child: DoctorDetailsHeader(doctor: doctorModel),
           ),
-          if (doctorModel.offers != null && doctorModel.offers!.isNotEmpty)
+          if (doctorModel.activeOffers.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 20),
-              child: OfferBannerWidget(offer: doctorModel.offers!.first),
+              child: OfferBannerWidget(offer: doctorModel.activeOffers.first),
             ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

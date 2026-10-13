@@ -14,11 +14,12 @@ class PharmacyOffersSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, _) {
-        final offers = ref.watch(
+        final allOffers = ref.watch(
           homeControllerProvider.select(
             (state) => state.pharmacyOffers ?? [],
           ),
         );
+        final offers = allOffers.where((offer) => offer.isValid).toList();
         if (offers.isEmpty) {
           return const SizedBox.shrink();
         }

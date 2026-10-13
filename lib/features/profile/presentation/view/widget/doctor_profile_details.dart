@@ -179,8 +179,8 @@ class _DoctorProfileSummary extends StatelessWidget {
             specialty: specialty,
           ),
           const SizedBox(height: 20),
-          if (doctor.offers != null && doctor.offers!.isNotEmpty) ...[
-            _OfferSection(offer: doctor.offers!.first),
+          if (doctor.activeOffers.isNotEmpty) ...[
+            _OfferSection(offer: doctor.activeOffers.first),
             const SizedBox(height: 20),
           ],
           _ClinicsSection(

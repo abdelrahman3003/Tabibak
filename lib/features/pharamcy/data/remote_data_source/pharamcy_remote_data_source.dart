@@ -46,6 +46,7 @@ class PharmacyRemoteDataSource {
 
     return (response as List)
         .map((e) => PharmacyOfferModel.fromJson(e))
+        .where((e) => e.isValid)
         .toList();
   }
 }

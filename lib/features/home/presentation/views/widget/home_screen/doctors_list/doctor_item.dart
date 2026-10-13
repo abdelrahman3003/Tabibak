@@ -23,8 +23,8 @@ class DoctorItem extends StatelessWidget {
   }
 
   Widget _buildRoot(BuildContext context) {
-    final hasNewOffer =
-        doctorSummary.offers != null && doctorSummary.offers!.isNotEmpty;
+    final validOffers = doctorSummary.activeOffers;
+    final hasNewOffer = validOffers.isNotEmpty;
     final hasOldOffer = doctorSummary.clinic?.offer != null &&
         doctorSummary.clinic!.offer!.isNotEmpty;
     final hasAnyOffer = hasNewOffer || hasOldOffer;
@@ -32,8 +32,8 @@ class DoctorItem extends StatelessWidget {
     String? offerTitle;
     if (hasNewOffer) {
       offerTitle = context.locale.languageCode == 'ar'
-          ? doctorSummary.offers!.first.titleAr ?? 'Special Offer'.tr()
-          : doctorSummary.offers!.first.titleEn ?? 'Special Offer'.tr();
+          ? validOffers.first.titleAr ?? 'Special Offer'.tr()
+          : validOffers.first.titleEn ?? 'Special Offer'.tr();
     } else if (hasOldOffer) {
       offerTitle = doctorSummary.clinic!.offer;
     }
