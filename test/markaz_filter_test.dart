@@ -74,8 +74,8 @@ class MockHomeRepo implements HomeRepo {
         return false;
       }).toList();
     }
-    if (sortBy == 'avg_rating') {
-      result.sort((a, b) => (b.avrRating ?? 0).compareTo(a.avrRating ?? 0));
+    if (sortBy == 'avg_rating' || sortBy == null) {
+      result.sort(DoctorModel.compareByRating);
     }
     return ApiResult.sucess(result);
   }
@@ -87,17 +87,46 @@ class MockHomeRepo implements HomeRepo {
 
   @override
   Future<ApiResult<List<CityModel>>> getMarkazes() async {
-    return ApiResult.sucess(markazesList);
+    // Simulate backend: only return markazes that have at least one doctor
+    final filtered = markazesList.where((markaz) {
+      return doctorsList.any((d) {
+        if (d.markazId == markaz.id) return true;
+        final clinics = d.clinicList ?? (d.clinic != null ? [d.clinic!] : []);
+        for (final c in clinics) {
+          if (c.clinicAddresses != null) {
+            for (final addr in c.clinicAddresses!) {
+              if (addr.markazId == markaz.id || addr.markaz?.id == markaz.id) {
+                return true;
+              }
+            }
+          }
+        }
+        return false;
+      });
+    }).toList();
+    return ApiResult.sucess(filtered);
   }
 
   @override
   Future<ApiResult<List<CityModel>>> getVillages({int? markazId}) async {
-    if (markazId != null) {
-      return ApiResult.sucess(
-        villagesList.where((v) => v.parentId == markazId).toList(),
-      );
-    }
-    return ApiResult.sucess(villagesList);
+    // Simulate backend: only return villages that have at least one doctor
+    final filtered = villagesList.where((village) {
+      if (markazId != null && village.parentId != markazId) return false;
+      return doctorsList.any((d) {
+        final clinics = d.clinicList ?? (d.clinic != null ? [d.clinic!] : []);
+        for (final c in clinics) {
+          if (c.clinicAddresses != null) {
+            for (final addr in c.clinicAddresses!) {
+              if (addr.villageId == village.id || addr.village?.id == village.id) {
+                return true;
+              }
+            }
+          }
+        }
+        return false;
+      });
+    }).toList();
+    return ApiResult.sucess(filtered);
   }
 
   @override
@@ -253,10 +282,33 @@ void main() {
       expect(state.selectedMarkazId, isNull);
       expect(state.selectedVillageId, isNull);
       expect(state.hasLocationFilter, false);
-      expect(state.isHighestRated, false);
+      expect(state.isHighestRated, true);
       expect(state.governorates.isNotEmpty, true);
       expect(state.markazes.isNotEmpty, true);
       expect(state.villages.isNotEmpty, true);
+    });
+
+    test('villages without any doctor are excluded from getVillages', () async {
+      mockRepo.villagesList.add(
+        CityModel(
+          id: 999,
+          nameAr: 'قرية بدون أطباء',
+          nameEn: 'Empty Village',
+          type: 'village',
+          parentId: 9,
+        ),
+      );
+
+      final result = await mockRepo.getVillages(markazId: 9);
+      result.when(
+        sucess: (villages) {
+          final ids = villages.map((v) => v.id).toList();
+          expect(ids.contains(49), isTrue);
+          expect(ids.contains(50), isTrue);
+          expect(ids.contains(999), isFalse);
+        },
+        failure: (_) => fail('Expected success'),
+      );
     });
 
     test('filterByLocation filters by markaz and village correctly', () async {
@@ -307,20 +359,52 @@ void main() {
       expect(state.specialtyDoctors?.length, 3);
     });
 
-    test('toggleSortByRating sorts current filtered doctors by rating descending',
+    test('doctors are sorted by rating descending and unrated doctors appear last',
         () async {
+      final docTop = DoctorModel(doctorId: 'doc-5-star', name: 'Dr. 5.0', avrRating: 5.0, ratingsCount: 10);
+      final docMid = DoctorModel(doctorId: 'doc-4-star', name: 'Dr. 4.2', avrRating: 4.2, ratingsCount: 5);
+      final docLow = DoctorModel(doctorId: 'doc-3-star', name: 'Dr. 3.0', avrRating: 3.0, ratingsCount: 2);
+      final docNullRating = DoctorModel(doctorId: 'doc-no-rating', name: 'Dr. No Rating', avrRating: null);
+      final docZeroRating = DoctorModel(doctorId: 'doc-zero-rating', name: 'Dr. Zero Rating', avrRating: 0.0);
+
+      mockRepo.doctorsList = [
+        docNullRating,
+        docLow,
+        docZeroRating,
+        docTop,
+        docMid,
+      ];
+
       final notifier = container.read(doctorsSpecialtyProvider.notifier);
       await notifier.getSpecialtiesDoctors(specialtyId: 1);
 
-      // Filter by Markaz 9 (has docs with rating 4.5 and 4.0)
-      notifier.filterByLocation(markazId: 9);
-      notifier.toggleSortByRating();
-
       final state = container.read(doctorsSpecialtyProvider);
-      expect(state.isHighestRated, true);
-      expect(state.specialtyDoctors?.length, 2);
-      expect(state.specialtyDoctors?.first.doctorId, 'dishna-village-doc'); // 4.5
-      expect(state.specialtyDoctors?.last.doctorId, 'dishna-village-50-doc'); // 4.0
+      final list = state.specialtyDoctors!;
+      expect(list.length, 5);
+      expect(list[0].doctorId, 'doc-5-star');
+      expect(list[1].doctorId, 'doc-4-star');
+      expect(list[2].doctorId, 'doc-3-star');
+      // Doctors without ratings appear last
+      expect(list[3].avrRating == null || list[3].avrRating == 0.0, isTrue);
+      expect(list[4].avrRating == null || list[4].avrRating == 0.0, isTrue);
+    });
+
+    test('DoctorModel.compareByRating orders highest rating first and unrated last', () {
+      final doc5 = DoctorModel(doctorId: '5', avrRating: 5.0, ratingsCount: 1);
+      final doc4 = DoctorModel(doctorId: '4', avrRating: 4.0, ratingsCount: 1);
+      final doc4MoreReviews = DoctorModel(doctorId: '4-more', avrRating: 4.0, ratingsCount: 10);
+      final docNull = DoctorModel(doctorId: 'null', avrRating: null);
+      final docZero = DoctorModel(doctorId: 'zero', avrRating: 0.0);
+      final docZeroCount = DoctorModel(doctorId: 'zero-count', avrRating: 4.0, ratingsCount: 0);
+
+      expect(DoctorModel.compareByRating(doc5, doc4), lessThan(0));
+      expect(DoctorModel.compareByRating(doc4, doc5), greaterThan(0));
+      expect(DoctorModel.compareByRating(doc4MoreReviews, doc4), lessThan(0));
+      expect(DoctorModel.compareByRating(doc4, docNull), lessThan(0));
+      expect(DoctorModel.compareByRating(docNull, doc4), greaterThan(0));
+      expect(DoctorModel.compareByRating(doc4, docZero), lessThan(0));
+      expect(DoctorModel.compareByRating(doc4, docZeroCount), lessThan(0));
+      expect(DoctorModel.compareByRating(docNull, docZero), 0);
     });
   });
 
@@ -440,7 +524,10 @@ void main() {
     testWidgets('SpecialistScreen renders filter icon next to search bar and opens bottom sheet with localized names',
         (tester) async {
       final mockRepo = MockHomeRepo();
-      mockRepo.doctorsList = [];
+      mockRepo.doctorsList = [
+        DoctorModel(doctorId: 'doc-qena', name: 'Dr Qena', markazId: 10),
+        DoctorModel(doctorId: 'doc-dishna', name: 'Dr Dishna', markazId: 9),
+      ];
 
       final container = ProviderContainer(
         overrides: [

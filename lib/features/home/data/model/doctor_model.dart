@@ -89,6 +89,34 @@ class DoctorModel {
     return false;
   }
 
+  /// Returns true if the doctor has a valid, non-zero rating.
+  bool get hasValidRating {
+    if (avrRating == null || avrRating! <= 0) return false;
+    if (ratingsCount != null && ratingsCount! <= 0) return false;
+    return true;
+  }
+
+  /// Compares two doctors by rating in descending order (highest-rated first),
+  /// placing doctors without ratings at the very end.
+  static int compareByRating(DoctorModel a, DoctorModel b) {
+    final aHas = a.hasValidRating;
+    final bHas = b.hasValidRating;
+
+    if (aHas && bHas) {
+      final ratingCmp = b.avrRating!.compareTo(a.avrRating!);
+      if (ratingCmp != 0) return ratingCmp;
+      final countA = a.ratingsCount ?? 0;
+      final countB = b.ratingsCount ?? 0;
+      return countB.compareTo(countA);
+    } else if (aHas && !bHas) {
+      return -1;
+    } else if (!aHas && bHas) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   factory DoctorModel.fromJson(Map<String, dynamic> json) =>
       _$DoctorModelFromJson(json);
   Map<String, dynamic> toJson() => _$DoctorModelToJson(this);

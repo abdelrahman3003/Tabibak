@@ -54,10 +54,11 @@ BEGIN
       )
     GROUP BY d.doctor_id, d.name, d.avg_rating
     ORDER BY
-        CASE WHEN sort_by = 'consultation_fee' AND ascending THEN MIN(c.consultation_fee) END ASC,
-        CASE WHEN sort_by = 'consultation_fee' AND NOT ascending THEN MIN(c.consultation_fee) END DESC,
+        CASE WHEN (sort_by = 'avg_rating' OR sort_by IS NULL) AND NOT ascending THEN
+            CASE WHEN d.avg_rating IS NOT NULL AND d.avg_rating > 0 THEN 1 ELSE 0 END
+        END DESC,
+        CASE WHEN (sort_by = 'avg_rating' OR sort_by IS NULL) AND NOT ascending THEN d.avg_rating END DESC NULLS LAST,
         CASE WHEN sort_by = 'avg_rating' AND ascending THEN d.avg_rating END ASC,
-        CASE WHEN sort_by = 'avg_rating' AND NOT ascending THEN d.avg_rating END DESC,
         d.name;
 END;
 $function$;

@@ -68,9 +68,7 @@ class _LocationFilterBottomSheetState
         ? state.governorates
         : DoctorsSpecialtyProvider.defaultGovernorates;
 
-    final markazes = state.markazes.isNotEmpty
-        ? state.markazes
-        : DoctorsSpecialtyProvider.defaultMarkazes;
+    final markazes = state.markazes;
 
     final allVillages = state.villages;
     final markazVillages = _selectedMarkazId == null

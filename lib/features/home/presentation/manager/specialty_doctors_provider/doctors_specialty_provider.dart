@@ -21,26 +21,14 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
     CityModel(id: 1, nameAr: 'قنا', nameEn: 'Qena', type: 'governorate'),
   ];
 
-  static final List<CityModel> defaultMarkazes = [
-    CityModel(id: 10, nameAr: 'مركز قنا', nameEn: 'Qena', type: 'markaz'),
-    CityModel(id: 9, nameAr: 'مركز دشنا', nameEn: 'Dishna', type: 'markaz'),
-    CityModel(
-        id: 7, nameAr: 'مركز نجع حمادي', nameEn: 'Nag Hammadi', type: 'markaz'),
-    CityModel(id: 12, nameAr: 'مركز قوص', nameEn: 'Qus', type: 'markaz'),
-    CityModel(
-        id: 5, nameAr: 'مركز أبو تشت', nameEn: 'Abu Tesht', type: 'markaz'),
-    CityModel(id: 6, nameAr: 'مركز فرشوط', nameEn: 'Farshut', type: 'markaz'),
-    CityModel(id: 8, nameAr: 'مركز الوقف', nameEn: 'Al Waqf', type: 'markaz'),
-    CityModel(id: 11, nameAr: 'مركز قفط', nameEn: 'Qift', type: 'markaz'),
-    CityModel(id: 13, nameAr: 'مركز نقادة', nameEn: 'Naqada', type: 'markaz'),
-  ];
+  static final List<CityModel> defaultMarkazes = <CityModel>[];
+
+  static int compareDoctorsByRating(DoctorModel a, DoctorModel b) =>
+      DoctorModel.compareByRating(a, b);
 
   Future<void> loadLocations() async {
     if (state.governorates.isEmpty) {
       state = state.copyWith(governorates: defaultGovernorates);
-    }
-    if (state.markazes.isEmpty) {
-      state = state.copyWith(markazes: defaultMarkazes);
     }
 
     final repo = ref.read(homeRepoProvider);
@@ -99,7 +87,7 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
     }
     final targetSpecialtyId = specialtyId ?? ref.read(specialtyProvider)?.id;
     final result = await ref.read(homeRepoProvider).getDoctorSpecialist(
-          sortBy: sortBy,
+          sortBy: sortBy ?? 'avg_rating',
           specialtyId: targetSpecialtyId,
           markazId: markazId,
         );
@@ -113,17 +101,20 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
             governorateId != null ||
             villageId != null;
 
+        final sorted = List<DoctorModel>.from(specialtyDoctors)
+          ..sort(DoctorModel.compareByRating);
+
         state = state.copyWith(
           isLoading: false,
-          specialtyDoctors: specialtyDoctors,
+          specialtyDoctors: sorted,
           allSpecialtyDoctors: !hasAnyLocFilter
-              ? specialtyDoctors
-              : (state.allSpecialtyDoctors ?? specialtyDoctors),
+              ? sorted
+              : (state.allSpecialtyDoctors ?? sorted),
           selectedGovernorateId: governorateId,
           selectedMarkazId: markazId,
           selectedVillageId: villageId,
           clearAllLocations: !hasAnyLocFilter,
-          isHighestRated: sortBy == 'avg_rating',
+          isHighestRated: true,
         );
 
         if (hasAnyLocFilter) {
@@ -297,13 +288,8 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
           .toList();
     }
 
-    if (state.isHighestRated) {
-      filtered.sort((a, b) {
-        final aRating = a.avrRating ?? 0;
-        final bRating = b.avrRating ?? 0;
-        return bRating.compareTo(aRating);
-      });
-    }
+    // Always sort by rating descending, with unrated doctors last
+    filtered.sort(DoctorModel.compareByRating);
 
     state = state.copyWith(
       specialtyDoctors: filtered,
@@ -335,10 +321,7 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
                   ))
               .toList();
         }
-        if (state.isHighestRated) {
-          filtered
-              .sort((a, b) => (b.avrRating ?? 0).compareTo(a.avrRating ?? 0));
-        }
+        filtered.sort(DoctorModel.compareByRating);
         state = state.copyWith(
           isLoading: false,
           specialtyDoctors: filtered,
