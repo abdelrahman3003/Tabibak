@@ -43,10 +43,7 @@ class HomeRemoteData {
         .eq("status", 2)
         .order('avg_rating', ascending: false)
         .limit(5);
-    final list =
-        response.map((doctor) => DoctorModel.fromJson(doctor)).toList();
-    list.sort(DoctorModel.compareByRating);
-    return list;
+    return response.map((doctor) => DoctorModel.fromJson(doctor)).toList();
   }
 
   Future<DoctorModel> getDoctorById(String doctorId) async {
@@ -85,97 +82,13 @@ class HomeRemoteData {
         .eq('status', 2)
         .inFilter('doctor_id', doctorIds);
 
-    final list = (doctors as List).map((e) => DoctorModel.fromJson(e)).toList();
-    list.sort(DoctorModel.compareByRating);
-    return list;
+    return (doctors as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
 
   Future<List<CityModel>> getGovernorates() async {
-    try {
-      final response = await supabase
-          .from('governorate')
-          .select('id, name_ar, name_en')
-          .order('id');
-      final list = (response as List)
-          .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
-          .toList();
-      if (list.isNotEmpty) return list;
-    } catch (_) {}
-    return [
-      CityModel(id: 1, nameAr: 'قنا', nameEn: 'Qena', type: 'governorate'),
-    ];
-  }
-
-  Future<List<CityModel>> getMarkazes() async {
-    // Get distinct markaz IDs that have at least one active doctor
-    final doctorRows = await supabase
-        .from('doctors')
-        .select('markaz_id, clinic_data(clinic_address(markaz_id))')
-        .eq('status', 2);
-
-    final activeIds = <int>{};
-    for (final row in doctorRows as List) {
-      final id = row['markaz_id'];
-      if (id != null) activeIds.add(id is int ? id : (id as num).toInt());
-
-      final clinicData = row['clinic_data'];
-      if (clinicData is List) {
-        for (final cd in clinicData) {
-          if (cd is Map) {
-            final clinicAddress = cd['clinic_address'];
-            if (clinicAddress is List) {
-              for (final ca in clinicAddress) {
-                if (ca is Map) {
-                  final caMarkazId = ca['markaz_id'];
-                  if (caMarkazId != null) {
-                    activeIds.add(caMarkazId is int
-                        ? caMarkazId
-                        : (caMarkazId as num).toInt());
-                  }
-                }
-              }
-            } else if (clinicAddress is Map) {
-              final caMarkazId = clinicAddress['markaz_id'];
-              if (caMarkazId != null) {
-                activeIds.add(caMarkazId is int
-                    ? caMarkazId
-                    : (caMarkazId as num).toInt());
-              }
-            }
-          }
-        }
-      } else if (clinicData is Map) {
-        final clinicAddress = clinicData['clinic_address'];
-        if (clinicAddress is List) {
-          for (final ca in clinicAddress) {
-            if (ca is Map) {
-              final caMarkazId = ca['markaz_id'];
-              if (caMarkazId != null) {
-                activeIds.add(caMarkazId is int
-                    ? caMarkazId
-                    : (caMarkazId as num).toInt());
-              }
-            }
-          }
-        } else if (clinicAddress is Map) {
-          final caMarkazId = clinicAddress['markaz_id'];
-          if (caMarkazId != null) {
-            activeIds.add(caMarkazId is int
-                ? caMarkazId
-                : (caMarkazId as num).toInt());
-          }
-        }
-      }
-    }
-
-    if (activeIds.isEmpty) return [];
-
-    // Fetch only markazes that have doctors
     final response = await supabase
-        .from('city')
+        .from('governorate')
         .select('id, name_ar, name_en, type, parent_id')
-        .eq('type', 'markaz')
-        .inFilter('id', activeIds.toList())
         .order('id');
 
     return (response as List)
@@ -183,69 +96,19 @@ class HomeRemoteData {
         .toList();
   }
 
+  Future<List<CityModel>> getMarkazes() async {
+    final response = await supabase.rpc('get_markazes_with_doctors');
+
+    return (response as List)
+        .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
   Future<List<CityModel>> getVillages({int? markazId}) async {
-    // Get distinct village IDs belonging to active doctors (status = 2)
-    final doctorRows = await supabase
-        .from('doctors')
-        .select('clinic_data(clinic_address(markaz_id, village_id))')
-        .eq('status', 2);
-
-    final activeVillageIds = <int>{};
-    for (final row in doctorRows as List) {
-      final clinicData = row['clinic_data'];
-      if (clinicData is List) {
-        for (final cd in clinicData) {
-          if (cd is Map) {
-            final clinicAddress = cd['clinic_address'];
-            if (clinicAddress is List) {
-              for (final ca in clinicAddress) {
-                if (ca is Map) {
-                  final vId = ca['village_id'];
-                  if (vId != null) {
-                    activeVillageIds.add(vId is int ? vId : (vId as num).toInt());
-                  }
-                }
-              }
-            } else if (clinicAddress is Map) {
-              final vId = clinicAddress['village_id'];
-              if (vId != null) {
-                activeVillageIds.add(vId is int ? vId : (vId as num).toInt());
-              }
-            }
-          }
-        }
-      } else if (clinicData is Map) {
-        final clinicAddress = clinicData['clinic_address'];
-        if (clinicAddress is List) {
-          for (final ca in clinicAddress) {
-            if (ca is Map) {
-              final vId = ca['village_id'];
-              if (vId != null) {
-                activeVillageIds.add(vId is int ? vId : (vId as num).toInt());
-              }
-            }
-          }
-        } else if (clinicAddress is Map) {
-          final vId = clinicAddress['village_id'];
-          if (vId != null) {
-            activeVillageIds.add(vId is int ? vId : (vId as num).toInt());
-          }
-        }
-      }
-    }
-
-    if (activeVillageIds.isEmpty) return [];
-
-    var query = supabase
-        .from('city')
-        .select('id, name_ar, name_en, type, parent_id')
-        .inFilter('id', activeVillageIds.toList());
-
-    if (markazId != null) {
-      query = query.eq('parent_id', markazId);
-    }
-
-    final response = await query.order('name_ar');
+    final response = await supabase.rpc(
+      'get_villages_with_doctors',
+      params: {'p_markaz_id': markazId},
+    );
     return (response as List)
         .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -265,9 +128,7 @@ class HomeRemoteData {
     }
     final response = await query;
 
-    final list = (response as List).map((e) => DoctorModel.fromJson(e)).toList();
-    list.sort(DoctorModel.compareByRating);
-    return list;
+    return (response as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
 
   Future<List<PharmacyOfferModel>> getAllOffers() async {
@@ -278,7 +139,6 @@ class HomeRemoteData {
 
     return (response as List)
         .map((e) => PharmacyOfferModel.fromJson(e))
-        .where((e) => e.isValid)
         .toList();
   }
 }

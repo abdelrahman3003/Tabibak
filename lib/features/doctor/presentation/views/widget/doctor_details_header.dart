@@ -5,7 +5,6 @@ import 'package:tabibak/core/constatnt/app_string.dart';
 import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/theme/app_colors.dart';
 import 'package:tabibak/features/doctor/presentation/views/widget/ratings_row.dart';
-import 'package:tabibak/features/doctor/presentation/views/widget/show_rating_dialog.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/image_circle.dart';
 
@@ -72,15 +71,15 @@ class DoctorDetailsHeader extends StatelessWidget {
           ),
         ],
         4.hBox,
-        TextButton.icon(
-          onPressed: () => showRatingDialog(
-            context,
-            doctorId: doctor.doctorId,
-          ),
-          label: Text(AppStrings.rateDoctor,
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: AppColors.primary, fontWeight: FontWeight.bold)),
-        ),
+        // TextButton.icon(
+        //   onPressed: () => showRatingDialog(
+        //     context,
+        //     doctorId: doctor.doctorId,
+        //   ),
+        //   label: Text(AppStrings.rateDoctor,
+        //       style: Theme.of(context).textTheme.titleSmall?.copyWith(
+        //           color: AppColors.primary, fontWeight: FontWeight.bold)),
+        // ),
       ],
     );
   }
