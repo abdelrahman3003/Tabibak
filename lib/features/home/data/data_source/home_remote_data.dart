@@ -124,9 +124,16 @@ class HomeRemoteData {
             'p_specialty_id': specialtyId,
             'p_markaz_id': markazId,
           });
-    return (response as List)
-        .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return (response as List).map((e) {
+      final row = e as Map<String, dynamic>;
+      return CityModel(
+        id: (row['id'] as num?)?.toInt(),
+        nameAr: row['name_ar'] as String?,
+        nameEn: row['name_en'] as String?,
+        type: 'village',
+        parentId: (row['markaz_id'] as num?)?.toInt(),
+      );
+    }).toList();
   }
 
   Future<List<DoctorModel>> searchDoctor(String search,
