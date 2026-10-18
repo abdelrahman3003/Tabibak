@@ -11,6 +11,7 @@ class CityDropdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(signUpNotifierProvider);
+    final locale = Localizations.localeOf(context).languageCode;
 
     return Column(
       children: [
@@ -19,7 +20,7 @@ class CityDropdown extends ConsumerWidget {
           value:
               state.cities.where((e) => e.id == state.districtId).firstOrNull,
           hint: AppStrings.selectDistrict,
-          labelBuilder: (city) => city.arabicName,
+          labelBuilder: (city) => city.getName(locale),
           prefixIcon: const Icon(Icons.location_city_outlined),
           onChanged: (city) {
             ref
@@ -42,7 +43,7 @@ class CityDropdown extends ConsumerWidget {
             value:
                 state.cities.where((e) => e.id == state.villageId).firstOrNull,
             hint: AppStrings.selectVillage,
-            labelBuilder: (village) => village.arabicName,
+            labelBuilder: (village) => village.getName(locale),
             prefixIcon: const Icon(Icons.landscape_outlined),
             onChanged: (village) {
               ref

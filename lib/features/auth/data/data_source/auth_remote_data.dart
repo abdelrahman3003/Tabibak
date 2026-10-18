@@ -133,7 +133,12 @@ class AuthRemoteDatasource {
   Future<void> addUserData(UserModel userModel) async {
     await supabase
         .from('users')
-        .upsert(userModel.toJson(), onConflict: 'user_id');
+        .upsert({
+          'user_id': userModel.userId,
+          'name': userModel.name,
+          'email': userModel.email,
+          'fcm_token': userModel.fcmToken,
+        }, onConflict: 'user_id');
   }
 
   Future<void> _registerDeviceAfterLogin() async {

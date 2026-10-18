@@ -50,6 +50,7 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
     });
 
     final state = ref.watch(cityProvider);
+    final locale = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
       appBar: AppBar(
@@ -79,7 +80,7 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                             .where((e) => e.id == state.selectedDistrictId)
                             .firstOrNull,
                         hint: AppStrings.selectDistrict,
-                        labelBuilder: (city) => city.arabicName,
+                        labelBuilder: (city) => city.getName(locale),
                         prefixIcon: const Icon(
                           Icons.location_city_outlined,
                           color: AppColors.primary,
@@ -107,7 +108,7 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                               .where((e) => e.id == state.selectedVillageId)
                               .firstOrNull,
                           hint: AppStrings.selectVillage,
-                          labelBuilder: (village) => village.arabicName,
+                          labelBuilder: (village) => village.getName(locale),
                           prefixIcon: const Icon(
                             Icons.landscape_outlined,
                             color: AppColors.primary,
