@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (user != null) {
       final userData = await supabase
           .from('user_addresses')
-          .select('markaz_id')
+          .select('governorate_id, markaz_id, village_id')
           .eq('user_id', user.id)
           .maybeSingle();
 
@@ -66,9 +66,11 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
       }
 
-      final districtId = userData['markaz_id'];
+      final hasSavedAddress = userData['governorate_id'] != null &&
+          userData['markaz_id'] != null &&
+          userData['village_id'] != null;
 
-      if (districtId == null) {
+      if (!hasSavedAddress) {
         context.pushNamedAndRemoveUntil(
           Routes.selectCityScreen,
           (route) => false,

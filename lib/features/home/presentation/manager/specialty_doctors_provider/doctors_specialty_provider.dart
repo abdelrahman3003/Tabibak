@@ -12,33 +12,37 @@ final doctorsSpecialtyProvider =
 );
 
 class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
-  DoctorsSpecialtyProvider(this.ref) : super(SpecialtyDoctorsStates()) {
-    loadLocations();
-  }
+  DoctorsSpecialtyProvider(this.ref) : super(SpecialtyDoctorsStates());
   final Ref ref;
-
-  static final List<CityModel> defaultGovernorates = [
-    CityModel(id: 1, nameAr: 'قنا', nameEn: 'Qena', type: 'governorate'),
-  ];
-
-  static final List<CityModel> defaultMarkazes = <CityModel>[];
+  int? _activeSpecialtyId;
 
   static int compareDoctorsByRating(DoctorModel a, DoctorModel b) =>
       DoctorModel.compareByRating(a, b);
 
-  Future<void> loadLocations() async {
-    if (state.governorates.isEmpty) {
-      state = state.copyWith(governorates: defaultGovernorates);
+  Future<void> loadLocations({
+    int? specialtyId,
+    int? governorateId,
+    int? markazId,
+  }) async {
+    specialtyId ??= _activeSpecialtyId ?? ref.read(specialtyProvider)?.id;
+    // Never load the unrestricted location catalog on the specialty screen.
+    // The filter must always be scoped to the selected specialty.
+    if (specialtyId == null) {
+      state = state.copyWith(
+        governorates: const [],
+        markazes: const [],
+        villages: const [],
+      );
+      return;
     }
-
     final repo = ref.read(homeRepoProvider);
 
     // Load governorates
-    final govResult = await repo.getGovernorates();
+    final govResult = await repo.getGovernorates(specialtyId: specialtyId);
     if (!mounted) return;
     govResult.when(
       sucess: (govs) {
-        if (govs.isNotEmpty && mounted) {
+        if (mounted) {
           state = state.copyWith(governorates: govs);
         }
       },
@@ -46,11 +50,14 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
     );
 
     // Load markazes
-    final markazResult = await repo.getMarkazes();
+    final markazResult = await repo.getMarkazes(
+      governorateId: governorateId,
+      specialtyId: specialtyId,
+    );
     if (!mounted) return;
     markazResult.when(
       sucess: (markazes) {
-        if (markazes.isNotEmpty && mounted) {
+        if (mounted) {
           state = state.copyWith(markazes: markazes);
         }
       },
@@ -58,11 +65,14 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
     );
 
     // Load all villages
-    final villageResult = await repo.getVillages(markazId: null);
+    final villageResult = await repo.getVillages(
+      markazId: markazId,
+      specialtyId: specialtyId,
+    );
     if (!mounted) return;
     villageResult.when(
       sucess: (villages) {
-        if (villages.isNotEmpty && mounted) {
+        if (mounted) {
           state = state.copyWith(villages: villages);
         }
       },
@@ -82,10 +92,9 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
     int? villageId,
   }) async {
     state = state.copyWith(isLoading: true);
-    if (state.markazes.isEmpty || state.governorates.isEmpty) {
-      loadLocations();
-    }
     final targetSpecialtyId = specialtyId ?? ref.read(specialtyProvider)?.id;
+    _activeSpecialtyId = targetSpecialtyId;
+    await loadLocations(specialtyId: targetSpecialtyId);
     final result = await ref.read(homeRepoProvider).getDoctorSpecialist(
           sortBy: sortBy ?? 'avg_rating',
           specialtyId: targetSpecialtyId,

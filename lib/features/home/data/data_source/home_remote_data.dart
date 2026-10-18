@@ -90,32 +90,40 @@ class HomeRemoteData {
     return (doctors as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
 
-  Future<List<CityModel>> getGovernorates() async {
-    final response = await supabase
-        .from('governorates')
-        .select('id, name_ar, name_en')
-        .order('id');
+  Future<List<CityModel>> getGovernorates({int? specialtyId}) async {
+    final response = specialtyId == null
+        ? await supabase.rpc('get_governorates_with_doctors')
+        : await supabase.rpc('get_specialty_governorates_with_doctors',
+            params: {'p_specialty_id': specialtyId});
 
     return (response as List)
         .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
-  Future<List<CityModel>> getMarkazes({int? governorateId}) async {
-    final response = await supabase.rpc('get_markazes_with_doctors', params: {
-      'p_governorate_id': governorateId,
-    });
+  Future<List<CityModel>> getMarkazes({int? governorateId, int? specialtyId}) async {
+    final response = specialtyId == null
+        ? await supabase.rpc('get_markazes_with_doctors', params: {
+            'p_governorate_id': governorateId,
+          })
+        : await supabase.rpc('get_specialty_markazes_with_doctors', params: {
+            'p_specialty_id': specialtyId,
+            'p_governorate_id': governorateId,
+          });
 
     return (response as List)
         .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
-  Future<List<CityModel>> getVillages({int? markazId}) async {
-    final response = await supabase.rpc(
-      'get_villages_with_doctors',
-      params: {'p_markaz_id': markazId},
-    );
+  Future<List<CityModel>> getVillages({int? markazId, int? specialtyId}) async {
+    final response = specialtyId == null
+        ? await supabase.rpc('get_villages_with_doctors',
+            params: {'p_markaz_id': markazId})
+        : await supabase.rpc('get_specialty_villages_with_doctors', params: {
+            'p_specialty_id': specialtyId,
+            'p_markaz_id': markazId,
+          });
     return (response as List)
         .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
         .toList();

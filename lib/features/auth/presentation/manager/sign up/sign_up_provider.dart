@@ -78,13 +78,15 @@ class SignUpProvider extends StateNotifier<SignUpStates> {
   }
 
   void onDistrictChanged(int? districtId) {
+    final selected = state.cities
+        .where((city) => city.id == districtId)
+        .firstOrNull;
     state = state
-        .clearSelections(clearCity: true, clearVillage: true)
-        .copyWith(districtId: districtId);
+        .clearSelections(clearVillage: true)
+        .copyWith(cityId: selected?.parentId, districtId: districtId);
   }
 
   void onVillageChanged(int? villageId) {
-    state =
-        state.clearSelections(clearCity: true).copyWith(villageId: villageId);
+    state = state.copyWith(villageId: villageId);
   }
 }

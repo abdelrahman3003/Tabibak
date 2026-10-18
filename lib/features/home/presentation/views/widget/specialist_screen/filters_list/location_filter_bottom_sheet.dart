@@ -44,11 +44,12 @@ class _LocationFilterBottomSheetState
     _selectedMarkazId = state.selectedMarkazId;
     _selectedVillageId = state.selectedVillageId;
 
-    if (state.villages.isEmpty || state.governorates.isEmpty) {
-      Future.microtask(() {
-        ref.read(doctorsSpecialtyProvider.notifier).loadLocations();
-      });
-    }
+    Future.microtask(() {
+      ref.read(doctorsSpecialtyProvider.notifier).loadLocations(
+            governorateId: _selectedGovernorateId,
+            markazId: _selectedMarkazId,
+          );
+    });
   }
 
   @override
@@ -64,9 +65,7 @@ class _LocationFilterBottomSheetState
     final isDark = theme.brightness == Brightness.dark;
     final locale = Localizations.localeOf(context).languageCode;
 
-    final governorates = state.governorates.isNotEmpty
-        ? state.governorates
-        : DoctorsSpecialtyProvider.defaultGovernorates;
+    final governorates = state.governorates;
 
     final markazes = state.markazes;
 
@@ -190,7 +189,10 @@ class _LocationFilterBottomSheetState
                         onTap: () {
                           setState(() {
                             _selectedGovernorateId = null;
+                            _selectedMarkazId = null;
+                            _selectedVillageId = null;
                           });
+                          ref.read(doctorsSpecialtyProvider.notifier).loadLocations();
                         },
                       ),
                       ...governorates.map((gov) {
@@ -202,7 +204,12 @@ class _LocationFilterBottomSheetState
                             setState(() {
                               _selectedGovernorateId =
                                   isSelected ? null : gov.id;
+                              _selectedMarkazId = null;
+                              _selectedVillageId = null;
                             });
+                            ref.read(doctorsSpecialtyProvider.notifier).loadLocations(
+                                  governorateId: _selectedGovernorateId,
+                                );
                           },
                         );
                       }),
@@ -224,7 +231,10 @@ class _LocationFilterBottomSheetState
                             .getName(locale),
                   ),
                   10.hBox,
-                  Wrap(
+                  if (_selectedGovernorateId == null)
+                    _selectionRequiredMessage()
+                  else
+                    Wrap(
                     spacing: 8.w,
                     runSpacing: 8.h,
                     children: [
@@ -238,9 +248,12 @@ class _LocationFilterBottomSheetState
                             _villageSearchQuery = '';
                             _villageSearchController.clear();
                           });
+                          ref.read(doctorsSpecialtyProvider.notifier).loadLocations(
+                                governorateId: _selectedGovernorateId,
+                              );
                         },
                       ),
-                      ...markazes.map((markaz) {
+                        ...markazes.map((markaz) {
                         final isSelected = _selectedMarkazId == markaz.id;
                         return _buildChip(
                           label: markaz.getName(locale),
@@ -257,11 +270,15 @@ class _LocationFilterBottomSheetState
                               _villageSearchQuery = '';
                               _villageSearchController.clear();
                             });
+                            ref.read(doctorsSpecialtyProvider.notifier).loadLocations(
+                                  governorateId: _selectedGovernorateId,
+                                  markazId: _selectedMarkazId,
+                                );
                           },
                         );
-                      }),
-                    ],
-                  ),
+                        }),
+                      ],
+                    ),
                   20.hBox,
 
                   // --- 3. Village Section ---
@@ -506,6 +523,24 @@ class _LocationFilterBottomSheetState
           ),
         ],
       ],
+    );
+  }
+
+  Widget _selectionRequiredMessage() {
+    final theme = Theme.of(context);
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      decoration: BoxDecoration(
+        color: theme.brightness == Brightness.dark
+            ? Colors.white.withValues(alpha: 0.05)
+            : Colors.black.withValues(alpha: 0.04),
+        borderRadius: AppRadius.radius12,
+      ),
+      child: Text(
+        AppStrings.selectMarkazFirst,
+        style: theme.textTheme.bodySmall,
+      ),
     );
   }
 

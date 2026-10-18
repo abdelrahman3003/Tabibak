@@ -57,13 +57,17 @@ class AuthRemoteDatasource {
           fcmToken: null,
         ),
       );
+      await _saveAddressFromMetadata(user);
       await _registerDeviceAfterLogin();
-      return false;
+      return _hasCompleteAddress(user.id);
     }
 
+    if (!await _hasCompleteAddress(user.id)) {
+      await _saveAddressFromMetadata(user);
+    }
     await _registerDeviceAfterLogin();
 
-    return exitUser.districtId != null;
+    return _hasCompleteAddress(user.id);
   }
 
   Future<void> sendOtp(String email) async {
@@ -122,12 +126,42 @@ class AuthRemoteDatasource {
         ),
       );
       await _registerDeviceAfterLogin();
-      return false;
+      return _hasCompleteAddress(user.id);
     }
 
+    if (!await _hasCompleteAddress(user.id)) {
+      await _saveAddressFromMetadata(user);
+    }
     await _registerDeviceAfterLogin();
 
-    return existingUser.districtId != null;
+    return _hasCompleteAddress(user.id);
+  }
+
+  Future<void> _saveAddressFromMetadata(User user) async {
+    final metadata = user.userMetadata ?? const <String, dynamic>{};
+    int? id(String key) => (metadata[key] as num?)?.toInt();
+    final governorateId = id('governorate_id');
+    final markazId = id('markaz_id');
+    final villageId = id('village_id');
+    if (governorateId == null || markazId == null || villageId == null) {
+      return;
+    }
+    await updateUserCity(
+      cityId: governorateId,
+      districtId: markazId,
+      villageId: villageId,
+    );
+  }
+
+  Future<bool> _hasCompleteAddress(String userId) async {
+    final address = await supabase
+        .from('user_addresses')
+        .select('governorate_id, markaz_id, village_id')
+        .eq('user_id', userId)
+        .maybeSingle();
+    return address?['governorate_id'] != null &&
+        address?['markaz_id'] != null &&
+        address?['village_id'] != null;
   }
 
   Future<void> addUserData(UserModel userModel) async {

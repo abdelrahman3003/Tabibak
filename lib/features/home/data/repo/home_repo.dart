@@ -17,9 +17,9 @@ abstract class HomeRepo {
 
   Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist(
       {int? specialtyId, String? sortBy, int? markazId});
-  Future<ApiResult<List<CityModel>>> getGovernorates();
-  Future<ApiResult<List<CityModel>>> getMarkazes();
-  Future<ApiResult<List<CityModel>>> getVillages({int? markazId});
+  Future<ApiResult<List<CityModel>>> getGovernorates({int? specialtyId});
+  Future<ApiResult<List<CityModel>>> getMarkazes({int? governorateId, int? specialtyId});
+  Future<ApiResult<List<CityModel>>> getVillages({int? markazId, int? specialtyId});
   Future<ApiResult<List<PharmacyOfferModel>>> getOffers(
       {int? specialtyId, String? sortBy});
 }

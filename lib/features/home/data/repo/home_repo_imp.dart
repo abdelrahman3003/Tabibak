@@ -97,9 +97,9 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<CityModel>>> getGovernorates() async {
+  Future<ApiResult<List<CityModel>>> getGovernorates({int? specialtyId}) async {
     try {
-      final result = await homeRemoteData.getGovernorates();
+      final result = await homeRemoteData.getGovernorates(specialtyId: specialtyId);
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
@@ -107,9 +107,12 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<CityModel>>> getMarkazes() async {
+  Future<ApiResult<List<CityModel>>> getMarkazes({int? governorateId, int? specialtyId}) async {
     try {
-      final result = await homeRemoteData.getMarkazes();
+      final result = await homeRemoteData.getMarkazes(
+        governorateId: governorateId,
+        specialtyId: specialtyId,
+      );
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));
@@ -117,9 +120,9 @@ class HomeRepoImp extends HomeRepo {
   }
 
   @override
-  Future<ApiResult<List<CityModel>>> getVillages({int? markazId}) async {
+  Future<ApiResult<List<CityModel>>> getVillages({int? markazId, int? specialtyId}) async {
     try {
-      final result = await homeRemoteData.getVillages(markazId: markazId);
+      final result = await homeRemoteData.getVillages(markazId: markazId, specialtyId: specialtyId);
       return ApiResult.sucess(result);
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

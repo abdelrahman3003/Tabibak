@@ -46,21 +46,25 @@ class CityNotifier extends StateNotifier<CityStates> {
   }
 
   void updateDistrict(int? districtId) {
-    state = state.clearSelections(clearCity: true, clearVillage: true).copyWith(
+    final selected = state.cities
+        .where((city) => city.id == districtId)
+        .firstOrNull;
+    state = state.clearSelections(clearVillage: true).copyWith(
+          selectedCityId: selected?.parentId,
           selectedDistrictId: districtId,
         );
   }
 
   void updateVillage(int? villageId) {
-    state = state.clearSelections(clearCity: true).copyWith(
-          selectedVillageId: villageId,
-        );
+    state = state.copyWith(selectedVillageId: villageId);
   }
 
   Future<void> saveCity() async {
-    if (state.selectedCityId == null &&
-        state.selectedDistrictId == null &&
-        state.selectedVillageId == null) return;
+    if (state.selectedCityId == null ||
+        state.selectedDistrictId == null ||
+        state.selectedVillageId == null) {
+      return;
+    }
 
     state = state.copyWith(
       isSaving: true,
