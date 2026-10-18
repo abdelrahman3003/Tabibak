@@ -10,5 +10,4 @@ abstract class NotificationRepo {
 
   Future<ApiResult<void>> markAsRead(int notificationId);
 
-  Future<ApiResult<void>> markAllAsRead();
 }

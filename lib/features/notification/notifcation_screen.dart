@@ -23,23 +23,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        ref
-            .read(notificationProviderNotifier.notifier)
-            .onOpenNotificationScreen();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    try {
-      ref
-          .read(notificationProviderNotifier.notifier)
-          .onCloseNotificationScreen();
-    } catch (_) {}
-    super.dispose();
   }
 
   @override
@@ -63,11 +46,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    final notifier = ref.read(notificationProviderNotifier.notifier);
-    final unreadCount = ref.watch(
-      notificationProviderNotifier.select((state) => state.unreadCount),
-    );
-
     return AppBar(
       backgroundColor: AppColors.scaffoldBG,
       elevation: 0,
@@ -89,22 +67,6 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
           fontFamily: 'Tajawal',
         ),
       ),
-      actions: [
-        if (unreadCount > 0)
-          TextButton.icon(
-            onPressed: () => notifier.markAllAsRead(),
-            icon: Icon(Icons.done_all, size: 18.sp, color: AppColors.primary),
-            label: Text(
-              'Mark all read'.tr(),
-              style: TextStyle(
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.primary,
-                fontFamily: 'Tajawal',
-              ),
-            ),
-          ),
-      ],
     );
   }
 

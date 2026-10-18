@@ -38,7 +38,6 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
   final NotificationRepo _repo;
   RealtimeChannel? _realtimeChannel;
   StreamSubscription? _fgSubscription;
-  bool _isScreenOpen = false;
 
   void _setupForegroundMessageListener() {
     _fgSubscription =
@@ -75,18 +74,8 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
                 if (newRecord.isNotEmpty) {
                   final newNotif = NotificationModel.fromJson(newRecord);
                   currentList.removeWhere((n) => n.id == newNotif.id);
-                  final notifToAdd = _isScreenOpen
-                      ? newNotif.copyWith(isRead: true)
-                      : newNotif;
-                  currentList.insert(0, notifToAdd);
-                  // New notification arrived -> reset badgeSeen so badge increases only if screen is NOT open
-                  state = state.copyWith(
-                    notifications: currentList,
-                    badgeSeen: _isScreenOpen ? true : false,
-                  );
-                  if (_isScreenOpen) {
-                    _repo.markAsRead(newNotif.id);
-                  }
+                  currentList.insert(0, newNotif);
+                  state = state.copyWith(notifications: currentList);
                 }
               } else if (eventType == PostgresChangeEvent.update) {
                 if (newRecord.isNotEmpty) {
@@ -121,18 +110,11 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
 
     result.when(
       sucess: (notifications) {
-        final list = _isScreenOpen
-            ? notifications.map((n) => n.copyWith(isRead: true)).toList()
-            : notifications;
         state = state.copyWith(
-          notifications: list,
+          notifications: notifications,
           isLoading: false,
           errorMessage: null,
-          badgeSeen: _isScreenOpen ? true : state.badgeSeen,
         );
-        if (_isScreenOpen && notifications.any((n) => !n.isRead)) {
-          _repo.markAllAsRead();
-        }
       },
       failure: (error) {
         state = state.copyWith(
@@ -152,29 +134,6 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
     }
 
     await _repo.markAsRead(notificationId);
-  }
-
-  void clearBadge() {
-    state = state.copyWith(badgeSeen: true);
-  }
-
-  Future<void> markAllAsRead() async {
-    final currentList = (state.notifications ?? [])
-        .map((n) => n.copyWith(isRead: true))
-        .toList();
-    state = state.copyWith(notifications: currentList, badgeSeen: true);
-
-    await _repo.markAllAsRead();
-  }
-
-  Future<void> onOpenNotificationScreen() async {
-    _isScreenOpen = true;
-    clearBadge();
-    await markAllAsRead();
-  }
-
-  void onCloseNotificationScreen() {
-    _isScreenOpen = false;
   }
 
   Future<void> getAppointmentDetails(

@@ -33,9 +33,6 @@ class HomeAppBar extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    ref
-                        .read(notificationProviderNotifier.notifier)
-                        .onOpenNotificationScreen();
                     context.pushNamed(Routes.notificationScreen);
                   },
                   icon: Icon(
