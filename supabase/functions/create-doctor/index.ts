@@ -82,10 +82,7 @@ serve(async (req) => {
           const addressPayload = clinic.clinic_address;
           const addressData = {
             clinic_id: newClinic.id,
-            city_id: addressPayload.city_id ?? null,
-            markaz_id: addressPayload.markaz_id ?? null,
             village_id: addressPayload.village_id ?? null,
-            governorate_id: addressPayload.governorate_id ?? null,
             floor: addressPayload.floor ?? null,
             street: addressPayload.street ?? null,
             department: addressPayload.department ?? null

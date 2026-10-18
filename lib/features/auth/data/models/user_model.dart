@@ -22,10 +22,10 @@ class UserModel {
   @JsonKey(name: 'fcm_token')
   final String? fcmToken;
 
-  @JsonKey(name: 'city_id')
+  @JsonKey(name: 'governorate_id')
   final int? cityId;
 
-  @JsonKey(name: 'district_id')
+  @JsonKey(name: 'markaz_id')
   final int? districtId;
 
   @JsonKey(name: 'village_id')

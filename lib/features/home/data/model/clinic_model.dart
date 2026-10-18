@@ -49,12 +49,6 @@ class ClinicAddressModel {
   @JsonKey(name: 'clinic_id')
   final int? clinicId;
 
-  @JsonKey(name: 'city_id')
-  final int? cityId;
-
-  // The main city/neighbourhood record (FK: clinic_address_city_id_fkey)
-  final CityModel? city;
-
   // Markaz (district) – FK: clinic_address_markaz_id_fkey
   @JsonKey(name: 'markaz_id')
   final int? markazId;
@@ -77,8 +71,6 @@ class ClinicAddressModel {
   ClinicAddressModel({
     this.id,
     this.clinicId,
-    this.cityId,
-    this.city,
     this.markazId,
     this.markaz,
     this.villageId,
@@ -148,7 +140,7 @@ class CityModel {
 }
 
 extension ClinicAddressFormatting on ClinicAddressModel {
-  /// Returns one location according to hierarchy (village, markaz, city, governorate)
+  /// Returns one location according to the normalized hierarchy.
   /// Localized according to [locale].
   String getLocation([String? locale]) {
     String getCityName(CityModel? c) {
@@ -161,9 +153,6 @@ extension ClinicAddressFormatting on ClinicAddressModel {
 
     final mrk = getCityName(markaz);
     if (mrk.isNotEmpty) return mrk;
-
-    final cty = getCityName(city);
-    if (cty.isNotEmpty) return cty;
 
     final gov = getCityName(governorate);
     if (gov.isNotEmpty) return gov;
@@ -181,13 +170,11 @@ extension ClinicAddressFormatting on ClinicAddressModel {
     final gov = getCityName(governorate);
     final mrk = getCityName(markaz);
     final vlg = getCityName(village);
-    final cty = getCityName(city);
     final str = street?.trim() ?? '';
 
     if (gov.isNotEmpty) parts.add(gov);
     if (mrk.isNotEmpty && !parts.contains(mrk)) parts.add(mrk);
     if (vlg.isNotEmpty && !parts.contains(vlg)) parts.add(vlg);
-    if (cty.isNotEmpty && !parts.contains(cty)) parts.add(cty);
     if (str.isNotEmpty && !parts.contains(str)) parts.add(str);
 
     return parts.join(locale == 'ar' ? '، ' : ', ');

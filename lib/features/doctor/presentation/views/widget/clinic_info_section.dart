@@ -20,7 +20,6 @@ class ClinicInfoSection extends StatelessWidget {
     final parts = <String>[
       _name(address.markaz, locale),
       _name(address.village, locale),
-      _name(address.city, locale),
       address.street?.trim() ?? '',
       address.department?.trim() ?? '',
       address.floor?.trim() ?? '',

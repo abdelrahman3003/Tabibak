@@ -41,10 +41,6 @@ ClinicAddressModel _$ClinicAddressModelFromJson(Map<String, dynamic> json) =>
     ClinicAddressModel(
       id: (json['id'] as num?)?.toInt(),
       clinicId: (json['clinic_id'] as num?)?.toInt(),
-      cityId: (json['city_id'] as num?)?.toInt(),
-      city: json['city'] == null
-          ? null
-          : CityModel.fromJson(json['city'] as Map<String, dynamic>),
       markazId: (json['markaz_id'] as num?)?.toInt(),
       markaz: json['markaz'] == null
           ? null
@@ -66,8 +62,6 @@ Map<String, dynamic> _$ClinicAddressModelToJson(ClinicAddressModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'clinic_id': instance.clinicId,
-      'city_id': instance.cityId,
-      'city': instance.city,
       'markaz_id': instance.markazId,
       'markaz': instance.markaz,
       'village_id': instance.villageId,

@@ -15,10 +15,23 @@ class HomeRemoteData {
     if (user == null) {
       throw const AuthException('User not logged in');
     }
-    final response =
-        await supabase.from('users').select().eq('user_id', user.id).single();
+    final response = await supabase
+        .from('users')
+        .select()
+        .eq('user_id', user.id)
+        .maybeSingle();
 
-    return UserModel.fromJson(response);
+    if (response != null) {
+      return UserModel.fromJson(response);
+    }
+
+    // A newly authenticated user may not have a users row yet.
+    return UserModel(
+      userId: user.id,
+      email: user.email ?? '',
+      name: user.userMetadata?['name'] as String? ?? '',
+      image: user.userMetadata?['avatar_url'] as String?,
+    );
   }
 
   Future<List<SpecialtyModel>> getSpecialties() async {
@@ -62,33 +75,25 @@ class HomeRemoteData {
     bool ascending = false,
     int? markazId,
   }) async {
-    final response = await supabase.rpc(
-      'get_filtered_sorted_doctor_ids',
-      params: {
-        'spec_id': specialtyId,
-        'sort_by': sortBy ?? 'avg_rating',
-        'ascending': ascending,
-        'p_markaz_id': markazId,
-      },
-    );
-
-    final doctorIds = (response as List).map((e) => e['doctor_id']).toList();
-
-    if (doctorIds.isEmpty) return [];
-
-    final doctors = await supabase
+    // Location filtering is applied by DoctorsSpecialtyProvider using the
+    // normalized clinic_address data. Fetch the approved specialty doctors
+    // directly so this screen does not depend on a stale location RPC.
+    var query = supabase
         .from('doctors')
         .select(ApiConstants.getDoctors)
-        .eq('status', 2)
-        .inFilter('doctor_id', doctorIds);
+        .eq('status', 2);
+    if (specialtyId != null) {
+      query = query.eq('specialty', specialtyId);
+    }
+    final doctors = await query;
 
     return (doctors as List).map((e) => DoctorModel.fromJson(e)).toList();
   }
 
   Future<List<CityModel>> getGovernorates() async {
     final response = await supabase
-        .from('governorate')
-        .select('id, name_ar, name_en, type, parent_id')
+        .from('governorates')
+        .select('id, name_ar, name_en')
         .order('id');
 
     return (response as List)
@@ -96,8 +101,10 @@ class HomeRemoteData {
         .toList();
   }
 
-  Future<List<CityModel>> getMarkazes() async {
-    final response = await supabase.rpc('get_markazes_with_doctors');
+  Future<List<CityModel>> getMarkazes({int? governorateId}) async {
+    final response = await supabase.rpc('get_markazes_with_doctors', params: {
+      'p_governorate_id': governorateId,
+    });
 
     return (response as List)
         .map((e) => CityModel.fromJson(e as Map<String, dynamic>))

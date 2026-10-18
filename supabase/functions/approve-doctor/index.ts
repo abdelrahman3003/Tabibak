@@ -92,7 +92,7 @@ serve(async (req) => {
 
     // 2. Fetch all users from this district (markaz)
     const usersRes = await fetch(
-      `${supabaseUrl}/rest/v1/users?district_id=eq.${markazId}&select=user_id,fcm_token`,
+      `${supabaseUrl}/rest/v1/user_addresses?markaz_id=eq.${markazId}&select=user_id,users(fcm_token)`,
       { headers }
     );
     
@@ -152,8 +152,8 @@ serve(async (req) => {
         data: { doctor_id: doctorId },
       });
 
-      if (user.fcm_token) {
-        allTokens.add(user.fcm_token);
+      if (user.users?.fcm_token) {
+        allTokens.add(user.users.fcm_token);
       }
     }
 

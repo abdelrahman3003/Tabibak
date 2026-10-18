@@ -58,7 +58,7 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
     );
 
     // Load all villages
-    final villageResult = await repo.getVillages();
+    final villageResult = await repo.getVillages(markazId: null);
     if (!mounted) return;
     villageResult.when(
       sucess: (villages) {

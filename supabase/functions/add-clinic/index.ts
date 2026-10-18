@@ -20,10 +20,8 @@ serve(async (req) => {
       p_consultation_fee,
       p_is_booking,
       p_is_available,
-      p_city_id,
       p_markaz_id,
       p_village_id,
-      p_governorate_id,
       p_street,
       p_floor,
       p_department,
@@ -58,10 +56,8 @@ serve(async (req) => {
         p_consultation_fee: p_consultation_fee ?? 0,
         p_is_booking: p_is_booking ?? false,
         p_is_available: p_is_available ?? true,
-        p_city_id: p_city_id ?? null,
         p_markaz_id: p_markaz_id ?? null,
         p_village_id: p_village_id ?? null,
-        p_governorate_id: p_governorate_id ?? null,
         p_street: p_street ?? null,
         p_floor: p_floor ?? null,
         p_department: p_department ?? null,
@@ -104,7 +100,8 @@ serve(async (req) => {
     const locationId = p_village_id || p_markaz_id;
     let locationName = "";
     if (locationId) {
-      const cityRes = await fetch(`${supabaseUrl}/rest/v1/city?id=eq.${locationId}&select=name_ar`, { headers });
+      const locationTable = p_village_id ? "villages" : "markaz";
+      const cityRes = await fetch(`${supabaseUrl}/rest/v1/${locationTable}?id=eq.${locationId}&select=name_ar`, { headers });
       if (cityRes.ok) {
         const cityData = await cityRes.json();
         if (cityData && cityData.length > 0 && cityData[0].name_ar) {
@@ -125,7 +122,7 @@ serve(async (req) => {
     // 4. Send notifications to all users with the same markaz
     if (p_markaz_id && projectId) {
       const usersRes = await fetch(
-        `${supabaseUrl}/rest/v1/users?district_id=eq.${p_markaz_id}&select=user_id,fcm_token`,
+        `${supabaseUrl}/rest/v1/user_addresses?markaz_id=eq.${p_markaz_id}&select=user_id,users(fcm_token)`,
         { headers }
       );
 
@@ -144,7 +141,7 @@ serve(async (req) => {
               type: notificationType,
               data: { doctor_id: p_doctor_id },
             });
-            if (user.fcm_token) allTokens.add(user.fcm_token);
+            if (user.users?.fcm_token) allTokens.add(user.users.fcm_token);
           }
 
           // Insert into notifications inbox table

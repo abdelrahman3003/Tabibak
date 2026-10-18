@@ -23,8 +23,8 @@ class AuthRemoteDatasource {
     final Map<String, dynamic> data = {
       "name": name,
     };
-    if (cityId != null) data["city_id"] = cityId;
-    if (districtId != null) data["district_id"] = districtId;
+    if (cityId != null) data["governorate_id"] = cityId;
+    if (districtId != null) data["markaz_id"] = districtId;
     if (villageId != null) data["village_id"] = villageId;
 
     await supabase.auth.signUp(
@@ -155,14 +155,54 @@ class AuthRemoteDatasource {
   }
 
   Future<List<CityModel>> getCities() async {
-    final response = await supabase
-        .from('city')
-        .select('id, name_ar, name_en, type, parent_id')
-        .order('name_ar');
+    final responses = await Future.wait([
+      supabase
+          .from('governorates')
+          .select('id, name_ar, name_en')
+          .order('name_ar'),
+      supabase
+          .from('markaz')
+          .select('id, name_ar, name_en, governorate_id')
+          .order('name_ar'),
+      supabase
+          .from('villages')
+          .select('id, name_ar, name_en, markaz_id')
+          .order('name_ar'),
+    ]);
 
-    return (response as List)
-        .map((e) => CityModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    final governorates = (responses[0] as List).map((row) {
+      final item = row as Map<String, dynamic>;
+      return CityModel(
+        id: (item['id'] as num?)?.toInt(),
+        nameAr: item['name_ar'] as String?,
+        nameEn: item['name_en'] as String?,
+        type: 'governorate',
+      );
+    });
+
+    final markazes = (responses[1] as List).map((row) {
+      final item = row as Map<String, dynamic>;
+      return CityModel(
+        id: (item['id'] as num?)?.toInt(),
+        nameAr: item['name_ar'] as String?,
+        nameEn: item['name_en'] as String?,
+        type: 'markaz',
+        parentId: (item['governorate_id'] as num?)?.toInt(),
+      );
+    });
+
+    final villages = (responses[2] as List).map((row) {
+      final item = row as Map<String, dynamic>;
+      return CityModel(
+        id: (item['id'] as num?)?.toInt(),
+        nameAr: item['name_ar'] as String?,
+        nameEn: item['name_en'] as String?,
+        type: 'village',
+        parentId: (item['markaz_id'] as num?)?.toInt(),
+      );
+    });
+
+    return [...governorates, ...markazes, ...villages];
   }
 
   Future<void> updateUserCity({
@@ -176,11 +216,13 @@ class AuthRemoteDatasource {
       throw const AuthException('User not logged in');
     }
 
-    await supabase.from('users').update({
-      'city_id': cityId,
-      'district_id': districtId,
+    await supabase.from('user_addresses').upsert({
+      'user_id': user.id,
+      'governorate_id': cityId,
+      'markaz_id': districtId,
       'village_id': villageId,
-    }).eq('user_id', user.id);
+      'updated_at': DateTime.now().toUtc().toIso8601String(),
+    }, onConflict: 'user_id');
   }
 
   Future<void> signOut() async {
