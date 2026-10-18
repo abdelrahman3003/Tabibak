@@ -74,7 +74,26 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                     children: [
                       AppDropdown<CityModel>(
                         items: state.cities
-                            .where((e) => e.type == 'markaz')
+                            .where((e) => e.type == 'governorate')
+                            .toList(),
+                        value: state.cities
+                            .where((e) => e.id == state.selectedCityId)
+                            .firstOrNull,
+                        hint: AppStrings.city,
+                        labelBuilder: (city) => city.getName(locale),
+                        prefixIcon: const Icon(
+                          Icons.map_outlined,
+                          color: AppColors.primary,
+                        ),
+                        onChanged: (city) {
+                          ref.read(cityProvider.notifier).updateCity(city?.id);
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      AppDropdown<CityModel>(
+                        items: state.cities
+                            .where((e) => e.type == 'markaz' &&
+                                e.parentId == state.selectedCityId)
                             .toList(),
                         value: state.cities
                             .where((e) => e.id == state.selectedDistrictId)
@@ -85,11 +104,13 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                           Icons.location_city_outlined,
                           color: AppColors.primary,
                         ),
-                        onChanged: (city) {
+                        onChanged: state.selectedCityId == null
+                            ? null
+                            : (city) {
                           ref
                               .read(cityProvider.notifier)
                               .updateDistrict(city?.id);
-                        },
+                          },
                         validator: (value) {
                           if (value == null) {
                             return AppStrings.pleaseSelectDistrict;
@@ -102,7 +123,8 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
                         AppDropdown<CityModel>(
                           items: state.cities
                               .where(
-                                  (e) => e.parentId == state.selectedDistrictId)
+                                  (e) => e.type == 'village' &&
+                                      e.parentId == state.selectedDistrictId)
                               .toList(),
                           value: state.cities
                               .where((e) => e.id == state.selectedVillageId)
@@ -128,7 +150,8 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
               child: AppButton(
                 title: AppStrings.confirm,
                 isLoading: state.isSaving,
-                onPressed: (state.selectedDistrictId == null ||
+            onPressed: (state.selectedCityId == null ||
+                        state.selectedDistrictId == null ||
                         state.selectedVillageId == null ||
                         state.isSaving)
                     ? null

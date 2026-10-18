@@ -40,7 +40,9 @@ class CityNotifier extends StateNotifier<CityStates> {
   }
 
   void updateCity(int? cityId) {
-    state = state.clearSelections(clearVillage: true).copyWith(
+    state = state
+        .clearSelections(clearDistrict: true, clearVillage: true)
+        .copyWith(
           selectedCityId: cityId,
         );
   }
