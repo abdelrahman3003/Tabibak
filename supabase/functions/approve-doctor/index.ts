@@ -53,9 +53,9 @@ serve(async (req) => {
 
     const doctorName = updatedDoctors[0].name || "A doctor";
 
-    // 1. Fetch the doctor's clinic markaz_id, village_id and clinic_name
+    // 1. Fetch the doctor's complete clinic location.
     const clinicRes = await fetch(
-      `${supabaseUrl}/rest/v1/clinic_data?doctor_id=eq.${doctorId}&select=id,clinic_name,clinic_address(markaz_id,village_id)`,
+      `${supabaseUrl}/rest/v1/clinic_data?doctor_id=eq.${doctorId}&select=id,clinic_name,clinic_address(governorate_id,markaz_id,village_id)`,
       { headers }
     );
     
@@ -75,24 +75,59 @@ serve(async (req) => {
     // Extract markaz_id and village_id
     let markazId = null;
     let villageId = null;
+    let governorateId = null;
     const addressData = clinicData[0].clinic_address;
     if (Array.isArray(addressData) && addressData.length > 0) {
         markazId = addressData[0].markaz_id;
         villageId = addressData[0].village_id;
+        governorateId = addressData[0].governorate_id;
     } else if (addressData && !Array.isArray(addressData)) {
         markazId = addressData.markaz_id;
         villageId = addressData.village_id;
+        governorateId = addressData.governorate_id;
     }
 
-    if (!markazId) {
-      return new Response(JSON.stringify({ success: true, message: "Doctor approved, but clinic has no markaz_id" }), {
+    // Legacy clinic addresses may only have village_id. Derive its parents.
+    if (villageId && (!markazId || !governorateId)) {
+      const villageRes = await fetch(
+        `${supabaseUrl}/rest/v1/villages?id=eq.${villageId}&select=markaz_id,markaz(governorate_id)`,
+        { headers }
+      );
+      if (villageRes.ok) {
+        const village = (await villageRes.json())?.[0];
+        markazId ??= village?.markaz_id ?? null;
+        const markaz = Array.isArray(village?.markaz) ? village.markaz[0] : village?.markaz;
+        governorateId ??= markaz?.governorate_id ?? null;
+      }
+    }
+
+    if (markazId && !governorateId) {
+      const markazRes = await fetch(
+        `${supabaseUrl}/rest/v1/markaz?id=eq.${markazId}&select=governorate_id`,
+        { headers }
+      );
+      if (markazRes.ok) governorateId = (await markazRes.json())?.[0]?.governorate_id ?? null;
+    }
+
+    if (!governorateId && !markazId && !villageId) {
+      return new Response(JSON.stringify({ success: true, message: "Doctor approved, but clinic has no location IDs" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // 2. Fetch all users from this district (markaz)
+    // The most specific doctor location controls the audience. Do not OR all
+    // three levels: a village doctor must not notify the whole district.
+    const locationType = villageId ? "village" : (markazId ? "markaz" : "governorate");
+    const locationId = villageId || markazId || governorateId;
+    const locationFilter = locationType === "village"
+      ? `village_id.eq.${locationId}`
+      : locationType === "markaz"
+        ? `markaz_id.eq.${locationId}`
+        : `governorate_id.eq.${locationId}`;
+
+    // 2. Notify only users in the selected hierarchy level.
     const usersRes = await fetch(
-      `${supabaseUrl}/rest/v1/user_addresses?markaz_id=eq.${markazId}&select=user_id,users(fcm_token)`,
+      `${supabaseUrl}/rest/v1/user_addresses?${locationFilter}&select=user_id`,
       { headers }
     );
     
@@ -102,9 +137,20 @@ serve(async (req) => {
 
     const users = await usersRes.json();
     if (!users || users.length === 0) {
-      return new Response(JSON.stringify({ success: true, message: "Doctor approved, but no users found in this markaz" }), {
+      return new Response(JSON.stringify({ success: true, message: "Doctor approved, but no users found in this location" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+
+    const userIds = [...new Set(users.map((user: { user_id?: string }) => user.user_id).filter(Boolean))];
+    const profilesRes = await fetch(
+      `${supabaseUrl}/rest/v1/users?user_id=in.(${userIds.join(",")})&select=user_id,fcm_token`,
+      { headers }
+    );
+    const profiles = profilesRes.ok ? await profilesRes.json() : [];
+    const tokensByUser = new Map<string, string>();
+    for (const profile of profiles) {
+      if (profile.user_id && profile.fcm_token) tokensByUser.set(profile.user_id, profile.fcm_token);
     }
 
     let formattedDoctorName = doctorName;
@@ -116,23 +162,22 @@ serve(async (req) => {
         }
     }
 
-    // Fetch name of village if villageId is not null, otherwise fetch name of markaz
-    const locationId = villageId || markazId;
-    let locationName = "";
-    if (locationId) {
-      const cityRes = await fetch(`${supabaseUrl}/rest/v1/city?id=eq.${locationId}&select=name_ar`, { headers });
-      if (cityRes.ok) {
-        const cityData = await cityRes.json();
-        if (cityData && cityData.length > 0 && cityData[0].name_ar) {
-          locationName = cityData[0].name_ar;
-        }
-      }
+    const locationTable = locationType === "village" ? "villages"
+      : locationType === "markaz" ? "markaz" : "governorates";
+    const locationRes = await fetch(
+      `${supabaseUrl}/rest/v1/${locationTable}?id=eq.${locationId}&select=name_ar`,
+      { headers }
+    );
+    const locationRows = locationRes.ok ? await locationRes.json() : [];
+    const locationName = locationRows?.[0]?.name_ar;
+    if (!locationName) {
+      throw new Error(`Location name not found for ${locationType} ${locationId}`);
     }
 
-    // If village_id is not null -> "عيادة جديدة في [اسم القرية]!", else -> "عيادة جديدة في [اسم المركز]!"
-    const title = locationName 
-      ? `عيادة جديدة في ${locationName}!`
-      : (villageId ? "عيادة جديدة في قريتك!" : "عيادة جديدة في مركزك!");
+    // Use the database name exactly as stored; do not add "مركز" or
+    // "محافظة" prefixes. A village name that already contains "قرية"
+    // naturally keeps it.
+    const title = `تم إضافة دكتور في ${locationName}`;
 
     const body = `تم إضافة عيادة جديدة: ${clinicName}، خاصة بـ ${formattedDoctorName}.`;
     const notificationType = "promotion";
@@ -141,19 +186,18 @@ serve(async (req) => {
     const notificationsToInsert = [];
     let allTokens = new Set<string>();
 
-    for (const user of users) {
-      if (!user.user_id) continue;
-      
+    for (const userId of userIds) {
       notificationsToInsert.push({
-        user_id: user.user_id,
+        user_id: userId,
         title,
         message: body,
         type: notificationType,
         data: { doctor_id: doctorId },
       });
 
-      if (user.users?.fcm_token) {
-        allTokens.add(user.users.fcm_token);
+      const token = tokensByUser.get(userId);
+      if (token) {
+        allTokens.add(token);
       }
     }
 
