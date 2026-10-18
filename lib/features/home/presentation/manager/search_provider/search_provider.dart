@@ -5,6 +5,7 @@ import 'package:tabibak/core/helper/dependancy_injection.dart';
 import 'package:tabibak/core/helper/shared_pref.dart';
 import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/data/repo/home_repo.dart';
+import 'package:tabibak/features/home/data/repo/home_repo_imp.dart';
 import 'package:tabibak/features/home/presentation/manager/search_provider/search_states.dart';
 
 final searchProviderNotifier =
@@ -17,6 +18,7 @@ class SearchProvider extends StateNotifier<SearchStates> {
 
   SearchProvider(this.ref, this.homeRepo) : super(SearchStates()) {
     initData();
+    loadFilterOptions();
   }
 
   void initData() async {
@@ -26,21 +28,74 @@ class SearchProvider extends StateNotifier<SearchStates> {
 
   List<DoctorModel> cachedList = [];
 
-  void search(String query) async {
-    if (query.isEmpty) {
-      state = state.copyWith(searchDoctorsList: cachedList);
-      return;
-    }
+  Future<void> search(String query) async {
     state = state.copyWith(isLoading: true);
-    final result = await homeRepo.searchDoctor(query);
+    final result = homeRepo is HomeRepoImp
+        ? await (homeRepo as HomeRepoImp).searchDoctorFiltered(query,
+            specialtyId: state.specialtyId,
+            governorateId: state.governorateId,
+            markazId: state.markazId,
+            villageId: state.villageId)
+        : await homeRepo.searchDoctor(query, specialtyId: state.specialtyId);
     result.when(
       sucess: (searchedDoctors) {
-        state = state.copyWith(searchDoctorsList: searchedDoctors);
+        state = state.copyWith(
+            searchDoctorsList: query.isEmpty &&
+                    state.specialtyId == null &&
+                    state.governorateId == null &&
+                    state.markazId == null &&
+                    state.villageId == null
+                ? cachedList
+                : searchedDoctors,
+            isLoading: false);
       },
       failure: (apiErrorModel) {
         state = state.copyWith(errorMessage: apiErrorModel.message);
       },
     );
+  }
+
+  Future<void> loadFilterOptions() async {
+    final specialties = await homeRepo.getSpecialties();
+    specialties.when(
+        sucess: (v) => state = state.copyWith(specialties: v), failure: (_) {});
+    final governorates = await homeRepo.getGovernorates();
+    governorates.when(
+        sucess: (v) => state = state.copyWith(governorates: v),
+        failure: (_) {});
+  }
+
+  Future<void> loadMarkazes(int? governorateId) async {
+    final result = await homeRepo.getMarkazes(governorateId: governorateId);
+    result.when(
+        sucess: (v) => state = state.copyWith(markazes: v), failure: (_) {});
+  }
+
+  Future<void> loadVillages(int? markazId) async {
+    if (markazId == null) {
+      state = state.copyWith(villages: const []);
+      return;
+    }
+    final result = await homeRepo.getVillages(markazId: markazId);
+    result.when(
+        sucess: (v) => state = state.copyWith(villages: v), failure: (_) {});
+  }
+
+  Future<void> applyFilters(
+      {int? specialtyId,
+      int? governorateId,
+      int? markazId,
+      int? villageId}) async {
+    state = state.copyWith(
+        specialtyId: specialtyId,
+        governorateId: governorateId,
+        markazId: markazId,
+        villageId: villageId,
+        clearSpecialty: specialtyId == null,
+        clearGovernorate: governorateId == null,
+        clearMarkaz: markazId == null,
+        clearVillage: villageId == null);
+    await search('');
   }
 
   Future<void> saveDoctorSearch(DoctorModel doctor) async {

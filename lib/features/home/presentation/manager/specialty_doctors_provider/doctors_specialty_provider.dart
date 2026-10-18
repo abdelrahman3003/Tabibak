@@ -99,6 +99,8 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
           sortBy: sortBy ?? 'avg_rating',
           specialtyId: targetSpecialtyId,
           markazId: markazId,
+          governorateId: governorateId,
+          villageId: villageId,
         );
 
     if (!mounted) return;
@@ -106,9 +108,8 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
     result.when(
       sucess: (specialtyDoctors) {
         if (!mounted) return;
-        final bool hasAnyLocFilter = markazId != null ||
-            governorateId != null ||
-            villageId != null;
+        final bool hasAnyLocFilter =
+            markazId != null || governorateId != null || villageId != null;
 
         final sorted = List<DoctorModel>.from(specialtyDoctors)
           ..sort(DoctorModel.compareByRating);
@@ -116,9 +117,8 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
         state = state.copyWith(
           isLoading: false,
           specialtyDoctors: sorted,
-          allSpecialtyDoctors: !hasAnyLocFilter
-              ? sorted
-              : (state.allSpecialtyDoctors ?? sorted),
+          allSpecialtyDoctors:
+              !hasAnyLocFilter ? sorted : (state.allSpecialtyDoctors ?? sorted),
           selectedGovernorateId: governorateId,
           selectedMarkazId: markazId,
           selectedVillageId: villageId,
@@ -171,8 +171,8 @@ class DoctorsSpecialtyProvider extends StateNotifier<SpecialtyDoctorsStates> {
 
           bool villageMatch = true;
           if (villageId != null) {
-            villageMatch = addr.villageId == villageId ||
-                addr.village?.id == villageId;
+            villageMatch =
+                addr.villageId == villageId || addr.village?.id == villageId;
           }
 
           if (govMatch && markazMatch && villageMatch) {

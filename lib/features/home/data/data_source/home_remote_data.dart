@@ -74,16 +74,29 @@ class HomeRemoteData {
     String? sortBy,
     bool ascending = false,
     int? markazId,
+    int? governorateId,
+    int? villageId,
   }) async {
     // Location filtering is applied by DoctorsSpecialtyProvider using the
     // normalized clinic_address data. Fetch the approved specialty doctors
     // directly so this screen does not depend on a stale location RPC.
-    var query = supabase
-        .from('doctors')
-        .select(ApiConstants.getDoctors)
-        .eq('status', 2);
+    final searchSelect = ApiConstants.getDoctors
+        .replaceFirst('clinic_data(*,', 'clinic_data!inner(*,')
+        .replaceFirst('clinic_address(*,', 'clinic_address!inner(*,');
+    var query = supabase.from('doctors').select(searchSelect).eq('status', 2);
     if (specialtyId != null) {
       query = query.eq('specialty', specialtyId);
+    }
+    if (villageId != null) {
+      query = query.eq('clinic_data.clinic_address.village_id', villageId);
+    } else {
+      if (governorateId != null) {
+        query = query.eq(
+            'clinic_data.clinic_address.governorate_id', governorateId);
+      }
+      if (markazId != null) {
+        query = query.eq('clinic_data.clinic_address.markaz_id', markazId);
+      }
     }
     final doctors = await query;
 
@@ -101,7 +114,8 @@ class HomeRemoteData {
         .toList();
   }
 
-  Future<List<CityModel>> getMarkazes({int? governorateId, int? specialtyId}) async {
+  Future<List<CityModel>> getMarkazes(
+      {int? governorateId, int? specialtyId}) async {
     final response = specialtyId == null
         ? await supabase.rpc('get_markazes_with_doctors', params: {
             'p_governorate_id': governorateId,
@@ -118,8 +132,11 @@ class HomeRemoteData {
 
   Future<List<CityModel>> getVillages({int? markazId, int? specialtyId}) async {
     final response = specialtyId == null
-        ? await supabase.rpc('get_villages_with_doctors',
-            params: {'p_markaz_id': markazId})
+        ? await supabase
+            .from('villages')
+            .select('id, name_ar, name_en, markaz_id')
+            .eq('markaz_id', markazId!)
+            .order('name_ar')
         : await supabase.rpc('get_specialty_villages_with_doctors', params: {
             'p_specialty_id': specialtyId,
             'p_markaz_id': markazId,
@@ -137,13 +154,31 @@ class HomeRemoteData {
   }
 
   Future<List<DoctorModel>> searchDoctor(String search,
-      {int? specialtyId}) async {
+      {int? specialtyId,
+      int? governorateId,
+      int? markazId,
+      int? villageId}) async {
     var query = supabase
         .from('doctors')
         .select(ApiConstants.getDoctors)
         .eq('status', 2);
     if (specialtyId != null) {
       query = query.eq('specialty', specialtyId);
+    }
+    // Embedded clinic-address filters are evaluated by PostgREST, so the
+    // Search tab does not download unrelated doctors for client-side filtering.
+    // Village is the most specific scope. Match the exact clinic village and
+    // do not broaden it through its parent markaz or governorate.
+    if (villageId != null) {
+      query = query.eq('clinic_data.clinic_address.village_id', villageId);
+    } else {
+      if (governorateId != null) {
+        query = query.eq(
+            'clinic_data.clinic_address.governorate_id', governorateId);
+      }
+      if (markazId != null) {
+        query = query.eq('clinic_data.clinic_address.markaz_id', markazId);
+      }
     }
     if (search.isNotEmpty) {
       query = query.ilike('name', '%$search%');

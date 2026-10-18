@@ -16,10 +16,16 @@ abstract class HomeRepo {
       {int? specialtyId});
 
   Future<ApiResult<List<DoctorModel>>> getDoctorSpecialist(
-      {int? specialtyId, String? sortBy, int? markazId});
+      {int? specialtyId,
+      String? sortBy,
+      int? markazId,
+      int? governorateId,
+      int? villageId});
   Future<ApiResult<List<CityModel>>> getGovernorates({int? specialtyId});
-  Future<ApiResult<List<CityModel>>> getMarkazes({int? governorateId, int? specialtyId});
-  Future<ApiResult<List<CityModel>>> getVillages({int? markazId, int? specialtyId});
+  Future<ApiResult<List<CityModel>>> getMarkazes(
+      {int? governorateId, int? specialtyId});
+  Future<ApiResult<List<CityModel>>> getVillages(
+      {int? markazId, int? specialtyId});
   Future<ApiResult<List<PharmacyOfferModel>>> getOffers(
       {int? specialtyId, String? sortBy});
 }

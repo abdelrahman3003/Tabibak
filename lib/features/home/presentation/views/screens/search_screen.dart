@@ -7,6 +7,7 @@ import 'package:tabibak/core/extenstion/spacing.dart';
 import 'package:tabibak/core/widgets/search_bar_widget.dart';
 import 'package:tabibak/features/home/presentation/manager/search_provider/search_provider.dart';
 import 'package:tabibak/features/home/presentation/views/widget/search_screen/search_card_list_states.dart';
+import 'package:tabibak/features/home/presentation/views/widget/search_screen/search_filter_bottom_sheet.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -44,10 +45,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               10.hBox,
-              SearchBarWidget(
-                controller: searchController,
-                onChanged: _onSearchChanged,
-              ),
+              Row(children: [
+                Expanded(
+                    child: SearchBarWidget(
+                        controller: searchController,
+                        onChanged: _onSearchChanged)),
+                IconButton(
+                    icon: const Icon(Icons.tune),
+                    onPressed: () => showSearchFilterBottomSheet(context, ref))
+              ]),
               16.hBox,
               if (!state.isLoading)
                 Text(
