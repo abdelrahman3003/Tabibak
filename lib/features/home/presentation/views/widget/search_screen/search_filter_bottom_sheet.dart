@@ -20,7 +20,6 @@ class _SearchFilterSheetState extends ConsumerState<_SearchFilterSheet> {
   int? specialty;
   int? governorate;
   int? markaz;
-  int? village;
 
   @override
   void initState() {
@@ -29,11 +28,9 @@ class _SearchFilterSheetState extends ConsumerState<_SearchFilterSheet> {
     specialty = state.specialtyId;
     governorate = state.governorateId;
     markaz = state.markazId;
-    village = state.villageId;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final notifier = ref.read(searchProviderNotifier.notifier);
       if (governorate != null) notifier.loadMarkazes(governorate);
-      if (markaz != null) notifier.loadVillages(markaz);
     });
   }
 
@@ -72,7 +69,6 @@ class _SearchFilterSheetState extends ConsumerState<_SearchFilterSheet> {
     final specialtyItems = _items(state.specialties, language);
     final governorateItems = _items(state.governorates, language);
     final markazItems = _items(state.markazes, language);
-    final villageItems = _items(state.villages, language);
     final notifier = ref.read(searchProviderNotifier.notifier);
 
     return SafeArea(
@@ -92,19 +88,14 @@ class _SearchFilterSheetState extends ConsumerState<_SearchFilterSheet> {
             setState(() {
               governorate = value;
               markaz = null;
-              village = null;
             });
             notifier.loadMarkazes(value);
           }),
           _field(AppStrings.markaz, markaz, markazItems, (value) {
             setState(() {
               markaz = value;
-              village = null;
             });
-            notifier.loadVillages(value);
           }),
-          _field(AppStrings.village, village, villageItems,
-              (value) => setState(() => village = value)),
           const SizedBox(height: 12),
           Row(children: [
             Expanded(
@@ -122,8 +113,7 @@ class _SearchFilterSheetState extends ConsumerState<_SearchFilterSheet> {
                 notifier.applyFilters(
                     specialtyId: specialty,
                     governorateId: governorate,
-                    markazId: markaz,
-                    villageId: village);
+                    markazId: markaz);
                 Navigator.pop(context);
               },
               child: Text(AppStrings.applyFilter),

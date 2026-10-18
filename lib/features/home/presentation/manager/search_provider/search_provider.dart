@@ -34,8 +34,7 @@ class SearchProvider extends StateNotifier<SearchStates> {
         ? await (homeRepo as HomeRepoImp).searchDoctorFiltered(query,
             specialtyId: state.specialtyId,
             governorateId: state.governorateId,
-            markazId: state.markazId,
-            villageId: state.villageId)
+            markazId: state.markazId)
         : await homeRepo.searchDoctor(query, specialtyId: state.specialtyId);
     result.when(
       sucess: (searchedDoctors) {
@@ -43,8 +42,7 @@ class SearchProvider extends StateNotifier<SearchStates> {
             searchDoctorsList: query.isEmpty &&
                     state.specialtyId == null &&
                     state.governorateId == null &&
-                    state.markazId == null &&
-                    state.villageId == null
+                    state.markazId == null
                 ? cachedList
                 : searchedDoctors,
             isLoading: false);
@@ -71,30 +69,15 @@ class SearchProvider extends StateNotifier<SearchStates> {
         sucess: (v) => state = state.copyWith(markazes: v), failure: (_) {});
   }
 
-  Future<void> loadVillages(int? markazId) async {
-    if (markazId == null) {
-      state = state.copyWith(villages: const []);
-      return;
-    }
-    final result = await homeRepo.getVillages(markazId: markazId);
-    result.when(
-        sucess: (v) => state = state.copyWith(villages: v), failure: (_) {});
-  }
-
   Future<void> applyFilters(
-      {int? specialtyId,
-      int? governorateId,
-      int? markazId,
-      int? villageId}) async {
+      {int? specialtyId, int? governorateId, int? markazId}) async {
     state = state.copyWith(
         specialtyId: specialtyId,
         governorateId: governorateId,
         markazId: markazId,
-        villageId: villageId,
         clearSpecialty: specialtyId == null,
         clearGovernorate: governorateId == null,
-        clearMarkaz: markazId == null,
-        clearVillage: villageId == null);
+        clearMarkaz: markazId == null);
     await search('');
   }
 

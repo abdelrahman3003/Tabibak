@@ -10,8 +10,7 @@ class SearchStates {
   final List<SpecialtyModel> specialties;
   final List<CityModel> governorates;
   final List<CityModel> markazes;
-  final List<CityModel> villages;
-  final int? specialtyId, governorateId, markazId, villageId;
+  final int? specialtyId, governorateId, markazId;
 
   SearchStates({
     this.isLoading = false,
@@ -21,11 +20,9 @@ class SearchStates {
     this.specialties = const [],
     this.governorates = const [],
     this.markazes = const [],
-    this.villages = const [],
     this.specialtyId,
     this.governorateId,
     this.markazId,
-    this.villageId,
   });
   SearchStates copyWith({
     bool? isLoading,
@@ -35,15 +32,12 @@ class SearchStates {
     List<SpecialtyModel>? specialties,
     List<CityModel>? governorates,
     List<CityModel>? markazes,
-    List<CityModel>? villages,
     int? specialtyId,
     int? governorateId,
     int? markazId,
-    int? villageId,
     bool clearSpecialty = false,
     bool clearGovernorate = false,
     bool clearMarkaz = false,
-    bool clearVillage = false,
   }) {
     return SearchStates(
       isLoading: isLoading ?? false,
@@ -53,12 +47,10 @@ class SearchStates {
       specialties: specialties ?? this.specialties,
       governorates: governorates ?? this.governorates,
       markazes: markazes ?? this.markazes,
-      villages: villages ?? this.villages,
       specialtyId: clearSpecialty ? null : (specialtyId ?? this.specialtyId),
       governorateId:
           clearGovernorate ? null : (governorateId ?? this.governorateId),
       markazId: clearMarkaz ? null : (markazId ?? this.markazId),
-      villageId: clearVillage ? null : (villageId ?? this.villageId),
     );
   }
 }

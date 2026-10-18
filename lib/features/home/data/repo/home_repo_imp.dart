@@ -78,17 +78,13 @@ class HomeRepoImp extends HomeRepo {
   }
 
   Future<ApiResult<List<DoctorModel>>> searchDoctorFiltered(String search,
-      {int? specialtyId,
-      int? governorateId,
-      int? markazId,
-      int? villageId}) async {
+      {int? specialtyId, int? governorateId, int? markazId}) async {
     try {
       return ApiResult.sucess(await homeRemoteData.searchDoctor(
         search,
         specialtyId: specialtyId,
         governorateId: governorateId,
         markazId: markazId,
-        villageId: villageId,
       ));
     } catch (error) {
       return ApiResult.failure(ErrorHandler.handle(error));

@@ -154,31 +154,24 @@ class HomeRemoteData {
   }
 
   Future<List<DoctorModel>> searchDoctor(String search,
-      {int? specialtyId,
-      int? governorateId,
-      int? markazId,
-      int? villageId}) async {
+      {int? specialtyId, int? governorateId, int? markazId}) async {
     var query = supabase
         .from('doctors')
-        .select(ApiConstants.getDoctors)
+        .select(ApiConstants.getDoctors
+            .replaceFirst('clinic_data(*,', 'clinic_data!inner(*,')
+            .replaceFirst('clinic_address(*,', 'clinic_address!inner(*,'))
         .eq('status', 2);
     if (specialtyId != null) {
       query = query.eq('specialty', specialtyId);
     }
-    // Embedded clinic-address filters are evaluated by PostgREST, so the
-    // Search tab does not download unrelated doctors for client-side filtering.
-    // Village is the most specific scope. Match the exact clinic village and
-    // do not broaden it through its parent markaz or governorate.
-    if (villageId != null) {
-      query = query.eq('clinic_data.clinic_address.village_id', villageId);
-    } else {
-      if (governorateId != null) {
-        query = query.eq(
-            'clinic_data.clinic_address.governorate_id', governorateId);
-      }
-      if (markazId != null) {
-        query = query.eq('clinic_data.clinic_address.markaz_id', markazId);
-      }
+    // Filters are evaluated by PostgREST so the Search tab never downloads
+    // doctors outside the selected governorate or markaz.
+    if (governorateId != null) {
+      query =
+          query.eq('clinic_data.clinic_address.governorate_id', governorateId);
+    }
+    if (markazId != null) {
+      query = query.eq('clinic_data.clinic_address.markaz_id', markazId);
     }
     if (search.isNotEmpty) {
       query = query.ilike('name', '%$search%');
