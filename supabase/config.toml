@@ -435,6 +435,11 @@ entrypoint = "./functions/approve-doctor/index.ts"
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/approve-doctor/*.html" ]
 
+[functions.bulk_create_approve_doctors]
+enabled = true
+verify_jwt = true
+entrypoint = "./functions/bulk_create_approve_doctors/index.ts"
+
 [functions.add-clinic]
 enabled = true
 verify_jwt = false
