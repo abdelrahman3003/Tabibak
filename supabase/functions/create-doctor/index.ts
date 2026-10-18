@@ -17,10 +17,18 @@ serve(async (req) => {
     const { doctor, clinic, workingDays } = payload;
 
     // Validate required fields
-    if (!doctor || !doctor.name || !doctor.phone || !doctor.specialty || !doctor.bio_ar) {
-      return new Response(JSON.stringify({ error: "Missing required doctor fields (name, phone, specialty, bio_ar)" }), { 
+    if (!doctor || !doctor.name || !doctor.specialty || !doctor.bio_ar) {
+      return new Response(JSON.stringify({ error: "Missing required doctor fields (name, specialty, bio_ar)" }), {
         status: 400, 
         headers: { ...corsHeaders, "Content-Type": "application/json" } 
+      });
+    }
+
+    // Format-only validation; no active/reachable/assigned-number check is made.
+    if (doctor.phone != null && !isValidPhoneFormat(doctor.phone)) {
+      return new Response(JSON.stringify({ error: "Invalid phone number format" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -160,3 +168,11 @@ serve(async (req) => {
     });
   }
 });
+
+function isValidPhoneFormat(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  const phone = value.trim();
+  if (!/^\+?[0-9][0-9 ()-]*$/.test(phone)) return false;
+  const digits = phone.replace(/\D/g, "");
+  return digits.length >= 7 && digits.length <= 15;
+}

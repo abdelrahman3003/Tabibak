@@ -41,8 +41,11 @@ serve(async (req) => {
           const doctor = item?.doctor;
           const clinic = item?.clinic;
           const address = clinic?.clinic_address ?? clinic?.address ?? {};
-          if (!doctor?.name || !doctor?.phone || doctor?.specialty == null || !doctor?.bio_ar) {
-            throw new Error("doctor.name, phone, specialty and bio_ar are required");
+          if (!doctor?.name || doctor?.specialty == null || !doctor?.bio_ar) {
+            throw new Error("doctor.name, specialty and bio_ar are required");
+          }
+          if (doctor.phone != null && !isValidPhoneFormat(doctor.phone)) {
+            throw new Error("doctor.phone must be a valid phone number format");
           }
 
           const governorateId = numberOrNull(address.governorate_id);
@@ -64,7 +67,7 @@ serve(async (req) => {
               INSERT INTO clinic_data (doctor_id, is_booking, is_available, clinic_name, phone_number, consultation_fee)
               VALUES (${doctorId}, ${clinic?.is_booking ?? false}, ${clinic?.is_available ?? true},
                 ${address.clinic_name ?? clinic?.clinic_name ?? null},
-                ${address.phone_number ?? clinic?.phone_number ?? doctor.phone},
+                ${address.phone_number ?? clinic?.phone_number ?? doctor.phone ?? null},
                 ${clinic?.consultation_fee ?? clinic?.fee ?? doctor.fee ?? null})
               RETURNING id
             `;
@@ -113,6 +116,15 @@ function numberOrNull(value: unknown): number | null {
   const number = Number(value);
   if (!Number.isInteger(number) || number <= 0) throw new Error(`Invalid location ID: ${value}`);
   return number;
+}
+
+// Format-only validation; no active/reachable/assigned-number check is made.
+function isValidPhoneFormat(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  const phone = value.trim();
+  if (!/^\+?[0-9][0-9 ()-]*$/.test(phone)) return false;
+  const digits = phone.replace(/\D/g, "");
+  return digits.length >= 7 && digits.length <= 15;
 }
 
 async function resolveLocation(sql: any, governorateId: number | null, markazId: number | null, villageId: number | null): Promise<Location> {
@@ -202,7 +214,7 @@ async function sendAggregatedNotifications(items: Array<{ doctor_id: string; loc
       if (!fcmRes.ok) console.error("Bulk FCM delivery failed:", await fcmRes.text());
       return fcmRes.ok;
     }));
-    sent += results.filter((result) => result.ok).length;
+    sent += results.filter((result) => result).length;
   }
   return { locations: groups.size, users: userCount, devices_sent: sent };
 }
