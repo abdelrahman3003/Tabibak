@@ -22,7 +22,7 @@ final notificationRepoProvider = Provider<NotificationRepo>((ref) {
 });
 
 final notificationProviderNotifier =
-    StateNotifierProvider.autoDispose<NotificationProvider, NotificationStates>(
+    StateNotifierProvider<NotificationProvider, NotificationStates>(
   (ref) => NotificationProvider(
     ref.watch(notificationRepoProvider),
   ),
@@ -75,7 +75,10 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
                   final newNotif = NotificationModel.fromJson(newRecord);
                   currentList.removeWhere((n) => n.id == newNotif.id);
                   currentList.insert(0, newNotif);
-                  state = state.copyWith(notifications: currentList);
+                  state = state.copyWith(
+                    notifications: currentList,
+                    badgeCount: state.badgeCount + (newNotif.isRead ? 0 : 1),
+                  );
                 }
               } else if (eventType == PostgresChangeEvent.update) {
                 if (newRecord.isNotEmpty) {
@@ -112,6 +115,7 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
       sucess: (notifications) {
         state = state.copyWith(
           notifications: notifications,
+          badgeCount: notifications.where((n) => !n.isRead).length,
           isLoading: false,
           errorMessage: null,
         );
@@ -130,10 +134,17 @@ final class NotificationProvider extends StateNotifier<NotificationStates> {
     final index = currentList.indexWhere((n) => n.id == notificationId);
     if (index != -1) {
       currentList[index] = currentList[index].copyWith(isRead: true);
-      state = state.copyWith(notifications: currentList);
+      state = state.copyWith(
+        notifications: currentList,
+        badgeCount: state.badgeCount > 0 ? state.badgeCount - 1 : 0,
+      );
     }
 
     await _repo.markAsRead(notificationId);
+  }
+
+  void resetBadgeCount() {
+    state = state.copyWith(badgeCount: 0);
   }
 
   Future<void> getAppointmentDetails(
