@@ -32,6 +32,7 @@ serve(async (req) => {
     if (!dbUrl) throw new Error("SUPABASE_DB_URL is not configured");
     const sql = postgres(dbUrl);
     const created: Array<{ doctor_id: string; location: Location }> = [];
+    const reused: Array<{ index: number; doctor_id: string; name: string }> = [];
     const failures: Array<{ index: number; error: string }> = [];
 
     try {
@@ -56,12 +57,19 @@ serve(async (req) => {
           }
 
           const result = await sql.begin(async (tx) => {
+            const canonical = (value: string) => value.toLocaleLowerCase().replace(/^(dr\.?|doctor|دكتور|دكتورة|د)\s*/i, "").replace(/[\s\u00a0\u200b\u200c\u200d._-]/g, "");
+            await tx`SELECT pg_advisory_xact_lock(hashtext(${canonical(doctor.name)}))`;
+            const [existing] = await tx`
+              SELECT doctor_id FROM doctors
+              WHERE lower(regexp_replace(regexp_replace(replace(btrim(name), chr(160), ' '), '^(dr|doctor|دكتور|دكتورة|د)[[:space:].-]*', ''), '[^[:alnum:]]', '', 'g')) = ${canonical(doctor.name)}
+              ORDER BY doctor_id LIMIT 1
+            `;
+            if (existing) return { doctorId: existing.doctor_id, existing: true };
             const doctorId = crypto.randomUUID();
-            const [newDoctor] = await tx`
+            await tx`
               INSERT INTO doctors (doctor_id, name, phone, specialty, bio_ar, bio_en, image, email, status)
               VALUES (${doctorId}, ${doctor.name}, ${doctor.phone}, ${doctor.specialty}, ${doctor.bio_ar},
                 ${doctor.bio_en ?? null}, ${doctor.image ?? null}, ${doctor.email ?? null}, 2)
-              RETURNING doctor_id
             `;
             const [newClinic] = await tx`
               INSERT INTO clinic_data (doctor_id, is_booking, is_available, clinic_name, phone_number, consultation_fee)
@@ -76,11 +84,24 @@ serve(async (req) => {
               VALUES (${newClinic.id}, ${governorateId}, ${markazId}, ${villageId},
                 ${address.street ?? null}, ${address.floor ?? null}, ${address.department ?? null})
             `;
-            return { doctorId: newDoctor.doctor_id };
+            const days = clinic?.working_days ?? clinic?.workingDays ?? item?.workingDays ?? item?.working_days;
+            if (Array.isArray(days)) for (const day of days) {
+              let morningId = null, eveningId = null;
+              const ms = day?.morningStart ?? day?.morning_start, me = day?.morningEnd ?? day?.morning_end;
+              const es = day?.eveningStart ?? day?.evening_start, ee = day?.eveningEnd ?? day?.evening_end;
+              if (ms && me) { const [s] = await tx`INSERT INTO shifts_morning (start, "end") VALUES (${ms}::time, ${me}::time) RETURNING id`; morningId = s.id; }
+              if (es && ee) { const [s] = await tx`INSERT INTO shift_evening (start, "end") VALUES (${es}::time, ${ee}::time) RETURNING id`; eveningId = s.id; }
+              const dayId = day?.dayId ?? day?.day_id;
+              if (dayId != null) await tx`INSERT INTO working_day (clinic_id, day_id, is_selected, shift_morning_id, shift_evening_id) VALUES (${newClinic.id}, ${dayId}, ${day?.isSelected ?? day?.is_selected ?? false}, ${morningId}, ${eveningId})`;
+            }
+            return { doctorId, existing: false };
           });
 
-          const location = await resolveLocation(sql, governorateId, markazId, villageId);
-          created.push({ doctor_id: result.doctorId, location });
+          if (result.existing) reused.push({ index, doctor_id: result.doctorId, name: doctor.name });
+          else {
+            const location = await resolveLocation(sql, governorateId, markazId, villageId);
+            created.push({ doctor_id: result.doctorId, location });
+          }
         } catch (error) {
           failures.push({ index, error: error instanceof Error ? error.message : String(error) });
         }
@@ -95,7 +116,9 @@ serve(async (req) => {
       created_count: created.length,
       approved_count: created.length,
       failed_count: failures.length,
+      reused_count: reused.length,
       doctors: created.map((item) => item.doctor_id),
+      reused,
       failures,
       notifications,
     }, failures.length === 0 ? 200 : 207);
