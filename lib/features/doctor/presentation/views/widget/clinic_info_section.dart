@@ -90,6 +90,18 @@ class ClinicInfoSection extends StatelessWidget {
           title: AppStrings.phone,
           subtitle: clinic?.phoneNumber ?? AppStrings.unknown,
         ),
+
+        if (clinic?.services != null && clinic!.services!.isNotEmpty) ...[
+          16.hBox,
+          ClinicItemInfo(
+            icon: "assets/images/medical_services.png",
+            title: AppStrings.services,
+            subtitle: clinic!.services!
+                .map((s) => s.getLocalizedName(context))
+                .where((s) => s.isNotEmpty)
+                .join(', '),
+          ),
+        ],
       ],
     );
   }

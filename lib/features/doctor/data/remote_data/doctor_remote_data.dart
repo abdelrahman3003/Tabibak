@@ -14,6 +14,21 @@ class DoctorRemoteData {
         .select(ApiConstants.getDoctorProfile)
         .eq("doctor_id", doctorId)
         .single();
+
+    try {
+      final servicesResponse = await supabase.client
+          .from('doctor_services')
+          .select('*')
+          .eq('doctor_id', doctorId);
+      if (servicesResponse.isNotEmpty) {
+        final existing = (response['doctor_services'] as List?) ?? [];
+        response['doctor_services'] = [
+          ...existing,
+          ...servicesResponse,
+        ];
+      }
+    } catch (_) {}
+
     return DoctorModel.fromJson(response);
   }
 

@@ -303,5 +303,8 @@
     "مركز فرشوط": "Farshut",
     "مركز الوقف": "Al Waqf",
     "مركز قفط": "Qift",
-    "مركز نقادة": "Naqada"
+    "مركز نقادة": "Naqada",
+    "Services": "Services",
+    "Doctor Services": "Doctor Services",
+    "No services available": "No services available"
 }

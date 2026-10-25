@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tabibak/features/home/data/model/clinic_model.dart';
 import 'package:tabibak/features/home/data/model/comment_model.dart';
+import 'package:tabibak/features/home/data/model/doctor_service_model.dart';
 import 'package:tabibak/features/home/data/model/education_model.dart';
 import 'package:tabibak/features/home/data/model/rating_model.dart';
 import 'package:tabibak/features/home/data/model/specialty_model.dart';
@@ -19,6 +20,25 @@ Object? _readClinic(Map json, String key) {
 Object? _readClinicList(Map json, String key) {
   if (json['clinic_data'] is List) return json['clinic_data'];
   if (json['clinic_data'] is Map) return [json['clinic_data']];
+  return null;
+}
+
+Object? _readServices(Map json, String key) {
+  if (json['services'] is List) return json['services'];
+  if (json['doctor_services'] is List) return json['doctor_services'];
+
+  final clinics = json['clinic_data'];
+  if (clinics is List) {
+    final list = <dynamic>[];
+    for (final c in clinics) {
+      if (c is Map && c['doctor_services'] is List) {
+        list.addAll(c['doctor_services'] as List);
+      }
+    }
+    if (list.isNotEmpty) return list;
+  } else if (clinics is Map && clinics['doctor_services'] is List) {
+    return clinics['doctor_services'];
+  }
   return null;
 }
 
@@ -55,6 +75,10 @@ class DoctorModel {
   final List<CommentModel>? comments;
   final List<RatingModel>? ratings;
   final List<OfferModel>? offers;
+
+  @JsonKey(name: 'services', readValue: _readServices)
+  final List<DoctorServiceModel>? services;
+
   DoctorModel({
     required this.doctorId,
     this.name,
@@ -73,6 +97,7 @@ class DoctorModel {
     this.education,
     this.ratings,
     this.offers,
+    this.services,
     this.markazId,
     this.markaz,
   });

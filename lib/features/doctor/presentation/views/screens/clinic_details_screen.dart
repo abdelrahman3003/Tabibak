@@ -87,6 +87,10 @@ class ClinicDetailsScreen extends StatelessWidget {
                       comments: doctorModel!.comments,
                       education: doctorModel!.education,
                       ratings: doctorModel!.ratings,
+                      offers: doctorModel!.offers,
+                      services: doctorModel!.services,
+                      markazId: doctorModel!.markazId,
+                      markaz: doctorModel!.markaz,
                       clinic: clinic, // Inject the exact clinic!
                     );
                     context.pushNamed(Routes.appointmentBookingScreen,

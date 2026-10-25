@@ -40,6 +40,9 @@ DoctorModel _$DoctorModelFromJson(Map<String, dynamic> json) => DoctorModel(
       offers: (json['offers'] as List<dynamic>?)
           ?.map((e) => OfferModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      services: (_readServices(json, 'services') as List<dynamic>?)
+          ?.map((e) => DoctorServiceModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       markazId: (json['markaz_id'] as num?)?.toInt(),
       markaz: json['markaz'] as String?,
     );
@@ -63,6 +66,7 @@ Map<String, dynamic> _$DoctorModelToJson(DoctorModel instance) =>
       'comments': instance.comments?.map((e) => e.toJson()).toList(),
       'ratings': instance.ratings?.map((e) => e.toJson()).toList(),
       'offers': instance.offers?.map((e) => e.toJson()).toList(),
+      'services': instance.services?.map((e) => e.toJson()).toList(),
       'markaz_id': instance.markazId,
       'markaz': instance.markaz,
     };

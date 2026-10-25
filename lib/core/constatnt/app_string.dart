@@ -269,4 +269,7 @@ class AppStrings {
   static String get filters => "filters".tr();
   static String get filterDoctors => "filterDoctors".tr();
   static String get topRatedSubtitle => "topRatedSubtitle".tr();
+  static String get services => "Services".tr();
+  static String get doctorServices => "Doctor Services".tr();
+  static String get noServicesAvailable => "No services available".tr();
 }

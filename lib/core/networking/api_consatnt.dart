@@ -17,9 +17,9 @@ class ApiConstants {
       "working_day!inner(days!inner(day),shifts(morning(start,end),evening(start,end)))";
   static const String addAppointment = "status";
   static const String getDoctors =
-      "*,specialties(*),education(*),clinic_data(*,clinic_address(*,village:villages(*),markaz:markaz(*),governorate:governorates(*)),working_day(*,shifts_morning(*),shift_evening(*),days(*))),comments(*,users(*)),ratings(*),offers(*)";
+      "*,specialties(*),education(*),clinic_data(*,doctor_services(*),clinic_address(*,village:villages(*),markaz:markaz(*),governorate:governorates(*)),working_day(*,shifts_morning(*),shift_evening(*),days(*))),comments(*,users(*)),ratings(*),offers(*)";
   static const String getDoctorProfile =
-      "*,specialties(*),education(*),clinic_data(*,clinic_address(*,village:villages(*),markaz:markaz(*),governorate:governorates(*)),working_day(*,days(*),shifts_morning(*),shift_evening(*))),ratings(*),comments(*,users(*)),offers(*)";
+      "*,specialties(*),education(*),clinic_data(*,doctor_services(*),clinic_address(*,village:villages(*),markaz:markaz(*),governorate:governorates(*)),working_day(*,days(*),shifts_morning(*),shift_evening(*))),ratings(*),comments(*,users(*)),offers(*)";
 }
 
 class ApiErrors {

@@ -16,6 +16,7 @@ import 'package:tabibak/features/home/data/model/doctor_model.dart';
 import 'package:tabibak/features/home/presentation/views/widget/home_screen/title_text.dart';
 
 import 'doctor_details_header.dart';
+import 'doctor_services_section.dart';
 import 'offer_banner_widget.dart';
 
 class DoctorDetailsBody extends StatelessWidget {
@@ -55,6 +56,7 @@ class DoctorDetailsBody extends StatelessWidget {
               20.hBox,
             ],
           ),
+          DoctorServicesSection(services: doctorModel.services),
           _ClinicsSection(
             doctorModel: doctorModel,
             clinics: doctorModel.clinicList?.isNotEmpty == true
@@ -95,6 +97,10 @@ class DoctorDetailsBody extends StatelessWidget {
                     comments: doctorModel.comments,
                     education: doctorModel.education,
                     ratings: doctorModel.ratings,
+                    offers: doctorModel.offers,
+                    services: doctorModel.services,
+                    markazId: doctorModel.markazId,
+                    markaz: doctorModel.markaz,
                     clinic: clinic,
                   );
                   context.pushNamed(Routes.appointmentBookingScreen,
