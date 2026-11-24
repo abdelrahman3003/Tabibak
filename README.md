@@ -7,10 +7,11 @@ Tabibak helps patients find doctors, check their schedules, and book medical app
 ## 📸 Screenshots
 
 <p float="left">
-  <img src="screenshots/home.jpg" width="200" />
-  <img src="screenshots/specialties.jpg" width="200" />
-  <img src="screenshots/doctor_details.jpg" width="200" />
-  <img src="screenshots/clinic_details.jpg" width="200" />
+  <img src="screenshots/shot-1.png" width="200" />
+  <img src="screenshots/shot-2.png" width="200" />
+  <img src="screenshots/shot-3.png" width="200" />
+  <img src="screenshots/shot-4.png" width="200" />
+  <img src="screenshots/shot-5.png" width="200" />
 </p>
 
 ## ✨ Features
